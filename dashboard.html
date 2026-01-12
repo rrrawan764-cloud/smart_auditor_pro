@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>رواق العدل | لوحة تحكم الفرز الذكي</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Tajawal:wght@400;700;900&display=swap');
+        :root {
+            --court-green: #006C35;
+            --court-gold: #D4AF37;
+            --bg-deep: #0e0e0e;
+            --dashboard-bg: #1a1a1a;
+            --card-dark: #2a2a2a;
+            --text-light: #f5f5f5;
+            --text-muted: #aaa;
+        }
+
+        body {
+            font-family: 'Tajawal', sans-serif;
+            background-color: var(--bg-deep);
+            color: var(--text-light);
+            margin: 0;
+            line-height: 1.6;
+        }
+
+        /* شريط التنقل العلوي */
+        .navbar {
+            background-color: var(--dashboard-bg);
+            padding: 20px 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 3px solid var(--court-gold);
+            box-shadow: 0 5px 20px rgba(0,0,0,0.5);
+        }
+
+        .navbar-brand {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .navbar-brand .icon {
+            color: var(--court-gold);
+            font-size: 2.5rem;
+            filter: drop-shadow(0 0 8px rgba(212, 175, 55, 0.4));
+        }
+
+        .navbar-brand .title {
+            color: var(--court-gold);
+            font-size: 1.8rem;
+            font-weight: 900;
+        }
+
+        .navbar-links a {
+            color: var(--text-muted);
+            text-decoration: none;
+            margin-right: 25px;
+            font-weight: 700;
+            transition: color 0.3s ease;
+        }
+
+        .navbar-links a:hover {
+            color: var(--court-gold);
+        }
+
+        .dashboard-container {
+            padding: 40px;
+            max-width: 1200px;
+            margin: 30px auto;
+        }
+
+        .dashboard-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 40px;
+            border-bottom: 1px solid #333;
+            padding-bottom: 20px;
+        }
+
+        .dashboard-header h1 {
+            font-size: 2.5rem;
+            color: var(--court-green);
+            margin: 0;
+        }
+
+        .status-pill {
+            background: var(--court-green);
+            color: #fff;
+            padding: 8px 20px;
+            border-radius: 50px;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        /* شبكة بطاقات الأداء */
+        .metrics-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 25px;
+            margin-bottom: 40px;
+        }
+
+        .metric-card {
+            background: var(--card-dark);
+            border-radius: 15px;
+            padding: 25px;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.3);
+            border-left: 5px solid var(--court-gold);
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .metric-card .label {
+            color: var(--text-muted);
+            font-size: 0.9rem;
+        }
+
+        .metric-card .value {
+            font-size: 2rem;
+            font-weight: 900;
+            color: var(--court-gold);
+        }
+
+        .metric-card .icon {
+            font-size: 1.5rem;
+            color: var(--court-green);
+        }
+
+        /* قسم الدعاوى الواردة */
+        .cases-section h2 {
+            color: var(--court-gold);
+            margin-bottom: 25px;
+            border-bottom: 1px solid #444;
+            padding-bottom: 15px;
+        }
+
+        .case-entry {
+            background: var(--card-dark);
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 18px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .case-info {
+            flex-grow: 1;
+        }
+
+        .case-info h3 {
+            color: var(--court-green);
+            margin: 0 0 8px;
+            font-size: 1.3rem;
+        }
+
+        .case-info p {
+            font-size: 0.9rem;
+            color: var(--text-muted);
+            margin: 0;
+        }
+
+        .case-status {
+            padding: 8px 15px;
+            border-radius: 20px;
+            font-weight: bold;
+        }
+
+        .status-ok { background-color: rgba(0, 200, 83, 0.2); color: #00c853; }
+        .status-warn { background-color: rgba(255, 87, 34, 0.2); color: #ff5722; }
+        .status-pending { background-color: rgba(255, 193, 7, 0.2); color: #ffc107; }
+
+        .action-btns-dashboard {
+            margin-left: 20px;
+            display: flex;
+            gap: 10px;
+        }
+        .action-btns-dashboard .btn {
+            background: var(--court-gold);
+            color: #000;
+            border: none;
+            padding: 8px 12px;
+            border-radius: 8px;
+            cursor: pointer;
+        }
+        .action-btns-dashboard .btn:hover {
+            opacity: 0.9;
+        }
+
+    </style>
+</head>
+<body>
+
+    <nav class="navbar">
+        <div class="navbar-brand">
+            <i class="fas fa-balance-scale-left icon"></i>
+            <span class="title">رواق العدل | لوحة الفرز</span>
+        </div>
+        <div class="navbar-links">
+            <a href="index.html"><i class="fas fa-home"></i> بوابة المتقاضي</a>
+            <a href="#"><i class="fas fa-user-cog"></i> الإعدادات</a>
+            <a href="#"><i class="fas fa-sign-out-alt"></i> تسجيل الخروج</a>
+        </div>
+    </nav>
+
+    <div class="dashboard-container">
+        <div class="dashboard-header">
+            <h1>مراقبة الفرز الذكي للدعاوى</h1>
+            <div class="status-pill">
+                <i class="fas fa-circle-notch fa-spin"></i>
+                المحركات الذكية نشطة
+            </div>
+        </div>
+
+        <div class="metrics-grid">
+            <div class="metric-card">
+                <span class="label">إجمالي الدعاوى اليوم</span>
+                <span class="value">2,150</span>
+                <i class="fas fa-folder-open icon"></i>
+            </div>
+            <div class="metric-card">
+                <span class="label">دعاوى تم فرزها آلياً</span>
+                <span class="value">1,820</span>
+                <i class="fas fa-robot icon"></i>
+            </div>
+            <div class="metric-card">
+                <span class="label">بحاجة لمراجعة بشرية</span>
+                <span class="value" style="color:#ff5722;">330</span>
+                <i class="fas fa-user-tie icon"></i>
+            </div>
+            <div class="metric-card">
+                <span class="label">متوسط زمن الفرز</span>
+                <span class="value">0.7 <small>ثانية</small></span>
+                <i class="fas fa-stopwatch icon"></i>
+            </div>
+        </div>
+
+        <div class="cases-section">
+            <h2><i class="fas fa-list-alt"></i> الدعاوى الواردة حديثاً</h2>
+            
+            <div class="case-entry">
+                <div class="case-info">
+                    <h3>دعوى إدارية رقم #102345</h3>
+                    <p>الموضوع: تظلم من قرار وزارة الصحة | حالة الفرز: مكتملة آلياً</p>
+                </div>
+                <span class="case-status status-ok">مكتملة</span>
+                <div class="action-btns-dashboard">
+                    <button class="btn"><i class="fas fa-eye"></i></button>
+                    <button class="btn"><i class="fas fa-check"></i></button>
+                </div>
+            </div>
+
+            <div class="case-entry">
+                <div class="case-info">
+                    <h3>دعوى إدارية رقم #102346</h3>
+                    <p>الموضوع: استعلام عن ترقية | حالة الفرز: بحاجة لمراجعة (نقص تاريخ)</p>
+                </div>
+                <span class="case-status status-warn">مراجعة</span>
+                <div class="action-btns-dashboard">
+                    <button class="btn"><i class="fas fa-eye"></i></button>
+                    <button class="btn"><i class="fas fa-user-check"></i></button>
+                </div>
+            </div>
+
+            <div class="case-entry">
+                <div class="case-info">
+                    <h3>دعوى إدارية رقم #102347</h3>
+                    <p>الموضوع: إلغاء قرار إداري | حالة الفرز: قيد التحليل</p>
+                </div>
+                <span class="case-status status-pending">قيد التحليل</span>
+                <div class="action-btns-dashboard">
+                    <button class="btn"><i class="fas fa-eye"></i></button>
+                    <button class="btn"><i class="fas fa-sync-alt"></i></button>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+</body>
+</html>
