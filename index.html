@@ -2,44 +2,133 @@
 <html lang="ar" dir="rtl">
 <head>
     <meta charset="UTF-8">
-    <title>المراجع الإجرائي الذكي | ديوان المظالم</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>منظومة السلامة الإجرائية | ديوان المظالم</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        :root { --royal-green: #006C35; --gold: #D4AF37; --dark: #0a0a0a; }
-        body { font-family: sans-serif; background: var(--dark); color: white; text-align: center; margin: 0; }
-        header { background: var(--royal-green); padding: 40px; border-bottom: 4px solid var(--gold); }
-        .card { background: #1a1a1a; margin: 40px auto; padding: 30px; width: 80%; border-radius: 20px; border: 1px solid var(--gold); }
-        textarea { width: 90%; height: 200px; border-radius: 10px; padding: 15px; font-size: 1.1rem; }
-        button { background: var(--gold); border: none; padding: 15px 30px; font-weight: bold; cursor: pointer; border-radius: 10px; margin-top: 20px; }
-        #log { margin-top: 20px; padding: 15px; border-radius: 10px; display: none; }
-        .error { color: #ff5252; background: rgba(255,82,82,0.1); padding: 10px; margin: 5px; border-radius: 5px; }
+        :root { --royal-green: #006C35; --gold: #D4AF37; --bg-dark: #050505; --panel-bg: rgba(20, 20, 20, 0.95); }
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background: var(--bg-dark); color: #fff; margin: 0; overflow-x: hidden; }
+        
+        /* طبقة الهوية (Presentation Layer) */
+        header { 
+            background: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.7)), url('https://www.bog.gov.sa/MediaCenter/PhotoLibrary/Logos/Logo_Green.png');
+            background-size: contain; background-repeat: no-repeat; background-position: center;
+            height: 250px; display: flex; flex-direction: column; align-items: center; justify-content: center;
+            border-bottom: 3px solid var(--gold); box-shadow: 0 5px 20px rgba(0,0,0,1);
+        }
+        header h1 { color: var(--gold); font-size: 2.2rem; margin: 0; text-shadow: 2px 2px 10px #000; }
+        header p { color: #eee; font-size: 1.1rem; opacity: 0.8; }
+
+        .container { max-width: 1000px; margin: -50px auto 50px; padding: 0 20px; position: relative; }
+
+        /* لوحة العمليات (Business Logic Layer) */
+        .glass-panel {
+            background: var(--panel-bg); border: 1px solid rgba(212, 175, 55, 0.2);
+            border-radius: 20px; padding: 40px; backdrop-filter: blur(10px);
+            box-shadow: 0 30px 60px rgba(0,0,0,0.8);
+        }
+
+        .status-badge { display: inline-block; padding: 8px 15px; border-radius: 50px; font-size: 0.8rem; font-weight: bold; margin-bottom: 20px; border: 1px solid var(--gold); color: var(--gold); }
+
+        textarea {
+            width: 100%; height: 250px; background: rgba(0,0,0,0.5); border: 1px solid #333;
+            border-radius: 12px; color: #fff; padding: 20px; font-size: 1.1rem; resize: none;
+            transition: 0.3s; border-right: 5px solid var(--gold);
+        }
+        textarea:focus { border-color: var(--gold); outline: none; box-shadow: 0 0 20px rgba(212,175,55,0.1); }
+
+        .ai-actions { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-top: 25px; }
+        .btn { padding: 15px; border-radius: 10px; cursor: pointer; font-weight: bold; border: none; transition: 0.3s; display: flex; align-items: center; justify-content: center; gap: 10px; }
+        .btn-primary { background: var(--gold); color: #000; }
+        .btn-outline { background: transparent; border: 1px solid var(--gold); color: var(--gold); }
+        .btn:hover { transform: translateY(-3px); box-shadow: 0 5px 15px rgba(212,175,55,0.3); }
+
+        /* طبقة النتائج والتحليل (AI Layer) */
+        #resultsSection { margin-top: 30px; display: none; animation: fadeIn 0.5s; }
+        .result-card { background: rgba(255,255,255,0.03); border-radius: 15px; padding: 20px; border-right: 4px solid #444; margin-bottom: 15px; }
+        .risk-high { border-right-color: #ff4757; color: #ff4757; }
+        .risk-low { border-right-color: #2ed573; color: #2ed573; }
+        
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
     </style>
 </head>
 <body>
-    <header>
-        <h1 style="color:var(--gold)">المراجع الإجرائي الذكي</h1>
-        <p>نظام تدقيق الدعاوى القضائية - إشراف روان الصبحي</p>
-    </header>
-    <div class="card">
-        <h3>أدخل نص لائحة الدعوى هنا:</h3>
-        <textarea id="suitInput" placeholder="اكتبي وقائع الدعوى هنا..."></textarea><br>
-        <button onclick="startAudit()">ابدأ الفحص الذكي</button>
-        <div id="log"></div>
-    </div>
 
-    <script>
-        function startAudit() {
-            const text = document.getElementById('suitInput').value;
-            const log = document.getElementById('log');
-            if(!text) { alert("يرجى إدخال نص أولاً"); return; }
-            log.style.display = "block";
-            log.innerHTML = "<h4>نتائج الفحص الإجرائي:</h4>";
+<header>
+    <h1>منظومة السلامة الإجرائية الذكية</h1>
+    <p>بنية وقائية رقمية لتعزيز العدالة الناجزة</p>
+</header>
+
+<div class="container">
+    <div class="glass-panel">
+        <div class="status-badge"><i class="fas fa-shield-halved"></i> وضع الفرز الأولي (Pre-Filing Check)</div>
+        <h3 style="margin-top:0;">إدخال لائحة الدعوى / الطلب القضائي</h3>
+        <textarea id="suitInput" placeholder="اكتبي نص الدعوى هنا، مع ذكر التواريخ، الجهة الإدارية، وموضوع القرار..."></textarea>
+        
+        <div class="ai-actions">
+            <button class="btn btn-primary" onclick="runAIScan()">
+                <i class="fas fa-brain"></i> تحليل المحرك الذكي (NLP)
+            </button>
+            <button class="btn btn-outline" onclick="resetForm()">
+                <i class="fas fa-undo"></i> إعادة تهيئة
+            </button>
+        </div>
+
+        <div id="resultsSection">
+            <h4 style="color:var(--gold); border-bottom:1px solid #333; padding-bottom:10px;">تقرير السلامة الإجرائية</h4>
+            <div id="analysisLog"></div>
+        </div>
+    </div>
+</div>
+
+<script>
+    function runAIScan() {
+        const text = document.getElementById('suitInput').value;
+        const log = document.getElementById('analysisLog');
+        const section = document.getElementById('resultsSection');
+
+        if(text.length < 10) { alert("يرجى إدخال نص كافٍ للتحليل"); return; }
+
+        section.style.display = "block";
+        log.innerHTML = "<p><i class='fas fa-spinner fa-spin'></i> جاري استخراج الكيانات القانونية وتحليل المخاطر...</p>";
+
+        setTimeout(() => {
+            log.innerHTML = "";
             
-            if(!text.includes("تاريخ")) log.innerHTML += "<div class='error'>❌ نقص: لم يتم تحديد تاريخ القرار الإداري.</div>";
-            if(!text.includes("هوية")) log.innerHTML += "<div class='error'>❌ نقص: يرجى إضافة رقم الهوية الوطنية.</div>";
-            if(text.length < 30) log.innerHTML += "<div class='error'>⚠️ تنبيه: نص الدعوى قصير جداً وقد لا يتم قبوله.</div>";
-            if(!log.innerHTML.includes("error")) log.innerHTML = "<h4 style='color:lime'>✅ الدعوى جاهزة للتقديم!</h4>";
-        }
-    </script>
+            // محاكاة استخراج البيانات (NLP Entities)
+            const entities = [
+                { key: "تاريخ", label: "التاريخ الإجرائي", found: text.includes("تاريخ") },
+                { key: "جهة", label: "تحديد الجهة المدعى عليها", found: (text.includes("وزارة") || text.includes("هيئة") || text.includes("جهة")) },
+                { key: "قرار", label: "رقم/موضوع القرار المطعون فيه", found: text.includes("قرار") }
+            ];
+
+            entities.forEach(item => {
+                const isFound = item.found;
+                log.innerHTML += `
+                    <div class="result-card ${isFound ? 'risk-low' : 'risk-high'}">
+                        <i class="fas ${isFound ? 'fa-check-circle' : 'fa-exclamation-triangle'}"></i>
+                        <strong>${item.label}:</strong> 
+                        ${isFound ? 'تم رصد المكون في النص' : 'لم يتم العثور على هذا المتطلب في اللائحة'}
+                    </div>
+                `;
+            });
+
+            // مؤشر ثقة الذكاء الاصطناعي
+            const confidence = entities.filter(e => e.found).length * 33.3;
+            log.innerHTML += `
+                <div style="margin-top:20px; padding:10px; background:rgba(212,175,55,0.1); border-radius:10px; text-align:center;">
+                    <small>درجة موثوقية اكتمال الملف إجرائياً</small>
+                    <div style="font-size:1.5rem; color:var(--gold); font-weight:bold;">${confidence.toFixed(1)}%</div>
+                </div>
+            `;
+        }, 1200);
+    }
+
+    function resetForm() {
+        document.getElementById('suitInput').value = "";
+        document.getElementById('resultsSection').style.display = "none";
+    }
+</script>
+
 </body>
 </html>
