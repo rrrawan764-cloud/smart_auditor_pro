@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <title>المراجع الإجرائي الذكي | ديوان المظالم</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        :root { --royal-green: #006C35; --gold: #D4AF37; --dark: #0a0a0a; }
+        body { font-family: sans-serif; background: var(--dark); color: white; text-align: center; margin: 0; }
+        header { background: var(--royal-green); padding: 40px; border-bottom: 4px solid var(--gold); }
+        .card { background: #1a1a1a; margin: 40px auto; padding: 30px; width: 80%; border-radius: 20px; border: 1px solid var(--gold); }
+        textarea { width: 90%; height: 200px; border-radius: 10px; padding: 15px; font-size: 1.1rem; }
+        button { background: var(--gold); border: none; padding: 15px 30px; font-weight: bold; cursor: pointer; border-radius: 10px; margin-top: 20px; }
+        #log { margin-top: 20px; padding: 15px; border-radius: 10px; display: none; }
+        .error { color: #ff5252; background: rgba(255,82,82,0.1); padding: 10px; margin: 5px; border-radius: 5px; }
+    </style>
+</head>
+<body>
+    <header>
+        <h1 style="color:var(--gold)">المراجع الإجرائي الذكي</h1>
+        <p>نظام تدقيق الدعاوى القضائية - إشراف روان الصبحي</p>
+    </header>
+    <div class="card">
+        <h3>أدخل نص لائحة الدعوى هنا:</h3>
+        <textarea id="suitInput" placeholder="اكتبي وقائع الدعوى هنا..."></textarea><br>
+        <button onclick="startAudit()">ابدأ الفحص الذكي</button>
+        <div id="log"></div>
+    </div>
+
+    <script>
+        function startAudit() {
+            const text = document.getElementById('suitInput').value;
+            const log = document.getElementById('log');
+            if(!text) { alert("يرجى إدخال نص أولاً"); return; }
+            log.style.display = "block";
+            log.innerHTML = "<h4>نتائج الفحص الإجرائي:</h4>";
+            
+            if(!text.includes("تاريخ")) log.innerHTML += "<div class='error'>❌ نقص: لم يتم تحديد تاريخ القرار الإداري.</div>";
+            if(!text.includes("هوية")) log.innerHTML += "<div class='error'>❌ نقص: يرجى إضافة رقم الهوية الوطنية.</div>";
+            if(text.length < 30) log.innerHTML += "<div class='error'>⚠️ تنبيه: نص الدعوى قصير جداً وقد لا يتم قبوله.</div>";
+            if(!log.innerHTML.includes("error")) log.innerHTML = "<h4 style='color:lime'>✅ الدعوى جاهزة للتقديم!</h4>";
+        }
+    </script>
+</body>
+</html>
