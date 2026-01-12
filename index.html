@@ -2,279 +2,83 @@
 <html lang="ar" dir="rtl">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>رواق العدل | بوابة المتقاضي</title>
+    <title>رواق العدل | بوابة المتقاضي الذكية</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Tajawal:wght@400;700;900&display=swap');
-        :root {
-            --court-green: #006C35; /* أخضر ديوان المظالم */
-            --court-gold: #D4AF37;  /* ذهبي ملكي */
-            --bg-deep: #0e0e0e;
-            --glass-card: rgba(30, 30, 30, 0.85); /* خلفية شفافة أغمق */
+        :root { --green: #006C35; --gold: #D4AF37; --glass: rgba(20, 20, 20, 0.85); }
+        body { font-family: sans-serif; background: #080808; color: white; margin: 0; }
+        
+        /* تصميم شفاف محترف */
+        .glass-container {
+            background: var(--glass); border: 1px solid rgba(212, 175, 55, 0.3);
+            border-radius: 30px; padding: 40px; backdrop-filter: blur(15px);
+            max-width: 900px; margin: 50px auto; box-shadow: 0 25px 50px rgba(0,0,0,0.9);
         }
 
-        body {
-            font-family: 'Tajawal', sans-serif;
-            background: linear-gradient(135deg, var(--bg-deep) 0%, #1a1a1a 100%);
-            color: #f5f5f5;
-            margin: 0;
-            line-height: 1.7;
-            display: flex;
-            flex-direction: column;
-            min-height: 100vh;
-            justify-content: center;
-            align-items: center;
-        }
-
-        /* الهيدر مع شعار الميزان */
-        header {
-            text-align: center;
-            padding: 40px 20px 20px;
-        }
-
-        .logo-section {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            gap: 15px;
-            margin-bottom: 25px;
-        }
-
-        .logo-scale {
-            color: var(--court-gold);
-            font-size: 4.5rem; /* حجم أكبر للميزان */
-            filter: drop-shadow(0 0 10px rgba(212, 175, 55, 0.5));
-        }
-
-        .hero-title {
-            color: var(--court-gold);
-            font-size: 3rem;
-            margin: 0;
-            font-weight: 900;
-            text-shadow: 0 4px 10px rgba(0,0,0,0.5);
-        }
-
-        .tagline {
-            font-size: 1.2rem;
-            opacity: 0.9;
-            margin-top: 10px;
-            color: #ccc;
-        }
-
-        .content-area {
-            max-width: 900px;
-            width: 100%;
-            margin: 30px auto;
-            padding: 0 20px;
-        }
-
-        /* لوحة إدخال الدعوى الشفافة */
-        .input-panel {
-            background: var(--glass-card);
-            border: 1px solid rgba(212, 175, 55, 0.3);
-            border-radius: 25px;
-            padding: 40px;
-            box-shadow: 0 20px 60px rgba(0,0,0,0.7);
-            backdrop-filter: blur(12px);
-            transition: all 0.3s ease-out;
-        }
-
-        .input-panel:hover {
-            box-shadow: 0 25px 70px rgba(0,0,0,0.9);
-            transform: translateY(-3px);
-        }
-
-        .input-header {
-            display: flex;
-            align-items: center;
-            gap: 15px;
-            color: var(--court-gold);
-            margin-bottom: 30px;
-            border-bottom: 1px solid #333;
-            padding-bottom: 15px;
-        }
-
-        .input-header h2 {
-            font-size: 1.8rem;
-            margin: 0;
-            font-weight: 700;
-        }
+        header { text-align: center; border-bottom: 3px solid var(--gold); padding-bottom: 20px; }
+        .logo { font-size: 4rem; color: var(--gold); margin-bottom: 10px; }
 
         textarea {
-            width: 100%;
-            height: 280px;
-            background: rgba(0, 0, 0, 0.3);
-            border: 1px solid #444;
-            border-right: 6px solid var(--court-gold); /* شريط ذهبي مميز */
-            border-radius: 15px;
-            color: #fff;
-            padding: 25px;
-            font-size: 1.15rem;
-            line-height: 1.7;
-            resize: none;
-            outline: none;
-            transition: all 0.3s ease;
+            width: 100%; height: 200px; background: rgba(0,0,0,0.5); border: 1px solid #333;
+            border-right: 6px solid var(--gold); border-radius: 15px; color: white; padding: 20px; font-size: 1.1rem;
         }
 
-        textarea:focus {
-            background: rgba(0, 0, 0, 0.5);
-            border-color: var(--court-gold);
-            box-shadow: 0 0 20px rgba(212, 175, 55, 0.2);
-        }
+        /* أزرار الخدمات الذكية */
+        .btn-group { display: flex; gap: 15px; margin-top: 20px; }
+        .btn { padding: 15px 25px; border-radius: 12px; cursor: pointer; font-weight: bold; border: none; display: flex; align-items: center; gap: 10px; }
+        .btn-ai { background: var(--gold); color: black; }
+        .btn-audio { background: var(--green); color: white; }
 
-        .action-buttons {
-            display: flex;
-            gap: 15px;
-            margin-top: 30px;
-            justify-content: flex-end; /* الأزرار على اليسار */
-        }
-
-        .btn {
-            padding: 15px 30px;
-            border-radius: 10px;
-            font-weight: bold;
-            font-size: 1rem;
-            cursor: pointer;
-            border: none;
-            transition: all 0.3s ease;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-
-        .btn-submit {
-            background: linear-gradient(45deg, var(--court-gold), #b8860b);
-            color: #000;
-            box-shadow: 0 8px 15px rgba(212, 175, 55, 0.3);
-        }
-
-        .btn-submit:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 12px 20px rgba(212, 175, 55, 0.5);
-        }
-
-        .btn-link {
-            background: transparent;
-            border: 1px solid #555;
-            color: #aaa;
-        }
-        .btn-link:hover {
-            border-color: #888;
-            color: #fff;
-        }
-
-        /* قسم النتائج الفورية للمستخدم */
-        #userFeedback {
-            margin-top: 30px;
-            background: rgba(0, 0, 0, 0.4);
-            border-radius: 15px;
-            padding: 25px;
-            display: none;
-            animation: fadeIn 0.5s ease;
-        }
-
-        .feedback-item {
-            display: flex;
-            align-items: center;
-            gap: 15px;
-            margin-bottom: 12px;
-            padding: 12px;
-            border-radius: 8px;
-        }
-
-        .feedback-ok { background: rgba(0, 200, 83, 0.15); color: #00c851; border-right: 4px solid #00c851; }
-        .feedback-warn { background: rgba(255, 87, 34, 0.15); color: #ff5722; border-right: 4px solid #ff5722; }
-
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
+        #aiAssistant { margin-top: 30px; padding: 20px; border-radius: 15px; background: rgba(212,175,55,0.1); display: none; }
     </style>
 </head>
 <body>
-
     <header>
-        <div class="logo-section">
-            <i class="fas fa-balance-scale-left logo-scale"></i>
-            <div>
-                <h1 class="hero-title">رواق العدل</h1>
-                <p class="tagline">منظومة ذكية لتسريع الإجراءات القضائية</p>
-            </div>
-        </div>
+        <i class="fas fa-balance-scale-left logo"></i>
+        <h1 style="color:var(--gold)">رواق العدل</h1>
+        <p>الابتكار الرقمي لتمكين رحلة المستفيد</p>
     </header>
 
-    <div class="content-area">
-        <div class="input-panel">
-            <div class="input-header">
-                <i class="fas fa-file-alt" style="font-size:2.2rem;"></i>
-                <h2>بوابة تقديم لائحة الدعوى</h2>
-            </div>
-            
-            <textarea id="suitText" placeholder="الرجاء كتابة وقائع الدعوى هنا... (مثال: تظلمت من قرار وزارة الداخلية الصادر بتاريخ 1445/03/15هـ بخصوص طلب الترخيص برقم 12345... )"></textarea>
-            
-            <div class="action-buttons">
-                <button class="btn btn-link" onclick="window.open('dashboard.html', '_blank')">
-                    <i class="fas fa-chart-line"></i> لوحة الفرز (للموظفين)
-                </button>
-                <button class="btn btn-submit" onclick="submitSuit()">
-                    <i class="fas fa-paper-plane"></i> تقديم ومراجعة تلقائية
-                </button>
-            </div>
+    <div class="glass-container">
+        <h3><i class="fas fa-keyboard"></i> إدخال لائحة الدعوى</h3>
+        <textarea id="suitInput" placeholder="اكتبي تفاصيل الدعوى هنا..."></textarea>
+        
+        <div class="btn-group">
+            <button class="btn btn-ai" onclick="analyzeSuit()"><i class="fas fa-robot"></i> الفحص الذكي</button>
+            <button class="btn btn-audio" onclick="speakText()"><i class="fas fa-volume-up"></i> استماع للمكفوفين</button>
+            <button class="btn" style="background:#333; color:white;" onclick="location.href='dashboard.html'"><i class="fas fa-chart-pie"></i> لوحة الفرز</button>
+        </div>
 
-            <div id="userFeedback">
-                <h3 style="color:var(--court-gold); border-bottom:1px solid #444; padding-bottom:10px;">تقرير المراجعة الأولية لدعواك:</h3>
-                <div id="feedbackLog"></div>
-            </div>
+        <div id="aiAssistant">
+            <h4 id="aiTitle" style="color:var(--gold)">المساعد الذكي:</h4>
+            <div id="aiResponse"></div>
         </div>
     </div>
 
     <script>
-        function submitSuit() {
-            const text = document.getElementById('suitText').value;
-            const feedbackSection = document.getElementById('userFeedback');
-            const feedbackLog = document.getElementById('feedbackLog');
+        // ميزة القراءة الصوتية (خدمات المكفوفين)
+        function speakText() {
+            const text = document.getElementById('suitInput').value || "يرجى كتابة نص ليتم قراءته";
+            const msg = new SpeechSynthesisUtterance(text);
+            msg.lang = 'ar-SA';
+            window.speechSynthesis.speak(msg);
+        }
 
-            if(text.length < 30) {
-                alert("يرجى كتابة نص أكثر تفصيلاً لتقييم الدعوى.");
-                return;
-            }
-
-            feedbackSection.style.display = "block";
-            feedbackLog.innerHTML = "<p style='text-align:center; color:#ccc;'><i class='fas fa-spinner fa-spin'></i> جاري تحليل دعواك... الرجاء الانتظار</p>";
-
+        function analyzeSuit() {
+            const text = document.getElementById('suitInput').value;
+            const assistant = document.getElementById('aiAssistant');
+            const response = document.getElementById('aiResponse');
+            
+            assistant.style.display = "block";
+            response.innerHTML = "جاري التحليل الإجرائي...";
+            
             setTimeout(() => {
-                feedbackLog.innerHTML = "";
-                
-                const checks = [
-                    { id: 1, label: "تحديد تاريخ القرار الإداري المطعون فيه", found: text.includes("تاريخ") || text.match(/\d{4}\/\d{2}\/\d{2}/) },
-                    { id: 2, label: "ذكر الجهة الإدارية المدعى عليها", found: text.includes("وزارة") || text.includes("هيئة") || text.includes("أمانة") || text.includes("جهة حكومية") },
-                    { id: 3, label: "بيان موجز لموضوع الدعوى/القرار", found: text.length > 70 },
-                    { id: 4, label: "إدراج رقم الهوية أو السجل التجاري", found: text.match(/\b\d{10}\b/) }
-                ];
-
-                let allGood = true;
-                checks.forEach(item => {
-                    const div = document.createElement('div');
-                    div.className = `feedback-item ${item.found ? 'feedback-ok' : 'feedback-warn'}`;
-                    div.innerHTML = `
-                        <i class="fas ${item.found ? 'fa-check-circle' : 'fa-exclamation-circle'}" style="font-size:1.3rem;"></i>
-                        <span>${item.label}</span>
-                        <span style="margin-right:auto; font-weight:bold;">${item.found ? 'مكتمل' : 'غير مكتمل'}</span>
-                    `;
-                    feedbackLog.appendChild(div);
-                    if (!item.found) allGood = false;
-                });
-
-                if (allGood) {
-                    feedbackLog.innerHTML += `<p style='text-align:center; margin-top:20px; font-weight:bold; color:var(--court-green);'><i class='fas fa-thumbs-up'></i> ممتاز! دعواك مستوفية للمتطلبات الأولية. يمكنك المتابعة.</p>`;
-                } else {
-                    feedbackLog.innerHTML += `<p style='text-align:center; margin-top:20px; font-weight:bold; color:#ff5722;'><i class='fas fa-exclamation-triangle'></i> تنبيه: يرجى استكمال المتطلبات المشار إليها لضمان سير إجراءات الدعوى بسلاسة.</p>`;
-                }
-
-            }, 2000);
+                let score = 0;
+                if(text.includes("تاريخ")) score += 50;
+                if(text.includes("وزارة")) score += 50;
+                response.innerHTML = `نسبة اكتمال المتطلبات: ${score}% <br> التوصية: ${score < 100 ? "يرجى استكمال البيانات" : "جاهزة للفرز"}`;
+            }, 1000);
         }
     </script>
-
 </body>
 </html>
