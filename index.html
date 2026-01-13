@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>منظومة رواق العدل | PRO Edition 2026</title>
+    <title>منظومة رواق العدل PRO | Glass Edition</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <style>
@@ -11,232 +11,209 @@
         
         :root {
             --neon-green: #00ff88;
-            --dark-bg: #050505;
-            --glass: rgba(0, 255, 136, 0.02);
-            --border: rgba(0, 255, 136, 0.2);
-            --shadow: 0 0 20px rgba(0, 255, 136, 0.3);
+            --glass-bg: rgba(255, 255, 255, 0.05);
+            --glass-border: rgba(255, 255, 255, 0.15);
+            --neon-shadow: 0 0 20px rgba(0, 255, 136, 0.4);
         }
 
         body, html {
             margin: 0; padding: 0; min-height: 100vh; font-family: 'Tajawal', sans-serif;
-            background-color: var(--dark-bg); color: white; overflow-x: hidden;
+            color: white; overflow-x: hidden;
         }
 
-        /* الخلفية التفاعلية */
-        .cyber-bg {
+        /* الخلفية السينمائية التفاعلية */
+        .dynamic-bg {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: radial-gradient(circle at 30% 30%, rgba(0, 255, 136, 0.05), transparent), #050505;
-            z-index: -2;
+            background: linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.7)), 
+                        url('https://images.unsplash.com/photo-1589829545856-d10d557cf95f?auto=format&fit=crop&w=1920&q=80');
+            background-size: cover; background-position: center;
+            z-index: -2; animation: bgPulse 20s infinite alternate ease-in-out;
         }
+        @keyframes bgPulse { from { transform: scale(1); } to { transform: scale(1.05); } }
 
-        /* نظام الإشعارات (Toast) */
-        #notification-container {
+        /* نظام الإشعارات النيوني */
+        #notification-center {
             position: fixed; top: 20px; left: 20px; z-index: 9999;
-            display: flex; flex-direction: column; gap: 10px;
+            display: flex; flex-direction: column; gap: 12px;
         }
         .toast {
-            background: rgba(0, 0, 0, 0.9); border: 1px solid var(--neon-green);
-            color: white; padding: 15px 25px; border-radius: 12px;
-            box-shadow: var(--shadow); display: flex; align-items: center; gap: 12px;
-            animation: slideInLeft 0.5s ease forwards; min-width: 300px;
+            background: rgba(0, 0, 0, 0.6); backdrop-filter: blur(15px);
+            border: 1px solid var(--neon-green); color: white; padding: 16px 24px;
+            border-radius: 16px; box-shadow: var(--neon-shadow);
+            animation: slideIn 0.5s cubic-bezier(0.18, 0.89, 0.32, 1.28) forwards;
+            display: flex; align-items: center; gap: 12px; min-width: 280px;
         }
-        @keyframes slideInLeft { from { transform: translateX(-100%); opacity: 0; } to { transform: translateX(0); opacity: 1; } }
+        @keyframes slideIn { from { transform: translateX(-120%); opacity: 0; } to { transform: translateX(0); opacity: 1; } }
 
-        /* الهيكل الجانبي */
-        .main-grid { display: grid; grid-template-columns: 280px 1fr; min-height: 100vh; }
+        /* الهيكل الزجاجي */
+        .app-layout { display: grid; grid-template-columns: 280px 1fr; min-height: 100vh; gap: 0; }
 
         aside {
-            background: rgba(0,0,0,0.95); border-left: 1px solid var(--border);
-            padding: 40px 20px; position: sticky; top: 0; height: 100vh;
+            background: rgba(0, 0, 0, 0.4); backdrop-filter: blur(25px);
+            border-left: 1px solid var(--glass-border); padding: 40px 20px;
+            display: flex; flex-direction: column; position: sticky; top: 0; height: 100vh;
         }
 
         .nav-link {
-            padding: 16px; border-radius: 12px; margin-bottom: 10px; cursor: pointer;
-            display: flex; align-items: center; gap: 15px; color: #555; transition: 0.3s;
-            border: 1px solid transparent; font-weight: bold;
+            padding: 16px; border-radius: 16px; margin-bottom: 12px; cursor: pointer;
+            display: flex; align-items: center; gap: 15px; color: rgba(255,255,255,0.6);
+            transition: 0.4s; border: 1px solid transparent; font-weight: bold;
         }
         .nav-link:hover, .nav-link.active {
-            color: var(--neon-green); background: rgba(0, 255, 136, 0.05);
-            border-color: var(--neon-green); box-shadow: var(--shadow);
+            background: rgba(0, 255, 136, 0.1); color: var(--neon-green);
+            border-color: var(--neon-green); box-shadow: 0 0 15px rgba(0, 255, 136, 0.2);
         }
 
-        /* المحتوى */
         main { padding: 40px; }
 
-        .glass-card {
-            background: var(--glass); backdrop-filter: blur(25px);
-            border: 1px solid var(--border); border-radius: 30px;
-            padding: 40px; display: none; animation: fadeIn 0.5s ease;
+        /* الألواح الزجاجية الشفافة */
+        .glass-panel {
+            background: rgba(255, 255, 255, 0.03); backdrop-filter: blur(35px);
+            border: 1px solid var(--glass-border); border-radius: 32px;
+            padding: 40px; display: none; animation: fadeIn 0.7s ease-out;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.3);
         }
         .active-panel { display: block; }
 
-        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
-
-        /* منطقة الـ AI */
         textarea {
-            width: 100%; height: 200px; background: rgba(0,0,0,0.6); border: 1px solid var(--border);
-            border-radius: 20px; color: var(--neon-green); padding: 20px; font-size: 1.1rem;
-            outline: none; resize: none; margin-bottom: 20px;
+            width: 100%; height: 220px; background: rgba(0,0,0,0.3); border: 1px solid var(--glass-border);
+            border-radius: 24px; color: var(--neon-green); padding: 25px; font-size: 1.2rem;
+            outline: none; resize: none; margin-bottom: 25px; transition: 0.3s;
         }
+        textarea:focus { border-color: var(--neon-green); box-shadow: 0 0 20px rgba(0, 255, 136, 0.1); }
 
-        .pro-btn {
+        .btn-action {
             width: 100%; padding: 20px; border-radius: 50px; border: none;
             background: var(--neon-green); color: black; font-weight: 900;
-            font-size: 1.2rem; cursor: pointer; transition: 0.4s;
+            font-size: 1.3rem; cursor: pointer; transition: 0.4s;
+            box-shadow: var(--neon-shadow);
         }
-        .pro-btn:hover { transform: scale(1.02); box-shadow: 0 0 40px var(--neon-green); }
+        .btn-action:hover { transform: translateY(-5px); box-shadow: 0 12px 40px rgba(0, 255, 136, 0.5); }
 
-        /* المساعد الصوتي */
-        .voice-hub {
-            background: rgba(0, 255, 136, 0.1); border: 1px solid var(--neon-green);
-            padding: 15px 30px; border-radius: 15px; display: flex; justify-content: space-between;
-            align-items: center; margin-bottom: 30px;
-        }
+        .status-pill { padding: 6px 14px; border-radius: 20px; font-size: 0.85rem; font-weight: 900; }
 
-        /* الجداول الذكية */
-        .status-badge { padding: 5px 12px; border-radius: 20px; font-size: 0.8rem; font-weight: bold; }
-        .bg-green { background: var(--neon-green); color: black; }
-        .bg-red { background: #ff4757; color: white; }
-
-        footer { text-align: center; padding: 40px; color: var(--neon-green); opacity: 0.5; }
+        footer { text-align: center; padding: 40px; color: var(--neon-green); font-weight: bold; opacity: 0.8; }
     </style>
 </head>
 <body>
 
-<div class="cyber-bg"></div>
-<div id="notification-container"></div>
+<div class="dynamic-bg"></div>
+<div id="notification-center"></div>
 
-<div class="main-grid">
+<div class="app-layout">
     <aside>
         <div style="text-align: center; margin-bottom: 50px;">
-            <i class="fas fa-balance-scale" style="font-size: 4rem; color: var(--neon-green); filter: drop-shadow(0 0 15px var(--neon-green));"></i>
-            <h1 style="color: var(--neon-green); margin-top: 15px;">رواق العدل</h1>
-            <p style="font-size: 0.7rem; color: var(--neon-green); opacity: 0.6; letter-spacing: 2px;">PRO AI LEGAL CORE</p>
+            <i class="fas fa-balance-scale" style="font-size: 4rem; color: var(--neon-green); filter: drop-shadow(var(--neon-shadow));"></i>
+            <h1 style="color: var(--neon-green); margin-top: 15px; letter-spacing: 2px;">رواق العدل</h1>
+            <p style="font-size: 0.7rem; color: var(--neon-green); opacity: 0.7; letter-spacing: 3px;">PREMIUM AI JUSTICE</p>
         </div>
-        <div class="nav-link active" onclick="switchTab('ai', this)"><i class="fas fa-microchip"></i> معالجة الوقائع</div>
-        <div class="nav-link" onclick="switchTab('judge', this)"><i class="fas fa-shield-halved"></i> منصة الرقابة</div>
-        <div class="nav-link" onclick="switchTab('services', this)"><i class="fas fa-grid-2"></i> الخدمات الشاملة</div>
-        <div class="nav-link" onclick="switchTab('settings', this)"><i class="fas fa-gears"></i> الإعدادات</div>
+        <div class="nav-link active" onclick="showPanel('ai', this)"><i class="fas fa-microchip"></i> بوابة الـ AI</div>
+        <div class="nav-link" onclick="showPanel('judge', this)"><i class="fas fa-shield-halved"></i> منصة الرقابة</div>
+        <div class="nav-link" onclick="showPanel('services', this)"><i class="fas fa-cubes"></i> دليل الخدمات</div>
+        <div class="nav-link" onclick="showPanel('settings', this)"><i class="fas fa-sliders"></i> إعدادات النظام</div>
     </aside>
 
     <main>
-        <div id="aiPanel" class="glass-card active-panel">
-            <div class="voice-hub">
-                <span><i class="fas fa-headset"></i> مساعد المكفوفين: <b>مفعل</b></span>
-                <button onclick="speakInput()" style="background:var(--neon-green); border:none; padding:8px 20px; border-radius:20px; cursor:pointer; font-weight:bold;">قراءة النص</button>
+        <div id="aiPanel" class="glass-panel active-panel">
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:30px; background:rgba(0, 255, 136, 0.1); padding:15px 30px; border-radius:20px; border: 1px solid var(--neon-green);">
+                <span><i class="fas fa-volume-up"></i> مساعد المكفوفين الذكي: <b>مفعل</b></span>
+                <button onclick="playVoice()" style="background:var(--neon-green); border:none; padding:8px 20px; border-radius:15px; cursor:pointer; font-weight:bold;">قراءة النص</button>
             </div>
             
-            <h2 style="color: var(--neon-green);">إدخال وقائع السابقة القضائية</h2>
-            <textarea id="mainInput" placeholder="اكتبي وقائع السابقة هنا... سيقوم النظام بالربط الفوري مع إرسال إشعارات بالحالة."></textarea>
-            <button class="pro-btn" onclick="processAI()"><i class="fas fa-bolt"></i> تشغيل الربط الذكي</button>
+            <h2 style="color: var(--neon-green); font-size: 2rem;">إيداع وقائع الدعوى (تحليل لحظي)</h2>
+            <textarea id="userInput" placeholder="اكتبي وقائع الدعوى هنا... سيقوم النظام بالربط الآلي وإرسال إشعارات بالحالة والمرفقات الناقصة."></textarea>
+            <button class="btn-action" onclick="runAI()"><i class="fas fa-wand-magic-sparkles"></i> تشغيل الربط الذكي والتحليل</button>
 
-            <div id="aiResults" style="display:none; margin-top:30px;">
-                <div style="display:grid; grid-template-columns: 1fr 1fr; gap:20px; margin-bottom:20px;">
-                    <div style="background:rgba(0,0,0,0.4); padding:20px; border-radius:15px; border:1px solid var(--border);">
-                        <span>تصنيف الذكاء:</span> <h3 id="resType" style="color:var(--neon-green)">-</h3>
+            <div id="aiRes" style="display:none; margin-top:40px; animation: slideIn 0.5s ease;">
+                <div style="display:grid; grid-template-columns: 1fr 1fr; gap:25px; margin-bottom:30px;">
+                    <div style="background:rgba(255,255,255,0.05); padding:25px; border-radius:20px; border:1px solid var(--glass-border);">
+                        <span>تصنيف الذكاء:</span> <h3 id="rType" style="color:var(--neon-green)">-</h3>
                     </div>
-                    <div style="background:rgba(0,0,0,0.4); padding:20px; border-radius:15px; border:1px solid var(--border);">
-                        <span>الاختصاص المكاني:</span> <h3 id="resCourt" style="color:var(--neon-green)">-</h3>
+                    <div style="background:rgba(255,255,255,0.05); padding:25px; border-radius:20px; border:1px solid var(--glass-border);">
+                        <span>الاختصاص:</span> <h3 id="rCourt" style="color:var(--neon-green)">-</h3>
                     </div>
                 </div>
                 
-                <div id="missingDocs" style="background:rgba(255, 71, 87, 0.05); border:1px dashed #ff4757; padding:25px; border-radius:20px; display:none;">
-                    <h3 style="color:#ff4757; margin-top:0;">⚠️ تنبيه النواقص الإجرائية</h3>
-                    <p id="alertMsg" style="font-size:1.1rem;"></p>
-                    <button class="pro-btn" style="background:#ff4757; color:white; width:auto; padding:10px 40px; font-size:1rem;">رفع المرفقات الآن</button>
+                <div id="alertBox" style="background:rgba(255, 71, 87, 0.1); border:2px dashed #ff4757; padding:30px; border-radius:24px; text-align:center; display:none;">
+                    <h3 style="color:#ff4757; margin:0;">⚠️ تنبيه النواقص الإجرائية</h3>
+                    <p id="alertMsg" style="font-size:1.1rem; margin:15px 0;"></p>
+                    <button class="btn-action" style="background:#ff4757; color:white; width:auto; padding:10px 40px; font-size:1rem;">رفع المرفقات الآن</button>
                 </div>
             </div>
         </div>
 
-        <div id="judgePanel" class="glass-card">
-            <h2 style="color: var(--neon-green);">مركز الرقابة القضائية (AI Dashboard)</h2>
-            <div style="display:grid; grid-template-columns: repeat(3, 1fr); gap:20px; margin-bottom:30px;">
-                <div style="background:rgba(0,0,0,0.4); padding:20px; border-radius:15px; border:1px solid var(--border); text-align:center;">
-                    <span>إجمالي القضايا</span><h2 style="color:var(--neon-green)">2,150</h2>
+        <div id="judgePanel" class="glass-panel">
+            <h2 style="color: var(--neon-green);">مركز الرقابة والتحليل (Dashboard)</h2>
+            <div style="display:grid; grid-template-columns: repeat(3, 1fr); gap:20px; margin-bottom:40px;">
+                <div style="background:rgba(0,0,0,0.3); padding:25px; border-radius:20px; border:1px solid var(--glass-border); text-align:center;">
+                    <span>إجمالي الدعاوى</span><h2 style="color:var(--neon-green)">2,150</h2>
                 </div>
-                <div style="background:rgba(0,0,0,0.4); padding:20px; border-radius:15px; border:1px solid var(--neon-green); text-align:center;">
-                    <span>فرز آلي ناجح</span><h2 style="color:var(--neon-green)">1,820</h2>
+                <div style="background:rgba(0,0,0,0.3); padding:25px; border-radius:20px; border:1px solid var(--neon-green); text-align:center;">
+                    <span>فرز ناجح</span><h2 style="color:var(--neon-green)">1,820</h2>
                 </div>
-                <div style="background:rgba(0,0,0,0.4); padding:20px; border-radius:15px; border:1px solid #ff4757; text-align:center;">
-                    <span>بانتظار النواقص</span><h2 style="color:#ff4757">330</h2>
+                <div style="background:rgba(0,0,0,0.3); padding:25px; border-radius:20px; border:1px solid #ff4757; text-align:center;">
+                    <span>نواقص</span><h2 style="color:#ff4757">330</h2>
                 </div>
             </div>
-            <canvas id="judgeChart" style="max-height: 300px;"></canvas>
-        </div>
-
-        <div id="servicesPanel" class="glass-card">
-            <h2 style="color: var(--neon-green);">دليل الخدمات الرقمية الموحد</h2>
-            <div style="display:grid; grid-template-columns: 1fr 1fr; gap:15px;">
-                <div style="background:rgba(255,255,255,0.02); padding:20px; border-radius:15px; border:1px solid var(--border);"><i class="fas fa-clock"></i> المواعيد <span class="status-badge bg-green">نشط</span></div>
-                <div style="background:rgba(255,255,255,0.02); padding:20px; border-radius:15px; border:1px solid var(--border);"><i class="fas fa-file"></i> المذكرات <span class="status-badge bg-green">نشط</span></div>
-                <div style="background:rgba(255,255,255,0.02); padding:20px; border-radius:15px; border:1px solid var(--border);"><i class="fas fa-book"></i> المكتبة <span class="status-badge bg-green">نشط</span></div>
-                <div style="background:rgba(255,255,255,0.02); padding:20px; border-radius:15px; border:1px solid var(--border);"><i class="fas fa-lock"></i> التشفير <span class="status-badge bg-red">معطل</span></div>
-            </div>
-        </div>
-
-        <div id="settingsPanel" class="glass-card">
-            <h2 style="color: var(--neon-green);">إعدادات المنظومة</h2>
-            <p>تفعيل الإشعارات: <b>نشط</b></p>
-            <p>ربط بوابة معين: <b>نشط</b></p>
+            <canvas id="mainChart"></canvas>
         </div>
     </main>
 </div>
 
-<footer>جميع الحقوق محفوظة - روان الصبحي - رواق العدل PRO 2026</footer>
+<footer>جميع الحقوق محفوظة - روان الصبحي - رواق العدل Glass PRO 2026</footer>
 
 <script>
-    // نظام الإشعارات
-    function notify(msg, icon = 'info-circle') {
-        const container = document.getElementById('notification-container');
+    function sendToast(msg, icon = 'info-circle') {
+        const center = document.getElementById('notification-center');
         const toast = document.createElement('div');
         toast.className = 'toast';
         toast.innerHTML = `<i class="fas fa-${icon}" style="color:var(--neon-green)"></i> <span>${msg}</span>`;
-        container.appendChild(toast);
+        center.appendChild(toast);
         setTimeout(() => toast.remove(), 4000);
     }
 
-    function switchTab(id, el) {
-        document.querySelectorAll('.glass-card').forEach(p => p.classList.remove('active-panel'));
+    function showPanel(id, el) {
+        document.querySelectorAll('.glass-panel').forEach(p => p.classList.remove('active-panel'));
         document.querySelectorAll('.nav-link').forEach(l => l.classList.remove('active'));
         document.getElementById(id + 'Panel').classList.add('active-panel');
         el.classList.add('active');
-        notify(`تم الانتقال إلى قسم ${el.innerText}`);
+        sendToast(`تم الانتقال إلى قسم ${el.innerText}`);
         if(id === 'judge') initChart();
     }
 
-    function processAI() {
-        const text = document.getElementById('mainInput').value;
-        if(!text) return notify("يرجى إدخال نص الوقائع أولاً", "exclamation-triangle");
+    function runAI() {
+        const text = document.getElementById('userInput').value;
+        if(!text) return sendToast("يرجى إدخال الوقائع أولاً", "exclamation-triangle");
 
-        notify("بدء معالجة الوقائع بواسطة AI...", "spinner fa-spin");
+        sendToast("بدء تحليل الذكاء الاصطناعي...", "spinner fa-spin");
         
         setTimeout(() => {
-            document.getElementById('aiResults').style.display = 'block';
+            document.getElementById('aiRes').style.display = 'block';
             if(text.includes("عقد") || text.includes("فسخ")) {
-                document.getElementById('resType').innerText = "دعوى عقود إدارية";
-                document.getElementById('resCourt').innerText = "المحكمة الإدارية بجدة";
-                document.getElementById('missingDocs').style.display = 'block';
-                document.getElementById('alertMsg').innerText = "تم اكتشاف دعوى تعاقدية. النظام يتطلب إرفاق (صورة العقد) و(قرار رفض التظلم) لإتمام العملية.";
-                notify("تنبيه: تم رصد نواقص في المرفقات!", "exclamation-circle");
+                document.getElementById('rType').innerText = "دعوى عقود إدارية";
+                document.getElementById('rCourt').innerText = "المحكمة الإدارية بجدة";
+                document.getElementById('alertBox').style.display = 'block';
+                document.getElementById('alertMsg').innerText = "تم رصد دعوى عقد؛ يتطلب النظام إرفاق (صورة العقد) و(قرار رفض التظلم) لقبول الدعوى شكلاً.";
+                sendToast("تنبيه: تم رصد نواقص في المرفقات!", "exclamation-circle");
             } else {
-                document.getElementById('resType').innerText = "دعوى إلغاء قرار";
-                document.getElementById('resCourt').innerText = "المحكمة الإدارية بالرياض";
-                document.getElementById('missingDocs').style.display = 'none';
-                notify("تم التحليل والربط بنجاح!", "check-circle");
+                document.getElementById('rType').innerText = "دعوى إلغاء قرار";
+                document.getElementById('rCourt').innerText = "المحكمة الإدارية بالرياض";
+                document.getElementById('alertBox').style.display = 'none';
+                sendToast("تم الربط والتحليل بنجاح!", "check-circle");
             }
         }, 1200);
     }
 
-    function speakInput() {
-        const val = document.getElementById('mainInput').value || "يرجى كتابة الوقائع ليتم قراءتها.";
+    function playVoice() {
+        const val = document.getElementById('userInput').value || "يرجى كتابة نص المذكرة ليتم قراءتها.";
         const msg = new SpeechSynthesisUtterance(val);
         msg.lang = 'ar-SA';
         window.speechSynthesis.speak(msg);
-        notify("بدء المساعد الصوتي...");
+        sendToast("بدء المساعد الصوتي...");
     }
 
     function initChart() {
-        const ctx = document.getElementById('judgeChart').getContext('2d');
+        const ctx = document.getElementById('mainChart').getContext('2d');
         if (window.myChart) window.myChart.destroy();
         window.myChart = new Chart(ctx, {
             type: 'bar',
@@ -245,7 +222,7 @@
                 datasets: [{
                     label: 'إحصائيات الفرز الآلي',
                     data: [1820, 450, 330],
-                    backgroundColor: ['#00ff88', '#222', '#ff4757']
+                    backgroundColor: ['#00ff88', 'rgba(255,255,255,0.1)', '#ff4757']
                 }]
             },
             options: { scales: { y: { ticks: { color: '#00ff88' } }, x: { ticks: { color: '#00ff88' } } } }
