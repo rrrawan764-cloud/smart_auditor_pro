@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>منظومة رواق العدل الرقمية</title>
+    <title>منظومة رواق العدل الرقمية | ديوان المظالم</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <style>
@@ -11,86 +11,86 @@
         
         :root {
             --gold: #D4AF37;
-            --glass: rgba(255, 255, 255, 0.1);
-            --border: rgba(255, 255, 255, 0.2);
+            --glass-light: rgba(255, 255, 255, 0.15); /* شفافية مضيئة */
+            --glass-border: rgba(255, 255, 255, 0.3);
+            --bg-gradient: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
         }
 
-        * { box-sizing: border-box; transition: 0.3s ease-in-out; }
-        body, html { margin: 0; padding: 0; min-height: 100vh; font-family: 'Tajawal', sans-serif; color: white; overflow-x: hidden; }
+        * { box-sizing: border-box; transition: 0.3s ease; }
+        body, html { margin: 0; padding: 0; min-height: 100vh; font-family: 'Tajawal', sans-serif; overflow-x: hidden; }
 
-        /* الخلفية السينمائية المضيئة */
+        /* الخلفية السينمائية المشرقة (ليست سوداء) */
         .master-bg {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -2;
-            background: linear-gradient(rgba(0,0,0,0.3), rgba(0,0,0,0.5)), 
+            background: linear-gradient(rgba(255,255,255,0.7), rgba(255,255,255,0.4)), 
                         url('https://images.unsplash.com/photo-1589829545856-d10d557cf95f?auto=format&fit=crop&w=1920&q=80');
             background-size: cover; background-position: center;
-            animation: lightZoom 25s infinite alternate;
         }
-        @keyframes lightZoom { from { transform: scale(1); } to { transform: scale(1.08); } }
 
-        /* الهيكل الشفاف الكريستالي */
-        .app-container { display: flex; min-height: 100vh; backdrop-filter: blur(15px); }
+        /* حاوية النظام الشفافة */
+        .app-container { display: flex; min-height: 100vh; backdrop-filter: blur(15px); background: rgba(255,255,255,0.1); }
 
         aside {
-            width: 300px; background: rgba(255, 255, 255, 0.05); backdrop-filter: blur(30px);
-            border-left: 1px solid var(--border); padding: 40px 20px;
+            width: 320px; background: rgba(255, 255, 255, 0.2); backdrop-filter: blur(30px);
+            border-left: 1px solid var(--glass-border); padding: 40px 20px;
             display: flex; flex-direction: column; position: sticky; top: 0; height: 100vh;
         }
 
+        /* منطقة الشعار (من صورتك المرفقة) */
         .brand-logo { text-align: center; margin-bottom: 40px; }
-        .brand-logo i { font-size: 3rem; color: var(--gold); }
-        .brand-logo h1 { color: var(--gold); font-size: 1.8rem; margin-top: 10px; }
+        .brand-logo img { width: 180px; filter: drop-shadow(0 0 5px rgba(0,0,0,0.1)); }
+        .brand-logo h1 { color: #1a472a; font-size: 1.6rem; font-weight: 900; margin-top: 15px; }
 
         .nav-item {
-            padding: 16px; border-radius: 20px; margin-bottom: 10px; cursor: pointer;
-            display: flex; align-items: center; gap: 15px; color: #fff;
-            background: rgba(255,255,255,0.05); border: 1px solid transparent; font-weight: bold;
+            padding: 18px; border-radius: 20px; margin-bottom: 12px; cursor: pointer;
+            display: flex; align-items: center; gap: 15px; color: #1a472a;
+            background: rgba(255,255,255,0.3); border: 1px solid transparent; font-weight: bold;
         }
         .nav-item:hover, .nav-item.active {
-            background: rgba(212, 175, 55, 0.2); border-color: var(--gold);
-            transform: translateX(-5px);
+            background: var(--gold); color: white; transform: translateX(-5px); box-shadow: 0 10px 20px rgba(0,0,0,0.1);
         }
 
-        main { flex: 1; padding: 50px; }
+        main { flex: 1; padding: 40px; }
 
-        /* لوحات زجاجية شفافة شاملة */
+        /* لوحات زجاجية كريستالية ساطعة */
         .content-card {
-            background: rgba(255, 255, 255, 0.08); backdrop-filter: blur(40px);
-            border: 1px solid var(--border); border-radius: 40px;
-            padding: 40px; display: none; animation: fadeIn 0.8s;
+            background: rgba(255, 255, 255, 0.4); backdrop-filter: blur(40px);
+            border: 1px solid var(--glass-border); border-radius: 40px;
+            padding: 40px; display: none; animation: fadeIn 0.8s; color: #1a472a;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.05);
         }
         .active-card { display: block; }
 
-        /* دليل الخدمات الشامل (محاكاة معين) */
-        .services-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 20px; }
+        /* الأنظمة الشاملة (محاكاة مَعين) */
+        .services-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 20px; }
         .service-box {
-            background: rgba(255, 255, 255, 0.05); border: 1px solid var(--border);
-            padding: 30px; border-radius: 30px; text-align: center; cursor: pointer;
+            background: rgba(255, 255, 255, 0.5); border: 1px solid var(--glass-border);
+            padding: 30px; border-radius: 30px; text-align: center; cursor: pointer; color: #1a472a;
         }
-        .service-box:hover { background: var(--gold); color: black; transform: translateY(-10px); }
+        .service-box:hover { background: #1a472a; color: white; transform: translateY(-10px); }
         .service-box i { font-size: 3rem; margin-bottom: 20px; }
 
-        /* الأنظمة الفرعية */
-        .sub-system { background: rgba(0,0,0,0.2); border-radius: 25px; padding: 25px; margin-top: 25px; border: 1px solid var(--border); display: none; }
-
-        /* المساعد الذكي للمكفوفين */
-        .voice-hub { text-align: center; padding: 60px; border: 2px dashed var(--gold); border-radius: 40px; background: rgba(212,175,55,0.05); }
-        .pulse-mic { font-size: 5rem; color: var(--gold); animation: pulse 2s infinite; margin-bottom: 20px; }
-        @keyframes pulse { 0% { opacity: 1; transform: scale(1); } 50% { opacity: 0.5; transform: scale(1.1); } 100% { opacity: 1; transform: scale(1); } }
+        /* المساعد الذكي للمكفوفين (تصميم مشرق) */
+        .voice-hub { 
+            text-align: center; padding: 60px; border: 3px dashed #1a472a; 
+            border-radius: 40px; background: rgba(26, 71, 42, 0.05); 
+        }
+        .pulse-mic { font-size: 5rem; color: #1a472a; animation: pulse 2s infinite; }
 
         textarea {
-            width: 100%; height: 150px; background: rgba(255,255,255,0.1); border: 1px solid var(--border);
-            border-radius: 20px; color: white; padding: 20px; font-size: 1.2rem; outline: none; margin-bottom: 20px;
+            width: 100%; height: 180px; background: rgba(255,255,255,0.6); 
+            border: 2px solid var(--glass-border); border-radius: 25px; 
+            padding: 25px; font-size: 1.2rem; outline: none; margin-bottom: 20px; color: #1a472a;
         }
-        .btn-action { width: 100%; padding: 20px; border-radius: 50px; border: none; background: var(--gold); color: black; font-weight: 900; cursor: pointer; font-size: 1.2rem; }
+
+        .btn-action { 
+            width: 100%; padding: 22px; border-radius: 50px; border: none; 
+            background: #1a472a; color: white; font-weight: 900; font-size: 1.3rem; cursor: pointer;
+        }
+        .btn-action:hover { background: var(--gold); }
 
         @keyframes fadeIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
-
-        @media (max-width: 768px) {
-            aside { position: fixed; bottom: 0; width: 100%; height: 80px; flex-direction: row; padding: 0; top: auto; }
-            .nav-item span, .brand-logo { display: none; }
-            main { padding: 20px; padding-bottom: 100px; }
-        }
+        @keyframes pulse { 0% { transform: scale(1); } 50% { transform: scale(1.1); } 100% { transform: scale(1); } }
     </style>
 </head>
 <body>
@@ -100,7 +100,7 @@
 <div class="app-container">
     <aside>
         <div class="brand-logo">
-            <i class="fas fa-balance-scale"></i>
+            <img src="https://www.bog.gov.sa/MediaCenter/MediaLibrary/Logos/Logo.png" alt="شعار ديوان المظالم">
             <h1>رواق العدل</h1>
         </div>
         
@@ -108,49 +108,36 @@
         <div class="nav-item" onclick="showC('services', this)"><i class="fas fa-layer-group"></i> <span>الخدمات الشاملة</span></div>
         <div class="nav-item" onclick="showC('judge', this)"><i class="fas fa-user-judge"></i> <span>منصة القاضي</span></div>
         <div class="nav-item" onclick="showC('blind', this)"><i class="fas fa-eye-slash"></i> <span>مساعد المكفوفين</span></div>
-        <div class="nav-link" style="margin-top:auto; font-size:0.7rem; text-align:center; opacity:0.5;">روان الصبحي © 2026</div>
+        
+        <div style="margin-top:auto; padding:15px; text-align:center; font-size:0.8rem; color:#1a472a; font-weight:bold;">
+            روان الصبحي © 2026
+        </div>
     </aside>
 
     <main>
         <div id="aiCard" class="content-card active-card">
-            <h2 style="color:var(--gold);"><i class="fas fa-robot"></i> المساعد الذكي</h2>
-            <p>تدقيق وقائع الدعوى وتحديد النواقص إجرائياً</p>
+            <h2><i class="fas fa-robot"></i> العقل الإجرائي (AI Auditor)</h2>
+            <p>أهلاً بك في رواق العدل. قم بإدخال وقائع دعواك وسأقوم بفحص الاختصاص والمرفقات آلياً.</p>
             <textarea id="aiInput" placeholder="اكتب وقائع التظلم هنا..."></textarea>
-            <button class="btn-action" onclick="runAI()">بدء الفحص الذكي</button>
-            <div id="aiOut" style="display:none; margin-top:20px; padding:20px; background:rgba(212,175,55,0.1); border-radius:20px; border:1px solid var(--gold);"></div>
+            <button class="btn-action" onclick="runAI()">تشغيل التدقيق الذكي</button>
+            <div id="aiOut" style="display:none; margin-top:20px; padding:25px; background:rgba(212,175,55,0.2); border-radius:20px; border:1px solid var(--gold);"></div>
         </div>
 
         <div id="servicesCard" class="content-card">
-            <h2 style="color:var(--gold); margin-bottom:30px;">بوابة خدمات ديوان المظالم</h2>
+            <h2>بوابة خدمات ديوان المظالم الشاملة</h2>
             <div class="services-grid">
-                <div class="service-box" onclick="openSys('s_case')"><i class="fas fa-plus-square"></i><h4>قيد دعوى</h4></div>
-                <div class="service-box" onclick="openSys('s_memo')"><i class="fas fa-file-signature"></i><h4>تبادل مذكرات</h4></div>
-                <div class="service-box" onclick="openSys('s_search')"><i class="fas fa-search"></i><h4>استعلام موحد</h4></div>
-                <div class="service-box" onclick="openSys('s_session')"><i class="fas fa-video"></i><h4>جلسات رقمية</h4></div>
+                <div class="service-box" onclick="alert('فتح نظام قيد الدعاوى')"><i class="fas fa-folder-plus"></i><h4>قيد دعوى</h4></div>
+                <div class="service-box" onclick="alert('فتح نظام التظلمات')"><i class="fas fa-file-invoice"></i><h4>تقديم تظلم</h4></div>
+                <div class="service-box" onclick="alert('فتح تبادل المذكرات')"><i class="fas fa-comments"></i><h4>تبادل مذكرات</h4></div>
+                <div class="service-box" onclick="alert('فتح الاستعلام الموحد')"><i class="fas fa-search-plus"></i><h4>استعلام موحد</h4></div>
             </div>
-
-            <div id="s_case" class="sub-system">
-                <h3><i class="fas fa-folder-open"></i> نظام قيد الدعاوى الجديد</h3>
-                <p>يرجى تعبئة بيانات المدعي والمدعى عليه لبدء الربط مع معين.</p>
-                <button class="btn-action" style="width:auto; padding:10px 30px;">انتقال للإيداع</button>
-            </div>
-            <div id="s_memo" class="sub-system">
-                <h3><i class="fas fa-upload"></i> بوابة إيداع المذكرات الجوابية</h3>
-                <p>ارفع مذكرتك وسيقوم المساعد الذكي بمطابقتها قانونياً.</p>
-                <button class="btn-action" style="width:auto; padding:10px 30px;">رفع المذكرة (PDF)</button>
-            </div>
-        </div>
-
-        <div id="judgeCard" class="content-card">
-            <h2 style="color:var(--gold);">لوحة الرقابة القضائية</h2>
-            <canvas id="judgeChart"></canvas>
         </div>
 
         <div id="blindCard" class="content-card">
             <div class="voice-hub">
                 <i class="fas fa-microphone-alt pulse-mic"></i>
-                <h2 style="color:var(--gold);">المساعد الذكي للمكفوفين</h2>
-                <p>النظام الآن في وضع الاستماع والتوجيه الصوتي الشامل لخدمتكم.</p>
+                <h2>المساعد الذكي للمكفوفين</h2>
+                <p>النظام الآن في وضع الاستماع الصوتي الشامل لخدمتكم.</p>
                 <button class="btn-action" onclick="speak()">تفعيل المساعد الصوتي</button>
             </div>
         </div>
@@ -163,38 +150,19 @@
         document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
         document.getElementById(id + 'Card').classList.add('active-card');
         el.classList.add('active');
-        if(id === 'judge') initChart();
-    }
-
-    function openSys(id) {
-        document.querySelectorAll('.sub-system').forEach(s => s.style.display = 'none');
-        document.getElementById(id).style.display = 'block';
     }
 
     function runAI() {
         const out = document.getElementById('aiOut');
         out.style.display = 'block';
-        out.innerHTML = "<b>المساعد الذكي:</b> تم رصد دعوى تعاقدية. يرجى إرفاق صورة العقد وقرار الرفض لضمان قبول الدعوى شكلاً.";
+        out.innerHTML = "<b>المساعد الذكي:</b> تم رصد دعوى إدارية. النواقص المرصودة: (صورة القرار المطعون فيه).";
     }
 
     function speak() {
         const synth = window.speechSynthesis;
-        const utter = new SpeechSynthesisUtterance("مرحباً بك في المساعد الذكي للمكفوفين بـمنظومة رواق العدل. كيف يمكنني مساعدتك اليوم؟");
+        const utter = new SpeechSynthesisUtterance("مرحباً بك في المساعد الذكي للمكفوفين. كيف يمكنني مساعدتك؟");
         utter.lang = 'ar-SA';
         synth.speak(utter);
-    }
-
-    function initChart() {
-        const ctx = document.getElementById('judgeChart').getContext('2d');
-        if(window.myChart) window.myChart.destroy();
-        window.myChart = new Chart(ctx, {
-            type: 'bar',
-            data: {
-                labels: ['منجز', 'نواقص', 'قيد الفرز'],
-                datasets: [{ data: [1820, 330, 450], backgroundColor: ['#D4AF37', '#ff4757', 'rgba(255,255,255,0.2)'] }]
-            },
-            options: { scales: { y: { ticks: { color: 'white' } }, x: { ticks: { color: 'white' } } } }
-        });
     }
 </script>
 </body>
