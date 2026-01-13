@@ -3,73 +3,49 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>منظومة رواق العدل | 2026</title>
+    <title>رواق العدل | منظومة السلامة الإجرائية الذكية</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Tajawal:wght@400;700;900&display=swap');
-        :root { --gold: #D4AF37; --green: #006C35; --glass: rgba(10, 10, 10, 0.8); }
+        :root { --gold: #D4AF37; --green: #006C35; --glass: rgba(10, 10, 10, 0.85); }
 
         body {
             font-family: 'Tajawal', sans-serif; margin: 0; min-height: 100vh;
-            background: linear-gradient(rgba(0,0,0,0.8), rgba(0,0,0,0.8)), 
-                        url('https://images.unsplash.com/photo-1505664194779-8beaceb93744?auto=format&fit=crop&w=1350&q=80'); /* خلفية مكتبة قضائية مهيبة */
-            background-size: cover; background-attachment: fixed; color: white; overflow-x: hidden;
+            background: linear-gradient(rgba(0,0,0,0.85), rgba(0,0,0,0.85)), 
+                        url('https://images.unsplash.com/photo-1505664194779-8beaceb93744?auto=format&fit=crop&w=1350&q=80');
+            background-size: cover; background-attachment: fixed; color: white;
         }
 
         .main-container {
-            max-width: 1200px; width: 95%; margin: 20px auto; 
+            max-width: 1250px; width: 95%; margin: 20px auto; 
             background: var(--glass); backdrop-filter: blur(25px); 
             border: 1px solid rgba(212,175,55,0.2); border-radius: 30px; 
             padding: 30px; box-shadow: 0 20px 60px rgba(0,0,0,1);
         }
 
-        /* نافيجيشن احترافي */
-        nav {
-            display: flex; justify-content: space-between; align-items: center; 
-            border-bottom: 2px solid var(--gold); padding-bottom: 20px; margin-bottom: 30px;
-        }
-
-        .nav-links button {
-            background: rgba(255,255,255,0.05); border: 1px solid var(--gold);
-            color: var(--gold); padding: 10px 20px; border-radius: 12px;
-            cursor: pointer; font-weight: 700; transition: 0.3s;
-        }
-
+        nav { display: flex; justify-content: space-between; align-items: center; border-bottom: 2px solid var(--gold); padding-bottom: 20px; margin-bottom: 30px; flex-wrap: wrap; gap: 15px; }
+        .nav-links button { background: rgba(255,255,255,0.05); border: 1px solid var(--gold); color: var(--gold); padding: 12px 20px; border-radius: 12px; cursor: pointer; font-weight: 700; transition: 0.3s; display: flex; align-items: center; gap: 8px; }
         .active-btn { background: var(--gold) !important; color: black !important; }
 
-        /* الأقسام */
         .section { display: none; animation: fadeIn 0.5s; }
         .show { display: block; }
 
-        /* واجهة القاضي - تصميم البطاقات */
-        .stats-grid {
-            display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); 
-            gap: 20px; margin-bottom: 30px;
-        }
-        .stat-card {
-            background: rgba(255,255,255,0.05); padding: 25px; border-radius: 20px;
-            text-align: center; border: 1px solid rgba(212, 175, 55, 0.2);
-            transition: 0.4s;
-        }
-        .stat-card:hover { transform: translateY(-10px); background: rgba(212,175,55,0.1); }
-        .stat-card h2 { font-size: 2.5rem; color: var(--gold); margin: 10px 0; }
+        /* واجهة القاضي - الإحصائيات */
+        .stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 20px; margin-bottom: 30px; }
+        .stat-card { background: rgba(255,255,255,0.05); padding: 25px; border-radius: 20px; text-align: center; border: 1px solid rgba(212, 175, 55, 0.2); }
+        .stat-card h2 { font-size: 2.2rem; color: var(--gold); margin: 10px 0; }
 
         /* واجهة المستخدم - التفاعل */
-        textarea {
-            width: 100%; height: 200px; background: rgba(0,0,0,0.5);
-            border: 1px solid #333; border-radius: 20px; color: white;
-            padding: 20px; font-size: 1.1rem; border-right: 8px solid var(--gold);
-        }
+        textarea { width: 100%; height: 220px; background: rgba(0,0,0,0.5); border: 1px solid #333; border-radius: 20px; color: white; padding: 20px; font-size: 1.1rem; border-right: 8px solid var(--gold); box-sizing: border-box; }
+        .btn-main { background: var(--gold); color: black; padding: 15px 35px; border-radius: 50px; border: none; font-weight: 900; cursor: pointer; margin-top: 15px; transition: 0.3s; font-size: 1.1rem; }
 
-        .btn-main {
-            background: var(--gold); color: black; padding: 15px 30px;
-            border-radius: 50px; border: none; font-weight: 900; cursor: pointer;
-            margin-top: 15px; transition: 0.3s;
-        }
+        /* خيارات إضافية احترافية */
+        .options-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px; margin-top: 30px; }
+        .option-box { background: rgba(0, 108, 53, 0.1); border: 1px solid var(--green); padding: 20px; border-radius: 20px; transition: 0.3s; }
+        .option-box:hover { background: rgba(0, 108, 53, 0.2); transform: scale(1.02); }
 
-        footer { text-align: center; padding: 30px; color: var(--gold); font-weight: 900; background: rgba(0,0,0,0.9); }
-
+        footer { text-align: center; padding: 30px; color: var(--gold); font-weight: 900; border-top: 1px solid #333; margin-top: 30px; }
         @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
     </style>
 </head>
@@ -82,83 +58,74 @@
             <h1 style="margin: 0; font-size: 1.8rem;">رواق العدل</h1>
         </div>
         <div class="nav-links">
-            <button id="userBtn" class="active-btn" onclick="openTab('user')">بوابة المتقاضي</button>
-            <button id="judgeBtn" onclick="requestJudgeAccess()">منصة القاضي 🔒</button>
-            <button onclick="openTab('settings')"><i class="fas fa-cog"></i></button>
+            <button id="userBtn" class="active-btn" onclick="openTab('user')"><i class="fas fa-user-edit"></i> بوابة المتقاضي</button>
+            <button id="judgeBtn" onclick="openTab('judge')"><i class="fas fa-gavel"></i> لوحة الفرز (القاضي)</button>
+            <button id="settingsBtn" onclick="openTab('settings')"><i class="fas fa-tools"></i> الإعدادات المتقدمة</button>
+            <button onclick="toggleLang()"><i class="fas fa-globe"></i> English</button>
         </div>
     </nav>
 
     <div id="userTab" class="section show">
-        <h2 style="color: var(--gold);">إيداع لائحة الدعوى</h2>
-        <p>استخدم المساعد الذكي لمراجعة متطلبات دعواك نظامياً قبل الإرسال.</p>
-        <textarea id="suitInput" placeholder="اكتبي تفاصيل دعواك هنا..."></textarea>
-        <div style="display: flex; gap: 10px;">
-            <button class="btn-main" onclick="runAI()"><i class="fas fa-microchip"></i> مراجعة فورية</button>
-            <button class="btn-main" style="background:var(--green); color:white;" onclick="speak()"><i class="fas fa-volume-up"></i> استماع</button>
+        <h2 style="color: var(--gold);"><i class="fas fa-file-contract"></i> تقديم ومراجعة الدعوى</h2>
+        <p>نظام "رواق العدل" يهدف لتحسين تجربة المستفيد عبر حلول ذكية ومستدامة.</p>
+        <textarea id="suitInput" placeholder="اكتبي تفاصيل دعواك هنا... (سيقوم الذكاء الاصطناعي بفحص السلامة الإجرائية فوراً)"></textarea>
+        <div style="display: flex; flex-wrap: wrap; gap: 10px;">
+            <button class="btn-main" onclick="runAI()"><i class="fas fa-robot"></i> تشغيل الفحص الذكي (NLP)</button>
+            <button class="btn-main" style="background:var(--green); color:white;" onclick="speak()"><i class="fas fa-volume-up"></i> استماع (للمكفوفين)</button>
+            <button class="btn-main" style="background:#444; color:white;" onclick="resetAll()"><i class="fas fa-undo"></i> إعادة تهيئة</button>
         </div>
         <div id="aiRes" style="display:none; margin-top:20px; padding:20px; background:rgba(212,175,55,0.1); border-radius:15px; border-right:6px solid var(--gold);">
             <p id="aiText"></p>
         </div>
+
+        <div class="options-grid">
+            <div class="option-box"><h4><i class="fas fa-shield-alt"></i> السلامة الإجرائية</h4><p>فحص تلقائي للمدد النظامية والبيانات الأساسية لضمان قبول الدعوى شكلاً.</p></div>
+            <div class="option-box"><h4><i class="fas fa-headset"></i> الدعم التفاعلي</h4><p>مساعد ذكي يوجهك خطوة بخطوة أثناء كتابة وقائع النزاع الإداري.</p></div>
+        </div>
     </div>
 
     <div id="judgeTab" class="section">
-        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
-            <h2 style="color: var(--gold);"><i class="fas fa-user-shield"></i> لوحة العمليات القضائية</h2>
-            <span style="color: #00ff00;"><i class="fas fa-shield-alt"></i> دخول آمن معتمد</span>
-        </div>
-        
+        <h2 style="color: var(--gold);"><i class="fas fa-chart-line"></i> مراقبة الفرز الذكي للدعاوى</h2>
         <div class="stats-grid">
             <div class="stat-card"><span>إجمالي الدعاوى</span><h2>2,150</h2></div>
             <div class="stat-card"><span>فرز آلي (AI)</span><h2>1,820</h2></div>
             <div class="stat-card"><span>بحاجة لمراجعة</span><h2 style="color:#ff4757;">330</h2></div>
-            <div class="stat-card"><span>زمن المعالجة</span><h2>0.7s</h2></div>
+            <div class="stat-card"><span>زمن المعالجة</span><h2>0.7 ثانية</h2></div>
         </div>
-
-        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-top: 20px;">
-            <div style="background: rgba(0,0,0,0.3); padding: 20px; border-radius: 20px;">
-                <canvas id="judgeChart"></canvas>
-            </div>
-            <div style="background: rgba(0,0,0,0.3); padding: 20px; border-radius: 20px;">
-                <h4 style="color: var(--gold);">سجل الفرز اللحظي</h4>
-                <div style="font-size: 0.9rem; padding: 10px; border-bottom: 1px solid #333;">دعوى #2026-X | <span style="color:#00ff00;">مقبولة تلقائياً</span></div>
-                <div style="font-size: 0.9rem; padding: 10px; border-bottom: 1px solid #333;">دعوى #2026-Y | <span style="color:#ff4757;">تنبيه: نقص مدد نظامية</span></div>
+        <div style="background: rgba(0,0,0,0.3); padding: 25px; border-radius: 20px; display: grid; grid-template-columns: 1fr 1fr; gap: 20px; align-items: center;">
+            <canvas id="judgeChart"></canvas>
+            <div>
+                <h4><i class="fas fa-list-ul"></i> آخر العمليات المنفذة:</h4>
+                <div style="padding:10px; border-bottom:1px solid #333;">دعوى #1023 | <span style="color:#00ff00;">مكتملة</span></div>
+                <div style="padding:10px; border-bottom:1px solid #333;">دعوى #1024 | <span style="color:#ff4757;">نقص بيانات</span></div>
+                <div style="padding:10px;">دعوى #1025 | <span style="color:var(--gold);">قيد التحليل</span></div>
             </div>
         </div>
     </div>
 
     <div id="settingsTab" class="section">
-        <h2>إعدادات المنظومة</h2>
-        <div style="background: rgba(255,255,255,0.05); padding: 20px; border-radius: 15px;">
-            <p>اللغة الأساسية: العربية</p>
-            <p>المساعد الصوتي: نشط</p>
-            <p>اتصال قاعدة البيانات: <span style="color: #00ff00;">مستقر</span></p>
+        <h2><i class="fas fa-cogs"></i> مركز التحكم والإعدادات</h2>
+        <div class="options-grid">
+            <div class="option-box"><span>تفعيل المساعد الصوتي</span><input type="checkbox" checked style="float:left;"></div>
+            <div class="option-box"><span>وضع القراءة الليلية</span><input type="checkbox" checked style="float:left;"></div>
+            <div class="option-box"><span>تنبيهات البريد الفوري</span><input type="checkbox" style="float:left;"></div>
+            <div class="option-box"><span>تحميل تقارير الإحصاء</span><button style="float:left;">PDF</button></div>
         </div>
     </div>
 </div>
 
 <footer>
-    جميع الحقوق محفوظة للمطورة روان الصبحي © 2026
+    جميع الحقوق محفوظة للمطورة روان الصبحي © 2026 | منظومة رواق العدل
 </footer>
 
 <script>
-    // نظام الدخول الآمن للقاضي
-    function requestJudgeAccess() {
-        const password = prompt("هذه المنطقة خاصة بالقضاة. يرجى إدخال كلمة المرور:");
-        if (password === "2026") {
-            openTab('judge');
-        } else {
-            alert("عذراً، كلمة المرور خاطئة. لا تملك صلاحية الوصول.");
-        }
-    }
-
     function openTab(name) {
         document.querySelectorAll('.section').forEach(s => s.classList.remove('show'));
         document.querySelectorAll('.nav-links button').forEach(b => b.classList.remove('active-btn'));
         document.getElementById(name + 'Tab').classList.add('show');
-        if(name !== 'judge') document.getElementById(name + 'Btn').classList.add('active-btn');
+        document.getElementById(name + 'Btn').classList.add('active-btn');
     }
 
-    // الرسم البياني للقاضي
     const ctx = document.getElementById('judgeChart').getContext('2d');
     new Chart(ctx, {
         type: 'doughnut',
@@ -172,14 +139,16 @@
     function runAI() {
         const res = document.getElementById('aiRes');
         res.style.display = 'block';
-        document.getElementById('aiText').innerHTML = "<i class='fas fa-sync fa-spin'></i> جاري التحليل... ✅ تم رصد الكيانات بنجاح.";
+        document.getElementById('aiText').innerHTML = "<i class='fas fa-sync fa-spin'></i> جاري تحليل الكيانات القانونية... ✅ تم رصد الجهة المدعى عليها (ديوان المظالم).";
     }
 
     function speak() {
-        const msg = new SpeechSynthesisUtterance(document.getElementById('suitInput').value || "اكتبي نصاً");
-        msg.lang = 'ar-SA';
-        window.speechSynthesis.speak(msg);
+        const msg = new SpeechSynthesisUtterance(document.getElementById('suitInput').value || "يرجى كتابة نص");
+        msg.lang = 'ar-SA'; window.speechSynthesis.speak(msg);
     }
+
+    function resetAll() { document.getElementById('suitInput').value = ""; document.getElementById('aiRes').style.display = 'none'; }
+    function toggleLang() { alert("Switching Language to English..."); }
 </script>
 
 </body>
