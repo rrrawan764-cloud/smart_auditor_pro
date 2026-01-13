@@ -13,78 +13,72 @@
             --gold: #D4AF37;
             --glass: rgba(255, 255, 255, 0.08);
             --border: rgba(255, 255, 255, 0.15);
-            --neon: 0 0 20px rgba(212, 175, 55, 0.4);
+            --neon: 0 0 25px rgba(212, 175, 55, 0.5);
         }
 
         body {
             font-family: 'Tajawal', sans-serif;
             margin: 0; min-height: 100vh; color: white;
-            background: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.7)), 
+            background: linear-gradient(rgba(0,0,0,0.75), rgba(0,0,0,0.75)), 
                         url('https://images.unsplash.com/photo-1589829545856-d10d557cf95f?auto=format&fit=crop&w=1920&q=80');
             background-size: cover; background-position: center; background-attachment: fixed;
             display: flex; flex-direction: column; align-items: center;
         }
 
-        .container { width: 95%; max-width: 1200px; margin-top: 25px; padding-bottom: 50px; }
+        .container { width: 95%; max-width: 1200px; margin-top: 20px; padding-bottom: 50px; }
 
         header {
             background: var(--glass); backdrop-filter: blur(20px); border: 1px solid var(--border);
-            border-radius: 30px; padding: 25px; text-align: center; margin-bottom: 25px; box-shadow: var(--neon);
+            border-radius: 30px; padding: 20px; text-align: center; margin-bottom: 25px; box-shadow: var(--neon);
         }
 
-        .logo-area i { font-size: 4rem; color: var(--gold); filter: drop-shadow(var(--neon)); }
-        h1 { font-size: 2.8rem; margin: 10px 0; font-weight: 900; }
+        .logo-area i { font-size: 3.5rem; color: var(--gold); filter: drop-shadow(var(--neon)); }
+        h1 { font-size: 2.5rem; margin: 10px 0; font-weight: 900; }
 
-        /* نافيجيشن شامل */
+        /* التنقل الرئيسي */
         .main-nav {
             display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; margin-bottom: 25px;
         }
         .nav-btn {
             background: var(--glass); border: 1px solid var(--border); color: white;
             padding: 15px 5px; border-radius: 20px; cursor: pointer; transition: 0.3s;
-            font-size: 0.9rem; font-weight: bold; display: flex; flex-direction: column; align-items: center; gap: 8px;
+            font-size: 0.95rem; font-weight: bold; display: flex; flex-direction: column; align-items: center; gap: 8px;
         }
         .nav-btn.active, .nav-btn:hover { background: var(--gold); color: black; box-shadow: var(--neon); }
 
         .panel {
             background: var(--glass); backdrop-filter: blur(25px); border: 1px solid var(--border);
-            border-radius: 35px; padding: 35px; display: none; animation: fadeIn 0.6s ease;
+            border-radius: 35px; padding: 30px; display: none; animation: fadeIn 0.6s ease;
         }
         .active-panel { display: block; }
 
-        /* شبكة الخدمات الشاملة */
-        .services-grid {
-            display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px;
-        }
+        /* شبكة الخدمات (الصفحة الرئيسية) */
+        .services-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px; }
         .service-card {
             background: rgba(255,255,255,0.05); border: 1px solid var(--border);
-            border-radius: 20px; padding: 25px; text-align: center; transition: 0.3s; cursor: pointer;
+            border-radius: 20px; padding: 25px; text-align: center; transition: 0.4s; cursor: pointer;
         }
-        .service-card:hover { transform: translateY(-10px); background: rgba(212, 175, 55, 0.1); border-color: var(--gold); }
+        .service-card:hover { transform: translateY(-10px); background: rgba(212, 175, 55, 0.15); border-color: var(--gold); }
         .service-card i { font-size: 2.5rem; color: var(--gold); margin-bottom: 15px; }
 
-        /* المتقاضي والأتمتة */
+        /* تنسيق الجداول والقوائم داخل الأقسام */
+        .data-table { width: 100%; border-collapse: collapse; margin-top: 15px; }
+        .data-table th, .data-table td { padding: 15px; border-bottom: 1px solid var(--border); text-align: right; }
+        .data-table th { color: var(--gold); }
+        
+        .status-badge { padding: 5px 12px; border-radius: 20px; font-size: 0.8rem; font-weight: bold; }
+        .status-green { background: #00c851; color: white; }
+        .status-gold { background: var(--gold); color: black; }
+
+        /* المتقاضي (الأتمتة) */
         textarea {
-            width: 100%; height: 180px; background: rgba(0,0,0,0.4); border: 1px solid var(--border);
-            border-radius: 20px; color: white; padding: 20px; font-size: 1.1rem; border-right: 8px solid var(--gold);
-            outline: none; box-sizing: border-box;
+            width: 100%; height: 160px; background: rgba(0,0,0,0.4); border: 1px solid var(--border);
+            border-radius: 20px; color: white; padding: 20px; font-size: 1.1rem; border-right: 8px solid var(--gold); outline: none; box-sizing: border-box;
         }
-        .auto-result {
-            display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px;
-            margin-top: 25px; display: none; padding-top: 25px; border-top: 1px solid var(--border);
-        }
-        .res-box { background: rgba(0,0,0,0.3); padding: 15px; border-radius: 15px; border: 1px solid var(--border); }
-        .res-box label { color: var(--gold); font-size: 0.8rem; display: block; }
-
-        .btn-gold { width: 100%; padding: 18px; border-radius: 50px; border: none; font-weight: 900; font-size: 1.2rem; cursor: pointer; background: var(--gold); margin-top: 15px; transition: 0.3s; }
-        .btn-green { background: #006C35; color: white; }
-
-        /* القاضي */
-        .stats-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 15px; margin-bottom: 25px; }
-        .stat-item { background: rgba(0,0,0,0.3); padding: 20px; border-radius: 20px; text-align: center; border: 1px solid var(--gold); }
+        .btn-action { width: 100%; padding: 18px; border-radius: 50px; border: none; font-weight: 900; font-size: 1.2rem; cursor: pointer; background: var(--gold); margin-top: 15px; transition: 0.3s; }
 
         @keyframes fadeIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
-        footer { text-align: center; padding: 40px; color: var(--gold); font-weight: 900; }
+        footer { text-align: center; padding: 40px; color: var(--gold); font-weight: 900; opacity: 0.8; }
     </style>
 </head>
 <body>
@@ -93,68 +87,108 @@
     <header>
         <div class="logo-area"><i class="fas fa-balance-scale"></i></div>
         <h1>رواق العدل</h1>
-        <p style="letter-spacing: 3px; color: var(--gold);">المنصة الرقمية الشاملة لديوان المظالم</p>
+        <p style="letter-spacing: 3px; color: var(--gold);">نظام الأتمتة الإجرائية المتكامل</p>
     </header>
 
     <nav class="main-nav">
-        <button class="nav-btn active" onclick="showTab('main', this)"><i class="fas fa-grid-2"></i> الخدمات</button>
-        <button class="nav-btn" onclick="showTab('litigant', this)"><i class="fas fa-user-edit"></i> المتقاضي</button>
-        <button class="nav-btn" onclick="showTab('judge', this)"><i class="fas fa-gavel"></i> القاضي</button>
-        <button class="nav-btn" onclick="showTab('search', this)"><i class="fas fa-search"></i> استعلام</button>
+        <button class="nav-btn active" onclick="showTab('main', this)"><i class="fas fa-home"></i> الرئيسية</button>
+        <button class="nav-btn" onclick="showTab('litigant', this)"><i class="fas fa-file-invoice"></i> إيداع دعوى</button>
+        <button class="nav-btn" onclick="showTab('judge', this)"><i class="fas fa-user-judge"></i> منصة القاضي</button>
+        <button class="nav-btn" onclick="showTab('library', this)"><i class="fas fa-book"></i> المكتبة الرقمية</button>
     </nav>
 
     <div id="mainPanel" class="panel active-panel">
-        <h2 style="color:var(--gold); margin-bottom:25px;"><i class="fas fa-stars"></i> دليل الخدمات الذكي</h2>
+        <h2 style="color:var(--gold);"><i class="fas fa-star"></i> مركز الخدمات الشامل</h2>
         <div class="services-grid">
-            <div class="service-card" onclick="showTab('litigant')"><i class="fas fa-file-signature"></i><h4>إيداع دعوى ذكي</h4><p>تحليل آلي وتعبئة فورية.</p></div>
-            <div class="service-card"><i class="fas fa-calendar-alt"></i><h4>إدارة المواعيد</h4><p>حجز الجلسات الرقمية.</p></div>
-            <div class="service-card"><i class="fas fa-envelope-open-text"></i><h4>تبادل المذكرات</h4><p>رفع الدفوع الجوابية آلياً.</p></div>
-            <div class="service-card"><i class="fas fa-book-reader"></i><h4>المكتبة الرقمية</h4><p>أرشيف الأحكام والمبادئ.</p></div>
-            <div class="service-card"><i class="fas fa-robot"></i><h4>المستشار الآلي</h4><p>دعم قانوني بالذكاء الاصطناعي.</p></div>
-            <div class="service-card"><i class="fas fa-fingerprint"></i><h4>التصديق الرقمي</h4><p>توثيق الأحكام إلكترونياً.</p></div>
+            <div class="service-card" onclick="showTab('litigant')"><i class="fas fa-pen-nib"></i><h4>إيداع دعوى ذكي</h4><p>تحليل آلي للوقائع.</p></div>
+            <div class="service-card" onclick="showTab('calendar')"><i class="fas fa-calendar-check"></i><h4>المواعيد الرقمية</h4><p>جلسات التقاضي عن بُعد.</p></div>
+            <div class="service-card" onclick="showTab('exchange')"><i class="fas fa-exchange-alt"></i><h4>تبادل المذكرات</h4><p>رفع الدفوع والردود.</p></div>
+            <div class="service-card" onclick="showTab('library')"><i class="fas fa-scroll"></i><h4>الأحكام الرقمية</h4><p>أرشيف القضايا المنجزة.</p></div>
         </div>
     </div>
 
     <div id="litigantPanel" class="panel">
-        <h2 style="color:var(--gold);"><i class="fas fa-microchip"></i> بوابة الإيداع والأتمتة</h2>
-        <textarea id="suitInput" placeholder="اكتبي وقائع الدعوى هنا ليقوم النظام بتحليلها..."></textarea>
-        <button class="btn-gold" onclick="analyzeAction()"><i class="fas fa-wand-magic-sparkles"></i> تحليل وأتمتة البيانات</button>
-        <button class="btn-gold btn-green" onclick="voiceAction()"><i class="fas fa-volume-up"></i> مساعد المكفوفين</button>
+        <h2 style="color:var(--gold);"><i class="fas fa-magic"></i> إيداع ذكي بالأتمتة</h2>
+        <textarea id="suitInput" placeholder="اكتبي وقائع السابقة القضائية هنا لتحليلها وتعبئة البيانات..."></textarea>
+        <button class="btn-action" onclick="analyzeSuit()"><i class="fas fa-brain"></i> تشغيل محرك الأتمتة</button>
 
-        <div id="autoFields" class="auto-result">
-            <div class="res-box"><label>نوع الدعوى</label><div id="tCase">-</div></div>
-            <div class="res-box"><label>المحكمة المختصة</label><div id="tCourt">-</div></div>
-            <div class="res-box"><label>الجهة المدعى عليها</label><div id="tDef">-</div></div>
-            <div id="missingAlert" style="grid-column: 1 / -1; background:rgba(212,175,55,0.15); border:1px dashed var(--gold); padding:20px; border-radius:15px; text-align:center; display:none;">
-                <h4 style="margin:0; color:var(--gold);"><i class="fas fa-exclamation-circle"></i> تنبيه النواقص:</h4>
-                <p id="missingMsg" style="font-size:0.9rem; margin-top:10px;"></p>
-                <button class="btn-gold" style="width:auto; padding:10px 30px; font-size:1rem;">إرفاق الآن</button>
+        <div id="resForm" style="display:none; margin-top:30px; border-top:1px solid var(--border); padding-top:20px;">
+            <div style="display:grid; grid-template-columns:1fr 1fr; gap:15px;">
+                <div style="background:rgba(0,0,0,0.3); padding:15px; border-radius:15px;">
+                    <label style="color:var(--gold); font-size:0.8rem;">المحكمة المختصة</label>
+                    <div id="rCourt" style="font-weight:bold;">-</div>
+                </div>
+                <div style="background:rgba(0,0,0,0.3); padding:15px; border-radius:15px;">
+                    <label style="color:var(--gold); font-size:0.8rem;">نوع الدعوى</label>
+                    <div id="rType" style="font-weight:bold;">-</div>
+                </div>
+            </div>
+            <div id="missingDocs" style="margin-top:20px; background:rgba(212,175,55,0.1); border:1px dashed var(--gold); padding:20px; border-radius:15px; text-align:center; display:none;">
+                <h4 style="margin:0; color:var(--gold);">⚠️ رصد نقص إجرائي:</h4>
+                <p id="missingMsg" style="font-size:0.9rem; margin:10px 0;"></p>
+                <button class="btn-action" style="width:auto; padding:8px 30px; font-size:1rem;">إرفاق الأوراق الناقصة</button>
             </div>
         </div>
     </div>
 
     <div id="judgePanel" class="panel">
-        <h2 style="color:var(--gold);"><i class="fas fa-tachometer-alt"></i> منصة الرقابة والفرز</h2>
-        <div class="stats-grid">
-            <div class="stat-item"><span>إجمالي القضايا</span><h3 style="color:var(--gold);">2,150</h3></div>
-            <div class="stat-item"><span>مكتملة آلياً</span><h3 style="color:#00c851;">1,820</h3></div>
+        <h2 style="color:var(--gold);"><i class="fas fa-tachometer-alt"></i> لوحة الرقابة والفرز الآلي</h2>
+        <div style="display:grid; grid-template-columns:repeat(3, 1fr); gap:15px; margin-bottom:30px;">
+            <div style="background:rgba(0,0,0,0.4); padding:20px; border-radius:20px; text-align:center; border:1px solid var(--gold);">
+                <small>إجمالي المعاملات</small><h3>2,150</h3>
+            </div>
+            <div style="background:rgba(0,0,0,0.4); padding:20px; border-radius:20px; text-align:center; border:1px solid #00c851;">
+                <small>مفروزة آلياً</small><h3>1,820</h3>
+            </div>
+            <div style="background:rgba(0,0,0,0.4); padding:20px; border-radius:20px; text-align:center; border:1px solid #ff4757;">
+                <small>بانتظار المرفقات</small><h3>330</h3>
+            </div>
         </div>
-        <div style="background:rgba(0,0,0,0.4); padding:20px; border-radius:25px;">
-            <canvas id="judgeChart"></canvas>
-        </div>
+        <canvas id="judgeChart" style="max-height: 300px;"></canvas>
     </div>
 
-    <div id="searchPanel" class="panel">
-        <h2 style="color:var(--gold);"><i class="fas fa-search"></i> استعلام عن قضية</h2>
-        <div style="display:flex; gap:10px;">
-            <input type="text" placeholder="رقم المعاملة..." style="flex:1; padding:15px; border-radius:15px; border:1px solid var(--border); background:rgba(0,0,0,0.5); color:white;">
-            <button class="btn-gold" style="width:auto; margin:0; padding:0 40px;">بحث</button>
+    <div id="calendarPanel" class="panel">
+        <h2 style="color:var(--gold);"><i class="fas fa-calendar-alt"></i> جدول الجلسات الرقمية</h2>
+        <table class="data-table">
+            <thead>
+                <tr><th>رقم الدعوى</th><th>تاريخ الجلسة</th><th>المحكمة</th><th>الحالة</th></tr>
+            </thead>
+            <tbody>
+                <tr><td>45012</td><td>2026/02/10</td><td>المحكمة الإدارية</td><td><span class="status-badge status-gold">مجدولة</span></td></tr>
+                <tr><td>45015</td><td>2026/02/15</td><td>محكمة الاستئناف</td><td><span class="status-badge status-gold">مجدولة</span></td></tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div id="exchangePanel" class="panel">
+        <h2 style="color:var(--gold);"><i class="fas fa-file-export"></i> مركز تبادل المذكرات</h2>
+        <table class="data-table">
+            <thead>
+                <tr><th>المذكرة</th><th>تاريخ الرفع</th><th>المستلم</th><th>الإجراء</th></tr>
+            </thead>
+            <tbody>
+                <tr><td>مذكرة جوابية #1</td><td>2026/01/12</td><td>الدائرة الرابعة</td><td><button class="status-badge status-green">عرض</button></td></tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div id="libraryPanel" class="panel">
+        <h2 style="color:var(--gold);"><i class="fas fa-university"></i> مدونة الأحكام والمبادئ القضائية</h2>
+        <div style="display:grid; gap:10px;">
+            <div style="background:rgba(255,255,255,0.05); padding:15px; border-radius:15px;">
+                <h4>- مبدأ: عدم قبول الدعوى في حال فوات مواعيد التظلم.</h4>
+                <p style="font-size:0.8rem; opacity:0.7;">رقم الحكم: 8821/ق | تاريخ: 1445هـ</p>
+            </div>
+            <div style="background:rgba(255,255,255,0.05); padding:15px; border-radius:15px;">
+                <h4>- مبدأ: اختصاص المحاكم الإدارية بنظر عقود الاستثمار.</h4>
+                <p style="font-size:0.8rem; opacity:0.7;">رقم الحكم: 9011/ق | تاريخ: 1446هـ</p>
+            </div>
         </div>
     </div>
 
 </div>
 
-<footer>جميع الحقوق محفوظة للمطورة روان الصبحي © 2026</footer>
+<footer>جميع الحقوق محفوظة للمطورة روان الصبحي © 2026 | رواق العدل</footer>
 
 <script>
     function showTab(id, btn) {
@@ -165,32 +199,25 @@
         if(id === 'judge') initChart();
     }
 
-    function analyzeAction() {
+    function analyzeSuit() {
         const text = document.getElementById('suitInput').value;
         if(!text) return alert("يرجى كتابة الوقائع");
-        const fields = document.getElementById('autoFields');
-        const alertBox = document.getElementById('missingAlert');
-        fields.style.display = 'grid';
+        
+        document.getElementById('resForm').style.display = 'block';
+        const alertBox = document.getElementById('missingDocs');
 
         setTimeout(() => {
             if(text.includes("عقد") || text.includes("فسخ")) {
-                document.getElementById('tCase').innerText = "عقود إدارية";
-                document.getElementById('tCourt').innerText = "المحكمة الإدارية بجدة";
+                document.getElementById('rType').innerText = "عقود إدارية";
+                document.getElementById('rCourt').innerText = "المحكمة الإدارية بجدة";
                 alertBox.style.display = 'block';
-                document.getElementById('missingMsg').innerText = "تم رصد دعوى عقد: يرجى إرفاق (صورة العقد) و (قرار الرفض).";
+                document.getElementById('missingMsg').innerText = "بناءً على الوقائع، النظام يطلب: (صورة العقد) و (قرار رفض التظلم).";
             } else {
-                document.getElementById('tCase').innerText = "إلغاء قرار";
-                document.getElementById('tCourt').innerText = "المحكمة الإدارية بالرياض";
+                document.getElementById('rType').innerText = "إلغاء قرار";
+                document.getElementById('rCourt').innerText = "المحكمة الإدارية بالرياض";
                 alertBox.style.display = 'none';
             }
-            document.getElementById('tDef').innerText = text.includes("الموارد") ? "وزارة الموارد البشرية" : "جهة حكومية";
         }, 800);
-    }
-
-    function voiceAction() {
-        const speech = new SpeechSynthesisUtterance(document.getElementById('suitInput').value || "يرجى الكتابة");
-        speech.lang = 'ar-SA';
-        window.speechSynthesis.speak(speech);
     }
 
     function initChart() {
@@ -199,7 +226,7 @@
         window.myChart = new Chart(ctx, {
             type: 'doughnut',
             data: {
-                labels: ['مكتملة', 'مراجعة'],
+                labels: ['مكتملة آلياً', 'نقص مرفقات'],
                 datasets: [{
                     data: [1820, 330],
                     backgroundColor: ['#D4AF37', 'rgba(255,255,255,0.1)'],
