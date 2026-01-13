@@ -36,7 +36,8 @@
     }
 
     .brand{display:flex; gap:12px; align-items:center}
-    .logo{width:64px; height:64px; border-radius:12px; background:linear-gradient(180deg,var(--gold), #b28627); color:#071018; display:flex; align-items:center; justify-content:center; font-weight:900; font-size:28px}
+    /* logo container now holds an SVG emblem (ميزان + سيفين + نخلة) */
+    .logo{width:64px; height:64px; border-radius:12px; background:linear-gradient(180deg,var(--gold), #b28627); color:#071018; display:flex; align-items:center; justify-content:center; font-weight:900; font-size:28px; cursor:pointer; position:relative; overflow:visible}
     .brand h1{margin:0; font-size:18px; color:var(--gold)}
     .brand p{margin:0; font-size:12px; color:var(--muted)}
 
@@ -87,6 +88,21 @@
     /* Accessibility helpers */
     .sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
 
+    /* Logo SVG styling + animations */
+    .logo svg{width:56px;height:56px; display:block}
+    .logo .scale-beam, .logo .sword, .logo .palm { transform-origin: 50% 50%; transition: transform 350ms ease-in-out; }
+    /* tilt animation applied when auditing */
+    .logo.tilt .scale-beam { transform: rotate(-8deg); }
+    .logo.tilt .left-pan { transform: translateY(6px) rotate(-6deg); }
+    .logo.tilt .right-pan { transform: translateY(-6px) rotate(6deg); }
+    .logo:hover { transform: translateY(-3px); transition: transform 220ms ease; box-shadow:0 8px 24px rgba(0,0,0,0.35) }
+
+    /* Modal */
+    .modal-backdrop{position:fixed; inset:0; background:rgba(0,0,0,0.6); display:flex; align-items:center; justify-content:center; z-index:1000}
+    .modal{background:#071018; border-radius:12px; padding:18px; width:min(720px,94%); color:#fff; border:1px solid rgba(255,255,255,0.04)}
+    .modal h4{margin:0 0 10px 0; color:var(--gold)}
+    .modal .close{background:transparent;border:1px solid rgba(255,255,255,0.06); color:var(--muted); padding:6px 10px; border-radius:8px; cursor:pointer}
+
     /* Responsiveness */
     @media (max-width:1100px){
       .grid{grid-template-columns: 1fr}
@@ -100,7 +116,50 @@
     <!-- LEFT SIDEBAR -->
     <aside class="sidebar" aria-label="القائمة الرئيسية">
       <div class="brand" aria-hidden="true">
-        <div class="logo">ر</div>
+        <!-- شعار تفاعلي: ميزان أمام نخلة مع سيفين خلفيّن -->
+        <div class="logo" id="brandLogo" role="img" aria-label="شعار رواق العدل — ميزان مع سيفين ونخلة" tabindex="0" title="رواق العدل — انقر للمزيد">
+          <svg viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false">
+            <!-- خلفية النخلة -->
+            <g class="palm" transform="translate(32,12)">
+              <path d="M0 10 C6 2, 12 2, 18 8" stroke="#2b6e2b" stroke-width="2" fill="none" transform="translate(-18,0) rotate(-18)"/>
+              <path d="M0 10 C-6 2, -12 2, -18 8" stroke="#2b6e2b" stroke-width="2" fill="none" transform="translate(18,0) rotate(18)"/>
+              <rect x="-2" y="10" width="4" height="12" rx="1" fill="#8b5a2b" transform="translate(0,0)"/>
+            </g>
+
+            <!-- سيفان متقاطعين خلف الميزان -->
+            <g class="swords" transform="translate(32,34)">
+              <g class="sword" transform="rotate(40)">
+                <rect x="-1" y="-22" width="2" height="30" rx="0.6" fill="#cfcfcf" />
+                <polygon points="-3,-22 3,-22 0,-26" fill="#cfcfcf"/>
+                <rect x="-3" y="8" width="6" height="3" rx="0.6" fill="#b8860b"/>
+              </g>
+              <g class="sword" transform="rotate(-40)">
+                <rect x="-1" y="-22" width="2" height="30" rx="0.6" fill="#cfcfcf" />
+                <polygon points="-3,-22 3,-22 0,-26" fill="#cfcfcf"/>
+                <rect x="-3" y="8" width="6" height="3" rx="0.6" fill="#b8860b"/>
+              </g>
+            </g>
+
+            <!-- عمود الميزان -->
+            <g transform="translate(32,18)">
+              <rect x="-1.5" y="-2" width="3" height="28" rx="1" fill="#cfcfcf"/>
+              <!-- شعاع الميزان -->
+              <g class="scale-beam" transform="translate(0,4)">
+                <rect x="-14" y="-1.2" width="28" height="2.6" rx="1" fill="#cfcfcf"/>
+                <!-- مركز التعليق -->
+                <circle cx="0" cy="-6" r="2" fill="#cfcfcf"/>
+                <!-- أوعية الميزان اليمنى واليسرى -->
+                <g class="left-pan" transform="translate(-10,8)">
+                  <ellipse rx="5.5" ry="2.6" fill="#e7d9b3" />
+                </g>
+                <g class="right-pan" transform="translate(10,8)">
+                  <ellipse rx="5.5" ry="2.6" fill="#e7d9b3" />
+                </g>
+              </g>
+            </g>
+          </svg>
+        </div>
+
         <div>
           <h1>رواق العدل</h1>
           <p>منصة قضائية ذكية — أمان، وصول، وكفاءة</p>
@@ -113,7 +172,7 @@
         <div class="item" data-panel="judge"><span class="ico"><i class="fa-solid fa-balance-scale"></i></span>منصة القاضي</div>
         <div class="item" data-panel="access"><span class="ico"><i class="fa-solid fa-universal-access"></i></span>الوصول & المكفوفين</div>
         <div class="item" data-panel="security"><span class="ico"><i class="fa-solid fa-shield"></i></span>الأمن والامتثال</div>
-        <div class="item" data-panel="settings"><span class="ico"><i class="fa-solid fa-gear"></i></span>إعدادات</div>
+        <div class="item" data-panel="settings"><span class="ico"><i class="fa-solid fa-gear"></i></span>إعد��دات</div>
       </nav>
 
       <div class="badge">مؤسسة • موثّقة • جاهزة للإنتاج</div>
@@ -248,7 +307,7 @@
         <!-- RIGHT: Quick actions & system info -->
         <aside class="right">
           <div class="card">
-            <h3>إجراءات سريعة</h3>
+            <h3>��جراءات سريعة</h3>
             <div class="quick-list" style="margin-top:10px">
               <button onclick="quickAction('new_case')"><i class="fa-solid fa-plus" style="margin-left:8px"></i>قيد دعوى جديدة</button>
               <button onclick="quickAction('query')"><i class="fa-solid fa-search" style="margin-left:8px"></i>استعلام موحد</button>
@@ -274,8 +333,43 @@
     </main>
   </div>
 
+  <!-- About Modal (shows on logo click) -->
+  <div id="aboutModalBackdrop" class="modal-backdrop" hidden>
+    <div class="modal" role="dialog" aria-modal="true" aria-labelledby="aboutTitle">
+      <h4 id="aboutTitle">عن رواق العدل</h4>
+      <p>رواق العدل — منظومة قضائية متكاملة مدعومة بالذكاء الاصطناعي (AI)، تدعم OCR، TTS/STT، توقيع PKI، وأدوات وصول شاملة للمستخدمين ذوي الاحتياجات. صممت لتلبية متطلبات المؤسسات القضائية بدرجة أمان ومصداقية عالية.</p>
+      <div style="display:flex; gap:8px; justify-content:flex-end; margin-top:12px">
+        <button class="close" id="aboutClose">إغلاق</button>
+      </div>
+    </div>
+  </div>
+
   <script>
-    /* ---------- واجهة تفاعلية خفيفة ---------- */
+    /* ---------- واجهة تفاعلية محدثة: شعار تفاعلي + تحريك الميزان ---------- */
+    const brandLogo = document.getElementById('brandLogo');
+    const aboutBackdrop = document.getElementById('aboutModalBackdrop');
+    const aboutClose = document.getElementById('aboutClose');
+
+    // فتح/إغلاق مودال "عن المنصة" عند النقر أو الضغط على Enter
+    function openAboutModal(){
+      aboutBackdrop.hidden = false;
+      aboutBackdrop.querySelector('.modal').focus();
+    }
+    function closeAboutModal(){
+      aboutBackdrop.hidden = true;
+    }
+    brandLogo.addEventListener('click', openAboutModal);
+    brandLogo.addEventListener('keydown', (e) => { if(e.key === 'Enter' || e.key === ' ') { e.preventDefault(); openAboutModal(); }});
+    aboutClose.addEventListener('click', closeAboutModal);
+    aboutBackdrop.addEventListener('click', (e) => { if(e.target === aboutBackdrop) closeAboutModal(); });
+
+    // animate scale when audit runs: add class 'tilt' briefly
+    function animateScale(){
+      brandLogo.classList.add('tilt');
+      setTimeout(()=> brandLogo.classList.remove('tilt'), 1200);
+    }
+
+    /* ---------- واجهة تفاعلية خفيفة لباقي الأزرار ---------- */
     // panel navigation
     document.querySelectorAll('.nav .item').forEach(btn=>{
       btn.addEventListener('click', ()=> {
@@ -285,8 +379,6 @@
         document.querySelectorAll('section[id]').forEach(sec=>{
           sec.hidden = sec.id !== target;
         });
-        // show auditor by default if none
-        if(!target) document.getElementById('auditor').hidden = false;
       });
     });
 
@@ -321,14 +413,15 @@
 
     /* ---------- AI / OCR / TTS placeholders ---------- */
     async function triggerAudit(){
+      // animate emblem for immediate visual feedback
+      animateScale();
+
       const text = document.getElementById('facts').value.trim();
       const result = document.getElementById('auditResult');
       result.hidden = false;
       result.innerHTML = '<strong>جارٍ التحليل بواسطة AI...</strong>';
 
       // TODO: استبدال هذا الجزء باستدعاء آمن إلى الخادم (server-side)
-      // مثال (server-side):
-      // POST /api/audit { text, files, lang } -> backend calls AI provider (OpenAI/Azure/Local) and returns analysis
       await new Promise(r=>setTimeout(r, 900)); // محاكاة زمن استجابة
 
       // نموذج نتيجة
