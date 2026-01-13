@@ -3,596 +3,382 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>رواق العدل — منصة قضائية ذكية</title>
+  <title>رواق العدل — منظومة قضائية متكاملة ومدعومة بالذكاء الاصطناعي</title>
 
-  <!-- خط عربي عصري -->
-  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700&display=swap" rel="stylesheet">
+  <!-- خطوط وأيقونات -->
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
-  <link rel="stylesheet" href="styles.css">
+  <meta name="author" content="روان الصبحي">
+  <meta name="copyright" content="© 2026 روان الصبحي — جميع الحقوق محفوظة">
+  <meta name="description" content="رواق العدل — منصة قضائية ذكية، آمنة، وشاملة تدعم AI, OCR, TTS/STT, e-Signature, PKI وواجهات وصول متقدمة.">
+
+  <style>
+    :root{
+      --bg:#061021;
+      --card: rgba(255,255,255,0.03);
+      --glass: rgba(255,255,255,0.04);
+      --gold: #D4AF37;
+      --emerald: #125233;
+      --muted: rgba(255,255,255,0.7);
+      --radius:18px;
+    }
+    *{box-sizing:border-box}
+    html,body{height:100%; margin:0; font-family:'Cairo',sans-serif; color:#edf2f7; background:linear-gradient(180deg, rgba(2,6,23,0.85), rgba(4,10,20,0.9)); -webkit-font-smoothing:antialiased}
+    a{color:var(--gold); text-decoration:none}
+
+    /* App layout */
+    .wrap{display:flex; gap:20px; padding:28px; align-items:flex-start; min-height:100vh}
+    aside.sidebar{
+      width:320px; background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+      border-radius:16px; padding:20px; border-left:4px solid rgba(255,255,255,0.02);
+      display:flex; flex-direction:column; gap:16px; backdrop-filter: blur(8px);
+    }
+
+    .brand{display:flex; gap:12px; align-items:center}
+    .logo{width:64px; height:64px; border-radius:12px; background:linear-gradient(180deg,var(--gold), #b28627); color:#071018; display:flex; align-items:center; justify-content:center; font-weight:900; font-size:28px}
+    .brand h1{margin:0; font-size:18px; color:var(--gold)}
+    .brand p{margin:0; font-size:12px; color:var(--muted)}
+
+    nav.nav{display:flex; flex-direction:column; gap:8px}
+    .nav .item{display:flex; gap:10px; align-items:center; padding:10px; border-radius:10px; cursor:pointer; color:var(--muted); background:transparent; border:none}
+    .nav .item.active{background:linear-gradient(90deg, rgba(212,175,55,0.08), rgba(255,255,255,0.01)); color:#071018; border-left:4px solid var(--gold)}
+    .nav .ico{width:36px; height:36px; display:flex; align-items:center; justify-content:center; background:rgba(255,255,255,0.02); border-radius:8px}
+
+    .sidebar .badge{font-size:12px; color:var(--gold); text-align:center}
+    .sidebar .rights{font-size:12px; color:var(--muted); text-align:center}
+
+    main{flex:1; display:flex; flex-direction:column; gap:16px}
+
+    /* Hero area: authoritative look */
+    .hero{
+      background:linear-gradient(180deg, rgba(10,12,20,0.5), rgba(0,0,0,0.6));
+      border-radius:16px; padding:22px; display:flex; justify-content:space-between; align-items:center; gap:20px; box-shadow:0 10px 40px rgba(0,0,0,0.6)
+    }
+    .hero .title{max-width:65%}
+    .hero h2{margin:0; font-size:28px; color:var(--gold)}
+    .hero p{margin:8px 0 0 0; color:var(--muted); font-size:14px}
+    .hero .cta{display:flex; gap:10px; align-items:center}
+    .btn{background:var(--gold); color:#071018; padding:12px 18px; border-radius:12px; border:none; font-weight:700; cursor:pointer}
+    .btn.secondary{background:transparent; border:1px solid rgba(255,255,255,0.06); color:var(--muted)}
+
+    /* Grid: main panels + right column */
+    .grid{display:grid; grid-template-columns: 1fr 360px; gap:18px; margin-top:6px}
+
+    .card{background:var(--card); padding:16px; border-radius:14px; border:1px solid rgba(255,255,255,0.02)}
+    .panel h3{margin:0; color:var(--gold)}
+
+    /* Feature tiles */
+    .features{display:grid; grid-template-columns: repeat(auto-fit,minmax(180px,1fr)); gap:12px; margin-top:12px}
+    .feature{padding:12px; border-radius:12px; background:rgba(255,255,255,0.02); text-align:right}
+    .feature h4{margin:6px 0; color:#fff}
+    .feature p{margin:0; font-size:13px; color:var(--muted)}
+
+    /* Auditor */
+    .auditor textarea{width:100%; min-height:160px; background:rgba(0,0,0,0.45); border-radius:12px; padding:12px; border:1px solid rgba(255,255,255,0.03); color:#fff; resize:vertical}
+    .auditor .actions{display:flex; gap:10px; margin-top:12px; align-items:center}
+    .result{margin-top:12px; background:rgba(212,175,55,0.06); padding:12px; border-radius:10px; border:1px solid rgba(212,175,55,0.12); color:#fff}
+
+    /* Right column */
+    aside.right{display:flex; flex-direction:column; gap:12px}
+    .quick-list{display:flex; flex-direction:column; gap:10px}
+    .quick-list button{padding:12px; border-radius:10px; border:none; cursor:pointer; background:rgba(255,255,255,0.03); color:var(--muted)}
+
+    /* Accessibility helpers */
+    .sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
+
+    /* Responsiveness */
+    @media (max-width:1100px){
+      .grid{grid-template-columns: 1fr}
+      aside.sidebar{width:100%}
+      .wrap{flex-direction:column; padding:16px}
+    }
+  </style>
 </head>
 <body>
-  <div class="cinematic-bg" aria-hidden="true">
-    <!-- خلفية سينمائية مع عنصر ميزان كـ SVG -->
-    <svg class="bg-scale" viewBox="0 0 1000 600" preserveAspectRatio="xMidYMid slice">
-      <defs>
-        <linearGradient id="goldGrad" x1="0" x2="1" y1="0" y2="1">
-          <stop offset="0%" stop-color="#D4AF37" stop-opacity="0.45" />
-          <stop offset="100%" stop-color="#b28627" stop-opacity="0.35" />
-        </linearGradient>
-      </defs>
-      <!-- لمسة فنية لميزان -->
-      <g transform="translate(50,20)" opacity="0.08" fill="url(#goldGrad)">
-        <path d="M450 30 L470 30 L470 300 L450 300 Z" />
-        <path d="M350 80 C430 20, 570 20, 650 80 L630 110 C560 60, 440 60, 370 110 Z" />
-        <!-- أوعية الميزان -->
-        <circle cx="340" cy="210" r="50" />
-        <circle cx="560" cy="210" r="50" />
-      </g>
-      <!-- ضباب ناعم -->
-      <rect width="100%" height="100%" fill="rgba(10,10,10,0.35)"/>
-    </svg>
-  </div>
-
-  <div class="app-shell">
-    <!-- Sidebar -->
-    <aside class="sidebar" role="navigation" aria-label="القائمة الرئيسية">
-      <div class="brand">
-        <div class="logo-glass">
-          <div class="logo-icon">ر</div>
+  <div class="wrap" role="application" aria-label="منظومة رواق العدل">
+    <!-- LEFT SIDEBAR -->
+    <aside class="sidebar" aria-label="القائمة الرئيسية">
+      <div class="brand" aria-hidden="true">
+        <div class="logo">ر</div>
+        <div>
+          <h1>رواق العدل</h1>
+          <p>منصة قضائية ذكية — أمان، وصول، وكفاءة</p>
         </div>
-        <h1>رواق العدل</h1>
       </div>
 
-      <nav class="nav-list">
-        <button class="nav-item active" aria-pressed="true" data-panel="auditor">
-          <!-- AI Auditor Icon -->
-          <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M12 2a6 6 0 0 0-6 6v3a6 6 0 1 0 12 0V8a6 6 0 0 0-6-6z"/></svg>
-          <span data-i18n="ai">المساعد الذكي</span>
-        </button>
-
-        <button class="nav-item" data-panel="services">
-          <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M3 6h18v2H3zM3 10h18v8H3z"/></svg>
-          <span data-i18n="services">الخدمات الشاملة</span>
-        </button>
-
-        <button class="nav-item" data-panel="judge">
-          <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M12 2l4 4-4 4-4-4zM6 12h12v8H6z"/></svg>
-          <span data-i18n="judge">منصة القاضي</span>
-        </button>
-
-        <button class="nav-item" data-panel="accessibility">
-          <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M12 2a7 7 0 0 1 7 7v3h-2V9a5 5 0 1 0-10 0v3H5V9a7 7 0 0 1 7-7z"/></svg>
-          <span data-i18n="access">الوصول وذوي الاحتياجات</span>
-        </button>
-
-        <button class="nav-item" data-panel="settings">
-          <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M12 2l2 4H10zM4 8h16v12H4z"/></svg>
-          <span data-i18n="settings">الإعدادات</span>
-        </button>
+      <nav class="nav" role="navigation" aria-label="التنقل الرئيسي">
+        <div class="item active" data-panel="auditor"><span class="ico"><i class="fa-solid fa-robot"></i></span>المساعد الذكي</div>
+        <div class="item" data-panel="services"><span class="ico"><i class="fa-solid fa-layer-group"></i></span>الخدمات الشاملة</div>
+        <div class="item" data-panel="judge"><span class="ico"><i class="fa-solid fa-balance-scale"></i></span>منصة القاضي</div>
+        <div class="item" data-panel="access"><span class="ico"><i class="fa-solid fa-universal-access"></i></span>الوصول & المكفوفين</div>
+        <div class="item" data-panel="security"><span class="ico"><i class="fa-solid fa-shield"></i></span>الأمن والامتثال</div>
+        <div class="item" data-panel="settings"><span class="ico"><i class="fa-solid fa-gear"></i></span>إعدادات</div>
       </nav>
 
-      <div class="sidebar-footer">
-        <small data-i18n="beta">نسخة تجريبية • رواق العدل</small>
-        <div class="dev-rights" aria-hidden="true">روان الصبحي — © 2026 — <a href="./LICENSE" style="color:inherit; text-decoration:underline">شروط الترخيص</a></div>
+      <div class="badge">مؤسسة • موثّقة • جاهزة للإنتاج</div>
+
+      <div class="rights">
+        روان الصبحي — جميع الحقوق محفوظة © 2026<br>
+        <a href="./LICENSE">شروط الترخيص</a>
       </div>
     </aside>
 
-    <!-- Main content -->
-    <main class="main" role="main">
-      <!-- Header -->
-      <header class="topbar">
-        <div class="left-controls">
-          <div class="lang-switch" role="group" aria-label="Language">
-            <button id="btnAr" class="lang-btn active" aria-pressed="true">العربية</button>
-            <button id="btnEn" class="lang-btn" aria-pressed="false">EN</button>
-          </div>
-          <div class="theme-switch" role="group" aria-label="Theme">
-            <button id="themeToggle" class="theme-btn" aria-pressed="false" title="تبديل بين الوضع الداكن والفاتح">🌙</button>
-          </div>
-        </div>
+    <!-- MAIN CONTENT -->
+    <main>
+      <section class="hero" role="banner" aria-label="ملخص المنصة">
+        <div class="title">
+          <h2>منصة قضائية متكاملة وهيبة مؤسسية — رواق العدل</h2>
+          <p>نظام شامل لإدارة القضايا، توليد الوثائق، تحليل الذكاء الاصطناعي، دعم وصول كامل، وتوافق أمني من المستوى المؤسسي.</p>
 
-        <div class="search-glass" role="search">
-          <input id="searchInput" type="search" placeholder="ابحث عن قضية أو أمر..." aria-label="بحث" />
-        </div>
-
-        <div class="top-actions">
-          <div class="user-chip" aria-hidden="true">
-            <span class="avatar">ر</span>
-            <span class="username">المحكمة الإلكترونية</span>
+          <div style="margin-top:12px; display:flex; gap:10px; align-items:center">
+            <button class="btn" onclick="openAudit()">ابدأ تدقيق ذكي</button>
+            <button class="btn secondary" onclick="openServices()">استعرض الخدمات</button>
           </div>
         </div>
-      </header>
 
-      <section class="content-grid">
-        <!-- Panels container -->
-        <div class="panels">
-          <!-- AI Auditor / Chat -->
-          <section class="panel auditor active" data-panel="auditor" aria-labelledby="auditorTitle">
-            <h2 id="auditorTitle" data-i18n="auditorTitle">المساعد الذكي — التدقيق الآلي</h2>
+        <div class="meta" style="text-align:left">
+          <div style="display:flex; gap:8px; align-items:center; justify-content:flex-end">
+            <div style="text-align:center; padding:10px; border-radius:10px; background:rgba(255,255,255,0.02)"><strong>AI</strong><div style="font-size:12px; color:var(--muted)">تحليلات وقتية</div></div>
+            <div style="text-align:center; padding:10px; border-radius:10px; background:rgba(255,255,255,0.02)"><strong>PKI</strong><div style="font-size:12px; color:var(--muted)">تواقيع رقمية</div></div>
+            <div style="text-align:center; padding:10px; border-radius:10px; background:rgba(255,255,255,0.02)"><strong>OCR</strong><div style="font-size:12px; color:var(--muted)">مسح المستندات</div></div>
+          </div>
+        </div>
+      </section>
 
-            <div class="auditor-body glass" role="region" aria-label="AI Auditor">
-              <label for="facts" class="sr-only" data-i18n="factsLabel">اكتب الوقائع هنا</label>
-              <textarea id="facts" placeholder="اكتب الوقائع، ملخص الدعوى، المستندات المرفقة..." aria-label="حقل كتابة الوقائع"></textarea>
+      <div class="grid" role="main">
+        <!-- LEFT: Panels -->
+        <div>
+          <!-- AI Auditor Panel -->
+          <section id="auditor" class="card auditor" role="region" aria-labelledby="auditorTitle">
+            <h3 id="auditorTitle">المساعد الذكي — تدقيق وتحليل القضايا</h3>
+            <p style="color:var(--muted); margin-top:6px; margin-bottom:12px">أدخل ملخص الدعوى أو حمّل المستندات. المساعد يدعم: تحليل النواقص، اقتراح الوثائق، توليد مسودات مذكرات، وتوليد ملاحظات قانونية.</p>
 
-              <div class="auditor-actions">
-                <div class="voice-helper">
-                  <button id="micBtn" class="mic-btn" aria-pressed="false" aria-label="تفعيل الميكروفون">
-                    🎤
-                  </button>
-                  <span class="voice-tip" data-i18n="voiceTip">الأوامر الصوتية متاحة</span>
-                </div>
+            <label for="facts" class="sr-only">نص الوقائع</label>
+            <textarea id="facts" placeholder="أكتب الوقائع أو ألصق نصًا أو ارفع مستندات"></textarea>
 
-                <div class="audit-buttons">
-                  <button id="runAudit" class="gold-btn" aria-label="تشغيل التدقيق الذكي" data-i18n="runAudit">تشغيل التدقيق الذكي</button>
-                  <button id="exportDraft" class="secondary-btn" aria-label="تصدير المذكرة" data-i18n="export">توليد مسودة</button>
-                </div>
-              </div>
+            <div class="actions" role="toolbar" aria-label="أدوات المساعد">
+              <button class="btn" onclick="triggerAudit()">تشغيل التدقيق الذكي</button>
+              <button class="btn secondary" onclick="openUploader()">رفع ملف (PDF/صور)</button>
+              <button class="btn secondary" onclick="exportDraft()">توليد مسودة تلقائية</button>
+              <button class="btn secondary" onclick="startSTT()">أوامر صوتية</button>
+            </div>
 
-              <!-- results / transcript (also used as captions for deaf users) -->
-              <div id="auditResult" class="audit-result" aria-live="polite" aria-atomic="true">
-                <div id="aiSummary" class="ai-summary" hidden></div>
+            <div id="auditResult" class="result" aria-live="polite" hidden>
+              <!-- نتائج التحليل تعرض هنا -->
+            </div>
 
-                <div id="captions" class="captions" hidden aria-live="polite"></div>
-
-                <div class="result-actions">
-                  <button id="ttsBtn" class="secondary-btn" aria-label="قراءة النتائج صوتياً" data-i18n="readAloud">اقرأ بصوت عالي</button>
-                  <button id="downloadTranscript" class="secondary-btn" aria-label="تحميل التفريغ" data-i18n="downloadTranscript">تحميل التفريغ</button>
-                </div>
-              </div>
+            <div style="margin-top:12px" class="features">
+              <div class="feature"><h4>OCR & استخراج بيانات</h4><p>قراءة المستندات (صور, PDF) واستخراج التواريخ والأسماء والوثائق المطلوبة.</p></div>
+              <div class="feature"><h4>TTS / STT متقدّم</h4><p>تحويل النص لصوت بالعربية، والتعرف على الأوامر الصوتية لملء النماذج.</p></div>
+              <div class="feature"><h4>توليد مستندات</h4><p>توليد مسودات مذكرات، طلبات، وصياغات جاهزة للطباعة أو التحميل PDF/DOCX.</p></div>
             </div>
           </section>
 
-          <!-- Services -->
-          <section class="panel services" data-panel="services" aria-labelledby="servicesTitle" hidden>
-            <h2 id="servicesTitle" data-i18n="servicesTitle">الخدمات الشاملة</h2>
-
-            <div class="cards glass">
-              <article class="card" role="article" aria-label="قيد دعوى">
-                <h3 data-i18n="svcRegister">قيد دعوى</h3>
-                <p data-i18n="svcRegisterDesc">سجل الدعوى إلكترونياً وسيساعدك المساعد في ملء الحقول الأساسية تلقائيًا.</p>
-                <div class="card-actions">
-                  <button class="btn" data-i18n="start">ابدأ</button>
-                  <button class="secondary-btn" data-i18n="learnMore">تعرف أكثر</button>
-                </div>
-              </article>
-
-              <article class="card" role="article" aria-label="تبادل مذكرات">
-                <h3 data-i18n="svcExchange">تبادل مذكرات</h3>
-                <p data-i18n="svcExchangeDesc">منصة تبادل آمنة مع تتبع وتوقيع رقمي.</p>
-                <div class="card-actions">
-                  <button class="btn" data-i18n="open">فتح</button>
-                  <button class="secondary-btn" data-i18n="learnMore">تفاصيل</button>
-                </div>
-              </article>
-
-              <article class="card" role="article" aria-label="جلسات رقمية">
-                <h3 data-i18n="svcSessions">جلسات رقمية</h3>
-                <p data-i18n="svcSessionsDesc">جلسات عن بعد مع تفريغ صوتي وتأمين البصمات الزمنية.</p>
-                <div class="card-actions">
-                  <button class="btn" data-i18n="goTo">انتقل</button>
-                  <button class="secondary-btn" data-i18n="learnMore">تفاصيل</button>
-                </div>
-              </article>
+          <!-- Services Panel -->
+          <section id="services" class="card" role="region" aria-labelledby="servicesTitle" hidden>
+            <h3 id="servicesTitle">الخدمات الشاملة — لكل مرحلة قضائية</h3>
+            <div class="features" style="margin-top:12px">
+              <div class="feature"><h4>قيد دعوى إلكتروني</h4><p>نموذج رقمي مع تحقق آلي من المرفقات وسجل زمني قانوني.</p></div>
+              <div class="feature"><h4>تبادل مذكرات مؤمّن</h4><p>تسجيل المذكرات، ردود، وتوقيع رقمي بصيغة PKI.</p></div>
+              <div class="feature"><h4>إدارة جلسات رقمية</h4><p>استدعاءات، جداول، جلسات مرئية، وتفريغ آلي مع ترجمة إنجليزية.</p></div>
+              <div class="feature"><h4>لوحة حاكم</h4><p>تقارير أداء، أولويات القضايا، وتنبيهات الذكاء الاصطناعي.</p></div>
             </div>
           </section>
 
-          <!-- Judge -->
-          <section class="panel judge" data-panel="judge" aria-labelledby="judgeTitle" hidden>
-            <h2 id="judgeTitle" data-i18n="judgeTitle">منصة القاضي</h2>
-            <p data-i18n="judgeDesc">لوحة تحكُّم تفاعلية تعرض الأولويات والتنبيهات القانونية المقترحة من المساعد.</p>
+          <!-- Judge Panel -->
+          <section id="judge" class="card" role="region" aria-labelledby="judgeTitle" hidden>
+            <h3 id="judgeTitle">منصة القاضي — مركز اتخاذ القرار</h3>
+            <p style="color:var(--muted)">عرض يومي، إنذارات النواقص الحرجة، اقتراح أوامر مؤقتة من الذكاء الاصطناعي، وتوليد مبررات قضائية.</p>
 
-            <div class="stat-grid">
-              <div class="stat">
-                <div class="num">1,420</div>
-                <div class="lbl" data-i18n="done">قضايا منجزة</div>
-              </div>
-              <div class="stat">
-                <div class="num">85</div>
-                <div class="lbl" data-i18n="underReview">قيد التدقيق</div>
-              </div>
-              <div class="stat">
-                <div class="num">12</div>
-                <div class="lbl" data-i18n="critical">نواقص جوهرية</div>
-              </div>
+            <div style="display:flex; gap:8px; margin-top:12px">
+              <div style="flex:1; padding:12px; border-radius:10px; background:rgba(255,255,255,0.02)"><strong>1,420</strong><div style="font-size:12px;color:var(--muted)">قضايا منجزة</div></div>
+              <div style="flex:1; padding:12px; border-radius:10px; background:rgba(255,255,255,0.02)"><strong>85</strong><div style="font-size:12px;color:var(--muted)">قيد مراجعة</div></div>
+              <div style="flex:1; padding:12px; border-radius:10px; background:rgba(255,255,255,0.02)"><strong>12</strong><div style="font-size:12px;color:var(--muted)">نواقص جوهرية</div></div>
             </div>
           </section>
 
-          <!-- Accessibility -->
-          <section class="panel accessibility" data-panel="accessibility" aria-labelledby="accessTitle" hidden>
-            <h2 id="accessTitle" data-i18n="accessTitle">الوصول وذوي الاحتياجات</h2>
-
-            <div class="access-grid">
-              <div class="access-card">
-                <h4 data-i18n="blindSupport">دعم للمكفوفين</h4>
-                <p data-i18n="blindDesc">تحويل النص إلى كلام، قراءة نتائج التدقيق، أوامر صوتية للتنقّل داخل المنصة.</p>
-                <button class="btn" id="startTTS" data-i18n="enable">تفعيل المساعد الصوتي</button>
-              </div>
-
-              <div class="access-card">
-                <h4 data-i18n="deafSupport">دعم للصمّ والضعاف السمع</h4>
-                <p data-i18n="deafDesc">نصوص وتفريغ فوري لنتائج الجلسات، ترجمة فورية (EN↔AR) وعرض تسميات توضيحية (captions) للفيديو.</p>
-                <button class="btn" id="toggleCaptions" data-i18n="captions">تفعيل الترجمة الحينية</button>
-              </div>
-
-              <div class="access-card">
-                <h4 data-i18n="keyboard">تسهيلات لوحة المفاتيح</h4>
-                <p data-i18n="keyboardDesc">جميع العناصر قابلة للوصول عبر لوحة المفاتيح، وسمات ARIA مضمّنة.</p>
-              </div>
+          <!-- Accessibility Panel -->
+          <section id="access" class="card" role="region" aria-labelledby="accessTitle" hidden>
+            <h3 id="accessTitle">وصول كامل — للصم والمكفوفين</h3>
+            <div class="features" style="margin-top:12px">
+              <div class="feature"><h4>قناة صوتية متكاملة</h4><p>TTS لقراءة النتائج والأوامر الصوتية للتنقّل داخل النظام.</p></div>
+              <div class="feature"><h4>ترجمة فورية وتسميات</h4><p>EN↔AR للترجمة الحينية وتسميات في الجلسات.</p></div>
+              <div class="feature"><h4>لوحة مفاتيح وتحكّم</h4><p>الوصول عبر لوحة المفاتيح وسمات ARIA كاملة.</p></div>
             </div>
           </section>
 
-          <!-- Settings -->
-          <section class="panel settings" data-panel="settings" aria-labelledby="settingsTitle" hidden>
-            <h2 id="settingsTitle" data-i18n="settingsTitle">إعدادات</h2>
-            <p data-i18n="settingsDesc">التحكم بالسمات، اللغة، مفاتيح API لربط المساعد الذكي، وإعدادات الوصول.</p>
+          <!-- Security Panel -->
+          <section id="security" class="card" role="region" aria-labelledby="securityTitle" hidden>
+            <h3 id="securityTitle">الأمن والامتثال المؤسسي</h3>
+            <p style="color:var(--muted)">معايير صناعية: TLS/SSL، تشفير حقل على مستوى البيانات، PKI وتواقيع رقمية، SSO، سجل نشاط (audit logs) والسجلات القانونية.</p>
 
-            <div class="settings-list">
-              <label>
-                <div data-i18n="aiProvider">مزود AI (مثال)</div>
-                <select id="aiProvider">
+            <ul style="margin:8px 0 0 0; padding-inline-start:18px; color:var(--muted)">
+              <li>مصادقة متعددة العوامل (MFA) وصلاحيات دورية (RBAC)</li>
+              <li>سجلات تدقيق قابلة للتصدير ومراقبة النزاهة</li>
+              <li>اختبارات اختراق دورية وسياسة معالجة ثغرات</li>
+            </ul>
+          </section>
+
+          <!-- Settings Panel -->
+          <section id="settings" class="card" role="region" aria-labelledby="settingsTitle" hidden>
+            <h3 id="settingsTitle">إعدادات المنظومة</h3>
+            <p style="color:var(--muted)">إعدادات السمة، اللغة، مفاتيح API للمزودين (OpenAI/خدمة محلية)، بريد الترخيص، واعدادات الوصول.</p>
+
+            <div style="display:flex; gap:8px; margin-top:12px; flex-wrap:wrap">
+              <label style="flex:1">
+                مزوّد AI
+                <select id="provider" style="width:100%; padding:8px; border-radius:8px; margin-top:6px">
                   <option value="openai">OpenAI</option>
+                  <option value="azure">Microsoft Azure</option>
                   <option value="local">محلي / مؤسسي</option>
                 </select>
               </label>
 
-              <label>
-                <div data-i18n="contact">معلومات الاتصال للتراخيص</div>
-                <input id="contactEmail" type="email" placeholder="licensing@rawan.dev" aria-label="contact email" />
-                <small data-i18n="contactHint">سيتم إدراج هذا البريد في ملف LICENSE و footer عند الحفظ.</small>
+              <label style="flex:1">
+                بريد الترخيص
+                <input id="licenseEmail" type="email" placeholder="licensing@rawan.dev" style="width:100%; padding:8px; border-radius:8px; margin-top:6px" />
               </label>
 
-              <button class="btn" id="saveSettings" data-i18n="save">حفظ الإعدادات</button>
+              <button class="btn" onclick="saveSysSettings()">حفظ الإعدادات</button>
             </div>
           </section>
         </div>
-      </section>
 
-      <footer class="footer">
-        <small id="footerLicense">© 2026 روان الصبحي — جميع الحقوق محفوظة للمطوّرة. لا يجوز استخدام أو إعادة توزيع هذه البرمجية دون إذن كتابي. <a href="./LICENSE">شروط الترخيص</a></small>
+        <!-- RIGHT: Quick actions & system info -->
+        <aside class="right">
+          <div class="card">
+            <h3>إجراءات سريعة</h3>
+            <div class="quick-list" style="margin-top:10px">
+              <button onclick="quickAction('new_case')"><i class="fa-solid fa-plus" style="margin-left:8px"></i>قيد دعوى جديدة</button>
+              <button onclick="quickAction('query')"><i class="fa-solid fa-search" style="margin-left:8px"></i>استعلام موحد</button>
+              <button onclick="quickAction('session')"><i class="fa-solid fa-video" style="margin-left:8px"></i>جدولة جلسة</button>
+            </div>
+          </div>
+
+          <div class="card">
+            <h3>تكاملات جاهزة</h3>
+            <p style="color:var(--muted); margin-top:8px">APIs: OpenAI, Azure Speech, Google OCR, PKI / HSM, SSO (SAML / OIDC), Archiving (S3)</p>
+          </div>
+
+          <div class="card">
+            <h3>التواصل و التراخيص</h3>
+            <p style="color:var(--muted)">للطلبات التجارية أو تراخيص الاستخدام: <strong>licensing@rawan.dev</strong></p>
+          </div>
+        </aside>
+      </div>
+
+      <footer style="color:var(--muted); font-size:13px; margin-top:12px">
+        © 2026 روان الصبحي — جميع الحقوق محفوظة للمطوّرة. للاستفسارات والتراخيص: licensing@rawan.dev — <a href="./LICENSE">شروط الترخيص</a>
       </footer>
     </main>
   </div>
 
   <script>
-    /******************************************************************
-     * خريطة ترجمات بسيطة (i18n)
-     * استخدم مفاتيح data-i18n في العناصر لتبديل النصوص بين اللغات
-     ******************************************************************/
-    const i18n = {
-      ar: {
-        ai: "المساعد الذكي",
-        services: "الخدمات الشاملة",
-        judge: "منصة القاضي",
-        access: "الوصول وذوي الاحتياجات",
-        settings: "الإعدادات",
-        beta: "نسخة تجريبية • رواق العدل",
-        auditorTitle: "المساعد الذكي — التدقيق الآلي",
-        factsLabel: "اكتب الوقائع هنا",
-        voiceTip: "الأوامر الصوتية متاحة",
-        runAudit: "تشغيل التدقيق الذكي",
-        export: "توليد مسودة",
-        readAloud: "اقرأ بصوت عالي",
-        downloadTranscript: "تحميل التفريغ",
-        servicesTitle: "الخدمات الشاملة",
-        svcRegister: "قيد دعوى",
-        svcRegisterDesc: "سجل الدعوى إلكترونياً وسيساعدك المساعد في ملء الحقول الأساسية تلقائيًا.",
-        svcExchange: "تبادل مذكرات",
-        svcExchangeDesc: "منصة تبادل آمنة مع تتبع وتوق��ع رقمي.",
-        svcSessions: "جلسات رقمية",
-        svcSessionsDesc: "جلسات عن بعد مع تفريغ صوتي وتأمين البصمات الزمنية.",
-        start: "ابدأ",
-        open: "فتح",
-        goTo: "انتقل",
-        learnMore: "تفاصيل",
-        judgeTitle: "منصة القاضي",
-        judgeDesc: "لوحة تحكُّم تفاعلية تعرض الأولويات والتنبيهات القانونية المقترحة من المساعد.",
-        done: "قضايا منجزة",
-        underReview: "قيد التدقيق",
-        critical: "نواقص جوهرية",
-        accessTitle: "الوصول وذوي الاحتياجات",
-        blindSupport: "دعم للمكفوفين",
-        blindDesc: "تحويل النص إلى كلام، قراءة نتائج التدقيق، أوامر صوتية للتنقّل داخل المنصة.",
-        enable: "تفعيل المساعد الصوتي",
-        deafSupport: "دعم للصمّ والضعاف السمع",
-        deafDesc: "نصوص وتفريغ فوري لنتائج الجلسات، ترجمة فورية (EN↔AR) وعرض تسميات توضيحية (captions) للفيديو.",
-        captions: "تفعيل الترجمة الحينية",
-        keyboard: "تسهيلات لوحة المفاتيح",
-        keyboardDesc: "جميع العناصر قابلة للوصول عبر ل��حة المفاتيح، وسمات ARIA مضمّنة.",
-        settingsTitle: "إعدادات",
-        settingsDesc: "التحكم بالسمات، اللغة، مفاتيح API لربط المساعد الذكي، وإعدادات الوصول.",
-        aiProvider: "مزود AI (مثال)",
-        contact: "معلومات الاتصال للتراخيص",
-        contactHint: "سيتم إدراج هذا البريد في ملف LICENSE و footer عند الحفظ.",
-        save: "حفظ الإعدادات"
-      },
-      en: {
-        ai: "AI Assistant",
-        services: "Comprehensive Services",
-        judge: "Judge Console",
-        access: "Accessibility",
-        settings: "Settings",
-        beta: "Beta • Rwaq Al-Adl",
-        auditorTitle: "AI Assistant — Automated Review",
-        factsLabel: "Enter facts here",
-        voiceTip: "Voice commands available",
-        runAudit: "Run Smart Audit",
-        export: "Export Draft",
-        readAloud: "Read Aloud",
-        downloadTranscript: "Download Transcript",
-        servicesTitle: "Services Portal",
-        svcRegister: "Register Case",
-        svcRegisterDesc: "Register a case online—AI helps auto-fill key fields.",
-        svcExchange: "Exchange Memoranda",
-        svcExchangeDesc: "Secure memos exchange with digital signing and tracking.",
-        svcSessions: "Digital Sessions",
-        svcSessionsDesc: "Remote sessions with transcription and time-stamping.",
-        start: "Start",
-        open: "Open",
-        goTo: "Go",
-        learnMore: "Learn more",
-        judgeTitle: "Judge Console",
-        judgeDesc: "Interactive dashboard showing priorities and AI-suggested alerts.",
-        done: "Completed",
-        underReview: "Under Review",
-        critical: "Critical Issues",
-        accessTitle: "Accessibility",
-        blindSupport: "Support for Blind Users",
-        blindDesc: "Text-to-speech, readouts for audit results, and voice navigation.",
-        enable: "Enable Voice Assistant",
-        deafSupport: "Support for Deaf/Hard-of-Hearing",
-        deafDesc: "Immediate transcripts, EN↔AR translations, and live captions for video.",
-        captions: "Enable Live Captions",
-        keyboard: "Keyboard Navigation",
-        keyboardDesc: "All elements keyboard accessible with ARIA attributes.",
-        settingsTitle: "Settings",
-        settingsDesc: "Control theme, language, AI keys and accessibility options.",
-        aiProvider: "AI Provider (example)",
-        contact: "Contact for licensing",
-        contactHint: "This email will be included in LICENSE & footer when saved.",
-        save: "Save settings"
-      }
-    };
-
-    // Simple i18n switcher
-    function setLanguage(lang) {
-      const elems = document.querySelectorAll('[data-i18n]');
-      elems.forEach(el => {
-        const key = el.getAttribute('data-i18n');
-        if(i18n[lang] && i18n[lang][key]) {
-          el.textContent = i18n[lang][key];
-        }
-      });
-
-      // set direction and lang attribute
-      if(lang === 'en') {
-        document.documentElement.lang = 'en';
-        document.documentElement.dir = 'ltr';
-        document.body.classList.add('ltr');
-      } else {
-        document.documentElement.lang = 'ar';
-        document.documentElement.dir = 'rtl';
-        document.body.classList.remove('ltr');
-      }
-
-      // update active on language buttons
-      document.getElementById('btnAr').classList.toggle('active', lang === 'ar');
-      document.getElementById('btnEn').classList.toggle('active', lang === 'en');
-      localStorage.setItem('rwaq_lang', lang);
-    }
-
-    // Theme toggle (dark/light)
-    function toggleTheme() {
-      const isDark = document.body.classList.toggle('light-mode');
-      document.getElementById('themeToggle').textContent = isDark ? '☀️' : '🌙';
-      localStorage.setItem('rwaq_theme_light', isDark ? '1' : '0');
-    }
-
-    // Panel navigation
-    document.querySelectorAll('.nav-list .nav-item').forEach(btn=>{
-      btn.addEventListener('click', () => {
-        document.querySelectorAll('.nav-list .nav-item').forEach(n => n.classList.remove('active'));
+    /* ---------- واجهة تفاعلية خفيفة ---------- */
+    // panel navigation
+    document.querySelectorAll('.nav .item').forEach(btn=>{
+      btn.addEventListener('click', ()=> {
+        document.querySelectorAll('.nav .item').forEach(b => b.classList.remove('active'));
         btn.classList.add('active');
-        const panel = btn.dataset.panel;
-        document.querySelectorAll('.panels .panel').forEach(p => {
-          p.hidden = p.dataset.panel !== panel;
-          if(!p.hidden) p.classList.add('active'); else p.classList.remove('active');
+        const target = btn.dataset.panel;
+        document.querySelectorAll('section[id]').forEach(sec=>{
+          sec.hidden = sec.id !== target;
         });
+        // show auditor by default if none
+        if(!target) document.getElementById('auditor').hidden = false;
       });
     });
 
-    // Basic AI-audit simulation + hooks for integration
-    async function runAudit() {
+    // initial state: hide all except auditor
+    ['services','judge','access','security','settings'].forEach(id=>{
+      const el = document.getElementById(id);
+      if(el) el.hidden = true;
+    });
+
+    // quick actions
+    function quickAction(key){
+      switch(key){
+        case 'new_case': alert('فتح نموذج قيد دعوى جديد'); break;
+        case 'query': alert('فتح استعلام موحد'); break;
+        case 'session': alert('جدولة جلسة رقمية'); break;
+      }
+    }
+
+    function openAudit(){ document.querySelector('.nav .item[data-panel="auditor"]').click(); window.scrollTo({top:0, behavior:'smooth'}); }
+    function openServices(){ document.querySelector('.nav .item[data-panel="services"]').click(); window.scrollTo({top:0, behavior:'smooth'}); }
+
+    // fake uploader
+    function openUploader(){ alert('نافذة رفع المستندات (ربط واجهة رفع فعلية مع S3/Storage).'); }
+
+    // save settings (updates footer license email)
+    function saveSysSettings(){
+      const email = document.getElementById('licenseEmail').value.trim() || 'licensing@rawan.dev';
+      const footer = document.querySelector('footer');
+      footer.innerHTML = `© 2026 روان الصبحي — جميع الحقوق محفوظة للمطوّرة. للاستفسارات والتراخيص: ${email} — <a href="./LICENSE">شروط الترخيص</a>`;
+      alert('تم حفظ الإعدادات محليًا. لتحديث ملفات المشروع على الخادم، حدّث ملف LICENSE وملفات الخادم.');
+    }
+
+    /* ---------- AI / OCR / TTS placeholders ---------- */
+    async function triggerAudit(){
       const text = document.getElementById('facts').value.trim();
-      const summaryEl = document.getElementById('aiSummary');
-      const captionsEl = document.getElementById('captions');
-      summaryEl.hidden = false;
-      captionsEl.hidden = true;
-      summaryEl.innerHTML = '<strong>جارٍ التحليل...</strong>';
+      const result = document.getElementById('auditResult');
+      result.hidden = false;
+      result.innerHTML = '<strong>جارٍ التحليل بواسطة AI...</strong>';
 
-      // Placeholder: replace with real API call to your AI backend
-      // Example: POST /api/audit { text, language, userId } -> returns analysis object
-      await new Promise(r=>setTimeout(r, 900)); // simulate delay
+      // TODO: استبدال هذا الجزء باستدعاء آمن إلى الخادم (server-side)
+      // مثال (server-side):
+      // POST /api/audit { text, files, lang } -> backend calls AI provider (OpenAI/Azure/Local) and returns analysis
+      await new Promise(r=>setTimeout(r, 900)); // محاكاة زمن استجابة
 
+      // نموذج نتيجة
       const analysis = {
-        title: 'تظلم إداري — احتمالية قبول مبدئية: 72%',
-        notes: ['نقص: إثبات التبليغ', 'نقص: توقيع المفوض'],
+        verdict: 'تظلم إداري — احتمالية قبول مبدئية 74%',
+        issues: ['غياب إثبات التبليغ', 'تاريخ تقديم غير متطابق'],
         recommendations: [
-          'إرفاق صورة خطاب التبليغ وتاريخ الاستلام.',
-          'تقديم تفويض رسمي موقّع أو تفويض محامٍ.',
-          'طلب مهلة استثنائية إن لزم.'
-        ],
-        transcript: 'تم تحليل الوقائع: يبدو أنّ القضية تندرج تحت إلغاء قرار إداري...'
+          'توفير ختم التبليغ أو صورة إيصال التبليغ.',
+          'رفع وثيقة التفويض الموقعة.',
+          'مطابقة التواريخ والمستندات قبل القيد.'
+        ]
       };
 
-      // render
-      summaryEl.innerHTML = '<h3>'+analysis.title+'</h3>';
-      summaryEl.innerHTML += '<ul>' + analysis.notes.map(n=>`<li>${n}</li>`).join('') + '</ul>';
-      summaryEl.innerHTML += '<strong>التوصيات:</strong><ol>' + analysis.recommendations.map(r=>`<li>${r}</li>`).join('') + '</ol>';
-
-      // also show transcript / captions (useful for deaf users)
-      captionsEl.hidden = false;
-      captionsEl.textContent = analysis.transcript;
-      // store transcript for download
-      currentTranscript = analysis.transcript;
+      result.innerHTML = `<strong>${analysis.verdict}</strong>
+        <ul style="margin:8px 0 0 0; padding-inline-start:18px">
+          ${analysis.issues.map(i=>`<li>${i}</li>`).join('')}
+        </ul>
+        <div style="margin-top:8px"><strong>توصيات:</strong>
+        <ol style="margin:6px 0 0 0; padding-inline-start:18px">
+          ${analysis.recommendations.map(r=>`<li>${r}</li>`).join('')}
+        </ol></div>
+        <div style="margin-top:10px"><button class="btn" onclick="exportDraft()">توليد مسودة مذكّرة</button>
+        <button class="btn secondary" onclick="flagForJudge()">إحالة للقاضي</button></div>`;
     }
 
-    // TTS (text-to-speech) for blind users
-    function speakText(text) {
-      if(!('speechSynthesis' in window)) { alert('TTS not supported in this browser'); return; }
-      const u = new SpeechSynthesisUtterance(text);
-      // choose language based on UI lang
-      u.lang = document.documentElement.lang === 'en' ? 'en-US' : 'ar-SA';
-      window.speechSynthesis.cancel();
-      window.speechSynthesis.speak(u);
-    }
+    function exportDraft(){ alert('توليد مسودة (ربط مولّد المستندات DOCX/PDF على الخادم).'); }
+    function flagForJudge(){ alert('تم إحالة الملف لقائمة مراجعة القاضي.'); }
 
-    // Basic STT (speech-to-text) for voice commands / filling facts (browser support varies)
-    function startSTT() {
-      if(!('webkitSpeechRecognition' in window) && !('SpeechRecognition' in window)) {
-        alert('ميزة التعرف على الصوت غير مدعومة في متصفحك. يجب توفير خدمة ASR خارجية للغة العربية.');
+    /* TTS & STT (مؤشرات): للتشغيل الفعلي يفضل ربط خدمات سحابية متخصّصة مثل Azure Speech أو Google Speech */
+    function startSTT(){
+      if(!('webkitSpeechRecognition' in window) && !('SpeechRecognition' in window)){
+        alert('التعرّف على الصوت غير مدعوم في متصفحك — للتجربة الفعلية، ربط خدمة ASR احترافية مطلوب.');
         return;
       }
       const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
       const rec = new SpeechRecognition();
-      rec.lang = document.documentElement.lang === 'en' ? 'en-US' : 'ar-SA';
+      rec.lang = 'ar-SA';
       rec.interimResults = true;
-      rec.maxAlternatives = 1;
-      rec.onresult = (ev) => {
-        const transcript = Array.from(ev.results).map(r=>r[0].transcript).join('');
-        document.getElementById('facts').value = transcript;
+      rec.onresult = (e) => {
+        const txt = Array.from(e.results).map(r=>r[0].transcript).join('');
+        document.getElementById('facts').value = txt;
       };
-      rec.onerror = (e)=> console.error('STT error', e);
+      rec.onerror = ()=> alert('تعذر بدء التعرف على الصوت في هذه الجلسة.');
       rec.start();
     }
 
-    // captions toggle for deaf users (shows / hides the captions panel)
-    let captionsEnabled = false;
-    document.getElementById('toggleCaptions').addEventListener('click', () => {
-      captionsEnabled = !captionsEnabled;
-      document.getElementById('captions').hidden = !captionsEnabled;
-      document.getElementById('toggleCaptions').textContent = captionsEnabled ? (document.documentElement.lang === 'en' ? 'Disable Captions' : 'إيقاف الترجمة الحينية') : (document.documentElement.lang === 'en' ? 'Enable Captions' : 'تفعيل الترجمة الحينية');
-    });
-
-    // Wire up UI buttons
-    document.getElementById('runAudit').addEventListener('click', runAudit);
-    document.getElementById('ttsBtn').addEventListener('click', ()=> {
-      const txt = document.getElementById('captions').textContent || document.getElementById('aiSummary').innerText;
-      if(txt) speakText(txt);
-    });
-    document.getElementById('downloadTranscript').addEventListener('click', ()=> {
-      if(!currentTranscript) { alert('لا يوجد تفريغ'); return; }
-      const blob = new Blob([currentTranscript], { type: 'text/plain;charset=utf-8' });
-      const url = URL.createObjectURL(blob);
-      const a = document.createElement('a');
-      a.href = url;
-      a.download = 'transcript.txt';
-      a.click();
-      URL.revokeObjectURL(url);
-    });
-    document.getElementById('micBtn').addEventListener('click', startSTT);
-
-    // small helpers
-    let currentTranscript = '';
-
-    // language buttons
-    document.getElementById('btnAr').addEventListener('click', ()=> setLanguage('ar'));
-    document.getElementById('btnEn').addEventListener('click', ()=> setLanguage('en'));
-
-    // theme toggle
-    document.getElementById('themeToggle').addEventListener('click', toggleTheme);
-
-    // save settings (e.g., contact email)
-    document.getElementById('saveSettings').addEventListener('click', ()=> {
-      const email = document.getElementById('contactEmail').value.trim() || 'licensing@rawan.dev';
-      // save into footer and (optionally) into LICENSE file on server
-      document.getElementById('footerLicense').innerHTML = `© 2026 روان الصبحي — جميع الحقوق محفوظة للمطوّرة. لا يجوز استخدام أو إعادة توزيع هذه البرمجية دون إذن كتابي. للتراخيص: ${email} — <a href="./LICENSE">شروط الترخيص</a>`;
-      alert('تم حفظ الإعدادات محلياً. لإتمام التحديث في ملفات المشروع (LICENSE و footer)، ينصح بتحديث الملفات في المستودع أو الخادم.');
-    });
-
-    // initialize from localStorage
-    (function init() {
-      const lang = localStorage.getItem('rwaq_lang') || 'ar';
-      setLanguage(lang);
-      const light = localStorage.getItem('rwaq_theme_light') === '1';
-      if(light) { document.body.classList.add('light-mode'); document.getElementById('themeToggle').textContent = '☀️'; }
+    /* Initial load: set licensing email default if needed */
+    (function init(){
+      document.getElementById('licenseEmail').value = 'licensing@rawan.dev';
     })();
   </script>
-
-  <style>
-    /* مبادئ تصميمية سريعة: متغيّرات للثيم، دعم ظلال زجاجية، اتساق */
-    :root{
-      --bg-dark: #071018;
-      --bg-light: #f7f8fb;
-      --card-dark: rgba(255,255,255,0.03);
-      --card-light: #fff;
-      --text-dark: #eaeef2;
-      --text-light: #071018;
-      --gold: #D4AF37;
-      --glass: rgba(255,255,255,0.04);
-      --radius: 14px;
-    }
-    body { font-family: 'Cairo', sans-serif; background: var(--bg-dark); color: var(--text-dark); margin:0; }
-    .app-shell { display:flex; gap:18px; padding:18px; min-height:100vh; }
-    /* sidebar */
-    .sidebar { width:280px; background:var(--card-dark); border-radius:14px; padding:16px; display:flex; flex-direction:column; gap:12px; }
-    .brand { display:flex; align-items:center; gap:10px }
-    .logo-glass { width:56px; height:56px; border-radius:10px; background:linear-gradient(180deg,var(--gold), #b28627); display:flex; align-items:center; justify-content:center; color:#071018; font-weight:900 }
-    .nav-list { display:flex; flex-direction:column; gap:8px; margin-top:8px }
-    .nav-item { display:flex; align-items:center; gap:10px; padding:10px; border-radius:10px; background:transparent; border:none; color:inherit; cursor:pointer }
-    .nav-item.active { background: linear-gradient(90deg, rgba(212,175,55,0.12), rgba(255,255,255,0.02)); border-left:4px solid var(--gold) }
-    .sidebar-footer { margin-top:auto; font-size:12px; color:rgba(255,255,255,0.6) }
-    .dev-rights { font-size:12px; color:var(--gold); margin-top:8px }
-
-    /* main */
-    .main { flex:1; }
-    .topbar { display:flex; justify-content:space-between; align-items:center; gap:12px; margin-bottom:12px }
-    .left-controls { display:flex; gap:8px; align-items:center }
-    .lang-btn { padding:6px 10px; border-radius:8px; background:transparent; border:1px solid rgba(255,255,255,0.04); cursor:pointer }
-    .lang-btn.active { background:var(--gold); color:#071018 }
-    .theme-btn { padding:6px 10px; border-radius:8px; background:transparent; border:1px solid rgba(255,255,255,0.04); cursor:pointer }
-
-    .search-glass input { width:360px; padding:10px 12px; border-radius:10px; border:1px solid rgba(255,255,255,0.04); background:transparent; color:inherit }
-
-    .content-grid { display:flex; gap:18px }
-    .panels { flex:1 }
-
-    .panel { background:var(--card-dark); border-radius:12px; padding:16px; margin-bottom:12px; box-shadow:0 8px 24px rgba(2,6,23,0.6) }
-    .panel h2 { color:var(--gold); margin-top:0 }
-
-    textarea { width:100%; min-height:140px; border-radius:10px; padding:12px; background:rgba(0,0,0,0.45); color:inherit; border:1px solid rgba(255,255,255,0.03); resize:vertical }
-
-    .auditor-actions { display:flex; justify-content:space-between; align-items:center; margin-top:12px; gap:12px }
-    .gold-btn { background:var(--gold); color:#071018; padding:10px 14px; border-radius:10px; border:none; cursor:pointer }
-    .secondary-btn { background:transparent; border:1px solid rgba(255,255,255,0.06); padding:8px 12px; border-radius:10px; cursor:pointer }
-
-    .audit-result { margin-top:12px; background:rgba(212,175,55,0.06); padding:12px; border-radius:10px; border:1px solid rgba(212,175,55,0.12); color:inherit }
-    .captions { margin-top:10px; background:rgba(0,0,0,0.45); padding:8px; border-radius:8px; color: #fff }
-
-    .cards { display:grid; grid-template-columns:repeat(auto-fit,minmax(220px,1fr)); gap:12px; margin-top:10px }
-    .card { padding:12px; border-radius:10px; background:rgba(255,255,255,0.02); }
-    .card-actions { margin-top:8px; display:flex; gap:8px }
-
-    .stat-grid { display:flex; gap:10px; margin-top:12px }
-    .stat { flex:1; padding:12px; border-radius:8px; background:rgba(255,255,255,0.02) }
-    .stat .num { font-size:20px; font-weight:800 }
-
-    .access-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(220px,1fr)); gap:12px }
-    .access-card { padding:12px; border-radius:8px; background:rgba(255,255,255,0.02) }
-
-    footer.footer { margin-top:10px; color:rgba(255,255,255,0.6) }
-
-    /* Light mode */
-    body.light-mode {
-      --bg-dark: var(--bg-light);
-      --card-dark: #fff;
-      --text-dark: var(--text-light);
-      color:var(--text-light);
-      background:var(--bg-light);
-    }
-
-    /* RTL / LTR minor adjustments */
-    body.ltr { direction:ltr; text-align:left }
-    .sr-only { position:absolute; width:1px; height:1px; padding:0; margin:-1px; overflow:hidden; clip:rect(0,0,0,0); white-space:nowrap; border:0; }
-  </style>
 </body>
 </html>
