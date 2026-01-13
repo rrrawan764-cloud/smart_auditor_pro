@@ -1,250 +1,231 @@
-
-
-
-
-
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>منظومة رواق العدل | 2026</title>
+    <title>منظومة رواق العدل | AI Core 2026</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Tajawal:wght@400;700;900&display=swap');
         
         :root {
-            --gold: #D4AF37;
-            --green: #006C35;
-            --glass: rgba(255, 255, 255, 0.08);
-            --border: rgba(212, 175, 55, 0.2);
+            --gold: #D4AF37; --green: #006C35; --red: #ff4757;
+            --glass: rgba(255, 255, 255, 0.07); --border: rgba(212, 175, 55, 0.2);
         }
 
         body {
-            font-family: 'Tajawal', sans-serif;
-            margin: 0; min-height: 100vh; color: white;
-            background: linear-gradient(rgba(0,0,0,0.8), rgba(0,0,0,0.8)), 
+            font-family: 'Tajawal', sans-serif; margin: 0; min-height: 100vh; color: white;
+            background: linear-gradient(rgba(0,0,0,0.85), rgba(0,0,0,0.85)), 
                         url('https://images.unsplash.com/photo-1589829545856-d10d557cf95f?auto=format&fit=crop&w=1920&q=80');
             background-size: cover; background-position: center; background-attachment: fixed;
-            display: flex; flex-direction: column; align-items: center;
+            display: flex; flex-direction: column;
         }
 
-        .container { width: 95%; max-width: 1200px; margin: 20px auto; padding-bottom: 50px; }
+        /* تخطيط المنصة المحترف */
+        .app-wrapper { display: grid; grid-template-columns: 300px 1fr; min-height: 100vh; }
 
-        header {
-            background: var(--glass); backdrop-filter: blur(25px); border: 1px solid var(--border);
-            border-radius: 30px; padding: 25px; text-align: center; margin-bottom: 25px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+        /*Sidebar*/
+        aside {
+            background: rgba(10, 10, 12, 0.95); border-left: 1px solid var(--border);
+            padding: 40px 20px; display: flex; flex-direction: column; gap: 10px;
         }
 
-        .logo i { font-size: 3.5rem; color: var(--gold); }
-        h1 { font-size: 2.8rem; margin: 10px 0; font-weight: 900; }
-
-        /* الأقسام الجانبية (Sidebar المدمج) */
-        .content-layout { display: grid; grid-template-columns: 280px 1fr; gap: 20px; }
-
-        .service-nav {
-            background: var(--glass); backdrop-filter: blur(20px); border: 1px solid var(--border);
-            border-radius: 25px; padding: 20px; height: fit-content;
+        .brand { text-align: center; margin-bottom: 50px; }
+        .brand i { font-size: 3.5rem; color: var(--gold); filter: drop-shadow(0 0 15px var(--gold)); }
+        
+        .nav-link {
+            padding: 18px; border-radius: 15px; cursor: pointer; transition: 0.3s;
+            display: flex; align-items: center; gap: 15px; font-weight: bold; color: #888;
         }
+        .nav-link:hover, .nav-link.active { background: rgba(212, 175, 55, 0.1); color: var(--gold); box-shadow: inset 5px 0 0 var(--gold); }
 
-        .nav-item {
-            padding: 15px; border-radius: 15px; margin-bottom: 10px; cursor: pointer;
-            transition: 0.3s; display: flex; align-items: center; gap: 12px; font-weight: bold;
-            border: 1px solid transparent; color: #ccc;
-        }
-        .nav-item:hover, .nav-item.active {
-            background: rgba(212, 175, 55, 0.15); color: var(--gold); border-color: var(--gold);
-        }
+        /*Main Content*/
+        main { padding: 40px; overflow-y: auto; }
 
-        /* اللوحة الرئيسية */
-        .main-panel {
+        .glass-panel {
             background: var(--glass); backdrop-filter: blur(30px); border: 1px solid var(--border);
-            border-radius: 30px; padding: 35px; min-height: 600px; position: relative;
+            border-radius: 30px; padding: 35px; box-shadow: 0 20px 50px rgba(0,0,0,0.5);
+            display: none; animation: slideUp 0.5s ease;
         }
+        .active-panel { display: block; }
 
-        /* مكونات المتقاضي المتكاملة */
-        .workflow-step { background: rgba(0,0,0,0.3); border-radius: 20px; padding: 20px; margin-bottom: 20px; border: 1px solid #333; }
+        /* المساعد الذكي و AI Core */
+        .ai-input-area { position: relative; }
         textarea {
-            width: 100%; height: 180px; background: rgba(0,0,0,0.4); border: 1px solid var(--border);
-            border-radius: 15px; color: white; padding: 15px; font-size: 1.1rem; border-right: 8px solid var(--gold); outline: none;
+            width: 100%; height: 200px; background: rgba(0,0,0,0.4); border: 1px solid var(--border);
+            border-radius: 20px; color: white; padding: 20px; font-size: 1.2rem; border-right: 8px solid var(--gold); outline: none;
+        }
+        .ai-status { position: absolute; bottom: 20px; left: 20px; font-size: 0.8rem; color: var(--gold); }
+
+        .btn-ai {
+            width: 100%; padding: 20px; border-radius: 50px; border: none; font-weight: 900;
+            cursor: pointer; font-size: 1.3rem; background: var(--gold); margin-top: 20px; transition: 0.4s;
         }
 
-        .btn-smart {
-            width: 100%; padding: 18px; border-radius: 50px; border: none; font-weight: 900;
-            cursor: pointer; font-size: 1.2rem; background: var(--gold); margin-top: 15px; transition: 0.4s;
-        }
-        .btn-smart:hover { transform: scale(1.02); box-shadow: 0 0 20px var(--gold); }
+        /* الإعدادات المحترفة */
+        .settings-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+        .setting-item { background: rgba(255,255,255,0.05); padding: 20px; border-radius: 15px; border: 1px solid var(--border); }
+        .toggle { width: 50px; height: 25px; background: #444; border-radius: 20px; position: relative; cursor: pointer; }
+        .toggle::after { content: ''; position: absolute; width: 21px; height: 21px; background: white; border-radius: 50%; top: 2px; right: 2px; transition: 0.3s; }
+        .toggle.on { background: var(--green); }
+        .toggle.on::after { right: 27px; }
 
-        /* منصة القاضي (الرسوم البيانية) */
-        .stats-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px; margin-bottom: 30px; }
-        .stat-card { background: rgba(0,0,0,0.4); padding: 20px; border-radius: 20px; text-align: center; border: 1px solid var(--border); }
-        .stat-card h3 { font-size: 2.2rem; margin: 5px 0; color: var(--gold); }
+        /* صوت المكفوفين */
+        .voice-btn { background: var(--green); color: white; border: none; padding: 10px 25px; border-radius: 50px; cursor: pointer; font-weight: bold; }
 
-        /* مساعد المكفوفين */
-        .voice-bar {
-            background: var(--green); color: white; padding: 15px; border-radius: 15px;
-            display: flex; align-items: center; justify-content: space-between; margin-bottom: 20px;
-        }
+        @keyframes slideUp { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
 
-        .hidden-panel { display: none; }
-        .active-panel { display: block; animation: fadeIn 0.5s ease; }
-
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
-
-        footer { text-align: center; padding: 40px; color: var(--gold); font-weight: bold; }
+        .stat-badge { padding: 5px 15px; border-radius: 10px; font-size: 0.9rem; font-weight: bold; }
     </style>
 </head>
 <body>
 
-<div class="container">
-    <header>
-        <div class="logo"><i class="fas fa-balance-scale"></i></div>
-        <h1>رواق العدل</h1>
-        <p style="color:var(--gold); letter-spacing: 2px; font-weight: bold;">بوابتكم الذكية للقضاء الإداري الرقمي 2026</p>
-    </header>
+<div class="app-wrapper">
+    <aside>
+        <div class="brand">
+            <i class="fas fa-balance-scale"></i>
+            <h1 style="font-size: 1.8rem; margin-top: 15px;">رواق العدل</h1>
+        </div>
+        <div class="nav-link active" onclick="showP('ai', this)"><i class="fas fa-brain"></i> محرك AI الإجرائي</div>
+        <div class="nav-link" onclick="showP('judge', this)"><i class="fas fa-gavel"></i> منصة الرقابة</div>
+        <div class="nav-link" onclick="showP('services', this)"><i class="fas fa-list-ul"></i> دليل الخدمات</div>
+        <div class="nav-link" onclick="showP('settings', this)"><i class="fas fa-sliders-h"></i> إعدادات النظام</div>
+    </aside>
 
-    <div class="content-layout">
-        <div class="service-nav">
-            <div class="nav-item active" onclick="switchPanel('litigant', this)"><i class="fas fa-file-contract"></i> بوابة المتقاضي</div>
-            <div class="nav-item" onclick="switchPanel('judge', this)"><i class="fas fa-gavel"></i> منصة القاضي</div>
-            <div class="nav-item" onclick="switchPanel('library', this)"><i class="fas fa-book-open"></i> المكتبة الرقمية</div>
-            <div class="nav-item" onclick="switchPanel('calendar', this)"><i class="fas fa-clock"></i> الجلسات والمواعيد</div>
-            <div class="nav-item" onclick="switchPanel('exchange', this)"><i class="fas fa-comments"></i> تبادل المذكرات</div>
+    <main>
+        <div id="aiPanel" class="glass-panel active-panel">
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:25px;">
+                <h2 style="color:var(--gold); margin:0;">مركز المعالجة الذكية</h2>
+                <button class="voice-btn" onclick="speak()"><i class="fas fa-volume-up"></i> مساعد المكفوفين</button>
+            </div>
+            <div class="ai-input-area">
+                <textarea id="suitIn" placeholder="اكتبي وقائع الدعوى هنا... سيقوم المحرك بربطها فوراً بالقوانين وتحديد الاختصاص والنواقص."></textarea>
+                <div class="ai-status">AI Engine: v4.2.0 | Active</div>
+            </div>
+            <button class="btn-ai" onclick="analyze()">تشغيل التحليل وربط البيانات</button>
+
+            <div id="aiRes" style="display:none; margin-top:30px; animation: slideUp 0.5s ease;">
+                <div class="settings-grid">
+                    <div class="setting-item"><label style="color:var(--gold)">تصنيف الدعوى:</label><h3 id="t1">-</h3></div>
+                    <div class="setting-item"><label style="color:var(--gold)">المحكمة المختصة:</label><h3 id="t2">-</h3></div>
+                </div>
+                <div id="alertAI" style="margin-top:20px; background:rgba(212,175,55,0.1); border:1px dashed var(--gold); padding:25px; border-radius:20px; text-align:center; display:none;">
+                    <h3 style="color:var(--gold); margin-top:0;">⚠️ تنبيه النواقص الإجرائية</h3>
+                    <p id="alertT" style="font-size:1.1rem;"></p>
+                    <button class="voice-btn" style="background:var(--gold); color:black;">إرفاق المستندات المفقودة</button>
+                </div>
+            </div>
         </div>
 
-        <div class="main-panel">
-            
-            <div id="litigantPanel" class="active-panel">
-                <div class="voice-bar">
-                    <span><i class="fas fa-ear-listen"></i> نظام المساعد الصوتي للمكفوفين مفعل</span>
-                    <button onclick="playVoice()" style="background:white; color:var(--green); border:none; padding:8px 20px; border-radius:10px; font-weight:900; cursor:pointer;">تشغيل الصوت</button>
-                </div>
-                
-                <div class="workflow-step">
-                    <h2 style="color:var(--gold); margin-top:0;">1. إيداع وقائع الدعوى</h2>
-                    <textarea id="suitInput" placeholder="اكتبي وقائع السابقة القضائية هنا... وسيقوم الذكاء الاصطناعي باستخراج كافة البيانات الإجرائية المطلوبة لتقديمها بسلامة."></textarea>
-                    <button class="btn-smart" onclick="runSmartAnalysis()"><i class="fas fa-wand-magic-sparkles"></i> تحليل ذكي وأتمتة شاملة</button>
-                </div>
+        <div id="judgePanel" class="glass-panel">
+            <h2 style="color:var(--gold);">لوحة تحكم الرقابة القضائية</h2>
+            <div class="settings-grid" style="margin-bottom:30px;">
+                <div class="setting-item" style="text-align:center"><span>منجزة آلياً</span><h3>1,820</h3></div>
+                <div class="setting-item" style="text-align:center; border-color:var(--red)"><span>نواقص إجرائية</span><h3>330</h3></div>
+            </div>
+            <canvas id="jChart" style="max-height: 350px;"></canvas>
+        </div>
 
-                <div id="smartResult" class="hidden-panel">
-                    <div class="workflow-step" style="border-color: var(--gold);">
-                        <h2 style="color:var(--gold);">2. البيانات المستخرجة آلياً</h2>
-                        <div style="display:grid; grid-template-columns: 1fr 1fr; gap:15px;">
-                            <div class="stat-card"><span>نوع الدعوى</span><h4 id="resType" style="margin:5px 0;">-</h4></div>
-                            <div class="stat-card"><span>المحكمة المختصة</span><h4 id="resCourt" style="margin:5px 0;">-</h4></div>
-                        </div>
-                        
-                        <div id="alertBox" class="hidden-panel" style="margin-top:20px; background:rgba(212,175,55,0.15); border:1px dashed var(--gold); padding:20px; border-radius:15px; text-align:center;">
-                            <h3 style="margin:0; color:var(--gold);">⚠️ تنبيه السلامة الإجرائية:</h3>
-                            <p id="alertMsg" style="font-size:1.1rem; margin:10px 0;"></p>
-                            <button class="btn-smart" style="width:auto; padding:10px 40px; font-size:1rem;">إرفاق المستندات الآن</button>
-                        </div>
+        <div id="settingsPanel" class="glass-panel">
+            <h2 style="color:var(--gold);"><i class="fas fa-cog"></i> إعدادات المنظومة الذكية</h2>
+            <div class="settings-grid">
+                <div class="setting-item">
+                    <div style="display:flex; justify-content:space-between;">
+                        <span>تفعيل الفحص الاستباقي للبيانات</span>
+                        <div class="toggle on"></div>
+                    </div>
+                </div>
+                <div class="setting-item">
+                    <div style="display:flex; justify-content:space-between;">
+                        <span>ربط بوابة معين الموحدة</span>
+                        <div class="toggle on"></div>
+                    </div>
+                </div>
+                <div class="setting-item">
+                    <div style="display:flex; justify-content:space-between;">
+                        <span>تحليل المرفقات بالرؤية الحاسوبية</span>
+                        <div class="toggle"></div>
+                    </div>
+                </div>
+                <div class="setting-item">
+                    <div style="display:flex; justify-content:space-between;">
+                        <span>مساعد المكفوفين التلقائي</span>
+                        <div class="toggle on"></div>
                     </div>
                 </div>
             </div>
-
-            <div id="judgePanel" class="hidden-panel">
-                <h2 style="color:var(--gold);"><i class="fas fa-tachometer-alt"></i> مركز الرقابة والفرز الذكي</h2>
-                <div class="stats-grid">
-                    <div class="stat-card"><span>إجمالي القضايا</span><h3>2,150</h3></div>
-                    <div class="stat-card" style="border-color:var(--green)"><span>مفروزة آلياً</span><h3>1,820</h3></div>
-                    <div class="stat-card" style="border-color:red"><span>بانتظار النواقص</span><h3>330</h3></div>
-                </div>
-                <div style="background:rgba(0,0,0,0.4); padding:30px; border-radius:25px;">
-                    <canvas id="judgeChart"></canvas>
-                </div>
-            </div>
-
-            <div id="libraryPanel" class="hidden-panel">
-                <h2 style="color:var(--gold);"><i class="fas fa-book"></i> مدونة الأحكام والمبادئ</h2>
-                <div class="workflow-step">
-                    <h4>• مبدأ اختصاص ديوان المظالم بنظر عقود الموظفين العموميين.</h4>
-                    <p style="opacity:0.7;">تاريخ المبدأ: 1446/05/10هـ | المرجع: حكم رقم 4421/ق</p>
-                </div>
-                <div class="workflow-step">
-                    <h4>• مبدأ وجوب التظلم قبل رفع دعاوى الإلغاء.</h4>
-                    <p style="opacity:0.7;">تاريخ المبدأ: 1445/02/15هـ | المرجع: حكم رقم 1102/ق</p>
-                </div>
-            </div>
-
-            <div id="calendarPanel" class="hidden-panel">
-                <h2 style="color:var(--gold);"><i class="fas fa-calendar"></i> جدول الجلسات الرقمية</h2>
-                <div class="workflow-step">
-                    <p>جلسة دعوى رقم #45012 | <b>10 فبراير 2026</b> | حالة: مجدولة (عن بعد)</p>
-                    <button class="btn-smart" style="padding:10px; width:auto; font-size:0.9rem;">دخول الجلسة</button>
-                </div>
-            </div>
-
         </div>
-    </div>
+
+        <div id="servicesPanel" class="glass-panel">
+            <h2 style="color:var(--gold);">دليل الخدمات المفعلة</h2>
+            <div class="settings-grid">
+                <div class="setting-item"><i class="fas fa-calendar"></i> المواعيد الرقمية <span class="stat-badge" style="background:var(--green)">نشط</span></div>
+                <div class="setting-item"><i class="fas fa-sync"></i> تبادل المذكرات <span class="stat-badge" style="background:var(--green)">نشط</span></div>
+                <div class="setting-item"><i class="fas fa-book"></i> المكتبة القضائية <span class="stat-badge" style="background:var(--green)">نشط</span></div>
+                <div class="setting-item"><i class="fas fa-check-circle"></i> التصديق الرقمي <span class="stat-badge" style="background:var(--gold); color:black;">قريباً</span></div>
+            </div>
+        </div>
+    </main>
 </div>
 
-<footer>جميع الحقوق محفوظة للمطورة روان الصبحي © 2026 | رواق العدل</footer>
-
 <script>
-    function switchPanel(panelId, btn) {
-        // إخفاء الكل
-        document.getElementById('litigantPanel').className = 'hidden-panel';
-        document.getElementById('judgePanel').className = 'hidden-panel';
-        document.getElementById('libraryPanel').className = 'hidden-panel';
-        document.getElementById('calendarPanel').className = 'hidden-panel';
-        
-        // إظهار المختار
-        document.getElementById(panelId + 'Panel').className = 'active-panel';
-        
-        // تحديث الأزرار
-        document.querySelectorAll('.nav-item').forEach(i => i.classList.remove('active'));
-        btn.classList.add('active');
-
-        if(panelId === 'judge') initChart();
+    function showP(id, el) {
+        document.querySelectorAll('.glass-panel').forEach(p => p.classList.remove('active-panel'));
+        document.querySelectorAll('.nav-link').forEach(l => l.classList.remove('active'));
+        document.getElementById(id + 'Panel').classList.add('active-panel');
+        el.classList.add('active');
+        if(id === 'judge') initJChart();
     }
 
-    function runSmartAnalysis() {
-        const text = document.getElementById('suitInput').value;
-        if(!text) return alert("يرجى إدخال نص الوقائع");
-        
-        document.getElementById('smartResult').className = 'active-panel';
-        const alertBox = document.getElementById('alertBox');
+    function analyze() {
+        const val = document.getElementById('suitIn').value;
+        if(!val) return;
+        document.getElementById('aiRes').style.display = 'block';
+        const alertBox = document.getElementById('alertAI');
 
         setTimeout(() => {
-            if(text.includes("عقد") || text.includes("فسخ")) {
-                document.getElementById('resType').innerText = "دعوى عقود إدارية";
-                document.getElementById('resCourt').innerText = "المحكمة الإدارية بجدة";
-                alertBox.className = 'active-panel';
-                document.getElementById('alertMsg').innerText = "تم اكتشاف دعوى تعاقدية. لسلامة الإجراء، يجب إرفاق (صورة العقد) و (قرار رفض التظلم).";
+            if(val.includes("عقد") || val.includes("فسخ")) {
+                document.getElementById('t1').innerText = "دعوى عقود إدارية";
+                document.getElementById('t2').innerText = "المحكمة الإدارية بجدة";
+                alertBox.style.display = 'block';
+                document.getElementById('alertT').innerText = "تم رصد علاقة تعاقدية. النظام يتطلب إرفاق صورة العقد وقرار رفض التظلم لتجاوز الفحص الإجرائي.";
             } else {
-                document.getElementById('resType').innerText = "دعوى إلغاء قرار";
-                document.getElementById('resCourt').innerText = "المحكمة الإدارية بالرياض";
-                alertBox.className = 'hidden-panel';
+                document.getElementById('t1').innerText = "دعوى إلغاء قرار";
+                document.getElementById('t2').innerText = "المحكمة الإدارية بالرياض";
+                alertBox.style.display = 'none';
             }
         }, 800);
     }
 
-    function playVoice() {
-        const val = document.getElementById('suitInput').value || "يرجى كتابة نص المذكرة ليقوم المساعد الصوتي بقراءته للمكفوفين.";
-        const msg = new SpeechSynthesisUtterance(val);
+    function speak() {
+        const text = document.getElementById('suitIn').value || "يرجى كتابة الوقائع ليقرأها المساعد الصوتي.";
+        const msg = new SpeechSynthesisUtterance(text);
         msg.lang = 'ar-SA';
         window.speechSynthesis.speak(msg);
     }
 
-    function initChart() {
-        const ctx = document.getElementById('judgeChart').getContext('2d');
-        if (window.myChart) window.myChart.destroy();
-        window.myChart = new Chart(ctx, {
+    function initJChart() {
+        const ctx = document.getElementById('jChart').getContext('2d');
+        if (window.mC) window.mC.destroy();
+        window.mC = new Chart(ctx, {
             type: 'doughnut',
             data: {
-                labels: ['مكتملة آلياً', 'نواقص إجرائية'],
+                labels: ['فرز ناجح', 'نواقص إجرائية'],
                 datasets: [{
                     data: [1820, 330],
-                    backgroundColor: ['#D4AF37', 'rgba(255,255,255,0.1)'],
+                    backgroundColor: ['#D4AF37', '#333'],
                     borderColor: 'transparent'
                 }]
             },
             options: { plugins: { legend: { labels: { color: 'white', font: { family: 'Tajawal' } } } } }
         });
     }
+
+    // Toggle logic
+    document.querySelectorAll('.toggle').forEach(t => {
+        t.onclick = () => t.classList.toggle('on');
+    });
 </script>
 </body>
 </html>
