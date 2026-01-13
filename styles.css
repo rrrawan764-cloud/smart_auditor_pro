@@ -1,0 +1,162 @@
+/* تصميم "رواق العدل" - الإصدار الكريستالي المضيء */
+/* المطور: روان الصبحي - 2026 */
+
+:root {
+    --gold: #D4AF37;
+    --emerald: #1a472a; /* أخضر ديوان المظالم الرسمي */
+    --glass-white: rgba(255, 255, 255, 0.12);
+    --glass-border: rgba(255, 255, 255, 0.25);
+    --text-color: #ffffff;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+    font-family: 'Cairo', 'Tajawal', sans-serif;
+    background: #0d1117; /* خلفية داكنة لإبراز تأثير الزجاج */
+    color: var(--text-color);
+    min-height: 100vh;
+    overflow-x: hidden;
+}
+
+/* الخلفية السينمائية التفاعلية */
+.cinematic-bg {
+    position: fixed;
+    top: 0; left: 0; width: 100%; height: 100%;
+    z-index: -1;
+    background: radial-gradient(circle at center, var(--emerald) 0%, #000 100%);
+}
+
+.bg-scale {
+    width: 100%; height: 100%;
+    opacity: 0.15;
+    animation: zoomEffect 20s infinite alternate ease-in-out;
+}
+
+@keyframes zoomEffect {
+    from { transform: scale(1); } to { transform: scale(1.15); }
+}
+
+/* الهيكل الزجاجي للمنصة */
+.app-shell {
+    display: flex;
+    height: 100vh;
+    padding: 20px;
+    gap: 20px;
+}
+
+/* القائمة الجانبية الشفافة */
+.sidebar {
+    width: 280px;
+    background: var(--glass-white);
+    backdrop-filter: blur(25px); /* تأثير التغبيش الزجاجي */
+    -webkit-backdrop-filter: blur(25px);
+    border: 1px solid var(--glass-border);
+    border-radius: 30px;
+    display: flex;
+    flex-direction: column;
+    padding: 30px 15px;
+}
+
+.brand h1 {
+    font-size: 1.6rem;
+    color: var(--gold);
+    text-align: center;
+    margin-bottom: 30px;
+    text-shadow: 0 0 10px rgba(212, 175, 55, 0.4);
+}
+
+.nav-item {
+    padding: 15px;
+    margin-bottom: 10px;
+    border-radius: 15px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    color: rgba(255,255,255,0.7);
+    border: 1px solid transparent;
+}
+
+.nav-item:hover, .nav-item.active {
+    background: rgba(212, 175, 55, 0.15);
+    color: var(--gold);
+    border-color: var(--gold);
+}
+
+/* منطقة المحتوى الرئيسي */
+.main {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.panel {
+    background: var(--glass-white);
+    backdrop-filter: blur(35px);
+    -webkit-backdrop-filter: blur(35px);
+    border: 1px solid var(--glass-border);
+    border-radius: 35px;
+    padding: 30px;
+}
+
+/* المساعد الذكي */
+.auditor { flex: 1; display: flex; flex-direction: column; }
+.auditor h2 { color: var(--gold); margin-bottom: 15px; }
+
+textarea {
+    flex: 1;
+    background: rgba(0,0,0,0.3);
+    border: 1px solid var(--glass-border);
+    border-radius: 20px;
+    padding: 20px;
+    color: white;
+    font-size: 1.1rem;
+    resize: none;
+    outline: none;
+}
+
+.gold-btn {
+    background: var(--gold);
+    color: #000;
+    font-weight: 900;
+    padding: 15px 40px;
+    border-radius: 50px;
+    border: none;
+    cursor: pointer;
+    margin-top: 15px;
+    box-shadow: 0 5px 15px rgba(212, 175, 55, 0.3);
+}
+
+.gold-btn:hover { transform: scale(1.02); box-shadow: 0 8px 20px rgba(212, 175, 55, 0.5); }
+
+/* مساعد المكفوفين - لمسة روان الخاصة */
+.blind-assistant {
+    background: rgba(212, 175, 55, 0.1) !important;
+    border: 1px solid var(--gold) !important;
+    text-align: center;
+}
+
+.mic-btn {
+    width: 70px; height: 70px;
+    border-radius: 50%;
+    background: var(--gold);
+    border: none;
+    cursor: pointer;
+    font-size: 1.5rem;
+    animation: pulsate 2s infinite;
+}
+
+@keyframes pulsate {
+    0% { box-shadow: 0 0 0 0 rgba(212, 175, 55, 0.7); }
+    70% { box-shadow: 0 0 0 15px rgba(212, 175, 55, 0); }
+    100% { box-shadow: 0 0 0 0 rgba(212, 175, 55, 0); }
+}
+
+/* توافق الجوال */
+@media (max-width: 768px) {
+    .app-shell { flex-direction: column; padding: 10px; }
+    .sidebar { width: 100%; height: auto; }
+    .content-grid { grid-template-columns: 1fr; }
+}
