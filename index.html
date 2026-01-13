@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>رواق العدل — منظومة قضائية متكاملة ومدعومة بالذكاء الاصطناعي</title>
+  <title>رواق العدل — منصة شاملة</title>
 
   <!-- خطوط وأيقونات -->
   <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;800&display=swap" rel="stylesheet">
@@ -11,157 +11,131 @@
 
   <meta name="author" content="روان الصبحي">
   <meta name="copyright" content="© 2026 روان الصبحي — جميع الحقوق محفوظة">
-  <meta name="description" content="رواق العدل — منصة قضائية ذكية، آمنة، وشاملة تدعم AI, OCR, TTS/STT, e-Signature, PKI وواجهات وصول متقدمة.">
+  <meta name="description" content="رواق العدل — منصة قضائية ذك��ة، آمنة، وشاملة تدعم AI, OCR, TTS/STT, e-Signature, PKI وواجهات وصول متقدمة.">
 
   <style>
     :root{
       --bg:#061021;
       --card: rgba(255,255,255,0.03);
-      --glass: rgba(255,255,255,0.04);
-      --gold: #D4AF37;
-      --emerald: #125233;
+      --gold:#D4AF37;
       --muted: rgba(255,255,255,0.7);
-      --radius:18px;
+      --accent:#0f3b22;
+      --radius:14px;
     }
     *{box-sizing:border-box}
-    html,body{height:100%; margin:0; font-family:'Cairo',sans-serif; color:#edf2f7; background:linear-gradient(180deg, rgba(2,6,23,0.85), rgba(4,10,20,0.9)); -webkit-font-smoothing:antialiased}
+    html,body{height:100%; margin:0; font-family:'Cairo',sans-serif; color:#edf2f7; background:linear-gradient(180deg,#041021,#07101a); -webkit-font-smoothing:antialiased}
     a{color:var(--gold); text-decoration:none}
 
-    /* App layout */
-    .wrap{display:flex; gap:20px; padding:28px; align-items:flex-start; min-height:100vh}
+    .wrap{display:flex; gap:20px; padding:24px; align-items:flex-start; min-height:100vh}
     aside.sidebar{
-      width:320px; background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
-      border-radius:16px; padding:20px; border-left:4px solid rgba(255,255,255,0.02);
-      display:flex; flex-direction:column; gap:16px; backdrop-filter: blur(8px);
+      width:300px; background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+      border-radius:12px; padding:18px; display:flex; flex-direction:column; gap:14px; backdrop-filter: blur(6px);
+      border-left:3px solid rgba(255,255,255,0.02);
     }
 
     .brand{display:flex; gap:12px; align-items:center}
-    /* logo container now holds an SVG emblem (ميزان + سيفين + نخلة) */
-    .logo{width:64px; height:64px; border-radius:12px; background:linear-gradient(180deg,var(--gold), #b28627); color:#071018; display:flex; align-items:center; justify-content:center; font-weight:900; font-size:28px; cursor:pointer; position:relative; overflow:visible}
-    .brand h1{margin:0; font-size:18px; color:var(--gold)}
+    /* refined professional scale logo */
+    .logo {
+      width:68px; height:68px; border-radius:12px; background:linear-gradient(180deg,var(--gold), #b28627);
+      display:flex; align-items:center; justify-content:center; cursor:pointer; box-shadow:0 6px 20px rgba(13,18,24,0.6);
+      transition:transform .18s ease, box-shadow .18s ease;
+    }
+    .logo:focus, .logo:hover { transform:translateY(-4px); box-shadow:0 12px 30px rgba(0,0,0,0.6); outline:none; }
+
+    .brand h1{margin:0; font-size:18px; color:#071018; font-weight:800}
     .brand p{margin:0; font-size:12px; color:var(--muted)}
 
     nav.nav{display:flex; flex-direction:column; gap:8px}
-    .nav .item{display:flex; gap:10px; align-items:center; padding:10px; border-radius:10px; cursor:pointer; color:var(--muted); background:transparent; border:none}
-    .nav .item.active{background:linear-gradient(90deg, rgba(212,175,55,0.08), rgba(255,255,255,0.01)); color:#071018; border-left:4px solid var(--gold)}
+    .nav .item{display:flex; gap:10px; align-items:center; padding:10px; border-radius:10px; cursor:pointer; color:var(--muted)}
+    .nav .item.active{background:linear-gradient(90deg, rgba(212,175,55,0.06), rgba(255,255,255,0.01)); color:#071018; border-left:4px solid var(--gold)}
     .nav .ico{width:36px; height:36px; display:flex; align-items:center; justify-content:center; background:rgba(255,255,255,0.02); border-radius:8px}
 
-    .sidebar .badge{font-size:12px; color:var(--gold); text-align:center}
-    .sidebar .rights{font-size:12px; color:var(--muted); text-align:center}
+    main{flex:1; display:flex; flex-direction:column; gap:14px}
 
-    main{flex:1; display:flex; flex-direction:column; gap:16px}
+    .hero{background:linear-gradient(180deg, rgba(10,12,20,0.5), rgba(0,0,0,0.6)); border-radius:12px; padding:18px; display:flex; justify-content:space-between; align-items:center}
+    .hero h2{margin:0; font-size:22px; color:var(--gold); font-weight:800}
+    .hero p{margin:8px 0 0 0; color:var(--muted); font-size:13px}
 
-    /* Hero area: authoritative look */
-    .hero{
-      background:linear-gradient(180deg, rgba(10,12,20,0.5), rgba(0,0,0,0.6));
-      border-radius:16px; padding:22px; display:flex; justify-content:space-between; align-items:center; gap:20px; box-shadow:0 10px 40px rgba(0,0,0,0.6)
-    }
-    .hero .title{max-width:65%}
-    .hero h2{margin:0; font-size:28px; color:var(--gold)}
-    .hero p{margin:8px 0 0 0; color:var(--muted); font-size:14px}
-    .hero .cta{display:flex; gap:10px; align-items:center}
-    .btn{background:var(--gold); color:#071018; padding:12px 18px; border-radius:12px; border:none; font-weight:700; cursor:pointer}
-    .btn.secondary{background:transparent; border:1px solid rgba(255,255,255,0.06); color:var(--muted)}
+    .grid{display:grid; grid-template-columns: 1fr 340px; gap:14px; margin-top:8px}
 
-    /* Grid: main panels + right column */
-    .grid{display:grid; grid-template-columns: 1fr 360px; gap:18px; margin-top:6px}
+    .card{background:var(--card); padding:14px; border-radius:12px; border:1px solid rgba(255,255,255,0.02)}
+    h3{margin:0 0 8px 0; color:var(--gold)}
 
-    .card{background:var(--card); padding:16px; border-radius:14px; border:1px solid rgba(255,255,255,0.02)}
-    .panel h3{margin:0; color:var(--gold)}
+    .auditor textarea{width:100%; min-height:150px; background:rgba(0,0,0,0.45); border-radius:10px; padding:12px; border:1px solid rgba(255,255,255,0.03); color:#fff; resize:vertical}
+    .actions{display:flex; gap:8px; margin-top:10px}
+    .btn{background:var(--gold); color:#071018; padding:10px 14px; border-radius:10px; border:none; cursor:pointer; font-weight:700}
+    .btn.secondary{background:transparent; border:1px solid rgba(255,255,255,0.06); color:var(--muted);}
 
-    /* Feature tiles */
-    .features{display:grid; grid-template-columns: repeat(auto-fit,minmax(180px,1fr)); gap:12px; margin-top:12px}
-    .feature{padding:12px; border-radius:12px; background:rgba(255,255,255,0.02); text-align:right}
-    .feature h4{margin:6px 0; color:#fff}
-    .feature p{margin:0; font-size:13px; color:var(--muted)}
-
-    /* Auditor */
-    .auditor textarea{width:100%; min-height:160px; background:rgba(0,0,0,0.45); border-radius:12px; padding:12px; border:1px solid rgba(255,255,255,0.03); color:#fff; resize:vertical}
-    .auditor .actions{display:flex; gap:10px; margin-top:12px; align-items:center}
     .result{margin-top:12px; background:rgba(212,175,55,0.06); padding:12px; border-radius:10px; border:1px solid rgba(212,175,55,0.12); color:#fff}
 
-    /* Right column */
-    aside.right{display:flex; flex-direction:column; gap:12px}
-    .quick-list{display:flex; flex-direction:column; gap:10px}
-    .quick-list button{padding:12px; border-radius:10px; border:none; cursor:pointer; background:rgba(255,255,255,0.03); color:var(--muted)}
+    .features{display:grid; grid-template-columns:repeat(auto-fit,minmax(160px,1fr)); gap:10px; margin-top:10px}
+    .feature{background:rgba(255,255,255,0.02); padding:10px; border-radius:10px; text-align:right}
+    .feature h4{margin:6px 0; color:#fff}
+    .feature p{margin:0; color:var(--muted); font-size:13px}
 
-    /* Accessibility helpers */
     .sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
 
-    /* Logo SVG styling + animations */
-    .logo svg{width:56px;height:56px; display:block}
-    .logo .scale-beam, .logo .sword, .logo .palm { transform-origin: 50% 50%; transition: transform 350ms ease-in-out; }
-    /* tilt animation applied when auditing */
-    .logo.tilt .scale-beam { transform: rotate(-8deg); }
-    .logo.tilt .left-pan { transform: translateY(6px) rotate(-6deg); }
-    .logo.tilt .right-pan { transform: translateY(-6px) rotate(6deg); }
-    .logo:hover { transform: translateY(-3px); transition: transform 220ms ease; box-shadow:0 8px 24px rgba(0,0,0,0.35) }
-
-    /* Modal */
+    /* small modal */
     .modal-backdrop{position:fixed; inset:0; background:rgba(0,0,0,0.6); display:flex; align-items:center; justify-content:center; z-index:1000}
-    .modal{background:#071018; border-radius:12px; padding:18px; width:min(720px,94%); color:#fff; border:1px solid rgba(255,255,255,0.04)}
-    .modal h4{margin:0 0 10px 0; color:var(--gold)}
+    .modal{background:#071018; border-radius:10px; padding:16px; width:min(680px,94%); color:#fff; border:1px solid rgba(255,255,255,0.04)}
+    .modal h4{margin:0 0 8px 0; color:var(--gold)}
     .modal .close{background:transparent;border:1px solid rgba(255,255,255,0.06); color:var(--muted); padding:6px 10px; border-radius:8px; cursor:pointer}
 
-    /* Responsiveness */
-    @media (max-width:1100px){
-      .grid{grid-template-columns: 1fr}
+    @media (max-width:1000px){
+      .grid{grid-template-columns:1fr}
       aside.sidebar{width:100%}
-      .wrap{flex-direction:column; padding:16px}
+      .wrap{flex-direction:column}
     }
   </style>
 </head>
 <body>
   <div class="wrap" role="application" aria-label="منظومة رواق العدل">
-    <!-- LEFT SIDEBAR -->
+    <!-- SIDEBAR -->
     <aside class="sidebar" aria-label="القائمة الرئيسية">
-      <div class="brand" aria-hidden="true">
-        <!-- شعار تفاعلي: ميزان أمام نخلة مع سيفين خلفيّن -->
-        <div class="logo" id="brandLogo" role="img" aria-label="شعار رواق العدل — ميزان مع سيفين ونخلة" tabindex="0" title="رواق العدل — انقر للمزيد">
-          <svg viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false">
-            <!-- خلفية النخلة -->
-            <g class="palm" transform="translate(32,12)">
-              <path d="M0 10 C6 2, 12 2, 18 8" stroke="#2b6e2b" stroke-width="2" fill="none" transform="translate(-18,0) rotate(-18)"/>
-              <path d="M0 10 C-6 2, -12 2, -18 8" stroke="#2b6e2b" stroke-width="2" fill="none" transform="translate(18,0) rotate(18)"/>
-              <rect x="-2" y="10" width="4" height="12" rx="1" fill="#8b5a2b" transform="translate(0,0)"/>
-            </g>
+      <div class="brand" aria-hidden="false">
+        <!-- New refined scale-only SVG (professional, balanced, gold accents) -->
+        <div class="logo" id="brandLogo" role="img" aria-label="شعار رواق العدل — ميزان" tabindex="0" title="رواق العدل">
+          <svg viewBox="0 0 80 80" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" width="56" height="56">
+            <defs>
+              <linearGradient id="g1" x1="0" x2="1">
+                <stop offset="0" stop-color="#f3df9f" />
+                <stop offset="1" stop-color="#b28627" />
+              </linearGradient>
+              <filter id="softShadow" x="-50%" y="-50%" width="200%" height="200%">
+                <feDropShadow dx="0" dy="4" stdDeviation="8" flood-color="#000" flood-opacity="0.45"/>
+              </filter>
+            </defs>
 
-            <!-- سيفان متقاطعين خلف الميزان -->
-            <g class="swords" transform="translate(32,34)">
-              <g class="sword" transform="rotate(40)">
-                <rect x="-1" y="-22" width="2" height="30" rx="0.6" fill="#cfcfcf" />
-                <polygon points="-3,-22 3,-22 0,-26" fill="#cfcfcf"/>
-                <rect x="-3" y="8" width="6" height="3" rx="0.6" fill="#b8860b"/>
-              </g>
-              <g class="sword" transform="rotate(-40)">
-                <rect x="-1" y="-22" width="2" height="30" rx="0.6" fill="#cfcfcf" />
-                <polygon points="-3,-22 3,-22 0,-26" fill="#cfcfcf"/>
-                <rect x="-3" y="8" width="6" height="3" rx="0.6" fill="#b8860b"/>
-              </g>
-            </g>
-
-            <!-- عمود الميزان -->
-            <g transform="translate(32,18)">
-              <rect x="-1.5" y="-2" width="3" height="28" rx="1" fill="#cfcfcf"/>
-              <!-- شعاع الميزان -->
-              <g class="scale-beam" transform="translate(0,4)">
-                <rect x="-14" y="-1.2" width="28" height="2.6" rx="1" fill="#cfcfcf"/>
-                <!-- مركز التعليق -->
-                <circle cx="0" cy="-6" r="2" fill="#cfcfcf"/>
-                <!-- أوعية الميزان اليمنى واليسرى -->
-                <g class="left-pan" transform="translate(-10,8)">
-                  <ellipse rx="5.5" ry="2.6" fill="#e7d9b3" />
+            <!-- base -->
+            <g transform="translate(40,14)">
+              <!-- pillar -->
+              <rect x="-2.4" y="6" width="4.8" height="34" rx="1.2" fill="#cfcfcf" opacity="0.95" />
+              <!-- beam -->
+              <g class="beam" transform="translate(0,6)">
+                <rect x="-22" y="-2.2" width="44" height="4.4" rx="2.2" fill="url(#g1)" filter="url(#softShadow)"/>
+                <circle cx="0" cy="-9" r="3.2" fill="#cfcfcf"/>
+                <!-- suspension cords -->
+                <line x1="-14" y1="-1" x2="-14" y2="10" stroke="#cfcfcf" stroke-width="1" stroke-linecap="round"/>
+                <line x1="14" y1="-1" x2="14" y2="10" stroke="#cfcfcf" stroke-width="1" stroke-linecap="round"/>
+                <!-- pans -->
+                <g transform="translate(-14,14)">
+                  <ellipse rx="10" ry="3.8" fill="#f5e7b8" stroke="#caa65a" stroke-width="0.8"/>
+                  <path d="M-8 0 q8 6 16 0" fill="rgba(0,0,0,0.03)"/>
                 </g>
-                <g class="right-pan" transform="translate(10,8)">
-                  <ellipse rx="5.5" ry="2.6" fill="#e7d9b3" />
+                <g transform="translate(14,14)">
+                  <ellipse rx="10" ry="3.8" fill="#f5e7b8" stroke="#caa65a" stroke-width="0.8"/>
+                  <path d="M-8 0 q8 6 16 0" fill="rgba(0,0,0,0.03)"/>
                 </g>
               </g>
+
+              <!-- small base plate -->
+              <rect x="-12" y="40" width="24" height="6" rx="2" fill="#2b2b2b" opacity="0.7"/>
             </g>
           </svg>
         </div>
 
         <div>
-          <h1>رواق العدل</h1>
+          <h1>رواق العدل — منصة شاملة</h1>
           <p>منصة قضائية ذكية — أمان، وصول، وكفاءة</p>
         </div>
       </div>
@@ -172,23 +146,23 @@
         <div class="item" data-panel="judge"><span class="ico"><i class="fa-solid fa-balance-scale"></i></span>منصة القاضي</div>
         <div class="item" data-panel="access"><span class="ico"><i class="fa-solid fa-universal-access"></i></span>الوصول & المكفوفين</div>
         <div class="item" data-panel="security"><span class="ico"><i class="fa-solid fa-shield"></i></span>الأمن والامتثال</div>
-        <div class="item" data-panel="settings"><span class="ico"><i class="fa-solid fa-gear"></i></span>إعد��دات</div>
+        <div class="item" data-panel="settings"><span class="ico"><i class="fa-solid fa-gear"></i></span>إعدادات</div>
       </nav>
 
-      <div class="badge">مؤسسة • موثّقة • جاهزة للإنتاج</div>
+      <div style="text-align:center; color:var(--gold); font-size:12px;">مؤسسة • موثّقة • جاهزة للإنتاج</div>
 
-      <div class="rights">
+      <div class="rights" style="text-align:center; color:var(--muted); font-size:12px;">
         روان الصبحي — جميع الحقوق محفوظة © 2026<br>
         <a href="./LICENSE">شروط الترخيص</a>
       </div>
     </aside>
 
-    <!-- MAIN CONTENT -->
+    <!-- MAIN -->
     <main>
       <section class="hero" role="banner" aria-label="ملخص المنصة">
         <div class="title">
           <h2>منصة قضائية متكاملة وهيبة مؤسسية — رواق العدل</h2>
-          <p>نظام شامل لإدارة القضايا، توليد الوثائق، تحليل الذكاء الاصطناعي، دعم وصول كامل، وتوافق أمني من المستوى المؤسسي.</p>
+          <p>نظام لإدارة القضايا، توليد الوثائق، تحليل الذكاء الاصطناعي، دعم وصول كامل وتوافق أمني مؤسسي.</p>
 
           <div style="margin-top:12px; display:flex; gap:10px; align-items:center">
             <button class="btn" onclick="openAudit()">ابدأ تدقيق ذكي</button>
@@ -196,180 +170,144 @@
           </div>
         </div>
 
-        <div class="meta" style="text-align:left">
+        <div style="text-align:left">
           <div style="display:flex; gap:8px; align-items:center; justify-content:flex-end">
-            <div style="text-align:center; padding:10px; border-radius:10px; background:rgba(255,255,255,0.02)"><strong>AI</strong><div style="font-size:12px; color:var(--muted)">تحليلات وقتية</div></div>
-            <div style="text-align:center; padding:10px; border-radius:10px; background:rgba(255,255,255,0.02)"><strong>PKI</strong><div style="font-size:12px; color:var(--muted)">تواقيع رقمية</div></div>
-            <div style="text-align:center; padding:10px; border-radius:10px; background:rgba(255,255,255,0.02)"><strong>OCR</strong><div style="font-size:12px; color:var(--muted)">مسح المستندات</div></div>
+            <div style="padding:8px; border-radius:8px; background:rgba(255,255,255,0.02); text-align:center"><strong>AI</strong><div style="font-size:11px; color:var(--muted)">تحليلات وقتية</div></div>
+            <div style="padding:8px; border-radius:8px; background:rgba(255,255,255,0.02); text-align:center"><strong>PKI</strong><div style="font-size:11px; color:var(--muted)">تواقيع رقمية</div></div>
+            <div style="padding:8px; border-radius:8px; background:rgba(255,255,255,0.02); text-align:center"><strong>OCR</strong><div style="font-size:11px; color:var(--muted)">مسح المستندات</div></div>
           </div>
         </div>
       </section>
 
       <div class="grid" role="main">
-        <!-- LEFT: Panels -->
+        <!-- LEFT PANELS -->
         <div>
-          <!-- AI Auditor Panel -->
-          <section id="auditor" class="card auditor" role="region" aria-labelledby="auditorTitle">
+          <section id="auditor" class="card" role="region" aria-labelledby="auditorTitle">
             <h3 id="auditorTitle">المساعد الذكي — تدقيق وتحليل القضايا</h3>
-            <p style="color:var(--muted); margin-top:6px; margin-bottom:12px">أدخل ملخص الدعوى أو حمّل المستندات. المساعد يدعم: تحليل النواقص، اقتراح الوثائق، توليد مسودات مذكرات، وتوليد ملاحظات قانونية.</p>
+            <p style="color:var(--muted); margin:8px 0 12px 0;">أدخل ملخص الدعوى أو حمّل المستندات. المساعد يدعم تحليل النواقص، اقتراح الوثائق، وتوليد مسودات.</p>
 
             <label for="facts" class="sr-only">نص الوقائع</label>
             <textarea id="facts" placeholder="أكتب الوقائع أو ألصق نصًا أو ارفع مستندات"></textarea>
 
-            <div class="actions" role="toolbar" aria-label="أدوات المساعد">
+            <div class="actions" role="toolbar">
               <button class="btn" onclick="triggerAudit()">تشغيل التدقيق الذكي</button>
               <button class="btn secondary" onclick="openUploader()">رفع ملف (PDF/صور)</button>
-              <button class="btn secondary" onclick="exportDraft()">توليد مسودة تلقائية</button>
+              <button class="btn secondary" onclick="exportDraft()">توليد مسودة</button>
               <button class="btn secondary" onclick="startSTT()">أوامر صوتية</button>
             </div>
 
-            <div id="auditResult" class="result" aria-live="polite" hidden>
-              <!-- نتائج التحليل تعرض هنا -->
-            </div>
+            <div id="auditResult" class="result" aria-live="polite" hidden></div>
 
-            <div style="margin-top:12px" class="features">
-              <div class="feature"><h4>OCR & استخراج بيانات</h4><p>قراءة المستندات (صور, PDF) واستخراج التواريخ والأسماء والوثائق المطلوبة.</p></div>
-              <div class="feature"><h4>TTS / STT متقدّم</h4><p>تحويل النص لصوت بالعربية، والتعرف على الأوامر الصوتية لملء النماذج.</p></div>
-              <div class="feature"><h4>توليد مستندات</h4><p>توليد مسودات مذكرات، طلبات، وصياغات جاهزة للطباعة أو التحميل PDF/DOCX.</p></div>
+            <div class="features">
+              <div class="feature"><h4>OCR & استخراج بيانات</h4><p>استخراج التواريخ، الأسماء، والوثائق من الصور وPDF.</p></div>
+              <div class="feature"><h4>TTS / STT</h4><p>قراءة النتائج وأوامر صوتية لملء النماذج.</p></div>
+              <div class="feature"><h4>توليد مستندات</h4><p>مسودات مذكرات وطلبات جاهزة PDF/DOCX.</p></div>
             </div>
           </section>
 
-          <!-- Services Panel -->
           <section id="services" class="card" role="region" aria-labelledby="servicesTitle" hidden>
-            <h3 id="servicesTitle">الخدمات الشاملة — لكل مرحلة قضائية</h3>
+            <h3 id="servicesTitle">الخدمات الشاملة</h3>
             <div class="features" style="margin-top:12px">
-              <div class="feature"><h4>قيد دعوى إلكتروني</h4><p>نموذج رقمي مع تحقق آلي من المرفقات وسجل زمني قانوني.</p></div>
-              <div class="feature"><h4>تبادل مذكرات مؤمّن</h4><p>تسجيل المذكرات، ردود، وتوقيع رقمي بصيغة PKI.</p></div>
-              <div class="feature"><h4>إدارة جلسات رقمية</h4><p>استدعاءات، جداول، جلسات مرئية، وتفريغ آلي مع ترجمة إنجليزية.</p></div>
-              <div class="feature"><h4>لوحة حاكم</h4><p>تقارير أداء، أولويات القضايا، وتنبيهات الذكاء الاصطناعي.</p></div>
+              <div class="feature"><h4>قيد دعوى إلكتروني</h4><p>ملء ذكي ومرفقات قانونية مُنظمة.</p></div>
+              <div class="feature"><h4>تبادل مذكرات مؤمّن</h4><p>توقيع PKI وتتبع التبادلات.</p></div>
+              <div class="feature"><h4>جلسات رقمية</h4><p>تفريغ، تسجيل، وترجمة فورية.</p></div>
+              <div class="feature"><h4>لوحة تقارير للقاضي</h4><p>أولوية القضايا وتنبيهات الذكاء الاصطناعي.</p></div>
             </div>
           </section>
 
-          <!-- Judge Panel -->
           <section id="judge" class="card" role="region" aria-labelledby="judgeTitle" hidden>
-            <h3 id="judgeTitle">منصة القاضي — مركز اتخاذ القرار</h3>
-            <p style="color:var(--muted)">عرض يومي، إنذارات النواقص الحرجة، اقتراح أوامر مؤقتة من الذكاء الاصطناعي، وتوليد مبررات قضائية.</p>
-
-            <div style="display:flex; gap:8px; margin-top:12px">
-              <div style="flex:1; padding:12px; border-radius:10px; background:rgba(255,255,255,0.02)"><strong>1,420</strong><div style="font-size:12px;color:var(--muted)">قضايا منجزة</div></div>
-              <div style="flex:1; padding:12px; border-radius:10px; background:rgba(255,255,255,0.02)"><strong>85</strong><div style="font-size:12px;color:var(--muted)">قيد مراجعة</div></div>
-              <div style="flex:1; padding:12px; border-radius:10px; background:rgba(255,255,255,0.02)"><strong>12</strong><div style="font-size:12px;color:var(--muted)">نواقص جوهرية</div></div>
-            </div>
+            <h3 id="judgeTitle">منصة القاضي</h3>
+            <p style="color:var(--muted)">أدوات قرار، إنذارات النواقص، واقتراح أوامر مؤقتة من AI.</p>
           </section>
 
-          <!-- Accessibility Panel -->
           <section id="access" class="card" role="region" aria-labelledby="accessTitle" hidden>
-            <h3 id="accessTitle">وصول كامل — للصم والمكفوفين</h3>
-            <div class="features" style="margin-top:12px">
-              <div class="feature"><h4>قناة صوتية متكاملة</h4><p>TTS لقراءة النتائج والأوامر الصوتية للتنقّل داخل النظام.</p></div>
-              <div class="feature"><h4>ترجمة فورية وتسميات</h4><p>EN↔AR للترجمة الحينية وتسميات في الجلسات.</p></div>
-              <div class="feature"><h4>لوحة مفاتيح وتحكّم</h4><p>الوصول عبر لوحة المفاتيح وسمات ARIA كاملة.</p></div>
+            <h3 id="accessTitle">وصول كامل</h3>
+            <div class="features" style="margin-top:8px">
+              <div class="feature"><h4>دعم المكفوفين</h4><p>TTS وملاحة صوتية.</p></div>
+              <div class="feature"><h4>دعم الصم</h4><p>تفريغ فوري والترجمة الحينية.</p></div>
             </div>
           </section>
 
-          <!-- Security Panel -->
           <section id="security" class="card" role="region" aria-labelledby="securityTitle" hidden>
-            <h3 id="securityTitle">الأمن والامتثال المؤسسي</h3>
-            <p style="color:var(--muted)">معايير صناعية: TLS/SSL، تشفير حقل على مستوى البيانات، PKI وتواقيع رقمية، SSO، سجل نشاط (audit logs) والسجلات القانونية.</p>
-
-            <ul style="margin:8px 0 0 0; padding-inline-start:18px; color:var(--muted)">
-              <li>مصادقة متعددة العوامل (MFA) وصلاحيات دورية (RBAC)</li>
-              <li>سجلات تدقيق قابلة للتصدير ومراقبة النزاهة</li>
-              <li>اختبارات اختراق دورية وسياسة معالجة ثغرات</li>
-            </ul>
+            <h3 id="securityTitle">الأمن والامتثال</h3>
+            <p style="color:var(--muted)">TLS/SSL، PKI، MFA، سجلات تدقيق، وسياسة معالجة ثغرات.</p>
           </section>
 
-          <!-- Settings Panel -->
           <section id="settings" class="card" role="region" aria-labelledby="settingsTitle" hidden>
-            <h3 id="settingsTitle">إعدادات المنظومة</h3>
-            <p style="color:var(--muted)">إعدادات السمة، اللغة، مفاتيح API للمزودين (OpenAI/خدمة محلية)، بريد الترخيص، واعدادات الوصول.</p>
-
-            <div style="display:flex; gap:8px; margin-top:12px; flex-wrap:wrap">
+            <h3 id="settingsTitle">إعدادات</h3>
+            <p style="color:var(--muted)">مزوّد AI، بريد الترخيص، وإعدادات الوصول.</p>
+            <div style="display:flex; gap:8px; margin-top:8px; flex-wrap:wrap">
               <label style="flex:1">
                 مزوّد AI
                 <select id="provider" style="width:100%; padding:8px; border-radius:8px; margin-top:6px">
                   <option value="openai">OpenAI</option>
-                  <option value="azure">Microsoft Azure</option>
-                  <option value="local">محلي / مؤسسي</option>
+                  <option value="azure">Azure</option>
+                  <option value="local">محلي</option>
                 </select>
               </label>
-
               <label style="flex:1">
                 بريد الترخيص
                 <input id="licenseEmail" type="email" placeholder="licensing@rawan.dev" style="width:100%; padding:8px; border-radius:8px; margin-top:6px" />
               </label>
-
-              <button class="btn" onclick="saveSysSettings()">حفظ الإعدادات</button>
+              <button class="btn" onclick="saveSysSettings()">حفظ</button>
             </div>
           </section>
         </div>
 
-        <!-- RIGHT: Quick actions & system info -->
-        <aside class="right">
-          <div class="card">
-            <h3>��جراءات سريعة</h3>
-            <div class="quick-list" style="margin-top:10px">
-              <button onclick="quickAction('new_case')"><i class="fa-solid fa-plus" style="margin-left:8px"></i>قيد دعوى جديدة</button>
-              <button onclick="quickAction('query')"><i class="fa-solid fa-search" style="margin-left:8px"></i>استعلام موحد</button>
-              <button onclick="quickAction('session')"><i class="fa-solid fa-video" style="margin-left:8px"></i>جدولة جلسة</button>
+        <!-- RIGHT -->
+        <aside class="card" style="display:flex; flex-direction:column; gap:12px">
+          <div>
+            <h3>إجراءات سريعة</h3>
+            <div style="display:flex; flex-direction:column; gap:8px; margin-top:8px">
+              <button class="btn secondary" onclick="quickAction('new_case')"><i class="fa-solid fa-plus" style="margin-left:8px"></i>قيد دعوى جديدة</button>
+              <button class="btn secondary" onclick="quickAction('query')"><i class="fa-solid fa-search" style="margin-left:8px"></i>استعلام موحد</button>
+              <button class="btn secondary" onclick="quickAction('session')"><i class="fa-solid fa-video" style="margin-left:8px"></i>جدولة جلسة</button>
             </div>
           </div>
 
-          <div class="card">
+          <div>
             <h3>تكاملات جاهزة</h3>
-            <p style="color:var(--muted); margin-top:8px">APIs: OpenAI, Azure Speech, Google OCR, PKI / HSM, SSO (SAML / OIDC), Archiving (S3)</p>
+            <p style="color:var(--muted); margin-top:8px">OpenAI, Azure Speech, Google OCR, PKI/HSM, SSO (SAML/OIDC), Archiving (S3)</p>
           </div>
 
-          <div class="card">
-            <h3>التواصل و التراخيص</h3>
-            <p style="color:var(--muted)">للطلبات التجارية أو تراخيص الاستخدام: <strong>licensing@rawan.dev</strong></p>
+          <div>
+            <h3>التواصل</h3>
+            <p style="color:var(--muted); margin-top:8px">للتراخيص: <strong>licensing@rawan.dev</strong></p>
           </div>
         </aside>
       </div>
 
-      <footer style="color:var(--muted); font-size:13px; margin-top:12px">
-        © 2026 روان الصبحي — جميع الحقوق محفوظة للمطوّرة. للاستفسارات والتراخيص: licensing@rawan.dev — <a href="./LICENSE">شروط الترخيص</a>
+      <footer style="color:var(--muted); font-size:13px; margin-top:8px">
+        © 2026 روان الصبحي — جميع الحقوق محفوظة. للتراخيص: licensing@rawan.dev — <a href="./LICENSE">شروط الترخيص</a>
       </footer>
     </main>
   </div>
 
-  <!-- About Modal (shows on logo click) -->
+  <!-- About modal -->
   <div id="aboutModalBackdrop" class="modal-backdrop" hidden>
     <div class="modal" role="dialog" aria-modal="true" aria-labelledby="aboutTitle">
       <h4 id="aboutTitle">عن رواق العدل</h4>
-      <p>رواق العدل — منظومة قضائية متكاملة مدعومة بالذكاء الاصطناعي (AI)، تدعم OCR، TTS/STT، توقيع PKI، وأدوات وصول شاملة للمستخدمين ذوي الاحتياجات. صممت لتلبية متطلبات المؤسسات القضائية بدرجة أمان ومصداقية عالية.</p>
-      <div style="display:flex; gap:8px; justify-content:flex-end; margin-top:12px">
+      <p>رواق العدل — منصة قضائية متكاملة مدعومة بالذكاء الاصطناعي. مصممة للمؤسسات التي تطلب أماناً، وصولاً، وكفاءة عملية عالية.</p>
+      <div style="display:flex; justify-content:flex-end; gap:8px; margin-top:12px">
         <button class="close" id="aboutClose">إغلاق</button>
       </div>
     </div>
   </div>
 
   <script>
-    /* ---------- واجهة تفاعلية محدثة: شعار تفاعلي + تحريك الميزان ---------- */
+    // Logo modal handlers
     const brandLogo = document.getElementById('brandLogo');
     const aboutBackdrop = document.getElementById('aboutModalBackdrop');
     const aboutClose = document.getElementById('aboutClose');
 
-    // فتح/إغلاق مودال "عن المنصة" عند النقر أو الضغط على Enter
-    function openAboutModal(){
-      aboutBackdrop.hidden = false;
-      aboutBackdrop.querySelector('.modal').focus();
-    }
-    function closeAboutModal(){
-      aboutBackdrop.hidden = true;
-    }
-    brandLogo.addEventListener('click', openAboutModal);
-    brandLogo.addEventListener('keydown', (e) => { if(e.key === 'Enter' || e.key === ' ') { e.preventDefault(); openAboutModal(); }});
-    aboutClose.addEventListener('click', closeAboutModal);
-    aboutBackdrop.addEventListener('click', (e) => { if(e.target === aboutBackdrop) closeAboutModal(); });
+    function openAbout(){ aboutBackdrop.hidden = false; }
+    function closeAbout(){ aboutBackdrop.hidden = true; }
 
-    // animate scale when audit runs: add class 'tilt' briefly
-    function animateScale(){
-      brandLogo.classList.add('tilt');
-      setTimeout(()=> brandLogo.classList.remove('tilt'), 1200);
-    }
+    brandLogo.addEventListener('click', openAbout);
+    brandLogo.addEventListener('keydown', e => { if(e.key === 'Enter' || e.key === ' ') { e.preventDefault(); openAbout(); }});
+    aboutClose.addEventListener('click', closeAbout);
+    aboutBackdrop.addEventListener('click', e => { if(e.target === aboutBackdrop) closeAbout(); });
 
-    /* ---------- واجهة تفاعلية خفيفة لباقي الأزرار ---------- */
     // panel navigation
     document.querySelectorAll('.nav .item').forEach(btn=>{
       btn.addEventListener('click', ()=> {
@@ -382,78 +320,50 @@
       });
     });
 
-    // initial state: hide all except auditor
+    // hide others initially
     ['services','judge','access','security','settings'].forEach(id=>{
       const el = document.getElementById(id);
       if(el) el.hidden = true;
     });
 
-    // quick actions
-    function quickAction(key){
-      switch(key){
-        case 'new_case': alert('فتح نموذج قيد دعوى جديد'); break;
-        case 'query': alert('فتح استعلام موحد'); break;
-        case 'session': alert('جدولة جلسة رقمية'); break;
-      }
-    }
+    function triggerAudit(){
+      // visual feedback: brief scale animation on logo
+      brandLogo.style.transform = 'translateY(-6px) scale(1.02)';
+      setTimeout(()=> brandLogo.style.transform = '', 700);
 
-    function openAudit(){ document.querySelector('.nav .item[data-panel="auditor"]').click(); window.scrollTo({top:0, behavior:'smooth'}); }
-    function openServices(){ document.querySelector('.nav .item[data-panel="services"]').click(); window.scrollTo({top:0, behavior:'smooth'}); }
-
-    // fake uploader
-    function openUploader(){ alert('نافذة رفع المستندات (ربط واجهة رفع فعلية مع S3/Storage).'); }
-
-    // save settings (updates footer license email)
-    function saveSysSettings(){
-      const email = document.getElementById('licenseEmail').value.trim() || 'licensing@rawan.dev';
-      const footer = document.querySelector('footer');
-      footer.innerHTML = `© 2026 روان الصبحي — جميع الحقوق محفوظة للمطوّرة. للاستفسارات والتراخيص: ${email} — <a href="./LICENSE">شروط الترخيص</a>`;
-      alert('تم حفظ الإعدادات محليًا. لتحديث ملفات المشروع على الخادم، حدّث ملف LICENSE وملفات الخادم.');
-    }
-
-    /* ---------- AI / OCR / TTS placeholders ---------- */
-    async function triggerAudit(){
-      // animate emblem for immediate visual feedback
-      animateScale();
-
-      const text = document.getElementById('facts').value.trim();
       const result = document.getElementById('auditResult');
       result.hidden = false;
-      result.innerHTML = '<strong>جارٍ التحليل بواسطة AI...</strong>';
-
-      // TODO: استبدال هذا الجزء باستدعاء آمن إلى الخادم (server-side)
-      await new Promise(r=>setTimeout(r, 900)); // محاكاة زمن استجابة
-
-      // نموذج نتيجة
-      const analysis = {
-        verdict: 'تظلم إداري — احتمالية قبول مبدئية 74%',
-        issues: ['غياب إثبات التبليغ', 'تاريخ تقديم غير متطابق'],
-        recommendations: [
-          'توفير ختم التبليغ أو صورة إيصال التبليغ.',
-          'رفع وثيقة التفويض الموقعة.',
-          'مطابقة التواريخ والمستندات قبل القيد.'
-        ]
-      };
-
-      result.innerHTML = `<strong>${analysis.verdict}</strong>
-        <ul style="margin:8px 0 0 0; padding-inline-start:18px">
-          ${analysis.issues.map(i=>`<li>${i}</li>`).join('')}
-        </ul>
-        <div style="margin-top:8px"><strong>توصيات:</strong>
-        <ol style="margin:6px 0 0 0; padding-inline-start:18px">
-          ${analysis.recommendations.map(r=>`<li>${r}</li>`).join('')}
-        </ol></div>
-        <div style="margin-top:10px"><button class="btn" onclick="exportDraft()">توليد مسودة مذكّرة</button>
-        <button class="btn secondary" onclick="flagForJudge()">إحالة للقاضي</button></div>`;
+      result.innerHTML = '<strong>جارٍ التحليل بواسطة AI…</strong>';
+      // simulate server call
+      setTimeout(()=>{
+        const analysis = {
+          verdict: 'تظلم إداري — احتمالية قبول مبدئية 74%',
+          issues: ['غياب إثبات التبليغ', 'تاريخ تقديم غير متطابق'],
+          recommendations: [
+            'توفير ختم التبليغ أو صورة إيصال التبليغ.',
+            'رفع وثيقة التفويض الموقعة.',
+            'مطابقة التواريخ والمستندات قبل القيد.'
+          ]
+        };
+        result.innerHTML = `<strong>${analysis.verdict}</strong>
+          <ul style="margin:8px 0 0 0; padding-inline-start:18px">
+            ${analysis.issues.map(i=>`<li>${i}</li>`).join('')}
+          </ul>
+          <div style="margin-top:8px"><strong>توصيات:</strong>
+          <ol style="margin:6px 0 0 0; padding-inline-start:18px">
+            ${analysis.recommendations.map(r=>`<li>${r}</li>`).join('')}
+          </ol></div>
+          <div style="margin-top:10px"><button class="btn" onclick="exportDraft()">توليد مسودة</button>
+          <button class="btn secondary" onclick="flagForJudge()">إحالة للقاضي</button></div>`;
+      }, 900);
     }
 
-    function exportDraft(){ alert('توليد مسودة (ربط مولّد المستندات DOCX/PDF على الخادم).'); }
-    function flagForJudge(){ alert('تم إحالة الملف لقائمة مراجعة القاضي.'); }
-
-    /* TTS & STT (مؤشرات): للتشغيل الفعلي يفضل ربط خدمات سحابية متخصّصة مثل Azure Speech أو Google Speech */
+    function openUploader(){ alert('واجهة رفع المستندات — ربط S3/Storage وOCR في الخادم.'); }
+    function exportDraft(){ alert('توليد مسودة (ربط مولّد المستندات في الخادم).'); }
+    function flagForJudge(){ alert('تم إحالة الملف للقاضي.'); }
     function startSTT(){
       if(!('webkitSpeechRecognition' in window) && !('SpeechRecognition' in window)){
-        alert('التعرّف على الصوت غير مدعوم في متصفحك — للتجربة الفعلية، ربط خدمة ASR احترافية مطلوب.');
+        alert('التعرّف على الصوت غير متاح في المتصفح — لنتائج أفضل ربط خدمة ASR احترافية.');
         return;
       }
       const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
@@ -464,14 +374,21 @@
         const txt = Array.from(e.results).map(r=>r[0].transcript).join('');
         document.getElementById('facts').value = txt;
       };
-      rec.onerror = ()=> alert('تعذر بدء التعرف على الصوت في هذه الجلسة.');
+      rec.onerror = ()=> alert('فشل بدء التعرف على الصوت في هذه الجلسة.');
       rec.start();
     }
 
-    /* Initial load: set licensing email default if needed */
-    (function init(){
-      document.getElementById('licenseEmail').value = 'licensing@rawan.dev';
-    })();
+    function quickAction(k){
+      alert('إجراء سريع: ' + k);
+    }
+
+    function saveSysSettings(){
+      const email = document.getElementById('licenseEmail').value.trim() || 'licensing@rawan.dev';
+      document.querySelector('footer').innerHTML = `© 2026 روان الصبحي — جميع الحقوق محفوظة. للتراخيص: ${email} — <a href="./LICENSE">شروط الترخيص</a>`;
+      alert('تم حفظ الإعدادات محليًا. حدّث ملف LICENSE في المستودع للخزن الدائم.');
+    }
+
+    (function init(){ document.getElementById('licenseEmail').value = 'licensing@rawan.dev'; })();
   </script>
 </body>
 </html>
