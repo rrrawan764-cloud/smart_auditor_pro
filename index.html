@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>منظومة رواق العدل | التفاعلية الذكية</title>
+    <title>منظومة رواق العدل الشاملة | 2026</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <style>
@@ -11,97 +11,79 @@
         
         :root {
             --gold: #D4AF37;
-            --glass: rgba(255, 255, 255, 0.07);
+            --glass: rgba(255, 255, 255, 0.08);
             --border: rgba(255, 255, 255, 0.15);
-            --neon: 0 0 25px rgba(212, 175, 55, 0.4);
+            --neon: 0 0 20px rgba(212, 175, 55, 0.4);
         }
 
         body {
             font-family: 'Tajawal', sans-serif;
             margin: 0; min-height: 100vh; color: white;
-            /* الخلفية الفخمة التفاعلية */
-            background: linear-gradient(rgba(0,0,0,0.65), rgba(0,0,0,0.65)), 
+            background: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.7)), 
                         url('https://images.unsplash.com/photo-1589829545856-d10d557cf95f?auto=format&fit=crop&w=1920&q=80');
             background-size: cover; background-position: center; background-attachment: fixed;
             display: flex; flex-direction: column; align-items: center;
         }
 
-        .container { width: 90%; max-width: 1100px; margin-top: 30px; }
+        .container { width: 95%; max-width: 1200px; margin-top: 25px; padding-bottom: 50px; }
 
-        /* الهيدر الزجاجي التفاعلي */
         header {
-            background: var(--glass); backdrop-filter: blur(20px);
-            border: 1px solid var(--border); border-radius: 30px;
-            padding: 30px; text-align: center; margin-bottom: 30px; box-shadow: var(--neon);
-            animation: slideDown 0.8s ease-out;
+            background: var(--glass); backdrop-filter: blur(20px); border: 1px solid var(--border);
+            border-radius: 30px; padding: 25px; text-align: center; margin-bottom: 25px; box-shadow: var(--neon);
         }
 
-        .logo-icon { font-size: 4.5rem; color: var(--gold); filter: drop-shadow(var(--neon)); margin-bottom: 10px; }
-        h1 { font-size: 3rem; margin: 0; font-weight: 900; letter-spacing: 2px; }
+        .logo-area i { font-size: 4rem; color: var(--gold); filter: drop-shadow(var(--neon)); }
+        h1 { font-size: 2.8rem; margin: 10px 0; font-weight: 900; }
 
-        /* أزرار التبديل الكبيرة (تفاعلية) */
-        .tab-nav {
-            display: flex; justify-content: center; gap: 20px; margin-top: 25px;
+        /* نافيجيشن شامل */
+        .main-nav {
+            display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; margin-bottom: 25px;
         }
-        .tab-btn {
-            background: transparent; border: 2px solid var(--gold); color: var(--gold);
-            padding: 15px 40px; border-radius: 50px; cursor: pointer; font-weight: 900;
-            font-size: 1.1rem; transition: 0.4s;
+        .nav-btn {
+            background: var(--glass); border: 1px solid var(--border); color: white;
+            padding: 15px 5px; border-radius: 20px; cursor: pointer; transition: 0.3s;
+            font-size: 0.9rem; font-weight: bold; display: flex; flex-direction: column; align-items: center; gap: 8px;
         }
-        .tab-btn.active, .tab-btn:hover { background: var(--gold); color: black; box-shadow: var(--neon); transform: scale(1.05); }
+        .nav-btn.active, .nav-btn:hover { background: var(--gold); color: black; box-shadow: var(--neon); }
 
-        /* الألواح الزجاجية الرئيسية */
-        .glass-panel {
-            background: var(--glass); backdrop-filter: blur(25px);
-            border: 1px solid var(--border); border-radius: 35px;
-            padding: 40px; box-shadow: 0 20px 60px rgba(0,0,0,0.6);
-            display: none; animation: fadeIn 0.6s ease-in-out;
+        .panel {
+            background: var(--glass); backdrop-filter: blur(25px); border: 1px solid var(--border);
+            border-radius: 35px; padding: 35px; display: none; animation: fadeIn 0.6s ease;
         }
         .active-panel { display: block; }
 
-        /* منطقة المتقاضي: النص والذكاء */
+        /* شبكة الخدمات الشاملة */
+        .services-grid {
+            display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px;
+        }
+        .service-card {
+            background: rgba(255,255,255,0.05); border: 1px solid var(--border);
+            border-radius: 20px; padding: 25px; text-align: center; transition: 0.3s; cursor: pointer;
+        }
+        .service-card:hover { transform: translateY(-10px); background: rgba(212, 175, 55, 0.1); border-color: var(--gold); }
+        .service-card i { font-size: 2.5rem; color: var(--gold); margin-bottom: 15px; }
+
+        /* المتقاضي والأتمتة */
         textarea {
-            width: 100%; height: 200px; background: rgba(0,0,0,0.4);
-            border: 1px solid var(--border); border-radius: 20px; color: white;
-            padding: 20px; font-size: 1.2rem; border-right: 10px solid var(--gold);
-            outline: none; box-sizing: border-box; transition: 0.3s;
+            width: 100%; height: 180px; background: rgba(0,0,0,0.4); border: 1px solid var(--border);
+            border-radius: 20px; color: white; padding: 20px; font-size: 1.1rem; border-right: 8px solid var(--gold);
+            outline: none; box-sizing: border-box;
         }
-        textarea:focus { border-color: var(--gold); background: rgba(0,0,0,0.6); }
-
-        .btn-main {
-            padding: 18px 45px; border-radius: 50px; border: none; font-weight: 900;
-            font-size: 1.2rem; cursor: pointer; transition: 0.3s; margin-top: 20px;
-            display: flex; align-items: center; gap: 12px; justify-content: center;
+        .auto-result {
+            display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px;
+            margin-top: 25px; display: none; padding-top: 25px; border-top: 1px solid var(--border);
         }
-        .btn-analyze { background: var(--gold); color: black; width: 100%; }
-        .btn-voice { background: #006C35; color: white; margin-top: 10px; width: 100%; }
+        .res-box { background: rgba(0,0,0,0.3); padding: 15px; border-radius: 15px; border: 1px solid var(--border); }
+        .res-box label { color: var(--gold); font-size: 0.8rem; display: block; }
 
-        /* التعبئة التلقائية الذكية */
-        .auto-fill-grid {
-            display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 15px; margin-top: 30px; border-top: 1px solid var(--border); padding-top: 30px;
-            display: none;
-        }
-        .info-card { background: rgba(255,255,255,0.05); padding: 15px; border-radius: 15px; border: 1px solid var(--border); }
-        .info-card label { color: var(--gold); font-size: 0.8rem; display: block; margin-bottom: 5px; }
-        .info-card div { font-weight: bold; font-size: 1rem; }
+        .btn-gold { width: 100%; padding: 18px; border-radius: 50px; border: none; font-weight: 900; font-size: 1.2rem; cursor: pointer; background: var(--gold); margin-top: 15px; transition: 0.3s; }
+        .btn-green { background: #006C35; color: white; }
 
-        /* تنبيه المرفقات الناقصة */
-        .missing-docs {
-            grid-column: 1 / -1; background: rgba(212, 175, 55, 0.15);
-            border: 2px dashed var(--gold); border-radius: 20px;
-            padding: 20px; text-align: center; margin-top: 20px; animation: pulseBorder 2s infinite;
-        }
-        @keyframes pulseBorder { 0% { border-color: var(--gold); } 50% { border-color: white; } 100% { border-color: var(--gold); } }
-
-        /* واجهة القاضي */
-        .stats-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 15px; margin-bottom: 30px; }
+        /* القاضي */
+        .stats-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 15px; margin-bottom: 25px; }
         .stat-item { background: rgba(0,0,0,0.3); padding: 20px; border-radius: 20px; text-align: center; border: 1px solid var(--gold); }
-        .stat-item h3 { font-size: 2.5rem; margin: 5px 0; color: var(--gold); }
 
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
-        @keyframes slideDown { from { opacity: 0; transform: translateY(-50px); } to { opacity: 1; transform: translateY(0); } }
-
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
         footer { text-align: center; padding: 40px; color: var(--gold); font-weight: 900; }
     </style>
 </head>
@@ -109,89 +91,104 @@
 
 <div class="container">
     <header>
-        <i class="fas fa-balance-scale logo-icon"></i>
+        <div class="logo-area"><i class="fas fa-balance-scale"></i></div>
         <h1>رواق العدل</h1>
-        <p style="letter-spacing: 4px; color: var(--gold); margin-top: 10px;">نظام الأتمتة الإجرائية التفاعلي</p>
-        <div class="tab-nav">
-            <button class="tab-btn active" onclick="showTab('user', this)">بوابة المتقاضي</button>
-            <button class="tab-btn" onclick="showTab('judge', this)">منصة القاضي</button>
-        </div>
+        <p style="letter-spacing: 3px; color: var(--gold);">المنصة الرقمية الشاملة لديوان المظالم</p>
     </header>
 
-    <div id="userPanel" class="glass-panel active-panel">
-        <h2 style="color:var(--gold);"><i class="fas fa-magic"></i> إيداع ذكي (تعبئة تلقائية)</h2>
-        <p style="opacity:0.8;">اكتبي وقائع الدعوى هنا، وسيقوم النظام بتحديد المحكمة ونوع القضية والمرفقات الناقصة آلياً.</p>
-        <textarea id="suitInput" placeholder="مثال: أطالب بفسخ عقد مع وزارة الموارد البشرية بسبب إيقاف المستحقات..."></textarea>
-        
-        <button class="btn-main btn-analyze" onclick="startInteraction()">
-            <i class="fas fa-wand-magic-sparkles"></i> تحليل وأتمتة البيانات
-        </button>
-        <button class="btn-main btn-voice" onclick="speakText()">
-            <i class="fas fa-volume-high"></i> مساعد المكفوفين
-        </button>
+    <nav class="main-nav">
+        <button class="nav-btn active" onclick="showTab('main', this)"><i class="fas fa-grid-2"></i> الخدمات</button>
+        <button class="nav-btn" onclick="showTab('litigant', this)"><i class="fas fa-user-edit"></i> المتقاضي</button>
+        <button class="nav-btn" onclick="showTab('judge', this)"><i class="fas fa-gavel"></i> القاضي</button>
+        <button class="nav-btn" onclick="showTab('search', this)"><i class="fas fa-search"></i> استعلام</button>
+    </nav>
 
-        <div id="resultGrid" class="auto-fill-grid">
-            <div class="info-card"><label>نوع الدعوى</label><div id="rType">جاري الاستخراج...</div></div>
-            <div class="info-card"><label>المحكمة المختصة</label><div id="rCourt">جاري التحديد...</div></div>
-            <div class="info-card"><label>الجهة المدعى عليها</label><div id="rDefendant">جاري الرصد...</div></div>
-            <div id="docsAlert" class="missing-docs" style="display:none;">
-                <h4 style="margin:0;"><i class="fas fa-file-circle-exclamation"></i> تم رصد نقص في المرفقات!</h4>
-                <p id="docsMsg" style="font-size:0.9rem; margin:10px 0;"></p>
-                <button class="tab-btn" style="padding:5px 20px; font-size:0.8rem;">إرفاق الآن</button>
+    <div id="mainPanel" class="panel active-panel">
+        <h2 style="color:var(--gold); margin-bottom:25px;"><i class="fas fa-stars"></i> دليل الخدمات الذكي</h2>
+        <div class="services-grid">
+            <div class="service-card" onclick="showTab('litigant')"><i class="fas fa-file-signature"></i><h4>إيداع دعوى ذكي</h4><p>تحليل آلي وتعبئة فورية.</p></div>
+            <div class="service-card"><i class="fas fa-calendar-alt"></i><h4>إدارة المواعيد</h4><p>حجز الجلسات الرقمية.</p></div>
+            <div class="service-card"><i class="fas fa-envelope-open-text"></i><h4>تبادل المذكرات</h4><p>رفع الدفوع الجوابية آلياً.</p></div>
+            <div class="service-card"><i class="fas fa-book-reader"></i><h4>المكتبة الرقمية</h4><p>أرشيف الأحكام والمبادئ.</p></div>
+            <div class="service-card"><i class="fas fa-robot"></i><h4>المستشار الآلي</h4><p>دعم قانوني بالذكاء الاصطناعي.</p></div>
+            <div class="service-card"><i class="fas fa-fingerprint"></i><h4>التصديق الرقمي</h4><p>توثيق الأحكام إلكترونياً.</p></div>
+        </div>
+    </div>
+
+    <div id="litigantPanel" class="panel">
+        <h2 style="color:var(--gold);"><i class="fas fa-microchip"></i> بوابة الإيداع والأتمتة</h2>
+        <textarea id="suitInput" placeholder="اكتبي وقائع الدعوى هنا ليقوم النظام بتحليلها..."></textarea>
+        <button class="btn-gold" onclick="analyzeAction()"><i class="fas fa-wand-magic-sparkles"></i> تحليل وأتمتة البيانات</button>
+        <button class="btn-gold btn-green" onclick="voiceAction()"><i class="fas fa-volume-up"></i> مساعد المكفوفين</button>
+
+        <div id="autoFields" class="auto-result">
+            <div class="res-box"><label>نوع الدعوى</label><div id="tCase">-</div></div>
+            <div class="res-box"><label>المحكمة المختصة</label><div id="tCourt">-</div></div>
+            <div class="res-box"><label>الجهة المدعى عليها</label><div id="tDef">-</div></div>
+            <div id="missingAlert" style="grid-column: 1 / -1; background:rgba(212,175,55,0.15); border:1px dashed var(--gold); padding:20px; border-radius:15px; text-align:center; display:none;">
+                <h4 style="margin:0; color:var(--gold);"><i class="fas fa-exclamation-circle"></i> تنبيه النواقص:</h4>
+                <p id="missingMsg" style="font-size:0.9rem; margin-top:10px;"></p>
+                <button class="btn-gold" style="width:auto; padding:10px 30px; font-size:1rem;">إرفاق الآن</button>
             </div>
         </div>
     </div>
 
-    <div id="judgePanel" class="glass-panel">
-        <h2 style="color:var(--gold);"><i class="fas fa-chart-pie"></i> مركز مراقبة الفرز اللحظي</h2>
+    <div id="judgePanel" class="panel">
+        <h2 style="color:var(--gold);"><i class="fas fa-tachometer-alt"></i> منصة الرقابة والفرز</h2>
         <div class="stats-grid">
-            <div class="stat-item"><span>إجمالي الدعاوى</span><h3>2,150</h3></div>
-            <div class="stat-item"><span>مكتملة الأركان</span><h3 style="color:#00c851;">1,820</h3></div>
+            <div class="stat-item"><span>إجمالي القضايا</span><h3 style="color:var(--gold);">2,150</h3></div>
+            <div class="stat-item"><span>مكتملة آلياً</span><h3 style="color:#00c851;">1,820</h3></div>
         </div>
-        <div style="background:rgba(0,0,0,0.3); padding:20px; border-radius:25px;">
+        <div style="background:rgba(0,0,0,0.4); padding:20px; border-radius:25px;">
             <canvas id="judgeChart"></canvas>
         </div>
     </div>
+
+    <div id="searchPanel" class="panel">
+        <h2 style="color:var(--gold);"><i class="fas fa-search"></i> استعلام عن قضية</h2>
+        <div style="display:flex; gap:10px;">
+            <input type="text" placeholder="رقم المعاملة..." style="flex:1; padding:15px; border-radius:15px; border:1px solid var(--border); background:rgba(0,0,0,0.5); color:white;">
+            <button class="btn-gold" style="width:auto; margin:0; padding:0 40px;">بحث</button>
+        </div>
+    </div>
+
 </div>
 
 <footer>جميع الحقوق محفوظة للمطورة روان الصبحي © 2026</footer>
 
 <script>
     function showTab(id, btn) {
-        document.querySelectorAll('.glass-panel').forEach(p => p.classList.remove('active-panel'));
-        document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+        document.querySelectorAll('.panel').forEach(p => p.classList.remove('active-panel'));
+        document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
         document.getElementById(id + 'Panel').classList.add('active-panel');
-        btn.classList.add('active');
+        if(btn) btn.classList.add('active');
         if(id === 'judge') initChart();
     }
 
-    function startInteraction() {
+    function analyzeAction() {
         const text = document.getElementById('suitInput').value;
-        if(!text) return alert("يرجى كتابة نص الوقائع");
-        
-        const grid = document.getElementById('resultGrid');
-        const alertBox = document.getElementById('docsAlert');
-        grid.style.display = 'grid';
+        if(!text) return alert("يرجى كتابة الوقائع");
+        const fields = document.getElementById('autoFields');
+        const alertBox = document.getElementById('missingAlert');
+        fields.style.display = 'grid';
 
-        // محاكاة التفاعل الذكي
         setTimeout(() => {
             if(text.includes("عقد") || text.includes("فسخ")) {
-                document.getElementById('rType').innerText = "دعوى عقود إدارية";
-                document.getElementById('rCourt').innerText = "المحكمة الإدارية بجدة";
+                document.getElementById('tCase').innerText = "عقود إدارية";
+                document.getElementById('tCourt').innerText = "المحكمة الإدارية بجدة";
                 alertBox.style.display = 'block';
-                document.getElementById('docsMsg').innerText = "بناءً على وقائع 'فسخ العقد'، يرجى إرفاق (صورة العقد) و (قرار الرفض) لمعالجة الطلب.";
+                document.getElementById('missingMsg').innerText = "تم رصد دعوى عقد: يرجى إرفاق (صورة العقد) و (قرار الرفض).";
             } else {
-                document.getElementById('rType').innerText = "دعوى إلغاء قرار إداري";
-                document.getElementById('rCourt').innerText = "المحكمة الإدارية بالرياض";
+                document.getElementById('tCase').innerText = "إلغاء قرار";
+                document.getElementById('tCourt').innerText = "المحكمة الإدارية بالرياض";
                 alertBox.style.display = 'none';
             }
-            document.getElementById('rDefendant').innerText = text.includes("الموارد") ? "وزارة الموارد البشرية" : "جهة حكومية";
+            document.getElementById('tDef').innerText = text.includes("الموارد") ? "وزارة الموارد البشرية" : "جهة حكومية";
         }, 800);
     }
 
-    function speakText() {
-        const val = document.getElementById('suitInput').value || "يرجى كتابة نص";
-        const speech = new SpeechSynthesisUtterance(val);
+    function voiceAction() {
+        const speech = new SpeechSynthesisUtterance(document.getElementById('suitInput').value || "يرجى الكتابة");
         speech.lang = 'ar-SA';
         window.speechSynthesis.speak(speech);
     }
@@ -202,10 +199,10 @@
         window.myChart = new Chart(ctx, {
             type: 'doughnut',
             data: {
-                labels: ['مكتملة آلياً', 'تحتاج مراجعة'],
+                labels: ['مكتملة', 'مراجعة'],
                 datasets: [{
                     data: [1820, 330],
-                    backgroundColor: ['#D4AF37', 'rgba(255,255,255,0.2)'],
+                    backgroundColor: ['#D4AF37', 'rgba(255,255,255,0.1)'],
                     borderColor: 'transparent'
                 }]
             },
