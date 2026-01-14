@@ -1,25 +1,19 @@
 const express = require('express');
-const dotenv = require('dotenv');
 const cors = require('cors');
-
-dotenv.config();
 const app = express();
+
 app.use(express.json());
-app.use(cors());
+app.use(cors()); // مهم جداً للربط
 
-// نقطة فحص النظام
-app.get('/status', (req, res) => {
-    res.json({ status: "منظومة رواق العدل تعمل بنجاح", version: "1.5.0" });
-});
-
-// تحليل الذكاء الاصطناعي (AI Auditor)
 app.post('/api/analyze', (req, res) => {
     const { facts } = req.body;
-    // هنا يتم الربط مع OpenAI مستقبلاً
+    console.log("وصلت وقائع جديدة:", facts);
+    
+    // رد تجريبي يوضح أن الربط تم بنجاح
     res.json({ 
-        decision: "قيد المراجعة", 
-        suggestion: "يرجى التأكد من إرفاق القرار الإداري المطعون فيه." 
+        decision: "تم استلام البيانات من الخادم", 
+        suggestion: "التحليل الذكي: الدعوى مكتملة الأركان، يرجى تقديمها للمحكمة الإدارية." 
     });
 });
 
-app.listen(3000, () => console.log('Server running on port 3000'));
+app.listen(3000, () => console.log('الخادم يعمل على منفذ 3000'));
