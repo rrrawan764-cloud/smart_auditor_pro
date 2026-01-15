@@ -1,69 +1,87 @@
-
 <!doctype html>
 <html lang="ar" dir="rtl">
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>رواق العدل — المنصة المتكاملة</title>
+
   <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+
   <style>
-    /* كل التنسيقات الفخمة التي اخترتِها مع تحسينات للشفافية الزجاجية */
-    :root {
-      --bg-1:#071918; --bg-2:#042a24; --green:#0fb06b; --gold:#FFB703;
+    /* التنسيقات الأصلية مع إضافة تأثيرات الشفافية الزجاجية */
+    :root{
+      --bg-1:#071918; --bg-2:#042a24; --muted:#93a79f;
+      --green:#0fb06b; --gold:#FFB703; --radius:14px;
       --card-shadow: 0 18px 48px rgba(0,0,0,0.55);
+      --ui-ease: cubic-bezier(.2,.9,.2,1);
     }
-    body { margin:0; font-family:'Cairo'; background:var(--bg-1); color:#e6fff4; overflow-x:hidden; }
-    #bgCanvas { position: fixed; inset: 0; z-index: -1; }
-    .container { max-width:1200px; margin:20px auto; display:grid; grid-template-columns:300px 1fr; gap:20px; padding:20px; }
-    .card { background: rgba(255,255,255,0.03); backdrop-filter: blur(10px); border-radius:15px; padding:20px; border:1px solid rgba(255,255,255,0.05); box-shadow: var(--card-shadow); }
-    .btn { background: linear-gradient(180deg, var(--green), #0b7d56); border:none; padding:12px; border-radius:10px; color:#042b22; font-weight:800; cursor:pointer; width:100%; margin-bottom:10px; transition: 0.3s; }
-    .btn:hover { transform: translateY(-3px); box-shadow: 0 5px 15px rgba(15,176,107,0.3); }
-    .menu button { width:100%; text-align:right; background:transparent; border:none; color:#93a79f; padding:15px; cursor:pointer; font-weight:700; border-radius:10px; }
-    .menu button.active { background: rgba(15,176,107,0.1); color:var(--green); border-left:4px solid var(--gold); }
-    textarea, input { width:100%; background:rgba(0,0,0,0.3); border:1px solid rgba(255,255,255,0.1); padding:12px; color:white; border-radius:10px; margin-bottom:15px; }
+    *{box-sizing:border-box}
+    html,body{height:100%;margin:0;font-family:'Cairo',sans-serif;background:linear-gradient(180deg,var(--bg-1),var(--bg-2));color:#e6fff4;-webkit-font-smoothing:antialiased; overflow-x:hidden;}
+    
+    /* محرك الخلفية التفاعلي */
+    #bgCanvas { position: fixed; inset: 0; z-index: -2; background: #021210; }
+    .bg-overlay { position: fixed; inset: 0; z-index: -1; background: radial-gradient(circle at center, transparent, rgba(0,0,0,0.4)); pointer-events: none; }
+
+    .container{max-width:1200px;margin:20px auto;padding:18px;display:grid;grid-template-columns:320px 1fr;gap:18px;position:relative;z-index:0}
+    .sidebar{background: rgba(255,255,255,0.03); border-radius:16px; padding:18px; backdrop-filter: blur(10px); border:1px solid rgba(255,255,255,0.05); box-shadow:var(--card-shadow);}
+    .logo{width:86px;height:86px;border-radius:14px;display:flex;align-items:center;justify-content:center;background:linear-gradient(180deg, var(--green), #066448); cursor:pointer; transition: 0.4s var(--ui-ease);}
+    .logo:hover { transform: scale(1.05) rotate(5deg); }
+    
+    .menu button{display:flex;width:100%;align-items:center;gap:10px;padding:12px;border-radius:10px;border:none;background:transparent;color:var(--muted);cursor:pointer;font-weight:700;text-align:right;}
+    .menu button.active{background:rgba(15,176,107,0.1); border-left:4px solid var(--gold); color:#dff8ea}
+    
+    .card{border-radius:14px;padding:16px;background:rgba(255,255,255,0.02);border:1px solid rgba(255,255,255,0.03);backdrop-filter: blur(8px);box-shadow:var(--card-shadow);}
+    .btn{background:linear-gradient(180deg,var(--green), #0b7d56); color:#042b22; border:0; padding:10px 14px; border-radius:10px; cursor:pointer; font-weight:800; transition:0.3s;}
+    .btn:hover { transform:translateY(-3px); box-shadow: 0 10px 20px rgba(15,176,107,0.2); }
+    
+    .input, textarea { width:100%; padding:10px; border-radius:10px; border:1px solid rgba(255,255,255,0.04); background: rgba(0,0,0,0.2); color:#eafff0; margin-top:10px;}
+    
+    .toast-wrap{position:fixed;left:50%;transform:translateX(-50%);top:22px;z-index:2000;display:flex;flex-direction:column;gap:8px;}
+    .toast{background:rgba(15,176,107,0.9);color:#000;padding:10px 20px;border-radius:10px;font-weight:700;box-shadow:0 10px 30px rgba(0,0,0,0.5);transform:translateY(-20px);opacity:0;transition:0.4s var(--ui-ease);}
+    .toast.show{transform:translateY(0);opacity:1;}
   </style>
 </head>
 <body>
   <canvas id="bgCanvas"></canvas>
-  
+  <div class="bg-overlay"></div>
+  <div class="toast-wrap" id="toastWrap"></div>
+
   <div class="container">
-    <aside class="sidebar card">
+    <aside class="sidebar">
       <div class="brand">
         <div class="logo">ر</div>
-        <h2>رواق العدل</h2>
+        <div>
+          <h1>رواق العدل</h1>
+          <p class="muted">منصة قضائية متكاملة</p>
+        </div>
       </div>
       <nav class="menu">
         <button class="active" data-panel="assistant"><i class="fa-solid fa-brain"></i> المساعد الذكي</button>
-        <button data-panel="casefile"><i class="fa-solid fa-file-invoice"></i> قيد دعوى</button>
+        <button data-panel="casefile"><i class="fa-solid fa-file-circle-plus"></i> قيد دعوى</button>
+        <button data-panel="memo"><i class="fa-solid fa-file-lines"></i> تبادل مذكرات</button>
         <button data-panel="sessions"><i class="fa-solid fa-video"></i> جلسات رقمية</button>
       </nav>
+      <div class="foot">روان الصبحي — © 2026</div>
     </aside>
 
-    <main class="main">
+    <main style="display:flex; flex-direction:column; gap:20px;">
       <section id="panels">
         <article id="panel-assistant" class="card panel">
-          <h3>المساعد الذكي — التحليل التقني</h3>
-          <textarea id="facts" placeholder="أدخل ملخص الوقائع القانونية هنا..."></textarea>
-          <button id="runAi" class="btn">تشغيل التدقيق الذكي</button>
-          <div id="aiResult" class="card" style="display:none; margin-top:15px; background:rgba(15,176,107,0.05)">
-            <div id="analysisContent">جارٍ التحليل...</div>
+          <h2>المساعد الذكي</h2>
+          <textarea id="facts" placeholder="اكتب ملخص الوقائع هنا..."></textarea>
+          <button id="runAi" class="btn" style="margin-top:10px">تشغيل التدقيق الذكي</button>
+          <div id="aiResult" style="margin-top:15px; display:none;">
+            <div class="card" id="analysisContent">جارٍ التحليل...</div>
           </div>
-        </article>
-
-        <article id="panel-casefile" class="card panel" hidden>
-           <h3>قيد دعوى إلكتروني</h3>
-           <input id="plaintiff" placeholder="اسم المدعي">
-           <input id="subject" placeholder="موضوع الدعوى">
-           <button id="submitCase" class="btn">إرسال الطلب</button>
         </article>
       </section>
     </main>
   </div>
 
   <script>
-    // --- محرك الخلفية التفاعلي ---
+    /* المحرك التفاعلي (الخلفية المتغيرة) */
     const canvas = document.getElementById('bgCanvas');
     const ctx = canvas.getContext('2d');
     let particles = [];
@@ -74,62 +92,71 @@
       constructor() {
         this.x = Math.random() * canvas.width;
         this.y = Math.random() * canvas.height;
+        this.speedX = Math.random() * 0.5 - 0.25;
+        this.speedY = Math.random() * 0.5 - 0.25;
         this.size = Math.random() * 2;
-        this.speedX = Math.random() * 1 - 0.5;
-        this.speedY = Math.random() * 1 - 0.5;
+      }
+      draw() {
+        ctx.fillStyle = 'rgba(15, 176, 107, 0.3)';
+        ctx.beginPath(); ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2); ctx.fill();
       }
       update() {
         this.x += this.speedX; this.y += this.speedY;
         if (this.x > canvas.width || this.x < 0) this.speedX *= -1;
         if (this.y > canvas.height || this.y < 0) this.speedY *= -1;
       }
-      draw() {
-        ctx.fillStyle = 'rgba(15, 176, 107, 0.5)';
-        ctx.beginPath(); ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2); ctx.fill();
-      }
     }
+    for(let i=0; i<80; i++) particles.push(new Particle());
 
-    function init() { for (let i = 0; i < 100; i++) particles.push(new Particle()); }
     function animate() {
-      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      ctx.clearRect(0,0,canvas.width, canvas.height);
       particles.forEach(p => { p.update(); p.draw(); });
+      // رسم خطوط بين النقاط القريبة
+      for(let i=0; i<particles.length; i++) {
+        for(let j=i; j<particles.length; j++) {
+          let dx = particles[i].x - particles[j].x;
+          let dy = particles[i].y - particles[j].y;
+          let dist = Math.sqrt(dx*dx + dy*dy);
+          if(dist < 100) {
+            ctx.strokeStyle = `rgba(15, 176, 107, ${0.1 - dist/1000})`;
+            ctx.beginPath(); ctx.moveTo(particles[i].x, particles[i].y);
+            ctx.lineTo(particles[j].x, particles[j].y); ctx.stroke();
+          }
+        }
+      }
       requestAnimationFrame(animate);
     }
-    init(); animate();
+    animate();
 
-    // --- ربط العمليات بالسيرفر ---
+    /* منطق التفاعل والربط بالسيرفر (نفس كودك الأصلي مع الربط) */
     const API_BASE = 'https://smart-auditor-pro.onrender.com/api';
+
+    const showToast = (msg) => {
+      const t = document.createElement('div'); t.className = 'toast show';
+      t.innerText = msg; document.getElementById('toastWrap').appendChild(t);
+      setTimeout(() => { t.classList.remove('show'); setTimeout(()=>t.remove(), 400); }, 3000);
+    };
 
     document.getElementById('runAi').onclick = async () => {
       const facts = document.getElementById('facts').value;
-      const resultDiv = document.getElementById('aiResult');
+      if(!facts) return showToast('أدخل النص أولاً');
+      document.getElementById('aiResult').style.display = 'block';
       const content = document.getElementById('analysisContent');
+      content.innerText = 'جاري تحليل البيانات...';
       
-      resultDiv.style.display = 'block';
-      content.innerText = "جاري الاتصال بـ OpenAI...";
-
       try {
         const res = await fetch(`${API_BASE}/ai/analyze`, {
           method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
+          headers: {'Content-Type': 'application/json'},
           body: JSON.stringify({ text: facts })
         });
         const data = await res.json();
-        content.innerHTML = `<strong>النتيجة:</strong> ${data.verdict}<br><br><strong>التوصيات:</strong> ${data.recommendations.join(' - ')}`;
+        showToast('اكتمل التحليل بنجاح');
+        content.innerHTML = `<strong>النتيجة:</strong> ${data.verdict}<br><strong>التوصية:</strong> ${data.recommendations[0]}`;
       } catch (err) {
-        content.innerText = "فشل الاتصال بالسيرفر. تأكدي أن Render يعمل باللون الأخضر.";
+        content.innerText = 'خطأ في الاتصال بالسيرفر';
       }
     };
-
-    // التنقل بين القوائم
-    document.querySelectorAll('.menu button').forEach(btn => {
-      btn.onclick = () => {
-        document.querySelectorAll('.panel').forEach(p => p.hidden = true);
-        document.querySelectorAll('.menu button').forEach(b => b.classList.remove('active'));
-        document.getElementById('panel-' + btn.dataset.panel).hidden = false;
-        btn.classList.add('active');
-      };
-    });
   </script>
 </body>
 </html>
