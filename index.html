@@ -1,12 +1,1384 @@
 <!doctype html>
+
 <html lang="ar" dir="rtl">
+
 <head>
+
   <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width,initial-scale=1" 
+
+/>
+
   <title>رواق العدل — منصة متكاملة</title>
-// ابحثي عن هذا السطر وغيري ما بين القوسين
-const response = await fetch('https://smart-auditor-pro.onrender.com/api/analyze', {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ text: userInput })
-});
+
+
+  <!-- خطوط -->
+
+  <link 
+
+href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700&display=swap"
+
+ rel="stylesheet">
+
+
+  <!-- Chart.js (لوحة القاضي) -->
+
+  <script 
+
+src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+
+
+  <style>
+
+    :root{
+
+      --bg:#f4f7f3;
+
+      --panel:#ffffff;
+
+      --muted:#6b776f;
+
+      --green:#116938;    /* أخضر أغمق كما طلبت */
+
+      --gold:#FFB703;     /* ذهبي مشرق */
+
+      --glass: rgba(17,105,56,0.06);
+
+      --radius:12px;
+
+      --shadow: 0 10px 30px rgba(11,20,14,0.06);
+
+      --accent-weak: rgba(17,105,56,0.06);
+
+    }
+
+    *{box-sizing:border-box}
+
+    
+
+html,body{height:100%;margin:0;font-family:'Cairo',sans-serif;background:var(--bg);color:#0b2a1a}
+
+    a{color:var(--green)}
+
+
+    /* layout */
+
+    .app{display:flex;gap:18px;padding:18px;min-height:100vh}
+
+    
+
+aside.sidebar{width:300px;background:var(--panel);border-radius:12px;padding:18px;box-shadow:var(--shadow);display:flex;flex-direction:column;gap:12px}
+
+    main{flex:1;display:flex;flex-direction:column;gap:12px}
+
+
+    /* header */
+
+    .brand{display:flex;gap:12px;align-items:center}
+
+    
+
+.logo{width:68px;height:68px;border-radius:12px;background:linear-gradient(180deg,var(--green),#0f5a31);display:flex;align-items:center;justify-content:center;color:#fff;font-weight:800;box-shadow:0
+
+ 8px 24px rgba(17,105,56,0.12)}
+
+    .brand h1{margin:0;font-size:18px;color:var(--green)}
+
+    .brand p{margin:0;color:var(--muted);font-size:13px}
+
+
+    nav.menu{display:flex;flex-direction:column;gap:8px;margin-top:8px}
+
+    .menu 
+
+button{display:flex;align-items:center;gap:10px;padding:10px;border-radius:10px;border:none;background:transparent;cursor:pointer;color:var(--muted);text-align:right}
+
+    .menu 
+
+button.active{background:linear-gradient(90deg,var(--accent-weak),rgba(255,255,255,0.01));border-left:4px
+
+ solid var(--gold);color:#071018}
+
+
+    
+
+footer.sidebar-foot{margin-top:auto;font-size:12px;color:var(--muted);text-align:center}
+
+
+    /* topbar & controls */
+
+    
+
+.topbar{display:flex;align-items:center;justify-content:space-between;gap:12px}
+
+    
+
+.search{flex:1;max-width:720px;background:var(--panel);padding:8px;border-radius:10px;border:1px
+
+ solid rgba(0,0,0,0.04);display:flex;align-items:center;gap:8px}
+
+    .search 
+
+input{border:none;background:transparent;outline:none;padding:8px;font-size:14px}
+
+    .controls{display:flex;gap:8px;align-items:center}
+
+
+    /* grid layout */
+
+    .content-grid{display:grid;grid-template-columns:1fr 360px;gap:14px}
+
+    
+
+.card{background:var(--panel);border-radius:12px;padding:14px;box-shadow:var(--shadow);border:1px
+
+ solid rgba(0,0,0,0.04)}
+
+
+    /* small helpers */
+
+    h2{margin:0 0 8px 0;color:var(--green)}
+
+    h3{margin:0 0 8px 0;color:var(--gold)}
+
+    .muted{color:var(--muted);font-size:13px}
+
+
+    /* services list */
+
+    
+
+.services-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:10px}
+
+    
+
+.service{padding:12px;border-radius:10px;background:linear-gradient(180deg,rgba(17,105,56,0.03),rgba(255,255,255,0.01));cursor:pointer;border:1px
+
+ solid rgba(0,0,0,0.03)}
+
+    .service h4{margin:0 0 6px 0}
+
+    .service p{margin:0;color:var(--muted);font-size:13px}
+
+
+    /* forms */
+
+    .form-row{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}
+
+    .form-row 
+
+label{display:block;font-size:13px;color:var(--muted);margin-bottom:6px}
+
+    .input, textarea, 
+
+select{width:100%;padding:10px;border-radius:8px;border:1px solid 
+
+rgba(0,0,0,0.06);background:#fff;color:#0b2a1a}
+
+    textarea{min-height:120px;resize:vertical}
+
+    .btn{background:var(--green);color:#fff;border:none;padding:10px 
+
+14px;border-radius:10px;cursor:pointer;font-weight:700}
+
+
+    /* file upload */
+
+    .uploader{border:2px dashed 
+
+rgba(0,0,0,0.06);padding:14px;border-radius:10px;text-align:center;color:var(--muted);background:linear-gradient(180deg,rgba(17,105,56,0.01),transparent)}
+
+    
+
+.progress{height:8px;background:#e9efe8;border-radius:6px;overflow:hidden;margin-top:8px}
+
+    .progress > 
+
+i{display:block;height:100%;background:linear-gradient(90deg,var(--green),var(--gold));width:0%}
+
+
+    /* responsive */
+
+    @media (max-width:980px){
+
+      .content-grid{grid-template-columns:1fr}
+
+      aside.sidebar{width:100%}
+
+    }
+
+  </style>
+
+</head>
+
+<body>
+
+  <div class="app" role="application" aria-label="رواق العدل — 
+
+منصة">
+
+    <!-- SIDEBAR -->
+
+    <aside class="sidebar" aria-label="القائمة الرئيسية">
+
+      <div class="brand" role="img" aria-label="شعار رواق العدل">
+
+        <div class="logo" id="logoBtn">ر</div>
+
+        <div>
+
+          <h1>رواق العدل</h1>
+
+          <p class="muted">منصة قضائية متكاملة — أمان، وصول، 
+
+وكفاءة</p>
+
+        </div>
+
+      </div>
+
+
+      <nav class="menu" role="navigation" aria-label="قائمة 
+
+الخدمات">
+
+        <button class="active" data-panel="assistant"><i 
+
+class="fa-solid fa-brain"></i> المساعد الذكي</button>
+
+        <button data-panel="services"><i class="fa-solid 
+
+fa-layer-group"></i> الخدمات الشاملة</button>
+
+        <button data-panel="casefile"><i class="fa-solid 
+
+fa-file-circle-plus"></i> قيد دعوى</button>
+
+        <button data-panel="memo"><i class="fa-solid 
+
+fa-file-lines"></i> تبادل مذكرات</button>
+
+        <button data-panel="sessions"><i class="fa-solid 
+
+fa-video"></i> جلسات رقمية</button>
+
+        <button data-panel="judgeboard"><i class="fa-solid 
+
+fa-balance-scale"></i> منصة القاضي</button>
+
+        <button data-panel="accessibility"><i class="fa-solid 
+
+fa-universal-access"></i> الوصول</button>
+
+        <button data-panel="security"><i class="fa-solid 
+
+fa-shield"></i> الأمن والامتثال</button>
+
+      </nav>
+
+
+      <footer class="sidebar-foot">
+
+        روان الصبحي — © 2026<br>
+
+        <a href="./LICENSE">شروط الترخيص</a>
+
+      </footer>
+
+    </aside>
+
+
+    <!-- MAIN -->
+
+    <main>
+
+      <!-- topbar -->
+
+      <div class="topbar">
+
+        <div class="search" role="search">
+
+          <i class="fa-solid fa-magnifying-glass" 
+
+style="color:var(--muted)"></i>
+
+          <input id="unifiedSearch" placeholder="استعلام موحّد: رقم 
+
+قضية، اسم، قرار..." aria-label="استعلام موحّد">
+
+        </div>
+
+
+        <div class="controls">
+
+          <button id="themeToggle" title="تبديل السمة" class="btn 
+
+secondary">سمة</button>
+
+          <button id="userBtn" class="btn secondary">المحكمة 
+
+الإلكترونية</button>
+
+        </div>
+
+      </div>
+
+
+      <div class="content-grid" role="main">
+
+        <!-- LEFT: dynamic panels -->
+
+        <section id="panels" style="min-height:520px">
+
+          <!-- Assistant -->
+
+          <article id="panel-assistant" class="card panel" 
+
+role="region" aria-labelledby="assistantTitle">
+
+            <h2 id="assistantTitle">المساعد الذكي — التدقيق 
+
+والتحليل</h2>
+
+            <p class="muted">ارفع المستندات أو ضع ملخص الوقائع، 
+
+وسيردّ عليك المساعد بتحليل نواقص، نقاط قانونية، ومسودات جاهزة.</p>
+
+
+            <div style="margin-top:10px" class="form-row">
+
+              <label for="facts">ملخص الوقائع</label>
+
+              <textarea id="facts" placeholder="اكتب ملخص الدعوى أو 
+
+ألصق نص..."></textarea>
+
+            </div>
+
+
+            <div class="form-row" style="margin-top:8px">
+
+              <div style="flex:1">
+
+                <div class="uploader" id="uploader" tabindex="0" 
+
+aria-label="سحب وإفلات الملفات أو الضغط للاختيار">اسحب الملفات هنا أو
+
+ اضغط للاختيار (PDF، صور)</div>
+
+                <div class="progress" id="uploadProgress" 
+
+hidden><i></i></div>
+
+              </div>
+
+
+              <div 
+
+style="width:220px;display:flex;flex-direction:column;gap:8px">
+
+                <button class="btn" id="runAi">تشغيل التدقيق 
+
+الذكي</button>
+
+                <button class="btn secondary" id="saveDraft">حفظ 
+
+مسودة</button>
+
+              </div>
+
+            </div>
+
+
+            <div id="aiResult" style="margin-top:12px" hidden>
+
+              <div class="card">
+
+                <h3>نتيجة التحليل</h3>
+
+                <div id="analysisContent" class="muted">جارٍ عرض 
+
+النتائج...</div>
+
+                <div style="margin-top:8px;display:flex;gap:8px">
+
+                  <button class="btn" id="exportDoc">توليد 
+
+مستند</button>
+
+                  <button class="btn secondary" 
+
+id="sendToJudge">إحالة إلى القاضي</button>
+
+                </div>
+
+              </div>
+
+            </div>
+
+          </article>
+
+
+          <!-- Services overview -->
+
+          <article id="panel-services" class="card panel" 
+
+role="region" aria-labelledby="servicesTitle" hidden>
+
+            <h2 id="servicesTitle">الخدمات الشاملة</h2>
+
+            <p class="muted">خدمات مؤسسية متكاملة لكل مرحلة: قيد، 
+
+تبادل مذكرات، جلسات، استعلام، أرشفة، وتكاملات AI/OCR.</p>
+
+
+            <div style="margin-top:12px" class="services-grid" 
+
+id="servicesGrid">
+
+              <div class="service" data-service="casefile">
+
+                <h4>قيد دعوى إلكتروني</h4>
+
+                <p>نموذج ذكي يتكامل مع المساعد لاكتشاف النواقص 
+
+وتوليد المذكرات.</p>
+
+              </div>
+
+
+              <div class="service" data-service="memo">
+
+                <h4>تبادل مذكرات</h4>
+
+                <p>بيئة آمنة لإرسال واستلام المذكرات مع توقيع 
+
+رقمي.</p>
+
+              </div>
+
+
+              <div class="service" data-service="sessions">
+
+                <h4>جلسات رقمية</h4>
+
+                <p>حجز جلسات، روابط مؤمنة، وتفريغ صوتي 
+
+آلي.</p>
+
+              </div>
+
+
+              <div class="service" data-service="inquiry">
+
+                <h4>استعلام موحّد</h4>
+
+                <p>بحث متقدم وترشيح النتائج مع روابط 
+
+المساعدة.</p>
+
+              </div>
+
+            </div>
+
+          </article>
+
+
+          <!-- Case filing -->
+
+          <article id="panel-casefile" class="card panel" 
+
+role="region" aria-labelledby="casefileTitle" hidden>
+
+            <h2 id="casefileTitle">قيد دعوى جديد</h2>
+
+            <p class="muted">املأ الحقول الأساسية وأرفق المستندات.
+
+ المساعد سيتحقق آلياً من النواقص.</p>
+
+
+            <form id="caseForm" onsubmit="return false" 
+
+style="margin-top:10px">
+
+              <div class="form-row" style="gap:12px">
+
+                <div style="flex:1">
+
+                  <label>اسم المدعي</label>
+
+                  <input id="plaintiff" class="input" required />
+
+                </div>
+
+                <div style="width:200px">
+
+                  <label>رقم القضية (اختياري)</label>
+
+                  <input id="caseNumber" class="input" />
+
+                </div>
+
+              </div>
+
+
+              <div style="margin-top:10px">
+
+                <label>موضوع الدعوى</label>
+
+                <input id="subject" class="input" required />
+
+              </div>
+
+
+              <div style="margin-top:10px">
+
+                <label>تفاصيل</label>
+
+                <textarea id="details" class="input" 
+
+required></textarea>
+
+              </div>
+
+
+              <div 
+
+style="display:flex;gap:8px;align-items:center;margin-top:10px">
+
+                <div style="flex:1"><div class="uploader" 
+
+id="caseUploader">اسحب مستندات الدعوى أو اضغط 
+
+للاختيار</div></div>
+
+                <div style="width:160px"><button class="btn" 
+
+id="submitCase">قيد الدعوى</button></div>
+
+              </div>
+
+
+              <div id="caseFeedback" class="muted" 
+
+style="margin-top:8px" hidden></div>
+
+            </form>
+
+          </article>
+
+
+          <!-- Memo exchange -->
+
+          <article id="panel-memo" class="card panel" role="region" 
+
+aria-labelledby="memoTitle" hidden>
+
+            <h2 id="memoTitle">تبادل مذكرات</h2>
+
+            <p class="muted">قائمة المذكرات المرسلة والمستلمة — 
+
+اكتب مذكّرة جديدة أو رد على مذكّرات.</p>
+
+
+            <div style="display:flex;gap:8px;margin-top:10px">
+
+              <div style="flex:1">
+
+                <ul id="memoList" 
+
+style="list-style:none;padding:0;margin:0"></ul>
+
+              </div>
+
+              <div style="width:280px">
+
+                <label>مذكرة جديدة</label>
+
+                <textarea id="memoText" 
+
+class="input"></textarea>
+
+                <button class="btn" id="sendMemo" 
+
+style="margin-top:8px">إرسال</button>
+
+              </div>
+
+            </div>
+
+          </article>
+
+
+          <!-- Sessions -->
+
+          <article id="panel-sessions" class="card panel" 
+
+role="region" aria-labelledby="sessionsTitle" hidden>
+
+            <h2 id="sessionsTitle">جلسات رقمية</h2>
+
+            <p class="muted">جدولة جلسة جديدة، إنشاء رابط افتراضي،
+
+ وتخزين تفاصيل الجلسة.</p>
+
+
+            <div style="margin-top:10px">
+
+              <label>موضوع الجلسة</label>
+
+              <input id="sessionSubj" class="input" />
+
+              <div style="display:flex;gap:8px;margin-top:8px">
+
+                <div style="flex:1">
+
+                  <label>التاريخ والوقت</label>
+
+                  <input id="sessionDate" type="datetime-local" 
+
+class="input" />
+
+                </div>
+
+                <div 
+
+style="width:150px;display:flex;align-items:end">
+
+                  <button class="btn" id="createSession">إنشاء 
+
+جلسة</button>
+
+                </div>
+
+              </div>
+
+
+              <div id="sessionList" 
+
+style="margin-top:12px"></div>
+
+            </div>
+
+          </article>
+
+
+          <!-- Judge board -->
+
+          <article id="panel-judgeboard" class="card panel" 
+
+role="region" aria-labelledby="judgeTitle" hidden>
+
+            <h2 id="judgeTitle">منصة القاضي</h2>
+
+            <p class="muted">لوحة تحكم تفاعلية تعرض أولويات 
+
+القضايا والتنبيهات الناتجة عن AI.</p>
+
+
+            <div style="display:flex;gap:12px;margin-top:12px">
+
+              <div style="flex:1" class="card">
+
+                <h3>قضايا اليوم</h3>
+
+                <div id="todayCases" 
+
+class="muted">تحميل...</div>
+
+              </div>
+
+              <div style="width:320px" class="card">
+
+                <h3>مخطط الحالة</h3>
+
+                <canvas id="judgeChart" 
+
+style="max-height:160px"></canvas>
+
+              </div>
+
+            </div>
+
+          </article>
+
+
+          <!-- Accessibility -->
+
+          <article id="panel-accessibility" class="card panel" 
+
+role="region" aria-labelledby="accessTitle" hidden>
+
+            <h2 id="accessTitle">الوصول وذوي الاحتياجات</h2>
+
+            <p class="muted">أدوات تحويل النص إلى كلام (TTS)، عرض 
+
+تسميات (captions)، وأوامر صوتية (STT).</p>
+
+
+            <div style="display:flex;gap:8px;margin-top:10px">
+
+              <button class="btn" id="enableTTS">تشغيل قراءة 
+
+النتائج</button>
+
+              <button class="btn secondary" 
+
+id="enableCaptions">تفعيل الترجمة الحينية</button>
+
+              <button class="btn secondary" id="startSTT">أوامر 
+
+صوتية</button>
+
+            </div>
+
+          </article>
+
+
+          <!-- Security -->
+
+          <article id="panel-security" class="card panel" 
+
+role="region" aria-labelledby="securityTitle" hidden>
+
+            <h2 id="securityTitle">الأمن والامتثال</h2>
+
+            <p class="muted">PKI، توقيع رقمي، SSO، سجلات تدقيق، 
+
+وسياسات تخزين آمن.</p>
+
+            <ul class="muted">
+
+              <li>تشفير الميدان عند الاستعلام</li>
+
+              <li>مفاتيح API محمية على الخادم (لا تخزن في 
+
+الواجهة)</li>
+
+              <li>سجل نشاط (Audit logs) قابلة للتصدير</li>
+
+            </ul>
+
+          </article>
+
+        </section>
+
+
+        <!-- RIGHT: quick actions & metadata -->
+
+        <aside>
+
+          <div class="card">
+
+            <h3>الإجراءات السريعة</h3>
+
+            <div 
+
+style="display:flex;flex-direction:column;gap:8px;margin-top:8px">
+
+              <button class="btn" 
+
+onclick="openPanel('casefile')">قيد دعوى</button>
+
+              <button class="btn secondary" 
+
+onclick="openPanel('memo')">مذكرة جديدة</button>
+
+              <button class="btn secondary" 
+
+onclick="openPanel('sessions')">جدولة جلسة</button>
+
+            </div>
+
+          </div>
+
+
+          <div class="card">
+
+            <h3>الموارد والتكاملات</h3>
+
+            <p class="muted" style="margin-top:6px">OpenAI / Azure
+
+ Speech / Google OCR / PKI / S3 / SSO</p>
+
+            <button class="btn secondary" 
+
+onclick="showIntegration()">تفاصيل الربط</button>
+
+          </div>
+
+
+          <div class="card">
+
+            <h3>الاتصال والتراخيص</h3>
+
+            <p class="muted" 
+
+style="margin-top:6px">licensing@rawan.dev</p>
+
+            <button class="btn" 
+
+onclick="contactLicensing()">اتصل</button>
+
+          </div>
+
+        </aside>
+
+      </div>
+
+    </main>
+
+  </div>
+
+
+  <script>
+
+    /*******************************
+
+     * واجهة تفاعلية (Front-end demo)
+
+     * هذه الواجهة محاكاة كاملة — أما ربط الخدمات ا��حقيقية
+
+     * فيتم عبر استدعاءات إلى API على الخادم (أمثلة داخل الكود).
+
+     *******************************/
+
+
+    // Panel navigation
+
+    document.querySelectorAll('.menu button').forEach(btn=>{
+
+      btn.addEventListener('click', ()=>{
+
+        document.querySelectorAll('.menu 
+
+button').forEach(b=>b.classList.remove('active'));
+
+        btn.classList.add('active');
+
+        openPanel(btn.dataset.panel);
+
+      });
+
+    });
+
+
+    function openPanel(name){
+
+      document.querySelectorAll('#panels > article, #panels > 
+
+section, #panels > article.panel').forEach(el=>{
+
+        if(el.id.startsWith('panel-') || el.classList.contains('panel') 
+
+|| el.id.startsWith('panel')) {
+
+          el.hidden = true;
+
+        }
+
+      });
+
+      // builtin IDs follow pattern panel-<name> or panelName
+
+      const mapping = {
+
+        assistant: 'panel-assistant',
+
+        services: 'panel-services',
+
+        casefile: 'panel-casefile',
+
+        memo: 'panel-memo',
+
+        sessions: 'panel-sessions',
+
+        judgeboard: 'panel-judgeboard',
+
+        accessibility: 'panel-accessibility',
+
+        security: 'panel-security'
+
+      };
+
+      const id = mapping[name] || ('panel-' + name);
+
+      const el = document.getElementById(id);
+
+      if(el) el.hidden = false;
+
+      window.scrollTo({top:0, behavior:'smooth'});
+
+    }
+
+
+    // FILE UPLOAD (drag & drop) — demo only, uploads simulated
+
+    const uploader = document.getElementById('uploader');
+
+    const caseUploader = document.getElementById('caseUploader');
+
+    function setupUploader(el, progressElId){
+
+      el.addEventListener('click', ()=> {
+
+        const inp = document.createElement('input'); inp.type='file'; 
+
+inp.multiple=true;
+
+        inp.onchange = ()=> handleFiles(inp.files, progressElId);
+
+        inp.click();
+
+      });
+
+      ['dragenter','dragover'].forEach(e=>el.addEventListener(e, 
+
+(ev)=>{ ev.preventDefault(); el.style.borderColor = 'var(--green)'; 
+
+}));
+
+      ['dragleave','drop'].forEach(e=>el.addEventListener(e, 
+
+(ev)=>{ ev.preventDefault(); el.style.borderColor = ''; if(e === 
+
+'drop'){ handleFiles(ev.dataTransfer.files, progressElId); } }));
+
+    }
+
+    function handleFiles(files, progressElId){
+
+      if(!files || files.length===0) return;
+
+      const progress = document.getElementById('uploadProgress');
+
+      progress.hidden = false;
+
+      const bar = progress.querySelector('i');
+
+      let pct = 0;
+
+      const step = 100 / (files.length * 10);
+
+      const inter = setInterval(()=>{
+
+        pct = Math.min(100, pct + step);
+
+        bar.style.width = pct + '%';
+
+        if(pct >= 100){
+
+          clearInterval(inter);
+
+          setTimeout(()=>{ progress.hidden = true; 
+
+bar.style.width='0%'; alert(files.length + ' ملف(ملفات) تم تحضيرها 
+
+(محاكاة).'); }, 400);
+
+        }
+
+      }, 120);
+
+      // TODO: implement real upload:
+
+      // for each file, POST to /api/upload using fetch with FormData, 
+
+show progress with XHR
+
+    }
+
+    setupUploader(uploader, 'uploadProgress');
+
+    setupUploader(caseUploader, 'caseUploadProgress');
+
+
+    // AI run (simulated) + integration notes
+
+    document.getElementById('runAi').addEventListener('click', async 
+
+()=>{
+
+      const facts = document.getElementById('facts').value.trim();
+
+      const aiResult = document.getElementById('aiResult');
+
+      aiResult.hidden = false;
+
+      const content = document.getElementById('analysisContent');
+
+      content.textContent = 'جارٍ تحليل القضية — ربط AI ...';
+
+      // Example: call your backend endpoint that handles AI calls 
+
+securely
+
+      // const res = await fetch('/api/ai/analyze', {method:'POST', 
+
+body: JSON.stringify({text:facts}), 
+
+headers:{'Content-Type':'application/json'}})
+
+      // const json = await res.json();
+
+      // render json
+
+      setTimeout(()=>{
+
+        const json = {
+
+          verdict: 'تظلم إداري — احتمالية قبول مبدئية 76%',
+
+          issues: ['غياب إثبات التبليغ', 'نقص التفويض'],
+
+          recommendations: [
+
+            'إرفاق صورة إيصال تبليغ.',
+
+            'استكمال نموذج تفويض موقّع.',
+
+            'طلب مهلة مؤقتة إن لزم.'
+
+          ]
+
+        };
+
+        content.innerHTML = 
+
+`<strong>${json.verdict}</strong>
+
+          <ul style="margin:8px 0 0 0;padding-inline-start:18px">
+
+            
+
+${json.issues.map(i=>`<li>${i}</li>`).join('')}
+
+          </ul>
+
+          <div 
+
+style="margin-top:8px"><strong>توصيات:</strong>
+
+            <ol style="margin:6px 0 0 
+
+0;padding-inline-start:18px">
+
+              
+
+${json.recommendations.map(r=>`<li>${r}</li>`).join('')}
+
+            </ol>
+
+          </div>`;
+
+      }, 900);
+
+    });
+
+
+    // Case filing (simulated validation + server example)
+
+    document.getElementById('submitCase').addEventListener('click', 
+
+()=>{
+
+      const plaintiff = 
+
+document.getElementById('plaintiff').value.trim();
+
+      const subject = document.getElementById('subject').value.trim();
+
+      const details = document.getElementById('details').value.trim();
+
+      const feedback = document.getElementById('caseFeedback');
+
+      if(!plaintiff || !subject || !details){
+
+        feedback.hidden = false; feedback.textContent = 'يرجى ملء الحقول
+
+ المطلوبة.';
+
+        return;
+
+      }
+
+      feedback.hidden = false; feedback.textContent = 'جاري إرسال طلب 
+
+القيد...';
+
+      // POST to server: /api/cases
+
+      setTimeout(()=>{
+
+        feedback.textContent = 'تم قيد الدعوى بنجاح — رقم مرجعي (محاكاة)
+
+ 2026-00123';
+
+        // optionally clear form or navigate to case page
+
+      }, 900);
+
+    });
+
+
+    // Memo exchange (local demo)
+
+    const memoList = document.getElementById('memoList');
+
+    const memos = [
+
+      {id:1, from:'المحكمة', subject:'طلب وثائق', time:'2026-01-10', 
+
+text:'يرجى إرفاق إثبات التبليغ.'},
+
+      {id:2, from:'المدعى', subject:'رد' , time:'2026-01-11', text:'تم 
+
+إرفاق المستندات المطلوبة.'}
+
+    ];
+
+    function renderMemos(){
+
+      memoList.innerHTML = memos.map(m=>`<li 
+
+style="padding:8px;border-bottom:1px dashed #eef">${m.time} — 
+
+<strong>${m.from}</strong>: ${m.subject}<div 
+
+class="muted" 
+
+style="font-size:13px;margin-top:6px">${m.text}</div></li>`).join('');
+
+    }
+
+    renderMemos();
+
+    document.getElementById('sendMemo').addEventListener('click', 
+
+()=>{
+
+      const text = document.getElementById('memoText').value.trim();
+
+      if(!text) return alert('اكتب نص المذكرة');
+
+      memos.unshift({id:Date.now(),from:'أنت',subject:'مذكرة',time:new 
+
+Date().toLocaleString(),text});
+
+      document.getElementById('memoText').value='';
+
+      renderMemos();
+
+      // TODO: POST to /api/memos to save on server
+
+    });
+
+
+    // Sessions (create link simulation)
+
+    const sessionList = document.getElementById('sessionList');
+
+    const sessions = [];
+
+    document.getElementById('createSession').addEventListener('click', 
+
+()=>{
+
+      const subj = document.getElementById('sessionSubj').value.trim();
+
+      const date = document.getElementById('sessionDate').value;
+
+      if(!subj || !date) return alert('ادخل الموضوع والتاريخ');
+
+      const link = 'https://meet.example/' + 
+
+Math.random().toString(36).slice(2,10);
+
+      const s = {id:Date.now(),subj,date,link};
+
+      sessions.unshift(s);
+
+      renderSessions();
+
+      // TODO: POST to /api/sessions
+
+    });
+
+    function renderSessions(){
+
+      sessionList.innerHTML = sessions.map(s=>`<div 
+
+style="padding:8px;border-bottom:1px solid 
+
+#f0f4f0"><strong>${s.subj}</strong><div 
+
+class="muted">${s.date}</div><a href="${s.link}" 
+
+target="_blank">${s.link}</a></div>`).join('');
+
+    }
+
+
+    // Judge board chart
+
+    (function initJudgeChart(){
+
+      const ctx = document.getElementById('judgeChart');
+
+      if(!ctx) return;
+
+      const chart = new Chart(ctx, {
+
+        type:'doughnut',
+
+        
+
+data:{labels:['منجز','قيد','نواقص'],datasets:[{data:[1420,85,12],backgroundColor:[getComputedStyle(document.documentElement).getPropertyValue('--gold')
+
+ || '#FFB703', '#116938', '#ff6b6b']}]},
+
+        
+
+options:{plugins:{legend:{position:'bottom',labels:{usePointStyle:true}}}}
+
+      });
+
+      document.getElementById('todayCases').textContent = 'قضايا مؤكدة: 
+
+27 — قضايا عاجلة: 3';
+
+    })();
+
+
+    // Accessibility: TTS / STT placeholders
+
+    document.getElementById('enableTTS').addEventListener('click', 
+
+()=>{
+
+      const text = document.getElementById('analysisContent').innerText 
+
+|| 'لا توجد نتائج حالياً';
+
+      if('speechSynthesis' in window){
+
+        const u = new SpeechSynthesisUtterance(text);
+
+        u.lang = 'ar-SA';
+
+        speechSynthesis.speak(u);
+
+      } else alert('TTS غير مدعوم في متصفحك');
+
+    });
+
+    document.getElementById('startSTT').addEventListener('click', 
+
+()=>{
+
+      if(!('SpeechRecognition' in window) && 
+
+!('webkitSpeechRecognition' in window)) return alert('STT غير مدعوم في 
+
+متصفحك — اربط خدمة ASR للمستخدمين العرب');
+
+      const SR = window.SpeechRecognition || 
+
+window.webkitSpeechRecognition;
+
+      const r = new SR();
+
+      r.lang = 'ar-SA';
+
+      r.interimResults = true;
+
+      r.onresult = e => { document.getElementById('facts').value = 
+
+Array.from(e.results).map(r=>r[0].transcript).join(''); };
+
+      r.onerror = ()=> alert('حدث خطأ في التعرف على الصوت');
+
+      r.start();
+
+    });
+
+
+    // theme toggle (simple)
+
+    document.getElementById('themeToggle').addEventListener('click', 
+
+()=>{
+
+      const root = document.documentElement;
+
+      if(root.style.getPropertyValue('--bg') === '#f4f7f3'){
+
+        root.style.setProperty('--bg','#0b1a15'); 
+
+root.style.setProperty('--panel','#0f1720'); 
+
+root.style.setProperty('--muted','#9aa6a0'); 
+
+document.body.style.color='#eaf2eb';
+
+      } else {
+
+        root.style.setProperty('--bg','#f4f7f3'); 
+
+root.style.setProperty('--panel','#ffffff'); 
+
+root.style.setProperty('--muted','#6b776f'); 
+
+document.body.style.color='#0b2a1a';
+
+      }
+
+    });
+
+
+    // quick actions
+
+    window.openPanel = openPanel;
+
+    window.showIntegration = ()=> alert('تفاصيل التكاملات: OpenAI, 
+
+Azure Speech, Google OCR, PKI, S3, SSO — يتطلب إعداد خادم ومفاتيح API');
+
+    window.contactLicensing = ()=> window.location.href = 
+
+'mailto:licensing@rawan.dev?subject=طلب%20ترخيص%20رواق%20العدل';
+
+    window.openAudit = ()=> openPanel('assistant');
+
+    window.openServices = ()=> openPanel('services');
+
+
+    // show initial default panel
+
+    openPanel('assistant');
+
+
+    // Accessibility: keyboard: allow 1..9 quick panel keys
+
+    window.addEventListener('keydown', (e)=>{
+
+      if(e.key === '1') openPanel('assistant');
+
+      if(e.key === '2') openPanel('services');
+
+      if(e.key === '3') openPanel('casefile');
+
+      if(e.key === '4') openPanel('memo');
+
+      if(e.key === '5') openPanel('sessions');
+
+      if(e.key === '6') openPanel('judgeboard');
+
+    });
+
+  </script>
+
+</body>
+
+</html> 
