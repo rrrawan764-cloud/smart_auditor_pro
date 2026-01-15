@@ -3,135 +3,615 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>رواق العدل — منصة متكاملة</title>
-  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700&display=swap" rel="stylesheet">
+  <title>رواق العدل — المنصة المتكاملة</title>
+
+  <!-- خط عربي عصري -->
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;800&display=swap" rel="stylesheet">
+
+  <!-- أيقونات -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+  <!-- Chart.js -->
   <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+
+  <meta name="description" content="رواق العدل — منصة قضائية متكاملة: قيد دعوى، مساعد ذكي، تبادل مذكرات، جلسات رقمية، ودعم وصول.">
+  <meta name="author" content="روان الصبحي">
+
   <style>
     :root{
-      --bg:#f4f7f3; --panel:#ffffff; --muted:#6b776f;
-      --green:#116938; --gold:#FFB703; --shadow: 0 10px 30px rgba(11,20,14,0.06);
+      --bg-1:#f3f6f4;
+      --bg-2:#eaf0ea;
+      --glass: rgba(255,255,255,0.75);
+      --muted:#51605a;
+      --green:#116938;
+      --gold:#FFB703;
+      --accent: rgba(17,105,56,0.08);
+      --radius:14px;
+      --card-shadow: 0 18px 48px rgba(9,20,14,0.06);
+      --max-width:1200px;
     }
     *{box-sizing:border-box}
-    html,body{height:100%;margin:0;font-family:'Cairo',sans-serif;background:var(--bg);color:#0b2a1a}
-    .app{display:flex;gap:18px;padding:18px;min-height:100vh}
-    aside.sidebar{width:300px;background:var(--panel);border-radius:12px;padding:18px;box-shadow:var(--shadow);display:flex;flex-direction:column;gap:12px}
-    main{flex:1;display:flex;flex-direction:column;gap:12px}
-    .logo{width:68px;height:68px;border-radius:12px;background:linear-gradient(180deg,var(--green),#0f5a31);display:flex;align-items:center;justify-content:center;color:#fff;font-weight:800}
-    nav.menu{display:flex;flex-direction:column;gap:8px}
-    .menu button{display:flex;align-items:center;gap:10px;padding:12px;border-radius:10px;border:none;background:transparent;cursor:pointer;color:var(--muted);text-align:right;font-family:inherit}
-    .menu button.active{background:rgba(17,105,56,0.1);border-left:4px solid var(--gold);color:var(--green)}
-    .card{background:var(--panel);border-radius:12px;padding:20px;box-shadow:var(--shadow);margin-bottom:15px}
-    .btn{background:var(--green);color:#fff;border:none;padding:12px 20px;border-radius:10px;cursor:pointer;font-weight:700;font-family:inherit}
-    .btn.secondary{background:var(--muted)}
-    textarea, input{width:100%;padding:12px;border-radius:8px;border:1px solid rgba(0,0,0,0.1);margin-top:8px;font-family:inherit}
-    .content-grid{display:grid;grid-template-columns:1fr 300px;gap:18px}
+    html,body{height:100%;margin:0;font-family:'Cairo',sans-serif;background:linear-gradient(180deg,var(--bg-1),var(--bg-2));color:#0b2a1a;-webkit-font-smoothing:antialiased}
+    a{color:var(--green)}
+
+    /* Layout */
+    .container{max-width:var(--max-width);margin:20px auto;padding:18px;display:grid;grid-template-columns:320px 1fr;gap:18px;min-height:80vh}
+    @media (max-width:1000px){
+      .container{grid-template-columns:1fr; padding:12px}
+    }
+
+    /* Sidebar */
+    .sidebar{background:linear-gradient(180deg, rgba(255,255,255,0.86), rgba(255,255,255,0.80));border-radius:16px;padding:18px;border:1px solid rgba(0,0,0,0.04);box-shadow:var(--card-shadow);backdrop-filter:blur(6px)}
+    .brand{display:flex;gap:12px;align-items:center}
+    .logo{width:84px;height:84px;border-radius:14px;display:flex;align-items:center;justify-content:center;background:linear-gradient(180deg,var(--green),#0f5a31);box-shadow:0 12px 36px rgba(17,105,56,0.12);cursor:pointer}
+    .brand h1{margin:0;font-size:18px;color:#071018;font-weight:800}
+    .brand p{margin:0;color:var(--muted);font-size:13px}
+
+    nav.menu{margin-top:14px;display:flex;flex-direction:column;gap:8px}
+    .menu button{display:flex;align-items:center;gap:10px;padding:12px;border-radius:10px;border:none;background:transparent;color:var(--muted);cursor:pointer;font-weight:700;text-align:right}
+    .menu button .ico{width:36px;height:36px;border-radius:8px;display:flex;align-items:center;justify-content:center;background:rgba(255,255,255,0.6)}
+    .menu button.active{background:linear-gradient(90deg,var(--accent), rgba(255,255,255,0.6));border-left:4px solid var(--gold);color:#071018}
+
+    .sidebar .foot{margin-top:14px;color:var(--muted);font-size:13px;text-align:center}
+
+    /* Main content */
+    .main{display:flex;flex-direction:column;gap:14px}
+    .topbar{display:flex;align-items:center;justify-content:space-between;gap:12px}
+    .search{flex:1;max-width:760px;display:flex;align-items:center;gap:10px;padding:10px 12px;border-radius:12px;background:linear-gradient(180deg, rgba(255,255,255,0.9), rgba(255,255,255,0.82));border:1px solid rgba(0,0,0,0.04);box-shadow:0 8px 30px rgba(0,0,0,0.03)}
+    .search input{border:0;background:transparent;outline:none;padding:6px 8px;font-size:14px;color:#0b2a1a;width:100%}
+    .controls{display:flex;gap:8px;align-items:center}
+
+    .grid{display:grid;grid-template-columns:1fr 380px;gap:16px}
+    @media (max-width:980px){ .grid{grid-template-columns:1fr} }
+
+    .card{border-radius:14px;padding:16px;background:linear-gradient(180deg, rgba(255,255,255,0.9), rgba(255,255,255,0.86));border:1px solid rgba(0,0,0,0.04);box-shadow:var(--card-shadow);backdrop-filter:blur(6px)}
+
+    h2{margin:0 0 8px 0;color:var(--green)}
+    h3{margin:0 0 8px 0;color:var(--gold)}
+    .muted{color:var(--muted);font-size:13px}
+
+    /* Inputs glass */
+    .input, textarea, select { width:100%; padding:10px; border-radius:10px; border:1px solid rgba(0,0,0,0.04); background:rgba(255,255,255,0.85); outline:none; transition:box-shadow .12s, transform .12s; font-size:14px }
+    textarea { min-height:120px; resize:vertical }
+    .input:focus, textarea:focus { box-shadow:0 12px 30px rgba(17,105,56,0.07); transform:translateY(-3px); }
+
+    .btn { background: linear-gradient(180deg,var(--green), #0d5b33); color:#fff; border:0; padding:10px 14px; border-radius:10px; cursor:pointer; font-weight:800; box-shadow:0 10px 26px rgba(17,105,56,0.10) }
+    .btn.secondary { background:transparent; color:var(--green); border:1px solid rgba(17,105,56,0.10); box-shadow:none; padding:8px 12px }
+
+    .uploader{border:2px dashed rgba(0,0,0,0.06);padding:14px;border-radius:10px;text-align:center;color:var(--muted);background:linear-gradient(180deg, rgba(255,255,255,0.75), rgba(255,255,255,0.68))}
+
+    .services-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:12px}
+    .service{padding:14px;border-radius:12px;cursor:pointer;background:linear-gradient(180deg, rgba(255,255,255,0.75), rgba(255,255,255,0.68));border:1px solid rgba(0,0,0,0.04);transition:transform .14s,box-shadow .14s}
+    .service:hover{transform:translateY(-6px);box-shadow:0 14px 40px rgba(10,20,14,0.06)}
+
+    ul.list { list-style:none;padding:0;margin:0 }
+    ul.list li { padding:10px 0; border-bottom:1px dashed #eef; color:var(--muted) }
+
+    footer.footer { text-align:center; color:var(--muted); font-size:13px; margin-top:10px }
+
+    /* small responsive helpers */
+    .row { display:flex; gap:10px; align-items:flex-end }
+    .col { flex:1 }
+
+    /* subtle focus outline for accessibility */
+    :focus { outline: 3px solid rgba(17,105,56,0.12); outline-offset: 2px; }
   </style>
 </head>
 <body>
-  <div class="app">
-    <aside class="sidebar">
-      <div class="brand">
-        <div class="logo">ر</div>
-        <h2>رواق العدل</h2>
+  <div class="container" role="application" aria-label="رواق العدل — المنصة المتكاملة">
+    <!-- SIDEBAR -->
+    <aside class="sidebar" aria-label="القائمة الرئيسية">
+      <div class="brand" aria-hidden="false">
+        <div class="logo" id="brandLogo" title="رواق العدل — الشعار الرسمي">
+          <!-- inline SVG: سيفان متقاطعان + نخلة + ميزان -->
+          <svg viewBox="0 0 120 120" width="72" height="72" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="شعار رواق العدل">
+            <defs>
+              <linearGradient id="g-green" x1="0" x2="0" y1="0" y2="1">
+                <stop offset="0" stop-color="#2aa05a"/>
+                <stop offset="1" stop-color="#116938"/>
+              </linearGradient>
+              <linearGradient id="g-gold" x1="0" x2="1">
+                <stop offset="0" stop-color="#fff0b8"/>
+                <stop offset="1" stop-color="#FFB703"/>
+              </linearGradient>
+              <filter id="ds" x="-50%" y="-50%" width="200%" height="200%">
+                <feDropShadow dx="0" dy="3" stdDeviation="5" flood-color="#000" flood-opacity="0.18"/>
+              </filter>
+            </defs>
+
+            <!-- Crossed swords (back) -->
+            <g transform="translate(60,62)" opacity="0.96">
+              <g transform="rotate(-28)">
+                <rect x="-1.6" y="-48" width="3.2" height="92" rx="0.9" fill="#dcdcdc"/>
+                <polygon points="-7,-48 7,-48 0,-56" fill="#dcdcdc"/>
+                <rect x="-7" y="36" width="14" height="4.4" rx="1.1" fill="#b28627"/>
+              </g>
+              <g transform="rotate(28)">
+                <rect x="-1.6" y="-48" width="3.2" height="92" rx="0.9" fill="#dcdcdc"/>
+                <polygon points="-7,-48 7,-48 0,-56" fill="#dcdcdc"/>
+                <rect x="-7" y="36" width="14" height="4.4" rx="1.1" fill="#b28627"/>
+              </g>
+            </g>
+
+            <!-- Palm silhouette (middle) -->
+            <g transform="translate(60,36)" opacity="0.98">
+              <rect x="-3.2" y="8" width="6.4" height="30" rx="1.2" fill="url(#g-green)" />
+              <path d="M0,6 C8,0 20,-6 36,-4" fill="none" stroke="#1f8a4c" stroke-width="2.6" stroke-linecap="round" transform="translate(-18,-6) rotate(-18)"/>
+              <path d="M0,6 C8,0 20,-6 36,-4" fill="none" stroke="#1f8a4c" stroke-width="2.6" stroke-linecap="round" transform="translate(-18,-6) rotate(18)"/>
+              <path d="M0,6 C6,1 16,-3 28,-2" fill="none" stroke="#1f8a4c" stroke-width="2.2" stroke-linecap="round" transform="translate(-12,-10) rotate(-36)"/>
+              <path d="M0,6 C6,1 16,-3 28,-2" fill="none" stroke="#1f8a4c" stroke-width="2.2" stroke-linecap="round" transform="translate(8,-10) rotate(36)"/>
+            </g>
+
+            <!-- Scale (foreground gold) -->
+            <g transform="translate(60,48)" filter="url(#ds)">
+              <rect x="-2.8" y="2" width="5.6" height="36" rx="1.4" fill="#cfcfcf"/>
+              <g transform="translate(0,10)">
+                <rect x="-30" y="-3.6" width="60" height="7.2" rx="3.6" fill="url(#g-gold)"/>
+                <circle cx="0" cy="-14" r="4" fill="#cfcfcf"/>
+                <line x1="-20" y1="-1" x2="-20" y2="14" stroke="#cfcfcf" stroke-width="1.1" stroke-linecap="round"/>
+                <line x1="20" y1="-1" x2="20" y2="14" stroke="#cfcfcf" stroke-width="1.1" stroke-linecap="round"/>
+                <g transform="translate(-20,26)"><ellipse rx="12.5" ry="4.8" fill="#fff3d6" stroke="#d1a94e" stroke-width="0.9"/></g>
+                <g transform="translate(20,26)"><ellipse rx="12.5" ry="4.8" fill="#fff3d6" stroke="#d1a94e" stroke-width="0.9"/></g>
+              </g>
+              <rect x="-16" y="44" width="32" height="6" rx="2" fill="#2b2b2b" opacity="0.7"/>
+            </g>
+          </svg>
+        </div>
+
+        <div>
+          <h1>رواق العدل</h1>
+          <p class="muted">منصة قضائية متكاملة — أمان، وصول، وكفاءة</p>
+        </div>
       </div>
-      <nav class="menu">
-        <button class="active" data-panel="assistant">المساعد الذكي</button>
-        <button data-panel="casefile">قيد دعوى</button>
-        <button data-panel="memo">تبادل مذكرات</button>
-        <button data-panel="sessions">جلسات رقمية</button>
+
+      <nav class="menu" role="navigation" aria-label="قائمة الخدمات">
+        <button class="active" data-panel="assistant"><span class="ico"><i class="fa-solid fa-brain"></i></span>المساعد الذكي</button>
+        <button data-panel="services"><span class="ico"><i class="fa-solid fa-layer-group"></i></span>الخدمات الشاملة</button>
+        <button data-panel="casefile"><span class="ico"><i class="fa-solid fa-file-circle-plus"></i></span>قيد دعوى</button>
+        <button data-panel="memo"><span class="ico"><i class="fa-solid fa-file-lines"></i></span>تبادل مذكرات</button>
+        <button data-panel="sessions"><span class="ico"><i class="fa-solid fa-video"></i></span>جلسات رقمية</button>
+        <button data-panel="judgeboard"><span class="ico"><i class="fa-solid fa-balance-scale"></i></span>منصة القاضي</button>
+        <button data-panel="accessibility"><span class="ico"><i class="fa-solid fa-universal-access"></i></span>الوصول</button>
+        <button data-panel="security"><span class="ico"><i class="fa-solid fa-shield"></i></span>الأمن</button>
       </nav>
+
+      <div class="foot" style="margin-top:14px; text-align:center; color:var(--muted); font-size:13px">
+        روان الصبحي — © 2026<br><a href="./LICENSE">شروط الترخيص</a>
+      </div>
     </aside>
 
-    <main>
-      <div class="content-grid">
-        <section id="panels">
-          <article id="panel-assistant" class="card panel">
-            <h2>المساعد الذكي</h2>
-            <textarea id="facts" placeholder="اكتب ملخص الوقائع هنا..."></textarea>
-            <button class="btn" id="runAi" style="margin-top:15px">تشغيل التدقيق الذكي</button>
-            <div id="aiResult" style="margin-top:20px" hidden>
-              <div class="card" id="analysisContent">جارٍ التحليل...</div>
+    <!-- MAIN -->
+    <main class="main" role="main">
+      <div class="topbar">
+        <div class="search" role="search" aria-label="بحث موحد">
+          <i class="fa-solid fa-magnifying-glass" style="color:var(--muted)"></i>
+          <input id="unifiedSearch" placeholder="استعلام موحّد: رقم قضية، اسم، قرار..." />
+        </div>
+
+        <div class="controls">
+          <button id="themeToggle" class="btn secondary" title="تبديل السمة">سمة</button>
+          <button id="userBtn" class="btn secondary" title="حساب المستخدم">المحكمة الإلكترونية</button>
+        </div>
+      </div>
+
+      <div class="grid">
+        <!-- LEFT: panels -->
+        <section id="panels" style="min-height:560px">
+          <!-- Assistant -->
+          <article id="panel-assistant" class="card panel" role="region" aria-labelledby="assistantTitle">
+            <h2 id="assistantTitle">المساعد الذكي — تدقيق وتحليل</h2>
+            <p class="muted">أدخل ملخص الوقائع أو ارفع المستندات. المساعد يقترح نقاط نواقص، توصيات وصياغات مبدئية.</p>
+
+            <div style="margin-top:12px">
+              <label for="facts" class="muted">ملخص الوقائع</label>
+              <textarea id="facts" placeholder="اكتب ملخص الدعوى أو ألصق نص..." aria-label="ملخص الوقائع"></textarea>
+            </div>
+
+            <div style="margin-top:12px; display:flex; gap:12px; align-items:flex-start">
+              <div style="flex:1">
+                <div id="uploader" class="uploader" tabindex="0" aria-label="سحب الملفات أو الضغط للاختيار">اسحب الملفات هنا أو اضغط للاختيار (PDF، صور)</div>
+                <div id="uploadProgress" class="progress" style="display:none"><i style="width:0%"></i></div>
+              </div>
+
+              <div style="width:220px; display:flex; flex-direction:column; gap:10px">
+                <button id="runAi" class="btn">تشغيل ا��تدقيق الذكي</button>
+                <button id="saveDraft" class="btn secondary">حفظ مسودة</button>
+              </div>
+            </div>
+
+            <div id="aiResult" style="margin-top:14px; display:none">
+              <div class="card">
+                <h3>نتيجة التحليل</h3>
+                <div id="analysisContent" class="muted">لا توجد نتيجة بعد.</div>
+                <div style="margin-top:10px; display:flex; gap:8px">
+                  <button id="exportDoc" class="btn">توليد مستند</button>
+                  <button id="sendToJudge" class="btn secondary">إحالة إلى القاضي</button>
+                </div>
+              </div>
             </div>
           </article>
 
-          <article id="panel-casefile" class="card panel" hidden>
-            <h2>قيد دعوى جديد</h2>
-            <input id="plaintiff" placeholder="اسم المدعي">
-            <input id="subject" placeholder="موضوع الدعوى">
-            <textarea id="details" placeholder="تفاصيل الدعوى"></textarea>
-            <button class="btn" id="submitCase" style="margin-top:15px">إرسال الطلب</button>
-            <p id="caseFeedback" hidden></p>
+          <!-- Services -->
+          <article id="panel-services" class="card panel" role="region" aria-labelledby="servicesTitle" hidden>
+            <h2 id="servicesTitle">الخدمات الشاملة</h2>
+            <p class="muted">بوابة موحدة للخدمات المؤسسية: قيد، مذكرات، جلسات، أرشفة، تقارير وتحليلات.</p>
+
+            <div style="margin-top:12px" class="services-grid">
+              <div class="service" data-service="casefile"><h4>قيد دعوى إلكتروني</h4><p class="muted">نموذج ذكي مع تحقق آلي من المرفقات.</p></div>
+              <div class="service" data-service="memo"><h4>تبادل مذكرات</h4><p class="muted">صندوق وارد/صادر مع توقيع رقمي.</p></div>
+              <div class="service" data-service="sessions"><h4>جلسات رقمية</h4><p class="muted">روابط مؤمنة وتفريغ صوتي.</p></div>
+              <div class="service" data-service="inquiry"><h4>استعلام موحّد</h4><p class="muted">بحث عن قضايا، أحكام وأطراف.</p></div>
+            </div>
+          </article>
+
+          <!-- Case filing -->
+          <article id="panel-casefile" class="card panel" role="region" aria-labelledby="casefileTitle" hidden>
+            <h2 id="casefileTitle">قيد دعوى جديد</h2>
+            <p class="muted">أكمل الحقول وأرفق مرفقات الدعوى — المساعد سيتحقق آليًا.</p>
+
+            <form id="caseForm" onsubmit="return false" style="margin-top:10px">
+              <div class="row">
+                <div class="col">
+                  <label class="muted">اسم المدعي</label>
+                  <input id="plaintiff" class="input" required />
+                </div>
+                <div style="width:200px">
+                  <label class="muted">رقم القضية (اختياري)</label>
+                  <input id="caseNumber" class="input" />
+                </div>
+              </div>
+
+              <div style="margin-top:10px">
+                <label class="muted">موضوع الدعوى</label>
+                <input id="subject" class="input" required />
+              </div>
+
+              <div style="margin-top:10px">
+                <label class="muted">تفاصيل</label>
+                <textarea id="details" class="input" required></textarea>
+              </div>
+
+              <div style="display:flex; gap:8px; align-items:center; margin-top:10px">
+                <div style="flex:1"><div id="caseUploader" class="uploader">اسحب مستندات الدعوى أو اضغط للاختيار</div></div>
+                <div style="width:160px"><button id="submitCase" class="btn">قيد الدعوى</button></div>
+              </div>
+
+              <div id="caseFeedback" class="muted" style="margin-top:8px; display:none"></div>
+            </form>
+          </article>
+
+          <!-- Memo exchange -->
+          <article id="panel-memo" class="card panel" role="region" aria-labelledby="memoTitle" hidden>
+            <h2 id="memoTitle">تبادل مذكرات</h2>
+            <p class="muted">قائمة المذكرات — أرسل مذكرة جديدة أو اطلع على السجل.</p>
+
+            <div style="display:flex; gap:12px; margin-top:10px">
+              <div style="flex:1"><ul id="memoList" class="list"></ul></div>
+              <div style="width:300px">
+                <label class="muted">مذكرة جديدة</label>
+                <textarea id="memoText" class="input"></textarea>
+                <button id="sendMemo" class="btn" style="margin-top:8px">إرسال</button>
+              </div>
+            </div>
+          </article>
+
+          <!-- Sessions -->
+          <article id="panel-sessions" class="card panel" role="region" aria-labelledby="sessionsTitle" hidden>
+            <h2 id="sessionsTitle">جلسات رقمية</h2>
+            <p class="muted">أنشئ جلسة افتراضية مع رابط آمن وتفريغ لاحق.</p>
+
+            <div style="margin-top:10px">
+              <label class="muted">موضوع الجلسة</label>
+              <input id="sessionSubj" class="input" />
+              <div class="row" style="margin-top:8px">
+                <div class="col">
+                  <label class="muted">التاريخ والوقت</label>
+                  <input id="sessionDate" type="datetime-local" class="input" />
+                </div>
+                <div style="width:150px"><button id="createSession" class="btn">إنشاء جلسة</button></div>
+              </div>
+              <div id="sessionList" style="margin-top:12px"></div>
+            </div>
+          </article>
+
+          <!-- Judge board -->
+          <article id="panel-judgeboard" class="card panel" role="region" aria-labelledby="judgeTitle" hidden>
+            <h2 id="judgeTitle">منصة القاضي</h2>
+            <p class="muted">لوحة قرارات تعرض أولوية القضايا وتنبيهات AI.</p>
+
+            <div style="display:flex; gap:12px; margin-top:12px">
+              <div style="flex:1" class="card"><h3>قضايا اليوم</h3><div id="todayCases" class="muted">تحميل...</div></div>
+              <div style="width:320px" class="card"><h3>مخطط الحالة</h3><canvas id="judgeChart" style="max-height:160px"></canvas></div>
+            </div>
+          </article>
+
+          <!-- Accessibility -->
+          <article id="panel-accessibility" class="card panel" role="region" aria-labelledby="accessTitle" hidden>
+            <h2 id="accessTitle">الوصول</h2>
+            <p class="muted">TTS، STT، تسميات فورية وترجمات EN ↔ AR.</p>
+            <div style="display:flex; gap:8px; margin-top:10px">
+              <button id="enableTTS" class="btn">تشغيل القراءة</button>
+              <button id="enableCaptions" class="btn secondary">عرض الترجمة</button>
+              <button id="startSTT" class="btn secondary">بدء أوامر صوتية</button>
+            </div>
+          </article>
+
+          <!-- Security -->
+          <article id="panel-security" class="card panel" role="region" aria-labelledby="securityTitle" hidden>
+            <h2 id="securityTitle">الأمن والامتثال</h2>
+            <p class="muted">PKI، توقيع رقمي، SSO، تشفير وسجلات تدقيق.</p>
+            <ul class="muted" style="margin-top:8px">
+              <li>حماية مفاتيح في Secret Manager</li>
+              <li>MFA وRBAC للمستخدمين</li>
+              <li>سجلات تدقيق قابلة للتصدير</li>
+            </ul>
           </article>
         </section>
 
-        <aside>
+        <!-- RIGHT column -->
+        <aside class="right-col">
           <div class="card">
-            <h3>إحصائيات فورية</h3>
-            <canvas id="judgeChart"></canvas>
+            <h3>إجراءات سريعة</h3>
+            <div style="display:flex;flex-direction:column;gap:8px;margin-top:8px">
+              <button class="btn" onclick="openPanel('casefile')">قيد دعوى</button>
+              <button class="btn secondary" onclick="openPanel('memo')">مذكرة جديدة</button>
+              <button class="btn secondary" onclick="openPanel('sessions')">جدولة جلسة</button>
+            </div>
+          </div>
+
+          <div class="card">
+            <h3>التكاملات</h3>
+            <p class="muted" style="margin-top:8px">OpenAI · Azure Speech · Google OCR · PKI · S3 · SSO</p>
+            <button class="btn secondary" onclick="alert('تفاصيل الربط: راجع إعدادات الخادم وملف infra')">تفاصيل الربط</button>
+          </div>
+
+          <div class="card">
+            <h3>التواصل</h3>
+            <p class="muted" style="margin-top:8px">licensing@rawan.dev</p>
+            <button class="btn" onclick="location.href='mailto:licensing@rawan.dev'">اتصل</button>
           </div>
         </aside>
       </div>
+
+      <footer class="footer">© 2026 روان الصبحي — جميع الحقوق محفوظة</footer>
     </main>
   </div>
 
   <script>
-    const API_BASE = 'https://smart-auditor-pro.onrender.com/api';
+    // Core frontend behaviour (vanilla JS). Assumes backend endpoints described previously.
+    // Helper: select
+    const $ = (sel, el = document) => el.querySelector(sel);
+    const $$ = (sel, el = document) => Array.from(el.querySelectorAll(sel));
 
-    // التنقل بين القوائم
+    // Panel navigation
+    $$('.menu button').forEach(btn => {
+      btn.addEventListener('click', () => {
+        $$('.menu button').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        openPanel(btn.dataset.panel);
+      });
+    });
+
     function openPanel(name) {
-      document.querySelectorAll('.panel').forEach(p => p.hidden = true);
-      document.querySelectorAll('.menu button').forEach(b => b.classList.remove('active'));
-      document.getElementById('panel-' + name).hidden = false;
-      document.querySelector(`[data-panel="${name}"]`).classList.add('active');
+      const map = {
+        assistant: 'panel-assistant',
+        services: 'panel-services',
+        casefile: 'panel-casefile',
+        memo: 'panel-memo',
+        sessions: 'panel-sessions',
+        judgeboard: 'panel-judgeboard',
+        accessibility: 'panel-accessibility',
+        security: 'panel-security'
+      };
+      Object.values(map).forEach(id => { const el = document.getElementById(id); if(el) el.hidden = true; });
+      const id = map[name] || ('panel-' + name);
+      const el = document.getElementById(id);
+      if (el) el.hidden = false;
+      window.scrollTo({ top: 0, behavior: 'smooth' });
     }
 
-    document.querySelectorAll('.menu button').forEach(btn => {
-      btn.onclick = () => openPanel(btn.dataset.panel);
-    });
+    // Initial show assistant
+    openPanel('assistant');
 
-    // تشغيل AI الحقيقي
-    document.getElementById('runAi').onclick = async () => {
-      const facts = document.getElementById('facts').value;
-      const content = document.getElementById('analysisContent');
-      document.getElementById('aiResult').hidden = false;
-      content.innerHTML = "جاري الاتصال بالسيرفر...";
+    /***********************
+     * Upload (presigned)
+     ***********************/
+    async function presign(filename, contentType){
+      const res = await fetch('/api/upload/presign', {
+        method: 'POST', headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ filename, contentType })
+      });
+      if(!res.ok) throw new Error('presign failed');
+      return res.json(); // { url, key, bucket }
+    }
 
+    async function uploadToUrl(url, file){
+      const res = await fetch(url, { method: 'PUT', body: file, headers: { 'Content-Type': file.type }});
+      if(!res.ok) throw new Error('upload failed');
+      return true;
+    }
+
+    // Uploader interactions
+    function setupUploader(elId, progressId){
+      const el = document.getElementById(elId), progress = document.getElementById(progressId);
+      el.addEventListener('click', () => {
+        const inp = document.createElement('input'); inp.type = 'file'; inp.multiple = true;
+        inp.onchange = () => handleFiles(inp.files, progress);
+        inp.click();
+      });
+      ['dragenter','dragover'].forEach(e => el.addEventListener(e, ev => { ev.preventDefault(); el.style.borderColor = 'var(--green)'; }));
+      ['dragleave','drop'].forEach(e => el.addEventListener(e, ev => { ev.preventDefault(); el.style.borderColor = ''; if(e === 'drop') handleFiles(ev.dataTransfer.files, progress); }));
+    }
+
+    async function handleFiles(files, progressEl){
+      if(!files || files.length === 0) return;
+      progressEl.style.display = 'block';
+      const bar = progressEl.querySelector('i');
+      bar.style.width = '0%';
       try {
-        const res = await fetch(`${API_BASE}/ai/analyze`, {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ text: facts })
-        });
-        const data = await res.json();
-        content.innerHTML = `<strong>النتيجة:</strong> ${data.verdict}<br><strong>نصيحة:</strong> ${data.recommendations[0]}`;
-      } catch (e) {
-        content.innerHTML = "فشل الاتصال. تأكد أن سيرفر Render يعمل.";
+        for(let i=0;i<files.length;i++){
+          const f = files[i];
+          const pre = await presign(f.name, f.type || 'application/octet-stream');
+          await uploadToUrl(pre.url, f);
+          // simple progress simulation
+          bar.style.width = `${Math.round(((i+1)/files.length)*100)}%`;
+        }
+        setTimeout(()=> { progressEl.style.display = 'none'; bar.style.width = '0%'; alert('تم رفع الملف/الملفات بنجاح'); }, 400);
+      } catch (err) {
+        progressEl.style.display = 'none';
+        bar.style.width = '0%';
+        alert('فشل الرفع: ' + err.message);
       }
-    };
+    }
 
-    // قيد دعوى حقيقي
-    document.getElementById('submitCase').onclick = async () => {
-      const payload = {
-        plaintiff: document.getElementById('plaintiff').value,
-        subject: document.getElementById('subject').value,
-        details: document.getElementById('details').value
-      };
+    setupUploader('uploader','uploadProgress');
+    setupUploader('caseUploader','uploadProgress');
+
+    /***********************
+     * AI analyze
+     ***********************/
+    $('#runAi').addEventListener('click', async () => {
+      const text = document.getElementById('facts').value.trim();
+      if(!text) return alert('اكتب ملخص الوقائع أولاً');
+      const resultBlock = document.getElementById('aiResult');
+      const content = document.getElementById('analysisContent');
+      resultBlock.style.display = 'block';
+      content.textContent = 'جارٍ تحليل الوثائق والسياق — الرجاء الانتظار...';
+
       try {
-        const res = await fetch(`${API_BASE}/cases`, {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify(payload)
+        const res = await fetch('/api/ai/analyze', {
+          method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ text })
         });
-        const data = await res.json();
-        alert("تم القيد بنجاح: " + data.id);
-      } catch (e) { alert("خطأ في الاتصال"); }
-    };
-
-    // الرسم البياني
-    new Chart(document.getElementById('judgeChart'), {
-      type: 'doughnut',
-      data: { labels: ['منجز', 'قيد'], datasets: [{ data: [300, 50], backgroundColor: ['#FFB703', '#116938'] }] }
+        if(!res.ok) throw new Error('AI call failed');
+        const json = await res.json();
+        // if backend returns raw text or structured JSON, adapt
+        if(json.raw) {
+          content.innerText = json.raw;
+        } else if(json.verdict) {
+          content.innerHTML = `<strong>${json.verdict}</strong>
+            <ul style="margin:8px 0 0 0; padding-inline-start:18px">${(json.issues||[]).map(i=>`<li>${i}</li>`).join('')}</ul>
+            <div style="margin-top:8px"><strong>توصيات:</strong><ol style="margin:6px 0 0 0; padding-inline-start:18px">${(json.recommendations||[]).map(r=>`<li>${r}</li>`).join('')}</ol></div>`;
+        } else {
+          content.innerText = JSON.stringify(json, null, 2);
+        }
+      } catch (err) {
+        content.textContent = 'خطأ في تحليل AI: ' + err.message;
+      }
     });
+
+    /***********************
+     * Case create
+     ***********************/
+    document.getElementById('submitCase').addEventListener('click', async () => {
+      const plaintiff = document.getElementById('plaintiff').value.trim();
+      const subject = document.getElementById('subject').value.trim();
+      const details = document.getElementById('details').value.trim();
+      const fb = document.getElementById('caseFeedback');
+      if(!plaintiff || !subject || !details) { fb.style.display='block'; fb.textContent='يرجى ملء الحقول المطلوبة.'; return; }
+      fb.style.display='block'; fb.textContent='جاري إرسال طلب القيد...';
+      try {
+        const res = await fetch('/api/cases', { method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify({ plaintiff, subject, details, attachments: [] })});
+        if(!res.ok) throw new Error('create case failed');
+        const data = await res.json();
+        fb.textContent = 'تم قيد الدعوى رقم: ' + data.id;
+      } catch (err) {
+        fb.textContent = 'خطأ عند القيد: ' + err.message;
+      }
+    });
+
+    /***********************
+     * Memos
+     ***********************/
+    async function loadMemos(){
+      try {
+        const res = await fetch('/api/memos'); if(!res.ok) throw new Error('memos failed');
+        const list = await res.json();
+        const container = document.getElementById('memoList');
+        container.innerHTML = list.map(m => `<li><strong>${m.from}</strong> — ${m.time ? new Date(m.time).toLocaleString() : ''}<div style="font-size:13px;color:var(--muted);margin-top:6px">${m.text}</div></li>`).join('');
+      } catch(e) { console.warn(e); document.getElementById('memoList').innerHTML = '<li class="muted">تعذر تحميل المذكرات</li>'; }
+    }
+    loadMemos();
+    document.getElementById('sendMemo').addEventListener('click', async () => {
+      const text = document.getElementById('memoText').value.trim();
+      if(!text) return alert('اكتب نص المذكرة');
+      const res = await fetch('/api/memos', { method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify({ text, from: 'أنت' })});
+      if(!res.ok) return alert('فشل الإرسال');
+      document.getElementById('memoText').value=''; loadMemos();
+    });
+
+    /***********************
+     * Sessions
+     ***********************/
+    const sessionListEl = document.getElementById('sessionList');
+    document.getElementById('createSession').addEventListener('click', async () => {
+      const subj = document.getElementById('sessionSubj').value.trim();
+      const datetime = document.getElementById('sessionDate').value;
+      if(!subj || !datetime) return alert('ادخل الموضوع والتاريخ');
+      const res = await fetch('/api/sessions', { method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify({ subj, datetime })});
+      if(!res.ok) return alert('فشل إنشاء الجلسة');
+      const s = await res.json();
+      renderSessions([s, ...((window._sessions||[]))]);
+    });
+
+    function renderSessions(list){
+      window._sessions = list;
+      sessionListEl.innerHTML = list.map(s => `<div style="padding:8px;border-bottom:1px solid #f0f4f0"><strong>${s.subj}</strong><div class="muted">${new Date(s.datetime).toLocaleString()}</div><a href="${s.link}" target="_blank">${s.link}</a></div>`).join('');
+    }
+
+    /***********************
+     * Judge chart
+     ***********************/
+    (function initChart(){
+      const ctx = document.getElementById('judgeChart');
+      if(!ctx) return;
+      new Chart(ctx, {
+        type: 'doughnut',
+        data: { labels: ['منجز','قيد','نواقص'], datasets: [{ data: [1420,85,12], backgroundColor: ['#FFB703','#116938','#ff6b6b'] }] },
+        options: { plugins: { legend: { position: 'bottom' } } }
+      });
+      const t = document.getElementById('todayCases'); if(t) t.textContent = 'قضايا مؤكدة: 27 — عاجلة: 3';
+    })();
+
+    /***********************
+     * Accessibility: TTS/STT
+     ***********************/
+    document.getElementById('enableTTS').addEventListener('click', ()=> {
+      const text = document.getElementById('analysisContent').innerText || 'لا توجد نتائج';
+      if('speechSynthesis' in window){ const u = new SpeechSynthesisUtterance(text); u.lang='ar-SA'; speechSynthesis.speak(u); } else alert('TTS غير مدعوم');
+    });
+
+    document.getElementById('startSTT').addEventListener('click', ()=> {
+      if(!('SpeechRecognition' in window) && !('webkitSpeechRecognition' in window)) return alert('STT غير مدعوم — اربطي خدمة ASR');
+      const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
+      const r = new SR(); r.lang='ar-SA'; r.interimResults = true;
+      r.onresult = e => { document.getElementById('facts').value = Array.from(e.results).map(r=>r[0].transcript).join(''); };
+      r.onerror = ()=> alert('تعذر التعرف على الصوت'); r.start();
+    });
+
+    /***********************
+     * Theme toggle (simple)
+     ***********************/
+    document.getElementById('themeToggle').addEventListener('click', ()=> {
+      const root = document.documentElement;
+      if(root.style.getPropertyValue('--bg-1')){ root.style.removeProperty('--bg-1'); root.style.removeProperty('--bg-2'); document.body.style.color = '#0b2a1a'; }
+      else { root.style.setProperty('--bg-1','#071018'); root.style.setProperty('--bg-2','#041016'); document.body.style.color = '#eaf2eb'; }
+    });
+
+    /***********************
+     * Keyboard shortcuts (access)
+     ***********************/
+    window.addEventListener('keydown', e => {
+      if(e.key === '1') openPanel('assistant');
+      if(e.key === '2') openPanel('services');
+      if(e.key === '3') openPanel('casefile');
+      if(e.key === '4') openPanel('memo');
+      if(e.key === '5') openPanel('sessions');
+      if(e.key === '6') openPanel('judgeboard');
+    });
+
+    // simple accessibility: focus logo with Enter for mini animation
+    document.getElementById('brandLogo').addEventListener('keydown', e => { if(e.key === 'Enter' || e.key === ' ') { e.preventDefault(); brandLogoPulse(); }});
+    function brandLogoPulse(){ const el = document.getElementById('brandLogo'); el.animate([{transform:'translateY(0)'},{transform:'translateY(-6px)'},{transform:'translateY(0)'}], { duration: 300 }); }
   </script>
 </body>
 </html>
