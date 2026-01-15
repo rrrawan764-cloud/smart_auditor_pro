@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>رواق العدل — المنصة المتكاملة</title>
 
-  <!-- خط -->
+  <!-- خطوط وأيقونات -->
   <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
@@ -15,151 +15,132 @@
 
   <style>
     :root{
-      --bg-1:#071918; /* darker theme */
+      --bg-1:#071918;
       --bg-2:#042a24;
       --muted:#93a79f;
       --green:#0fb06b;
       --gold:#FFB703;
-      --accent: rgba(15,176,107,0.06);
-      --radius:14px;
-      --card-shadow: 0 18px 48px rgba(0,0,0,0.55);
-      --ui-ease: cubic-bezier(.2,.9,.2,1);
+      --card-radius:14px;
+      --glass: rgba(255,255,255,0.03);
       --max-width:1200px;
+      --ui-ease: cubic-bezier(.2,.9,.2,1);
     }
 
-    /* Reset & base */
     *{box-sizing:border-box}
     html,body{height:100%;margin:0;font-family:'Cairo',sans-serif;background:linear-gradient(180deg,var(--bg-1),var(--bg-2));color:#e6fff4;-webkit-font-smoothing:antialiased}
     a{color:var(--green)}
     img{max-width:100%;height:auto}
 
-    /* Canvas background (interactive) */
-    #bgCanvas {
-      position: fixed;
-      inset: 0;
-      width: 100vw;
-      height: 100vh;
-      z-index: -2;
-      display: block;
-      background: linear-gradient(180deg, rgba(2,18,16,0.9), rgba(3,28,24,0.95));
-    }
+    /* canvas background */
+    #bgCanvas{position:fixed;inset:0;width:100vw;height:100vh;z-index:-2;background:linear-gradient(180deg, rgba(2,18,16,0.95), rgba(3,28,24,0.98))}
+    .bg-overlay{position:fixed;inset:0;z-index:-1;background:linear-gradient(180deg, rgba(0,15,12,0.35), rgba(0,10,8,0.55));mix-blend-mode:overlay;pointer-events:none}
 
-    .bg-overlay {
-      position: fixed;
-      inset: 0;
-      z-index: -1;
-      background: linear-gradient(180deg, rgba(0,15,12,0.45), rgba(0,10,8,0.6));
-      pointer-events: none;
-      mix-blend-mode: overlay;
-    }
+    /* container */
+    .app{max-width:var(--max-width);margin:18px auto;padding:12px;display:grid;grid-template-columns:320px 1fr;gap:16px;position:relative;z-index:0}
+    @media (max-width:1000px){ .app{grid-template-columns:1fr;padding:10px} }
 
-    /* Container & layout */
-    .container{max-width:var(--max-width);margin:20px auto;padding:18px;display:grid;grid-template-columns:320px 1fr;gap:18px;min-height:80vh;position:relative;z-index:0}
-    @media (max-width:1000px){ .container{grid-template-columns:1fr; padding:12px} }
-
-    /* Sidebar */
-    .sidebar{background: rgba(255,255,255,0.03); border-radius:16px; padding:18px; border:1px solid rgba(255,255,255,0.03); box-shadow:var(--card-shadow); backdrop-filter: blur(8px)}
-    .brand{display:flex;gap:12px;align-items:center}
-    .logo{width:86px;height:86px;border-radius:14px;display:flex;align-items:center;justify-content:center;background:linear-gradient(180deg, rgba(15,176,107,0.95), rgba(6,100,72,0.95));box-shadow:0 12px 36px rgba(0,0,0,0.6);cursor:grab;transition:transform .36s var(--ui-ease)}
-    .brand h1{margin:0;font-size:18px;color:#e6fff4;font-weight:800}
+    /* sidebar */
+    .sidebar{background:var(--glass);border-radius:var(--card-radius);padding:12px;border:1px solid rgba(255,255,255,0.03);box-shadow:0 18px 48px rgba(0,0,0,0.55);backdrop-filter:blur(8px)}
+    .brand{display:flex;gap:10px;align-items:center}
+    .logo{width:72px;height:72px;border-radius:12px;display:flex;align-items:center;justify-content:center;background:linear-gradient(180deg,var(--green), #0b7d56);box-shadow:0 10px 30px rgba(0,0,0,0.5);cursor:pointer}
+    .brand h1{margin:0;font-size:18px;color:#eaffef;font-weight:800}
     .brand p{margin:0;color:var(--muted);font-size:13px}
 
-    nav.menu{margin-top:14px;display:flex;flex-direction:column;gap:8px}
-    .menu button{display:flex;align-items:center;gap:10px;padding:12px;border-radius:10px;border:none;background:transparent;color:var(--muted);cursor:pointer;font-weight:700;text-align:right;position:relative;overflow:visible}
-    .menu .ico{width:36px;height:36px;border-radius:8px;display:flex;align-items:center;justify-content:center;background:rgba(255,255,255,0.04)}
-    .menu button.active{background:linear-gradient(90deg,rgba(15,176,107,0.06), rgba(255,255,255,0.02));border-left:4px solid var(--gold);color:#dff8ea}
+    nav.menu{margin-top:12px;display:flex;flex-direction:column;gap:8px}
+    .menu button{display:flex;align-items:center;gap:10px;padding:10px;border-radius:10px;border:none;background:transparent;color:var(--muted);cursor:pointer;font-weight:700;text-align:right}
+    .menu button .ico{width:36px;height:36;border-radius:8px;display:flex;align-items:center;justify-content:center;background:rgba(255,255,255,0.04)}
+    .menu button.active{background:linear-gradient(90deg, rgba(15,176,107,0.06), rgba(255,255,255,0.02));border-left:4px solid var(--gold);color:#eaffef}
 
-    .sidebar .foot{margin-top:14px;color:var(--muted);font-size:13px;text-align:center}
+    .sidebar .foot{margin-top:12px;color:var(--muted);font-size:13px;text-align:center}
 
-    /* Main content */
-    .main{display:flex;flex-direction:column;gap:14px}
-    .topbar{display:flex;align-items:center;justify-content:space-between;gap:12px}
-    .search{flex:1;max-width:760px;display:flex;align-items:center;gap:10px;padding:10px 12px;border-radius:12px;background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.04);box-shadow:0 6px 18px rgba(0,0,0,0.5)}
-    .search input{border:0;background:transparent;outline:none;padding:6px 8px;font-size:14px;color:#e6fff4;width:100%}
+    /* main */
+    .main{display:flex;flex-direction:column;gap:12px}
+    .topbar{display:flex;gap:12px;align-items:center;justify-content:space-between}
+    .search{flex:1;display:flex;align-items:center;gap:10px;padding:8px 10px;border-radius:10px;background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.04)}
+    .search input{border:0;background:transparent;outline:none;padding:6px 8px;font-size:14px;color:#eafff0;width:100%}
     .controls{display:flex;gap:8px;align-items:center}
 
-    .grid{display:grid;grid-template-columns:1fr 380px;gap:16px}
-    @media (max-width:980px){ .grid{grid-template-columns:1fr} }
+    .layout-grid{display:grid;grid-template-columns:1fr 380px;gap:14px}
+    @media (max-width:980px){ .layout-grid{grid-template-columns:1fr} }
 
-    .card{border-radius:14px;padding:16px;background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));border:1px solid rgba(255,255,255,0.03);box-shadow:0 12px 36px rgba(0,0,0,0.5);backdrop-filter: blur(6px)}
+    .card{border-radius:12px;padding:14px;background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));border:1px solid rgba(255,255,255,0.03);box-shadow:0 12px 36px rgba(0,0,0,0.5);backdrop-filter:blur(6px)}
+
     h2{margin:0 0 8px 0;color:var(--green)}
     h3{margin:0 0 8px 0;color:var(--gold)}
     .muted{color:var(--muted);font-size:13px}
 
-    /* inputs */
-    .input, textarea, select { width:100%; padding:10px; border-radius:10px; border:1px solid rgba(255,255,255,0.04); background: rgba(0,0,0,0.18); color:#eafff0; outline:none; transition: box-shadow .12s, transform .12s; font-size:14px }
-    textarea { min-height:120px; resize:vertical }
-    .input:focus, textarea:focus { box-shadow: 0 12px 30px rgba(0,150,120,0.06); transform:translateY(-3px); border-color: rgba(15,176,107,0.18); }
+    /* inputs (glass) */
+    .input, textarea, select { width:100%; padding:10px; border-radius:10px; border:1px solid rgba(255,255,255,0.04); background: rgba(0,0,0,0.16); color:#eafff0; outline:none; transition:box-shadow .12s, transform .12s }
+    textarea{min-height:120px;resize:vertical}
+    .input:focus, textarea:focus{ box-shadow:0 12px 30px rgba(15,176,107,0.06); transform:translateY(-2px); border-color: rgba(15,176,107,0.18); }
 
-    .btn{position:relative; overflow:hidden; background:linear-gradient(180deg,var(--green), #0b7d56); color:#042b22; border:0; padding:10px 14px; border-radius:10px; cursor:pointer; font-weight:800}
-    .btn.secondary{background:transparent; color:var(--green); border:1px solid rgba(15,176,107,0.12)}
+    .btn{display:inline-flex;align-items:center;gap:8px; background:linear-gradient(180deg,var(--gold), #d59b03); color:#071018; border:0; padding:10px 14px; border-radius:10px; cursor:pointer; font-weight:800}
+    .btn.secondary{background:transparent;color:var(--gold);border:1px solid rgba(255,255,255,0.04)}
 
-    .uploader{border:2px dashed rgba(255,255,255,0.03); padding:14px; border-radius:10px; text-align:center; color:var(--muted); background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01)); transition:transform .12s}
-    .uploader:active{transform:translateY(2px)}
+    .uploader{border:2px dashed rgba(255,255,255,0.03);padding:12px;border-radius:10px;text-align:center;color:var(--muted);background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));cursor:pointer}
 
-    .services-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:12px}
-    .service{padding:14px;border-radius:12px;cursor:pointer;background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));border:1px solid rgba(255,255,255,0.03);transition:transform .14s,box-shadow .14s}
-    .service:hover{transform:translateY(-6px);box-shadow:0 14px 40px rgba(0,0,0,0.5)}
+    .services-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:10px}
+    .service{padding:12px;border-radius:10px;background:rgba(255,255,255,0.02);border:1px solid rgba(255,255,255,0.03);cursor:pointer}
 
-    .toast-wrap{position:fixed;left:50%;transform:translateX(-50%);top:22px;display:flex;flex-direction:column;gap:8px;z-index:2000}
-    .toast{background:rgba(0,0,0,0.7);color:#fff;padding:10px 14px;border-radius:10px;box-shadow:0 10px 30px rgba(0,0,0,0.6);opacity:0;transform:translateY(-6px) scale(.98);transition:opacity .28s,var(--ui-ease);display:inline-flex;gap:10px;align-items:center}
-    .toast.show{opacity:1;transform:translateY(0) scale(1)}
+    .list{list-style:none;padding:0;margin:0}
+    .list li{padding:8px 0;border-bottom:1px dashed rgba(255,255,255,0.03);color:var(--muted)}
 
-    ul.list{list-style:none;padding:0;margin:0}
-    ul.list li{padding:10px 0;border-bottom:1px dashed rgba(255,255,255,0.03);color:var(--muted)}
-    .row{display:flex;gap:10px;align-items:flex-end}
+    .responsive-mobile-menu{display:none}
+    @media (max-width:700px){
+      .menu{display:none}
+      .responsive-mobile-menu{display:block;margin-bottom:8px}
+    }
+
+    .toast-wrap{position:fixed;left:50%;transform:translateX(-50%);top:18px;z-index:2000}
+    .toast{background:rgba(0,0,0,0.7);color:#fff;padding:10px 14px;border-radius:8px;margin-bottom:8px;opacity:0;transform:translateY(-8px);transition:all .28s}
+
+    /* small helpers */
+    .row{display:flex;gap:8px;align-items:flex-end}
     .col{flex:1}
     :focus{outline:3px solid rgba(15,176,107,0.08);outline-offset:2px}
   </style>
 </head>
 <body>
-  <!-- Interactive canvas background (will be powered by your particle engine) -->
+  <!-- interactive canvas bg -->
   <canvas id="bgCanvas" aria-hidden="true"></canvas>
   <div class="bg-overlay" aria-hidden="true"></div>
 
-  <div class="container" role="application" aria-label="رواق العدل — المنصة المتكاملة">
-    <!-- Sidebar -->
+  <div class="app" role="application" aria-label="رواق العدل — المنصة المتكاملة">
+    <!-- SIDEBAR -->
     <aside class="sidebar" aria-label="الشريط الجانبي">
-      <div class="brand" role="img" aria-label="شعار رواق العدل">
-        <div class="logo" id="brandLogo" tabindex="0" title="رواق العدل — الشعار الرسمي">
-          <!-- SVG logo -->
-          <svg viewBox="0 0 120 120" width="68" height="68" xmlns="http://www.w3.org/2000/svg" role="img" aria-hidden="true">
-            <defs>
-              <linearGradient id="g-green" x1="0" x2="0" y1="0" y2="1"><stop offset="0" stop-color="#2aa05a"/><stop offset="1" stop-color="#116938"/></linearGradient>
-              <linearGradient id="g-gold" x1="0" x2="1"><stop offset="0" stop-color="#fff0b8"/><stop offset="1" stop-color="#FFB703"/></linearGradient>
-              <filter id="ds" x="-50%" y="-50%" width="200%" height="200%"><feDropShadow dx="0" dy="3" stdDeviation="5" flood-color="#000" flood-opacity="0.18"/></filter>
-            </defs>
-            <g transform="translate(60,62)" opacity="0.96">
-              <g transform="rotate(-28)"><rect x="-1.6" y="-48" width="3.2" height="92" rx="0.9" fill="#dcdcdc"/><polygon points="-7,-48 7,-48 0,-56" fill="#dcdcdc"/><rect x="-7" y="36" width="14" height="4.4" rx="1.1" fill="#b28627"/></g>
-              <g transform="rotate(28)"><rect x="-1.6" y="-48" width="3.2" height="92" rx="0.9" fill="#dcdcdc"/><polygon points="-7,-48 7,-48 0,-56" fill="#dcdcdc"/><rect x="-7" y="36" width="14" height="4.4" rx="1.1" fill="#b28627"/></g>
-            </g>
-            <g transform="translate(60,36)" opacity="0.98">
-              <rect x="-3.2" y="8" width="6.4" height="30" rx="1.2" fill="url(#g-green)" />
-              <path d="M0,6 C8,0 20,-6 36,-4" fill="none" stroke="#1f8a4c" stroke-width="2.6" transform="translate(-18,-6) rotate(-18)"/>
-              <path d="M0,6 C8,0 20,-6 36,-4" fill="none" stroke="#1f8a4c" stroke-width="2.6" transform="translate(-18,-6) rotate(18)"/>
-            </g>
-            <g transform="translate(60,48)" filter="url(#ds)">
-              <rect x="-2.8" y="2" width="5.6" height="36" rx="1.4" fill="#cfcfcf"/>
-              <g transform="translate(0,10)">
-                <rect x="-30" y="-3.6" width="60" height="7.2" rx="3.6" fill="url(#g-gold)"/>
-                <circle cx="0" cy="-14" r="4" fill="#cfcfcf"/>
-                <line x1="-20" y1="-1" x2="-20" y2="14" stroke="#cfcfcf" stroke-width="1.1"/>
-                <line x1="20" y1="-1" x2="20" y2="14" stroke="#cfcfcf" stroke-width="1.1"/>
-                <g transform="translate(-20,26)"><ellipse rx="12.5" ry="4.8" fill="#fff3d6" stroke="#d1a94e" stroke-width="0.9"/></g>
-                <g transform="translate(20,26)"><ellipse rx="12.5" ry="4.8" fill="#fff3d6" stroke="#d1a94e" stroke-width="0.9"/></g>
+      <div style="display:flex;justify-content:space-between;align-items:center">
+        <div class="brand" role="img" aria-label="شعار رواق العدل">
+          <div class="logo" id="brandLogo" tabindex="0" title="رواق العدل — الشعار الرسمي">
+            <!-- inline SVG (sword/palm/scale) -->
+            <svg viewBox="0 0 120 120" width="56" height="56" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+              <defs>
+                <linearGradient id="g-green" x1="0" x2="0" y1="0" y2="1"><stop offset="0" stop-color="#2aa05a"/><stop offset="1" stop-color="#116938"/></linearGradient>
+                <linearGradient id="g-gold" x1="0" x2="1"><stop offset="0" stop-color="#fff0b8"/><stop offset="1" stop-color="#FFB703"/></linearGradient>
+              </defs>
+              <g transform="translate(60,62)" opacity="0.96">
+                <g transform="rotate(-28)"><rect x="-1.6" y="-48" width="3.2" height="92" rx="0.9" fill="#dcdcdc"/><rect x="-7" y="36" width="14" height="4.4" rx="1.1" fill="#b28627"/></g>
+                <g transform="rotate(28)"><rect x="-1.6" y="-48" width="3.2" height="92" rx="0.9" fill="#dcdcdc"/><rect x="-7" y="36" width="14" height="4.4" rx="1.1" fill="#b28627"/></g>
               </g>
-              <rect x="-16" y="44" width="32" height="6" rx="2" fill="#2b2b2b" opacity="0.7"/>
-            </g>
-          </svg>
+              <g transform="translate(60,36)" opacity="0.98">
+                <rect x="-3.2" y="8" width="6.4" height="30" rx="1.2" fill="url(#g-green)" />
+              </g>
+              <g transform="translate(60,48)">
+                <rect x="-2.8" y="2" width="5.6" height="36" rx="1.4" fill="#cfcfcf"/>
+                <g transform="translate(0,10)"><rect x="-30" y="-3.6" width="60" height="7.2" rx="3.6" fill="url(#g-gold)"/></g>
+              </g>
+            </svg>
+          </div>
+          <div>
+            <h1>رواق العدل</h1>
+            <p class="muted">منصة قضائية متكاملة</p>
+          </div>
         </div>
 
-        <div>
-          <h1>رواق العدل</h1>
-          <p class="muted">منصة قضائية متكاملة — أمان، وصول، وكفاءة</p>
-        </div>
+        <!-- mobile menu toggle -->
+        <button class="btn secondary responsive-mobile-menu" id="mobileMenuBtn" aria-expanded="false" aria-controls="mobileMenu">القائمة</button>
       </div>
 
-      <nav class="menu" role="navigation" aria-label="قائمة الخدمات">
+      <nav class="menu" role="navigation" aria-label="قائمة الخدمات" id="desktopMenu">
         <button class="active" data-panel="assistant"><span class="ico"><i class="fa-solid fa-brain"></i></span>المساعد الذكي</button>
         <button data-panel="services"><span class="ico"><i class="fa-solid fa-layer-group"></i></span>الخدمات الشاملة</button>
         <button data-panel="casefile"><span class="ico"><i class="fa-solid fa-file-circle-plus"></i></span>قيد دعوى</button>
@@ -170,224 +151,365 @@
         <button data-panel="security"><span class="ico"><i class="fa-solid fa-shield"></i></span>الأمن</button>
       </nav>
 
-      <div class="foot" style="margin-top:14px; text-align:center; color:var(--muted); font-size:13px">
-        روان الصبحي — © 2026<br><a href="./LICENSE">شروط الترخيص</a>
-      </div>
+      <div class="foot">روان الصبحي — © 2026<br><a href="./LICENSE">شروط الترخيص</a></div>
     </aside>
 
-    <!-- Main content simplified for brevity (panels omitted here but included in actual implementation) -->
+    <!-- MAIN -->
     <main class="main" role="main">
       <div class="topbar">
-        <div class="search" role="search" aria-label="بحث موحد">
+        <div class="search" role="search">
           <i class="fa-solid fa-magnifying-glass" style="color:var(--muted)"></i>
-          <input id="unifiedSearch" placeholder="استعلام موحّد: رقم قضية، اسم، قرار..." />
+          <input id="unifiedSearch" placeholder="استعلام موحّد: رقم قضية، اسم، قرار..." aria-label="استعلام موحّد">
         </div>
+
         <div class="controls">
           <button id="themeToggle" class="btn secondary" title="تبديل السمة">سمة</button>
-          <button id="userBtn" class="btn secondary" title="حساب المستخدم">المحكمة الإلكترونية</button>
+          <button id="userBtn" class="btn secondary" title="المحكمة الإلكترونية">حساب</button>
         </div>
       </div>
 
-      <div class="grid">
-        <!-- The full panels (assistant, services, casefile, memo, sessions, judgeboard, accessibility, security) 
-             are as in the previous final HTML you approved. For brevity, keep the same structure and IDs so the UI scripts work. -->
+      <div class="layout-grid">
+        <!-- LEFT: panels -->
         <section id="panels" style="min-height:560px">
-          <!-- Assistant panel (example included) -->
-          <article id="panel-assistant" class="card panel" role="region" aria-labelledby="assistantTitle">
+          <!-- ASSISTANT -->
+          <article id="panel-assistant" class="card" role="region" aria-labelledby="assistantTitle">
             <h2 id="assistantTitle">المساعد الذكي — تدقيق وتحليل</h2>
-            <p class="muted">أدخل ملخص الوقائع أو ارفع المستندات. المساعد يقترح نقاط نواقص وتوصيات ومسودات.</p>
-            <div style="margin-top:12px">
-              <label for="facts" class="muted">ملخص الوقائع</label>
-              <textarea id="facts" placeholder="اكتب ملخص الدعوى..." aria-label="ملخص الوقائع"></textarea>
-            </div>
-            <div style="margin-top:12px; display:flex; gap:12px; align-items:flex-start">
+            <p class="muted">ارفع المستندات أو اكتب ملخص الوقائع. سيولد المساعد نقاط نواقص، توصيات، ومسودات.</p>
+
+            <label class="muted" for="facts">ملخص الوقائع</label>
+            <textarea id="facts" class="input" placeholder="اكتب ملخص الوقائع..." aria-label="ملخص الوقائع"></textarea>
+
+            <div style="display:flex;gap:10px;margin-top:10px;align-items:flex-start">
               <div style="flex:1">
-                <div id="uploader" class="uploader" tabindex="0" aria-label="سحب الملفات أو الضغط للاختيار">اسحب الملفات هنا أو اضغط للاختيار (PDF، صور)</div>
-                <div id="uploadProgress" class="progress" style="display:none"><i style="width:0%"></i></div>
+                <div id="uploader" class="uploader" tabindex="0">اسحب الملفات هنا أو اضغط للاختيار (PDF/صور)</div>
+                <div id="uploadProgress" class="progress" style="display:none;margin-top:8px"><i style="width:0%"></i></div>
               </div>
-              <div style="width:220px; display:flex; flex-direction:column; gap:10px">
-                <button id="runAi" class="btn" aria-live="polite" aria-busy="false">تشغيل التدقيق الذكي</button>
-                <button id="saveDraft" class="btn secondary">حفظ مسودة</button>
+
+              <div style="width:200px;display:flex;flex-direction:column;gap:8px">
+                <button id="runAi" class="btn" aria-live="polite">تشغيل التدقيق الذكي</button>
+                <button id="exportDraft" class="btn secondary">توليد مسودة</button>
+                <button id="sendToJudge" class="btn secondary">إحالة للقاضي</button>
               </div>
             </div>
-            <div id="aiResult" style="margin-top:14px; display:none">
+
+            <div id="aiResult" style="margin-top:12px;display:none">
               <div class="card">
-                <h3>نتيجة التحليل <span id="analysisSpinner" style="display:none; margin-left:8px"><i class="fa-solid fa-spinner fa-spin"></i></span></h3>
+                <h3>نتيجة التحليل</h3>
                 <div id="analysisContent" class="muted">لا توجد نتيجة بعد.</div>
-                <div style="margin-top:10px; display:flex; gap:8px">
-                  <button id="exportDoc" class="btn">توليد مستند</button>
-                  <button id="sendToJudge" class="btn secondary">إحالة إلى القاضي</button>
-                </div>
               </div>
             </div>
           </article>
+
+          <!-- SERVICES -->
+          <article id="panel-services" class="card" role="region" aria-labelledby="servicesTitle" hidden>
+            <h2 id="servicesTitle">الخدمات الشاملة</h2>
+            <p class="muted">مجموعة متكاملة من الخدمات لكل دورة قضائية — متصلة بالمساعد الذكي وعمليات الأرشفة والتوقيع.</p>
+
+            <div class="services-grid" style="margin-top:10px">
+              <div class="service" data-service="casefile">
+                <h4>قيد دعوى إلكتروني</h4>
+                <p class="muted">نموذج كامل، تحقق آلي من المرفقات، وتوليد إشعارات.</p>
+                <div style="margin-top:8px"><button class="btn" onclick="openPanel('casefile')">افتح</button></div>
+              </div>
+
+              <div class="service" data-service="memo">
+                <h4>تبادل مذكرات</h4>
+                <p class="muted">صندوق وارد وصادر، توقيع PKI وخيارات تتبع.</p>
+                <div style="margin-top:8px"><button class="btn" onclick="openPanel('memo')">افتح</button></div>
+              </div>
+
+              <div class="service" data-service="sessions">
+                <h4>جلسات رقمية</h4>
+                <p class="muted">حجز، روابط مؤمنة، تفريغ صوتي وتخزين محمي.</p>
+                <div style="margin-top:8px"><button class="btn" onclick="openPanel('sessions')">افتح</button></div>
+              </div>
+
+              <div class="service" data-service="access">
+                <h4>الوصول</h4>
+                <p class="muted">TTS, STT, Live Captions، وسمات وصول متقدمة.</p>
+                <div style="margin-top:8px"><button class="btn" onclick="openPanel('accessibility')">افتح</button></div>
+              </div>
+
+              <div class="service" data-service="archive">
+                <h4>أرشفة موثقة</h4>
+                <p class="muted">حفظ آمن، نسخ مع توقيت زمني ومراجعة سلامة.</p>
+              </div>
+
+              <div class="service" data-service="analytics">
+                <h4>تقارير وتحليلات</h4>
+                <p class="muted">لوحات أداء، مؤشرات ومخرجات AI للقضاة.</p>
+              </div>
+            </div>
+          </article>
+
+          <!-- CASE FILING -->
+          <article id="panel-casefile" class="card" role="region" aria-labelledby="casefileTitle" hidden>
+            <h2 id="casefileTitle">قيد دعوى جديد</h2>
+            <p class="muted">املأ النموذج وإرفاق المستندات — سيتم التحقق آلياً.</p>
+
+            <form id="caseForm" onsubmit="return false" style="margin-top:10px">
+              <div class="row">
+                <div class="col"><label class="muted">اسم المدعي</label><input id="plaintiff" class="input" required></div>
+                <div style="width:160px"><label class="muted">رقم مرجعي</label><input id="caseRef" class="input"></div>
+              </div>
+
+              <div style="margin-top:10px"><label class="muted">موضوع</label><input id="caseSubject" class="input" required></div>
+              <div style="margin-top:10px"><label class="muted">تفاصيل</label><textarea id="caseDetails" class="input" required></textarea></div>
+
+              <div style="display:flex;gap:8px;align-items:center;margin-top:10px">
+                <div style="flex:1"><div id="caseUploader" class="uploader">اسحب مستندات الدعوى أو اضغط للاختيار</div></div>
+                <div style="width:160px"><button id="submitCase" class="btn">قيد الدعوى</button></div>
+              </div>
+
+              <div id="caseFeedback" class="muted" style="margin-top:8px;display:none"></div>
+            </form>
+
+            <div style="margin-top:12px">
+              <h3>قضايا حديثة</h3>
+              <ul id="casesList" class="list"></ul>
+            </div>
+          </article>
+
+          <!-- MEMOS -->
+          <article id="panel-memo" class="card" role="region" aria-labelledby="memoTitle" hidden>
+            <h2 id="memoTitle">تبادل مذكرات</h2>
+            <div style="display:flex;gap:12px;margin-top:10px">
+              <div style="flex:1">
+                <h4 class="muted">الوارد / الصادر</h4>
+                <ul id="memoList" class="list" style="max-height:340px;overflow:auto"></ul>
+              </div>
+              <div style="width:320px">
+                <label class="muted">مذكرة جديدة</label>
+                <textarea id="memoText" class="input"></textarea>
+                <button id="sendMemo" class="btn" style="margin-top:8px">إرسال</button>
+              </div>
+            </div>
+          </article>
+
+          <!-- SESSIONS -->
+          <article id="panel-sessions" class="card" role="region" aria-labelledby="sessionsTitle" hidden>
+            <h2 id="sessionsTitle">جلسات رقمية</h2>
+            <div style="margin-top:10px">
+              <label class="muted">موضوع الجلسة</label>
+              <input id="sessionSubj" class="input">
+              <div class="row" style="margin-top:8px">
+                <div class="col"><label class="muted">التاريخ والوقت</label><input id="sessionDate" type="datetime-local" class="input"></div>
+                <div style="width:150px"><button id="createSession" class="btn">إنشاء جلسة</button></div>
+              </div>
+
+              <div style="margin-top:12px">
+                <h4 class="muted">الجلسات القادمة</h4>
+                <div id="sessionList" style="max-height:260px;overflow:auto"></div>
+              </div>
+            </div>
+          </article>
+
+          <!-- JUDGE BOARD -->
+          <article id="panel-judgeboard" class="card" role="region" aria-labelledby="judgeTitle" hidden>
+            <h2 id="judgeTitle">منصة القاضي</h2>
+            <p class="muted">لوحة قرارات تعرض أولويات القضايا وتنبيهات الذكاء الاصطناعي.</p>
+
+            <div style="display:flex;gap:12px;margin-top:12px">
+              <div style="flex:1" class="card">
+                <h3>قضايا اليوم</h3>
+                <div id="judgeCases" class="muted">جاري التحميل...</div>
+              </div>
+              <div style="width:320px" class="card">
+                <h3>مخطط الحالة</h3>
+                <canvas id="judgeChart" style="max-height:160px"></canvas>
+              </div>
+            </div>
+          </article>
+
+          <!-- ACCESSIBILITY -->
+          <article id="panel-accessibility" class="card" role="region" aria-labelledby="accessTitle" hidden>
+            <h2 id="accessTitle">الوصول</h2>
+            <p class="muted">TTS, STT, تسميات فورية، وضع خطي للقراءة، وتوافق لوحة المفاتيح.</p>
+
+            <div style="display:flex;gap:8px;margin-top:10px">
+              <button id="enableTTS" class="btn">تشغيل قراءة النتائج</button>
+              <button id="enableCaptions" class="btn secondary">عرض التسمية الحية</button>
+              <button id="startSTT" class="btn secondary">تشغيل أوامر صوتية</button>
+            </div>
+          </article>
+
+          <!-- SECURITY -->
+          <article id="panel-security" class="card" role="region" aria-labelledby="securityTitle" hidden>
+            <h2 id="securityTitle">الأمن والامتثال</h2>
+            <p class="muted">PKI، توقيع رقمي، SSO، تشفير، وسجلات تدقيق قابلة للتصدير.</p>
+
+            <ul class="muted" style="margin-top:8px">
+              <li>تشفير TLS وحقول حساسة مشفرة داخل DB</li>
+              <li>SSO / OIDC / SAML وMFA</li>
+              <li>سجل تدقيق لكل إجراء (Audit Logs)</li>
+            </ul>
+          </article>
         </section>
 
-        <!-- Right column quick actions -->
-        <aside class="right-col">
-          <div class="card"><h3>إجراءات سريعة</h3><div style="display:flex;flex-direction:column;gap:8px;margin-top:10px"><button class="btn" onclick="openPanel('casefile')">قيد دعوى</button><button class="btn secondary" onclick="openPanel('memo')">مذكرة</button><button class="btn secondary" onclick="openPanel('sessions')">جلسة</button></div></div>
-          <div class="card"><h3>التكاملات</h3><p class="muted" style="margin-top:8px">OpenAI · Azure Speech · Google OCR · PKI · S3 · SSO</p><button class="btn secondary" onclick="alert('راجع إعدادات infra')">تفاصيل الربط</button></div>
-          <div class="card"><h3>التواصل</h3><p class="muted" style="margin-top:8px">licensing@rawan.dev</p><button class="btn" onclick="location.href='mailto:licensing@rawan.dev'">اتصل</button></div>
+        <!-- RIGHT column -->
+        <aside>
+          <div class="card">
+            <h3>إجراءات سريعة</h3>
+            <div style="display:flex;flex-direction:column;gap:8px;margin-top:8px">
+              <button class="btn" onclick="openPanel('casefile')">قيد دعوى</button>
+              <button class="btn secondary" onclick="openPanel('memo')">مذكرة</button>
+              <button class="btn secondary" onclick="openPanel('sessions')">جدولة جلسة</button>
+            </div>
+          </div>
+
+          <div class="card">
+            <h3>التكاملات</h3>
+            <p class="muted" style="margin-top:8px">OpenAI · Azure Speech · Google OCR · PKI/HSM · S3 · SSO</p>
+            <button class="btn secondary" onclick="alert('تفاصيل الربط: راجع مستند infra')">تفاصيل الربط</button>
+          </div>
+
+          <div class="card">
+            <h3>التواصل</h3>
+            <p class="muted" style="margin-top:8px">licensing@rawan.dev</p>
+            <button class="btn" onclick="location.href='mailto:licensing@rawan.dev'">اتصل</button>
+          </div>
         </aside>
       </div>
 
-      <footer class="footer card" style="text-align:center">© 2026 روان الصبحي — جميع الحقوق محفوظة</footer>
+      <footer style="text-align:center;color:var(--muted);margin-top:10px">© 2026 روان الصبحي — جميع الحقوق محفوظة</footer>
     </main>
   </div>
 
-  <div class="toast-wrap" id="toastWrap" aria-live="polite" aria-atomic="true"></div>
+  <div class="toast-wrap" id="toastWrap" aria-live="polite"></div>
 
   <script>
-    /* --- محرك الخلفية التفاعلي (مُدرج طبقاً لطلبك) --- */
-    const canvas = document.getElementById('bgCanvas');
-    const ctx = canvas.getContext('2d');
-    let particles = [];
+    /* ---------------------------
+       Background particle engine
+       (uses your provided code, enhanced)
+       --------------------------- */
+    (function(){
+      const canvas = document.getElementById('bgCanvas');
+      const ctx = canvas.getContext('2d', { alpha: true });
+      const DPR = Math.max(1, window.devicePixelRatio || 1);
+      function resizeCanvas(){
+        canvas.width = Math.floor(window.innerWidth * DPR);
+        canvas.height = Math.floor(window.innerHeight * DPR);
+        canvas.style.width = window.innerWidth + 'px';
+        canvas.style.height = window.innerHeight + 'px';
+        ctx.setTransform(DPR,0,0,DPR,0,0);
+      }
+      window.addEventListener('resize', resizeCanvas);
+      resizeCanvas();
 
-    // تحديث حجم الكانفاس ليناسب الشاشة دائماً
-    function resize() {
-      const dpr = window.devicePixelRatio || 1;
-      canvas.width = Math.floor(window.innerWidth * dpr);
-      canvas.height = Math.floor(window.innerHeight * dpr);
-      canvas.style.width = window.innerWidth + 'px';
-      canvas.style.height = window.innerHeight + 'px';
-      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
-    }
-    window.addEventListener('resize', resize);
-    resize();
-
-    // تعريف الجسيم (النقطة المتحركة)
-    class Particle {
-      constructor() {
-        this.x = Math.random() * canvas.width / (window.devicePixelRatio || 1);
-        this.y = Math.random() * canvas.height / (window.devicePixelRatio || 1);
-        this.speedX = Math.random() * 0.5 - 0.25; // سرعة هادئة أفقية
-        this.speedY = Math.random() * 0.5 - 0.25; // سرعة هادئة عمودية
-        this.size = Math.random() * 2 + 0.6;            // أحجام متفاوتة للنقاط
+      class Particle {
+        constructor(){
+          this.x = Math.random() * window.innerWidth;
+          this.y = Math.random() * window.innerHeight;
+          this.speedX = Math.random()*0.6 - 0.3;
+          this.speedY = Math.random()*0.6 - 0.3;
+          this.size = Math.random()*2 + 0.6;
+        }
+        update(){
+          this.x += this.speedX;
+          this.y += this.speedY;
+          if(this.x < -20) this.x = window.innerWidth+20;
+          if(this.x > window.innerWidth+20) this.x = -20;
+          if(this.y < -20) this.y = window.innerHeight+20;
+          if(this.y > window.innerHeight+20) this.y = -20;
+        }
+        draw(){
+          ctx.beginPath();
+          ctx.fillStyle = 'rgba(15,176,107,0.36)';
+          ctx.arc(this.x, this.y, this.size, 0, Math.PI*2);
+          ctx.fill();
+        }
       }
 
-      // رسم النقطة
-      draw() {
-        ctx.fillStyle = 'rgba(15, 176, 107, 0.4)'; // لون أخضر شفاف
-        ctx.beginPath();
-        ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
-        ctx.fill();
+      let particles = [];
+      function initParticles(n=80){
+        particles = [];
+        for(let i=0;i<n;i++) particles.push(new Particle());
       }
+      initParticles( isMobile()? 40 : 90 );
 
-      // تحديث مكان النقطة (الحركة)
-      update() {
-        this.x += this.speedX;
-        this.y += this.speedY;
+      function isMobile(){ return /Mobi|Android/i.test(navigator.userAgent); }
 
-        // ارتداد النقاط عند اصطدامها بحواف الشاشة
-        const w = canvas.width / (window.devicePixelRatio || 1);
-        const h = canvas.height / (window.devicePixelRatio || 1);
-        if (this.x > w || this.x < 0) this.speedX *= -1;
-        if (this.y > h || this.y < 0) this.speedY *= -1;
-      }
-    }
-
-    // إنشاء عدد مبدئي من الجسيمات
-    function initParticles(count = 80) {
-      particles = [];
-      for (let i = 0; i < count; i++) particles.push(new Particle());
-    }
-    initParticles(80);
-
-    // دالة التحريك المستمر
-    function animateParticles() {
-      // clear with a slight translucent fill for subtle trails
-      ctx.fillStyle = 'rgba(0, 8, 7, 0.18)';
-      ctx.fillRect(0, 0, canvas.width, canvas.height);
-
-      particles.forEach(p => {
-        p.update();
-        p.draw();
-      });
-
-      // السحر التفاعلي: رسم خطوط بين النقاط القريبة من بعضها
-      for (let i = 0; i < particles.length; i++) {
-        for (let j = i + 1; j < particles.length; j++) {
-          let dx = particles[i].x - particles[j].x;
-          let dy = particles[i].y - particles[j].y;
-          let dist = Math.sqrt(dx * dx + dy * dy); // قياس المسافة
-
-          if (dist < 120) { // إذا كانت المسافة أقل من 120 بكسل ارسم خطاً
-            const alpha = Math.max(0.02, 0.15 - dist / 800);
-            ctx.strokeStyle = `rgba(15, 176, 107, ${alpha})`; // شفافية متغيرة بناءً على البعد
-            ctx.lineWidth = 0.45;
-            ctx.beginPath();
-            ctx.moveTo(particles[i].x, particles[i].y);
-            ctx.lineTo(particles[j].x, particles[j].y);
-            ctx.stroke();
+      function drawConnections(){
+        for(let i=0;i<particles.length;i++){
+          for(let j=i+1;j<particles.length;j++){
+            const a = particles[i], b = particles[j];
+            const dx = a.x - b.x, dy = a.y - b.y;
+            const dist = Math.sqrt(dx*dx + dy*dy);
+            if(dist < 120){
+              const alpha = Math.max(0.02, 0.15 - dist/800);
+              ctx.strokeStyle = `rgba(15,176,107,${alpha})`;
+              ctx.lineWidth = 0.45;
+              ctx.beginPath();
+              ctx.moveTo(a.x,a.y);
+              ctx.lineTo(b.x,b.y);
+              ctx.stroke();
+            }
           }
         }
       }
 
-      requestAnimationFrame(animateParticles); // طلب الإطار التالي (تحريك سلس)
-    }
-
-    // start
-    animateParticles();
-
-    // إعادة تهيئة particles عند تغيير حجم الشاشة بشكل كبير
-    let resizeTimeout;
-    window.addEventListener('resize', () => {
-      clearTimeout(resizeTimeout);
-      resizeTimeout = setTimeout(() => { initParticles( Math.min(120, Math.floor((window.innerWidth * window.innerHeight) / 80000)) ); }, 200);
-    });
-
-    /* ========== واجهة المستخدم والوظائف (مختصرة، تعتمد على نفس النقاط السابقة) ========== */
-    (function(){
-      const $ = (s, r=document) => r.querySelector(s);
-      const $$ = (s, r=document) => Array.from(r.querySelectorAll(s));
-      const toastWrap = document.getElementById('toastWrap');
-      function showToast(msg, ttl=3000){
-        const t = document.createElement('div'); t.className='toast'; t.innerText = msg; toastWrap.appendChild(t);
-        requestAnimationFrame(()=> t.classList.add('show'));
-        setTimeout(()=> { t.classList.remove('show'); setTimeout(()=> t.remove(), 300); }, ttl);
+      function frame(){
+        ctx.fillStyle = 'rgba(0,8,7,0.16)';
+        ctx.fillRect(0,0,window.innerWidth, window.innerHeight);
+        particles.forEach(p=> { p.update(); p.draw(); });
+        drawConnections();
+        requestAnimationFrame(frame);
       }
+      frame();
 
-      // panel nav
-      $$('nav.menu button').forEach(btn => {
+      // re-init on resize
+      let rt;
+      window.addEventListener('resize', ()=> { clearTimeout(rt); rt=setTimeout(()=> initParticles(isMobile()?40:90),150); });
+    })();
+
+    /* ---------------------------
+       UI logic: panels, CRUD (localStorage fallback), fetch to backend when available
+       - Cases, Memos, Sessions managed locally and synced to backend if endpoints exist.
+       --------------------------- */
+    (function(){
+      const $ = (sel, root=document) => root.querySelector(sel);
+      const $$ = (sel, root=document) => Array.from(root.querySelectorAll(sel));
+      const toastWrap = document.getElementById('toastWrap');
+      function toast(msg, ttl=3000){ const el = document.createElement('div'); el.className='toast'; el.textContent = msg; toastWrap.appendChild(el); requestAnimationFrame(()=> el.style.opacity=1 ); setTimeout(()=> { el.style.opacity=0; setTimeout(()=> el.remove(), 300); }, ttl); }
+
+      // local stores
+      const store = {
+        cases: JSON.parse(localStorage.getItem('rwaq_cases')||'[]'),
+        memos: JSON.parse(localStorage.getItem('rwaq_memos')||'[]'),
+        sessions: JSON.parse(localStorage.getItem('rwaq_sessions')||'[]')
+      };
+
+      function saveStore(){ localStorage.setItem('rwaq_cases', JSON.stringify(store.cases)); localStorage.setItem('rwaq_memos', JSON.stringify(store.memos)); localStorage.setItem('rwaq_sessions', JSON.stringify(store.sessions)); }
+
+      // Panel navigation
+      $$('.menu button').forEach(btn=>{
         btn.addEventListener('click', ()=> {
-          $$('nav.menu button').forEach(b => b.classList.remove('active'));
+          $$('.menu button').forEach(b=>b.classList.remove('active'));
           btn.classList.add('active');
           openPanel(btn.dataset.panel);
+          if(window.innerWidth < 700) window.scrollTo({top:0, behavior:'smooth'});
         });
       });
       function openPanel(name){
-        const map = { assistant:'panel-assistant', services:'panel-services', casefile:'panel-casefile', memo:'panel-memo', sessions:'panel-sessions', judgeboard:'panel-judgeboard', accessibility:'panel-accessibility', security:'panel-security' };
-        Object.values(map).forEach(id => { const el = document.getElementById(id); if(el) el.hidden = true; });
-        const id = map[name] || ('panel-' + name);
+        const map = {
+          assistant:'panel-assistant', services:'panel-services', casefile:'panel-casefile', memo:'panel-memo',
+          sessions:'panel-sessions', judgeboard:'panel-judgeboard', accessibility:'panel-accessibility', security:'panel-security'
+        };
+        Object.values(map).forEach(id => { const el=document.getElementById(id); if(el) el.hidden = true; });
+        const id = map[name] || ('panel-'+name);
         const el = document.getElementById(id); if(el) el.hidden = false;
-        window.scrollTo({top:0, behavior:'smooth'});
       }
       openPanel('assistant');
 
-      // minimal interactions reused from previous implementation
-      document.getElementById('runAi').addEventListener('click', async ()=>{
-        const text = document.getElementById('facts').value.trim();
-        if(!text) return showToast('اكتب ملخص الوقائع قبل التشغيل');
-        const content = document.getElementById('analysisContent');
-        document.getElementById('aiResult').style.display='block';
-        document.getElementById('analysisSpinner').style.display='inline-block';
-        try {
-          const res = await fetch('/api/ai/analyze', { method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify({ text })});
-          if(!res.ok) throw new Error('AI error');
-          const json = await res.json();
-          document.getElementById('analysisSpinner').style.display='none';
-          if(json.raw) content.innerText = json.raw;
-          else if(json.verdict) content.innerHTML = `<strong>${json.verdict}</strong><ul style="margin:8px 0 0 0;padding-inline-start:18px">${(json.issues||[]).map(i=>`<li>${i}</li>`).join('')}</ul><div style="margin-top:8px"><strong>توصيات:</strong><ol style="margin:6px 0 0 0;padding-inline-start:18px">${(json.recommendations||[]).map(r=>`<li>${r}</li>`).join('')}</ol></div>`;
-          else content.innerText = JSON.stringify(json, null, 2);
-          showToast('اكتمل التحليل');
-        } catch(err){
-          document.getElementById('analysisSpinner').style.display='none';
-          content.textContent = 'خطأ: ' + err.message;
-          showToast('خطأ في تحليل AI');
-        }
+      // Mobile menu toggle
+      const mobileBtn = document.getElementById('mobileMenuBtn');
+      mobileBtn && mobileBtn.addEventListener('click', ()=>{
+        const menu = document.querySelector('nav.menu');
+        if(menu.style.display === 'flex'){ menu.style.display = 'none'; mobileBtn.setAttribute('aria-expanded','false'); }
+        else { menu.style.display = 'flex'; mobileBtn.setAttribute('aria-expanded','true'); }
       });
 
-      // basic uploader behavior (presign/upload)
+      // Uploader (presign -> PUT) with graceful fallback (local simulate)
       function setupUploader(elId, progressId){
         const el = document.getElementById(elId), progress = document.getElementById(progressId);
         el.addEventListener('click', ()=> {
@@ -395,39 +517,163 @@
           inp.onchange = ()=> handleFiles(inp.files, progress);
           inp.click();
         });
-        ['dragenter','dragover'].forEach(ev => el.addEventListener(ev, e => { e.preventDefault(); el.style.borderColor = '#0fb06b'; }));
-        ['dragleave','drop'].forEach(ev => el.addEventListener(ev, e => { e.preventDefault(); el.style.borderColor = ''; if(e.type==='drop') handleFiles(e.dataTransfer.files, progress); }));
+        ['dragenter','dragover'].forEach(e=> el.addEventListener(e, ev=> { ev.preventDefault(); el.style.borderColor='#0fb06b'; }));
+        ['dragleave','drop'].forEach(e=> el.addEventListener(e, ev=> { ev.preventDefault(); el.style.borderColor=''; if(ev.type==='drop') handleFiles(ev.dataTransfer.files, progress); }));
       }
+
       async function presign(filename, contentType){
         try {
-          const res = await fetch('/api/upload/presign', { method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify({ filename, contentType })});
-          if(!res.ok) throw new Error('presign failed');
+          const res = await fetch('/api/upload/presign', { method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify({ filename, contentType }) });
+          if(!res.ok) throw new Error('presign not available');
           return await res.json();
-        } catch(e){ throw e; }
+        } catch(e){
+          // fallback: return fake URL and key
+          return { url: null, key: 'local/' + Date.now() + '-' + filename, bucket: 'local' };
+        }
       }
       async function uploadToUrl(url, file){
-        const res = await fetch(url, { method:'PUT', body:file, headers:{'Content-Type': file.type} });
+        if(!url) return true; // in fallback case we treat as success
+        const res = await fetch(url, { method:'PUT', body: file, headers:{ 'Content-Type': file.type }});
         if(!res.ok) throw new Error('upload failed');
         return true;
       }
+
       async function handleFiles(files, progressEl){
         if(!files || files.length===0) return;
         progressEl.style.display='block';
         const bar = progressEl.querySelector('i'); bar.style.width='0%';
         try {
           for(let i=0;i<files.length;i++){
-            const f=files[i];
+            const f = files[i];
             const pre = await presign(f.name, f.type || 'application/octet-stream');
             await uploadToUrl(pre.url, f);
             bar.style.width = `${Math.round(((i+1)/files.length)*100)}%`;
           }
-          setTimeout(()=> { progressEl.style.display='none'; bar.style.width='0%'; showToast('تم رفع الملفات'); }, 400);
-        } catch(err){ progressEl.style.display='none'; bar.style.width='0%'; showToast('فشل الرفع: ' + err.message); }
+          setTimeout(()=> { progressEl.style.display='none'; bar.style.width='0%'; toast('تم رفع الملفات'); }, 350);
+        } catch(err){ progressEl.style.display='none'; bar.style.width='0%'; toast('فشل الرفع: '+err.message); }
       }
+
       setupUploader('uploader','uploadProgress');
       setupUploader('caseUploader','uploadProgress');
 
+      // AI analyze
+      $('#runAi').addEventListener('click', async ()=>{
+        const text = $('#facts').value.trim();
+        if(!text) return toast('اكتب ملخص الوقائع أولاً');
+        const resultEl = $('#aiResult'); const content = $('#analysisContent'); const spinner = $('#analysisSpinner');
+        resultEl.style.display='block'; spinner.style.display='inline-block';
+        try {
+          const res = await fetch('/api/ai/analyze', { method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify({ text })});
+          if(!res.ok) throw new Error('AI unavailable');
+          const json = await res.json();
+          spinner.style.display='none';
+          if(json.raw) content.innerText = json.raw;
+          else if(json.verdict) content.innerHTML = `<strong>${json.verdict}</strong><ul style="margin:8px 0 0 0;padding-inline-start:18px">${(json.issues||[]).map(i=>`<li>${i}</li>`).join('')}</ul><div style="margin-top:8px"><strong>توصيات:</strong><ol style="margin:6px 0 0 0;padding-inline-start:18px">${(json.recommendations||[]).map(r=>`<li>${r}</li>`).join('')}</ol></div>`;
+          else content.innerText = JSON.stringify(json, null, 2);
+        } catch(err){
+          spinner.style.display='none';
+          // fallback: local simulated analysis
+          content.innerHTML = `<strong>تقرير تجريبي</strong><ul style="padding-inline-start:18px"><li>احتمالية نقص وثائق</li><li>توافق التواريخ بحاجة لمراجعة</li></ul><div style="margin-top:8px"><strong>توصيات:</strong><ol style="padding-inline-start:18px"><li>إرفاق إيصال تبليغ</li><li>رفع تفويض موقع</li></ol></div>`;
+          toast('يتم استخدام وضع تجريبي للتحليل (خارج الشبكة)');
+        }
+      });
+
+      // CASES: create & render
+      function renderCases(){
+        const ul = $('#casesList'); ul.innerHTML = store.cases.map(c => `<li><strong>${c.plaintiff}</strong> — ${c.subject} <div class="muted" style="font-size:13px">${new Date(c.createdAt).toLocaleString()} — <small>${c.id}</small></div></li>`).join('') || '<li class="muted">لا توجد قضايا بعد</li>';
+      }
+      $('#submitCase').addEventListener('click', async ()=>{
+        const plaintiff = $('#plaintiff').value.trim(), subject = $('#caseSubject').value.trim(), details = $('#caseDetails').value.trim();
+        if(!plaintiff || !subject || !details) return toast('اكمل الحقول المطلوبة');
+        const id = 'case-' + Date.now();
+        const newCase = { id, plaintiff, subject, details, createdAt: new Date().toISOString(), attachments: [] };
+        // try backend
+        try {
+          const res = await fetch('/api/cases', { method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify(newCase) });
+          if(!res.ok) throw new Error('backend failed');
+          const saved = await res.json();
+          store.cases.unshift(saved);
+        } catch(e){
+          store.cases.unshift(newCase); // local fallback
+          toast('تم الحفظ محلياً (وضع الشبكة غير متاح)', 2600);
+        }
+        saveStore(); renderCases();
+        $('#caseForm').reset();
+      });
+      renderCases();
+
+      // MEMOS
+      async function loadMemos(){
+        try {
+          const res = await fetch('/api/memos');
+          if(!res.ok) throw new Error('no backend');
+          const list = await res.json();
+          store.memos = list;
+        } catch(e){
+          // keep local memos
+        }
+        renderMemos();
+      }
+      function renderMemos(){ $('#memoList').innerHTML = store.memos.map(m => `<li><strong>${m.from||'مستخدم'}</strong> — ${m.time? new Date(m.time).toLocaleString():''}<div class="muted" style="font-size:13px;margin-top:6px">${m.text}</div></li>`).join('') || '<li class="muted">لا توجد مذكرات</li>'; }
+      $('#sendMemo').addEventListener('click', async ()=>{
+        const text = $('#memoText').value.trim(); if(!text) return toast('اكتب نص المذكرة');
+        const memo = { id:'memo-'+Date.now(), from:'أنت', text, time: new Date().toISOString() };
+        try {
+          const res = await fetch('/api/memos', { method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify(memo) });
+          if(!res.ok) throw new Error('save failed');
+          const saved = await res.json(); store.memos.unshift(saved);
+        } catch(e){
+          store.memos.unshift(memo); toast('حفظ محلي — الشبكة غير متاحة');
+        }
+        saveStore(); renderMemos(); $('#memoText').value='';
+      });
+      loadMemos();
+
+      // SESSIONS
+      $('#createSession').addEventListener('click', async ()=>{
+        const subj = $('#sessionSubj').value.trim(), datetime = $('#sessionDate').value;
+        if(!subj || !datetime) return toast('ادخل الموضوع والتاريخ');
+        const session = { id:'s-'+Date.now(), subj, datetime, link: 'https://meet.example/' + Math.random().toString(36).slice(2,9) };
+        try {
+          const res = await fetch('/api/sessions', { method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify(session) });
+          if(!res.ok) throw new Error('backend fail');
+          const saved = await res.json(); store.sessions.unshift(saved);
+        } catch(e){
+          store.sessions.unshift(session); toast('تم إنشاء الجلسة محلياً');
+        }
+        saveStore(); renderSessions();
+        $('#sessionSubj').value=''; $('#sessionDate').value='';
+      });
+      function renderSessions(){ $('#sessionList').innerHTML = store.sessions.map(s => `<div style="padding:8px;border-bottom:1px solid rgba(255,255,255,0.03)"><strong>${s.subj}</strong><div class="muted">${new Date(s.datetime).toLocaleString()}</div><a href="${s.link}" target="_blank">${s.link}</a></div>`).join('') || '<div class="muted">لا توجد جلسات</div>'; }
+      renderSessions();
+
+      // JUDGE board
+      (function initJudge(){
+        const ctx = document.getElementById('judgeChart');
+        if(ctx) new Chart(ctx, { type:'doughnut', data:{ labels:['منجز','قيد','نواقص'], datasets:[{ data:[1420,85,12], backgroundColor:['#FFB703','#0fb06b','#ff6b6b'] }] }, options:{plugins:{legend:{position:'bottom'}}} });
+        $('#judgeCases').textContent = store.cases.length ? (store.cases.slice(0,5).map(c=>c.subject).join(' · ')) : 'لا توجد قضايا للعرض';
+      })();
+
+      // Accessibility TTS & STT
+      $('#enableTTS').addEventListener('click', ()=> {
+        const text = $('#analysisContent').innerText || 'لا توجد نتائج';
+        if('speechSynthesis' in window){ const u = new SpeechSynthesisUtterance(text); u.lang='ar-SA'; speechSynthesis.speak(u); toast('تشغيل القراءة'); } else toast('TTS غير متاح');
+      });
+      $('#startSTT').addEventListener('click', ()=> {
+        if(!('SpeechRecognition' in window) && !('webkitSpeechRecognition' in window)) return toast('STT غير مدعوم في المتصفح'); const SR = window.SpeechRecognition || window.webkitSpeechRecognition; const r = new SR(); r.lang='ar-SA'; r.interimResults=true; r.onresult = e => { $('#facts').value = Array.from(e.results).map(r=>r[0].transcript).join(''); }; r.onerror = ()=> toast('فشل التعرف'); r.start();
+      });
+
+      // theme toggle (simple)
+      $('#themeToggle').addEventListener('click', ()=> { document.body.classList.toggle('dark'); toast('تبديل السمة'); });
+
+      // expose openPanel globally for quick-buttons
+      window.openPanel = openPanel;
+      window.showToast = toast;
     })();
+
+    /* utility selector */
+    function $(s, r=document) { return r.querySelector(s); }
+    function $$(s, r=document) { return Array.from(r.querySelectorAll(s)); }
   </script>
 </body>
 </html>
