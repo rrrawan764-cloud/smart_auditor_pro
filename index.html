@@ -3,617 +3,211 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>رواق العدل — واجهة تفاعلية فعّالة</title>
+  <title>رواق العدل — الخدمات الشاملة والوصول</title>
 
-  <!-- خطوط وأيقونات -->
   <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-
-  <meta name="description" content="واجهة تفاعلية كاملة لمنصة المساعد وإدارة القضايا — رواق العدل" />
-  <meta name="author" content="روان الصبحي" />
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
 
   <style>
     :root{
       --bg-1:#022f2e; --bg-2:#063733;
       --panel: rgba(255,255,255,0.03);
-      --muted:#9fbfb0;
-      --accent:#0fb06b;
-      --gold:#FFB703;
-      --radius:12px;
-      --shadow: 0 14px 48px rgba(0,0,0,0.6);
-      --maxw:1240px;
+      --muted:#9fbfb0; --accent:#0fb06b; --gold:#FFB703;
+      --radius:12px; --shadow: 0 14px 48px rgba(0,0,0,0.6);
       --ui-ease: cubic-bezier(.2,.9,.2,1);
     }
     *{box-sizing:border-box}
-    html,body{height:100%;margin:0;font-family:'Cairo',sans-serif;background:linear-gradient(180deg,var(--bg-1),var(--bg-2));color:#eaffef}
-    a{color:var(--accent)}
-    .app{max-width:var(--maxw);margin:22px auto;padding:18px;display:grid;grid-template-columns:320px 1fr;gap:22px}
+    html,body{height:100%;margin:0;font-family:'Cairo',sans-serif;background:linear-gradient(180deg,var(--bg-1),var(--bg-2));color:#eaffef; overflow-x:hidden;}
+    
+    #bgCanvas{position:fixed;inset:0;z-index:-3}
+    .bg-overlay{position:fixed;inset:0;z-index:-2;pointer-events:none;background: linear-gradient(180deg, rgba(0,0,0,0.2), rgba(0,0,0,0.4));}
+
+    .app{max-width:1240px;margin:22px auto;padding:18px;display:grid;grid-template-columns:320px 1fr;gap:22px; position:relative; z-index:1;}
     @media (max-width:1000px){ .app{grid-template-columns:1fr;padding:12px} }
 
-    /* background */
-    #bgCanvas{position:fixed;inset:0;z-index:-3}
-    .bg-overlay{position:fixed;inset:0;z-index:-2;pointer-events:none;background:
-      radial-gradient(800px 260px at 8% 12%, rgba(180,240,210,0.03), transparent 8%),
-      linear-gradient(180deg, rgba(0,0,0,0.16), rgba(0,0,0,0.34));mix-blend-mode:multiply}
+    .sidebar{background:var(--panel);border-radius:var(--radius);padding:16px;border:1px solid rgba(255,255,255,0.03);box-shadow:var(--shadow);backdrop-filter:blur(10px)}
+    .menu button{display:flex;width:100%;align-items:center;gap:10px;padding:12px;border-radius:10px;border:0;background:transparent;color:var(--muted);cursor:pointer; text-align:right; font-family:inherit; font-weight:700;}
+    .menu button.active{background:rgba(15,176,107,0.1); border-left:4px solid var(--gold); color:#fff}
 
-    .sidebar{background:var(--panel);border-radius:var(--radius);padding:16px;border:1px solid rgba(255,255,255,0.03);box-shadow:var(--shadow);backdrop-filter:blur(6px)}
-    .brand{display:flex;gap:12px;align-items:center}
-    .logo{width:56px;height:56px;border-radius:10px;background:linear-gradient(180deg,var(--accent),#0b7d56);display:flex;align-items:center;justify-content:center}
-    .brand h1{margin:0;font-size:18px}
-    .brand p{margin:0;color:var(--muted);font-size:13px}
-    nav.menu{margin-top:14px;display:flex;flex-direction:column;gap:8px}
-    .menu button{display:flex;align-items:center;gap:10px;padding:10px;border-radius:10px;border:0;background:transparent;color:var(--muted);cursor:pointer}
-    .menu button.active{background:linear-gradient(90deg, rgba(15,176,107,0.06), rgba(255,255,255,0.02));border-left:4px solid var(--gold);color:#fff}
+    .card{border-radius:12px;padding:20px;background:rgba(255,255,255,0.02);border:1px solid rgba(255,255,255,0.05);box-shadow:var(--shadow); backdrop-filter:blur(8px)}
+    .btn{display:inline-flex;gap:8px;align-items:center;background:linear-gradient(180deg,var(--gold),#d59b03);color:#071018;border:0;padding:12px 15px;border-radius:10px;font-weight:800;cursor:pointer; transition:0.3s}
+    .btn:hover{transform:translateY(-2px); box-shadow:0 5px 15px rgba(255,183,3,0.3)}
 
-    .assistant-list{margin-top:12px;border-radius:10px;overflow:auto;max-height:300px;padding:6px;background:linear-gradient(180deg, rgba(255,255,255,0.01), rgba(255,255,255,0.005));border:1px solid rgba(255,255,255,0.02)}
-    .assistant-item{display:flex;justify-content:space-between;align-items:center;padding:8px;border-radius:8px}
-    .assistant-item + .assistant-item{margin-top:8px}
-    .assistant-item button{background:transparent;border:1px solid rgba(255,255,255,0.03);color:var(--muted);padding:6px;border-radius:8px;cursor:pointer}
+    /* تصاميم الخدمات الشاملة والوصول */
+    .services-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 15px; margin-top: 15px; }
+    .service-item { padding: 20px; text-align: center; border-radius: 12px; background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.05); cursor: pointer; transition: 0.3s; }
+    .service-item:hover { background: rgba(15,176,107,0.1); transform: scale(1.03); }
+    .service-item i { font-size: 28px; color: var(--gold); margin-bottom: 10px; }
 
-    .main{display:flex;flex-direction:column;gap:16px}
-    .card{border-radius:12px;padding:16px;background:linear-gradient(180deg, rgba(255,255,255,0.015), rgba(255,255,255,0.005));border:1px solid rgba(255,255,255,0.03);box-shadow:var(--shadow)}
-    .topbar{display:flex;gap:12px;align-items:center;justify-content:space-between}
-    .search{flex:1;display:flex;align-items:center;gap:10px;padding:10px;border-radius:10px;background:rgba(255,255,255,0.02);border:1px solid rgba(255,255,255,0.03)}
-    .search input{border:0;background:transparent;outline:none;color:#eaffef;width:100%}
+    .access-hub { background: rgba(255, 183, 3, 0.05); border: 1px solid var(--gold); border-radius: 12px; padding: 18px; margin-top: 20px; }
+    .access-tools { display: flex; gap: 8px; margin-top: 10px; flex-wrap: wrap; }
+    .tool-btn { background: rgba(0,0,0,0.3); color: var(--gold); border: 1px solid var(--gold); padding: 8px 12px; border-radius: 8px; cursor: pointer; font-size: 13px; font-weight: 700; }
 
-    /* professional inputs */
-    .field { margin-top:12px; display:flex;flex-direction:column; gap:6px; }
-    .float-label { position:relative; }
-    .float-label input, .float-label textarea, .float-label select {
-      width:100%; padding:14px 12px 10px 12px; border-radius:10px; border:1px solid rgba(255,255,255,0.06); background:rgba(0,0,0,0.12); color:#eaffef; font-size:15px;
-    }
-    .float-label textarea { min-height:120px; resize:vertical }
-    .float-label label { position:absolute; left:14px; top:12px; pointer-events:none; color:var(--muted); font-size:13px; transition: transform .12s var(--ui-ease), top .12s var(--ui-ease) }
-    .float-label input:focus + label, .float-label textarea:focus + label, .float-label input:not(:placeholder-shown) + label, .float-label textarea:not(:placeholder-shown) + label { transform: translateY(-10px) scale(.88); top:6px; font-size:12px; color:#fff }
-
-    .progress{height:8px;background:rgba(255,255,255,0.03);border-radius:8px;overflow:hidden;margin-top:8px}
-    .progress > i{display:block;height:100%;background:linear-gradient(90deg,var(--accent),var(--gold));width:0%;transition:width .28s var(--ui-ease)}
-
-    .btn{display:inline-flex;gap:8px;align-items:center;background:linear-gradient(180deg,var(--gold),#d59b03);color:#071018;border:0;padding:10px 12px;border-radius:10px;font-weight:800;cursor:pointer}
-    .btn.ghost{background:transparent;border:1px solid rgba(255,255,255,0.04);color:var(--muted);font-weight:700}
-    .mini{font-size:13px;padding:6px 8px;border-radius:8px;background:transparent;border:1px solid rgba(255,255,255,0.03);color:var(--muted);cursor:pointer}
-
-    pre.result{white-space:pre-wrap;background:rgba(0,0,0,0.16);padding:14px;border-radius:8px;border:1px solid rgba(255,255,255,0.03);color:#eaffef}
-
-    .file-list{margin-top:8px;display:flex;flex-direction:column;gap:8px}
-    .file-item{display:flex;justify-content:space-between;align-items:center;padding:8px;border-radius:8px;background:rgba(255,255,255,0.02);border:1px solid rgba(255,255,255,0.03)}
-    .file-item .meta{color:var(--muted);font-size:13px}
-
-    .drawer{position:fixed;top:70px;right:20px;width:420px;max-width:calc(100% - 40px);height:calc(100% - 120px);background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));border-radius:12px;padding:16px;box-shadow:0 30px 80px rgba(0,0,0,0.75);z-index:1400;overflow:auto;transform:translateY(8px);opacity:0;pointer-events:none;transition:all .22s var(--ui-ease)}
-    .drawer.show{transform:translateY(0);opacity:1;pointer-events:auto}
-
-    .err{color:#ffb3b3;font-size:13px;margin-top:6px}
-    .muted{color:var(--muted)}
+    .float-label { position:relative; margin-top:10px; }
+    .float-label textarea, .float-label input { width:100%; padding:15px; background:rgba(0,0,0,0.2); border:1px solid rgba(255,255,255,0.1); color:white; border-radius:10px; outline:none; }
+    
+    .drawer{position:fixed;top:70px;right:20px;width:420px;max-width:calc(100% - 40px);height:calc(100% - 120px);background:rgba(6,55,51,0.95);backdrop-filter:blur(15px); border-radius:12px;padding:16px;box-shadow:var(--shadow);z-index:1400;overflow:auto;transform:translateX(450px);transition:all .3s var(--ui-ease)}
+    .drawer.show{transform:translateX(0);}
   </style>
 </head>
 <body>
-  <canvas id="bgCanvas" aria-hidden="true"></canvas>
-  <div class="bg-overlay" aria-hidden="true"></div>
+  <canvas id="bgCanvas"></canvas>
+  <div class="bg-overlay"></div>
 
-  <div class="app" role="application" aria-label="رواق العدل — الواجهة التفاعلية">
-    <aside class="sidebar" aria-label="الشريط الجانبي">
+  <div class="app">
+    <aside class="sidebar">
       <div class="brand">
-        <div class="logo" aria-hidden="true"><i class="fa-solid fa-balance-scale" style="color:#fff;font-size:20px"></i></div>
-        <div>
-          <h1>رواق العدل</h1>
-          <p class="muted">مركز القضايا والمساعد</p>
-        </div>
+        <div class="logo"><i class="fa-solid fa-balance-scale" style="color:#fff"></i></div>
+        <div><h1>رواق العدل</h1><p class="muted">المنصة الشاملة</p></div>
       </div>
-
-      <nav class="menu" aria-label="التنقل">
-        <button class="active" data-panel="panel-assistant"><i class="fa-solid fa-brain"></i> المساعد الذكي</button>
+      <nav class="menu">
+        <button class="active" data-panel="panel-services"><i class="fa-solid fa-layer-group"></i> الخدمات الشاملة</button>
+        <button data-panel="panel-assistant"><i class="fa-solid fa-brain"></i> المساعد الذكي</button>
         <button data-panel="panel-casefile"><i class="fa-solid fa-file-circle-plus"></i> قيد دعوى</button>
         <button data-panel="panel-judgeboard"><i class="fa-solid fa-gavel"></i> منصة القاضي</button>
-        <button data-panel="panel-memo"><i class="fa-solid fa-file-lines"></i> تبادل مذكرات</button>
       </nav>
-
-      <div style="margin-top:16px">
-        <strong>قائمة الم��اعدين</strong>
-        <div class="assistant-list" id="assistantList" tabindex="0" aria-label="قائمة المساعدين"></div>
-
-        <div style="display:flex;gap:8px;margin-top:12px">
-          <button id="addAssistant" class="mini">+ جديد</button>
-          <button id="manageAssistants" class="mini">إدارة</button>
-        </div>
-      </div>
-
-      <div style="margin-top:18px;text-align:center" class="muted">licensing@rawan.dev</div>
+      <div id="assistantList" class="assistant-list"></div>
     </aside>
 
-    <main class="main" id="mainContent">
-      <div class="topbar card" role="region" aria-label="شريط الأدوات">
-        <div class="search" role="search">
-          <i class="fa-solid fa-magnifying-glass" style="color:var(--muted)"></i>
-          <input id="unifiedSearch" placeholder="بحث: رقم قضية، اسم، قرار..." aria-label="بحث" />
-        </div>
-        <div style="display:flex;gap:8px;align-items:center">
-          <button id="themeToggle" class="mini" title="تبديل السمة">سمة</button>
-          <button id="openJudgeDrawer" class="mini" title="فتح تجربة قضية">قاضي — تجربة</button>
-        </div>
-      </div>
-
-      <!-- Assistant -->
-      <section id="panel-assistant" class="card" role="region" aria-labelledby="assistantTitle">
-        <div style="display:flex;justify-content:space-between;align-items:center">
-          <h2 id="assistantTitle">المساعد الذكي</h2>
-          <div style="display:flex;gap:10px;align-items:center">
-            <select id="assistantSelect" aria-label="اختيار شخصية" style="min-width:220px"></select>
-          </div>
+    <main class="main">
+      <section id="panel-services" class="card panel">
+        <h2>الخدمات الشاملة</h2>
+        <div class="services-grid">
+          <div class="service-item" onclick="openPanel('panel-casefile')"><i class="fa-solid fa-file-signature"></i><h4>قيد دعوى</h4></div>
+          <div class="service-item"><i class="fa-solid fa-comments"></i><h4>تبادل مذكرات</h4></div>
+          <div class="service-item"><i class="fa-solid fa-handshake"></i><h4>الصلح والوساطة</h4></div>
+          <div class="service-item"><i class="fa-solid fa-book-law"></i><h4>المكتبة الرقمية</h4></div>
         </div>
 
-        <div style="display:flex;gap:16px;margin-top:14px">
-          <div style="flex:1">
-            <div class="field float-label">
-              <textarea id="facts" placeholder=" " aria-label="ملخص الوقائع"></textarea>
-              <label for="facts">ملخص الوقائع / النص</label>
-            </div>
-
-            <div style="display:flex;justify-content:space-between;align-items:center;margin-top:10px">
-              <div style="display:flex;gap:8px">
-                <button class="mode-btn active" data-mode="concise">مختصر</button>
-                <button class="mode-btn" data-mode="detailed">مفصّل</button>
-                <button class="mode-btn" data-mode="step">خطوات</button>
-              </div>
-              <div class="muted">اختصار: Ctrl/Cmd + Enter</div>
-            </div>
-
-            <div class="progress" id="progressBar" style="display:none"><i></i></div>
+        <div class="access-hub">
+          <h3><i class="fa-solid fa-universal-access"></i> ركن الوصول الشامل (ذوي الإعاقة)</h3>
+          <div class="access-tools">
+            <button class="tool-btn" id="btn-tts"><i class="fa-solid fa-volume-high"></i> قارئ النصوص</button>
+            <button class="tool-btn" id="btn-stt"><i class="fa-solid fa-microphone"></i> الأوامر الصوتية</button>
+            <button class="tool-btn"><i class="fa-solid fa-circle-half-stroke"></i> تباين عالي</button>
           </div>
-
-          <div style="width:260px;display:flex;flex-direction:column;gap:10px">
-            <button id="runBtn" class="btn"><i class="fa-solid fa-rocket"></i> تشغيل التحليل</button>
-            <button id="streamToggle" class="btn ghost" aria-pressed="false">بث لحظي</button>
-            <button id="saveDraftBtn" class="btn ghost">حفظ مسودة</button>
-            <div style="display:flex;gap:8px">
-              <button id="exportTxt" class="mini">تصدير</button>
-              <button id="printBtn" class="mini">طباعة</button>
-            </div>
-          </div>
-        </div>
-
-        <div style="display:flex;gap:14px;margin-top:16px;align-items:flex-start">
-          <div style="flex:1">
-            <h3>نتيجة التحليل</h3>
-            <pre id="analysisResult" class="result" aria-live="polite">لم يتم تشغيل أي تحليل بعد.</pre>
-          </div>
-
-          <aside style="width:320px">
-            <div class="card">
-              <h4>تفاصيل المساعد</h4>
-              <div id="assistantDetails" class="muted" style="margin-top:8px"></div>
-            </div>
-
-            <div class="card" style="margin-top:12px">
-              <h4>سجل التحليلات</h4>
-              <div id="historyList" style="max-height:260px;overflow:auto"></div>
-            </div>
-          </aside>
         </div>
       </section>
 
-      <!-- Case filing -->
-      <section id="panel-casefile" class="card" role="region" hidden>
-        <h2 style="margin-top:0">قيد دعوى — نموذج متقدّم</h2>
-        <p class="muted">نموذج احترافي مع تحقُّق ورفع مرفقات.</p>
-
-        <form id="caseForm" class="form-grid" onsubmit="return false" novalidate>
-          <div>
-            <div style="display:flex;gap:12px">
-              <div style="flex:1" class="float-label"><input id="case_id" placeholder=" " /><label for="case_id">رقم القضية (اختياري)</label></div>
-              <div style="width:180px" class="float-label"><input id="case_internal" placeholder=" " /><label for="case_internal">الرقم ��لداخلي</label></div>
-            </div>
-
-            <div class="field float-label"><input id="case_plaintiff" placeholder=" " required /><label for="case_plaintiff">اسم المدعي</label><div id="err_plaintiff" class="err" style="display:none"></div></div>
-
-            <div class="field float-label"><input id="case_subject" placeholder=" " required /><label for="case_subject">موضوع الدعوى</label><div id="err_subject" class="err" style="display:none"></div></div>
-
-            <div class="field float-label"><textarea id="case_details" placeholder=" " required></textarea><label for="case_details">تفاصيل / ملخص</label></div>
-
-            <div style="display:flex;gap:8px;align-items:flex-start;margin-top:10px">
-              <div style="flex:1">
-                <label>مرفقات</label>
-                <div id="caseUploader" class="file-list" tabindex="0">اسحب الملفات هنا أو اضغط للاختيار</div>
-                <div id="caseUploadProgress" class="progress" style="display:none"><i></i></div>
-              </div>
-
-              <div style="width:160px">
-                <label>&nbsp;</label>
-                <button id="submitCase" class="btn" type="button">قيد الدعوى</button>
-              </div>
-            </div>
-
-            <div id="caseFeedback" class="muted" style="margin-top:10px;display:none"></div>
-          </div>
-
-          <aside>
-            <div class="card">
-              <h4>إعدادات</h4>
-              <div class="field float-label" style="margin-top:8px"><select id="case_priority"><option value="normal">عادية</option><option value="review">مراجعة</option><option value="urgent">عاجلة</option></select><label>الأولوية</label></div>
-              <div class="field float-label" style="margin-top:8px"><select id="case_status"><option value="open">مفتوحة</option><option value="review">قيد المراجعة</option><option value="deferred">مؤجلة</option></select><label>الحالة</label></div>
-              <div class="field float-label" style="margin-top:8px"><input id="case_assigned" placeholder=" " /><label for="case_assigned">القاضي المعيّن (اختياري)</label></div>
-              <div style="margin-top:12px"><p class="muted">بعد القيد ستظهر الدعوى في لوحة القاضي حيث يمكن التعديل وإصدار الأوامر.</p></div>
-            </div>
-          </aside>
-        </form>
+      <section id="panel-assistant" class="card panel" hidden>
+        <h2>المساعد الذكي</h2>
+        <div class="float-label">
+          <textarea id="facts" placeholder="أدخل ملخص الوقائع للتحليل..."></textarea>
+        </div>
+        <button id="runBtn" class="btn" style="margin-top:15px"><i class="fa-solid fa-rocket"></i> تشغيل التحليل</button>
+        <div class="progress" id="progressBar" style="display:none"><i></i></div>
+        <pre id="analysisResult" class="card" style="margin-top:15px; background:rgba(0,0,0,0.2)">بانتظار الإدخال...</pre>
       </section>
 
-      <!-- Judge board -->
-      <section id="panel-judgeboard" class="card" role="region" hidden>
-        <h2 style="margin-top:0">منصة القاضي — قائمة القضايا</h2>
-        <p class="muted">اضغط عرض لفتح تفاصيل القضية وتحريرها.</p>
-        <div class="card" style="margin-top:12px"><div id="judgeCaseList" class="case-list" aria-live="polite"></div></div>
+      <section id="panel-casefile" class="card panel" hidden>
+        <h2>قيد دعوى جديد</h2>
+        <input id="case_plaintiff" class="card" style="width:100%; margin-bottom:10px" placeholder="اسم المدعي">
+        <input id="case_subject" class="card" style="width:100%; margin-bottom:10px" placeholder="موضوع الدعوى">
+        <button id="submitCase" class="btn">قيد الدعوى عبر السيرفر</button>
+        <div id="caseFeedback" style="margin-top:10px"></div>
+      </section>
+
+      <section id="panel-judgeboard" class="card panel" hidden>
+        <h2>قائمة القضايا</h2>
+        <div id="judgeCaseList"></div>
       </section>
     </main>
   </div>
 
-  <!-- Drawer -->
-  <aside id="judgeDrawer" class="drawer" role="dialog" aria-modal="true">
+  <aside id="judgeDrawer" class="drawer">
     <div style="display:flex;justify-content:space-between;align-items:center">
-      <h3 id="drawerTitle" style="margin:0">تفاصيل القضية</h3>
-      <div style="display:flex;gap:8px"><button id="closeDrawer" class="mini">إغلاق</button></div>
+      <h3>تفاصيل القضية</h3>
+      <button onclick="document.getElementById('judgeDrawer').classList.remove('show')" class="btn mini">إغلاق</button>
     </div>
-
-    <div class="field" style="margin-top:12px"><div class="float-label"><input id="f_caseid" placeholder=" " readonly /><label>رقم القضية</label></div></div>
-    <div class="field"><div class="float-label"><input id="f_internal" placeholder=" " /><label>الرقم الداخلي</label></div></div>
-    <div class="field"><div class="float-label"><input id="f_plaintiff" placeholder=" " /><label>اسم المدعي</label></div></div>
-    <div class="field"><div class="float-label"><input id="f_subject" placeholder=" " /><label>موضوع الدعوى</label></div></div>
-    <div class="field"><label>تاريخ الإنشاء</label><div id="f_created" class="muted"></div></div>
-    <div class="field"><div class="float-label"><select id="f_priority"><option value="urgent">عاجلة</option><option value="review">مراجعة</option><option value="normal">عادية</option></select><label>الأولوية</label></div></div>
-    <div class="field"><div class="float-label"><select id="f_status"><option value="open">مفتوحة</option><option value="review">قيد المراجعة</option><option value="completed">منجزة</option><option value="deferred">مؤجلة</option></select><label>الحالة</label></div></div>
-    <div class="field"><div class="float-label"><input id="f_assigned" placeholder=" " /><label>القاضي المعيّن</label></div></div>
-    <div class="field"><div class="float-label"><textarea id="f_notes" placeholder=" "></textarea><label>ملاحظات / ملخص</label></div></div>
-    <div class="field"><label>مرفقات</label><div id="f_attachments" class="file-list"></div></div>
-
-    <div style="margin-top:12px;display:flex;gap:8px;flex-wrap:wrap">
-      <button id="f_save" class="btn">حفظ</button>
-      <button id="f_assign" class="mini">تعيين</button>
-      <button id="f_issue" class="mini">إصدار أمر</button>
-      <button id="f_request_ai" class="mini">طلب اقتراح AI</button>
-      <button id="f_print" class="mini">طباعة</button>
-    </div>
-
-    <div style="margin-top:12px"><strong>سجل مختصر:</strong><div id="f_audit_list" class="muted" style="margin-top:8px"></div></div>
+    <div id="drawerContent" style="margin-top:20px"></div>
   </aside>
 
-  <div id="toastWrap" style="position:fixed;left:50%;transform:translateX(-50%);top:18px;z-index:2000" aria-live="polite"></div>
-
   <script>
-    /* ---------------- Background (light) ---------------- */
-    (function(){
-      const canvas = document.getElementById('bgCanvas'), ctx = canvas.getContext('2d');
-      function resize(){ canvas.width = innerWidth; canvas.height = innerHeight; canvas.style.width = innerWidth+'px'; canvas.style.height = innerHeight+'px'; }
-      addEventListener('resize', resize); resize();
-      const particles = [];
-      const N = Math.max(24, Math.floor(window.innerWidth/40));
-      for(let i=0;i<N;i++) particles.push({ x:Math.random()*innerWidth, y:Math.random()*innerHeight, r:Math.random()*1.6+0.4, vx:(Math.random()-0.5)*0.25, vy:(Math.random()-0.5)*0.25, a:0.06+Math.random()*0.2 });
-      (function frame(){
-        ctx.fillStyle = 'rgba(2,20,18,0.12)'; ctx.fillRect(0,0,innerWidth,innerHeight);
-        ctx.strokeStyle = 'rgba(10,80,60,0.03)';
-        for(let i=0;i<18;i++){
-          ctx.beginPath();
-          const x = (i/18)*innerWidth + Math.sin(Date.now()*0.0006 + i)*20;
-          ctx.moveTo(x,-40); ctx.lineTo(x+220,innerHeight+40); ctx.stroke();
+    /* --- المحرك التفاعلي (رسم الشبكة العصبية) --- */
+    const canvas = document.getElementById('bgCanvas');
+    const ctx = canvas.getContext('2d');
+    let particles = [];
+    let mouse = { x: null, y: null, radius: 100 };
+    window.onmousemove = (e) => { mouse.x = e.x; mouse.y = e.y; };
+    function resize() { canvas.width = innerWidth; canvas.height = innerHeight; }
+    window.onresize = resize; resize();
+
+    class Particle {
+      constructor() {
+        this.x = Math.random() * canvas.width;
+        this.y = Math.random() * canvas.height;
+        this.size = Math.random() * 2 + 1;
+        this.speedX = Math.random() * 1 - 0.5;
+        this.speedY = Math.random() * 1 - 0.5;
+      }
+      update() {
+        this.x += this.speedX; this.y += this.speedY;
+        if (this.x > canvas.width || this.x < 0) this.speedX *= -1;
+        if (this.y > canvas.height || this.y < 0) this.speedY *= -1;
+      }
+      draw() {
+        ctx.fillStyle = 'rgba(15, 176, 107, 0.3)';
+        ctx.beginPath(); ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2); ctx.fill();
+      }
+    }
+    for(let i=0; i<80; i++) particles.push(new Particle());
+
+    function animate() {
+      ctx.clearRect(0,0,canvas.width, canvas.height);
+      particles.forEach(p => { p.update(); p.draw(); });
+      for(let i=0; i<particles.length; i++) {
+        for(let j=i; j<particles.length; j++) {
+          let dx = particles[i].x - particles[j].x;
+          let dy = particles[i].y - particles[j].y;
+          let dist = Math.sqrt(dx*dx + dy*dy);
+          if(dist < 100) {
+            ctx.strokeStyle = `rgba(15, 176, 107, ${0.1 - dist/1000})`;
+            ctx.beginPath(); ctx.moveTo(particles[i].x, particles[i].y);
+            ctx.lineTo(particles[j].x, particles[j].y); ctx.stroke();
+          }
         }
-        particles.forEach(p=>{
-          p.x += p.vx; p.y += p.vy;
-          if(p.x < -20) p.x = innerWidth + 20;
-          if(p.x > innerWidth + 20) p.x = -20;
-          if(p.y < -20) p.y = innerHeight + 20;
-          if(p.y > innerHeight + 20) p.y = -20;
-          const g = ctx.createRadialGradient(p.x,p.y,0,p.x,p.y,p.r*8);
-          g.addColorStop(0, `rgba(140,240,200,${p.a})`); g.addColorStop(1,'rgba(140,240,200,0)');
-          ctx.fillStyle = g; ctx.beginPath(); ctx.arc(p.x,p.y,p.r*5,0,Math.PI*2); ctx.fill();
+      }
+      requestAnimationFrame(animate);
+    }
+    animate();
+
+    /* --- منطق التنقل والوصول الشامل --- */
+    function openPanel(id) {
+      document.querySelectorAll('.panel').forEach(p => p.hidden = true);
+      document.querySelectorAll('.menu button').forEach(b => b.classList.remove('active'));
+      document.getElementById(id).hidden = false;
+      const btn = document.querySelector(`[data-panel="${id}"]`);
+      if(btn) btn.classList.add('active');
+    }
+    document.querySelectorAll('.menu button').forEach(btn => {
+      btn.onclick = () => openPanel(btn.dataset.panel);
+    });
+
+    // قارئ النصوص TTS
+    document.getElementById('btn-tts').onclick = () => {
+      const msg = new SpeechSynthesisUtterance(document.body.innerText);
+      msg.lang = 'ar-SA'; window.speechSynthesis.speak(msg);
+    };
+
+    /* --- ربط الـ API الحقيقي (Render) --- */
+    const API_BASE = 'https://smart-auditor-pro.onrender.com/api';
+
+    document.getElementById('runBtn').onclick = async () => {
+      const text = document.getElementById('facts').value;
+      const resultEl = document.getElementById('analysisResult');
+      if(!text) return;
+      resultEl.textContent = "جاري الاتصال بالسيرفر العالمي...";
+      try {
+        const res = await fetch(`${API_BASE}/ai/analyze`, {
+          method: 'POST',
+          headers: {'Content-Type': 'application/json'},
+          body: JSON.stringify({ text })
         });
-        requestAnimationFrame(frame);
-      })();
-    })();
-
-    /* ---------------- UI logic — activated behavior ---------------- */
-    (function(){
-      const $ = (s, r=document) => r.querySelector(s);
-      const $$ = (s, r=document) => Array.from(r.querySelectorAll(s));
-      const toastWrap = $('#toastWrap');
-      function toast(msg, ttl=2200){ const el=document.createElement('div'); el.textContent=msg; el.style.cssText='background:rgba(0,0,0,0.75);color:#fff;padding:8px 12px;border-radius:8px;margin-top:6px'; toastWrap.appendChild(el); setTimeout(()=>{ el.style.opacity=0; setTimeout(()=>el.remove(),300); }, ttl); }
-
-      // Local storage keys
-      const AS_KEY = 'rwaq_assistants_rrrawan764-cloud';
-      const CASE_KEY = 'rwaq_cases_local';
-      const HIST_KEY = 'rwaq_history_rrrawan764-cloud';
-      const DRAFT_KEY = 'rwaq_draft_facts';
-
-      // Assistants management
-      let assistants = [];
-      function defaultAssistants(){ return [
-        { id:'legal_expert', name:'الخبير القانوني', system:'أنت خبير قانوني. راجع النواقص وقدم توصيات.' },
-        { id:'tech_auditor', name:'المدقق التقني', system:'أنت مدقق تقني. تحقّق من المرفقات والبيانات.' }
-      ]; }
-      function loadAssistants(){ try{ assistants = JSON.parse(localStorage.getItem(AS_KEY)) || defaultAssistants(); }catch(e){ assistants = defaultAssistants(); } renderAssistants(); }
-      function saveAssistants(){ localStorage.setItem(AS_KEY, JSON.stringify(assistants)); }
-
-      function renderAssistants(){
-        const list = $('#assistantList'); list.innerHTML = '';
-        assistants.forEach(a=>{
-          const node = document.createElement('div'); node.className='assistant-item';
-          node.innerHTML = `<div><div style="font-weight:700">${escape(a.name)}</div><div class="muted">${escape(a.system.slice(0,80))}${a.system.length>80?'...':''}</div></div>
-            <div style="display:flex;gap:6px"><button class="mini" data-id="${a.id}" data-action="select">اختيار</button><button class="mini" data-id="${a.id}" data-action="edit">تعديل</button><button class="mini" data-id="${a.id}" data-action="delete">حذف</button></div>`;
-          list.appendChild(node);
-        });
-        const sel = $('#assistantSelect'); sel.innerHTML = assistants.map(a=>`<option value="${a.id}">${escape(a.name)}</option>`).join('');
-        if(!sel.value && assistants.length) sel.value = assistants[0].id;
-        updateAssistantDetails();
-      }
-
-      function escape(s){ return String(s||'').replace(/[&<>"']/g, m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m])); }
-
-      function currentAssistant(){ const v = $('#assistantSelect').value; return assistants.find(a=>a.id===v) || assistants[0]; }
-      function updateAssistantDetails(){ const a = currentAssistant(); $('#assistantDetails').innerHTML = a ? `<strong>${escape(a.name)}</strong><div class="muted" style="margin-top:6px">${escape(a.system)}</div>` : 'لا يوجد مساعد'; }
-
-      // assistant actions (list)
-      $('#assistantList').addEventListener('click', (e)=>{
-        const btn = e.target.closest('button'); if(!btn) return;
-        const id = btn.dataset.id, action = btn.dataset.action, idx = assistants.findIndex(x=>x.id===id);
-        if(action === 'select'){ $('#assistantSelect').value = id; updateAssistantDetails(); toast('تم اختيار المساعد'); }
-        if(action === 'edit'){ const a = assistants[idx]; const name = prompt('تعديل اسم المساعد:', a.name); if(!name) return; const sys = prompt('نص النظام:', a.system); a.name = name; a.system = sys || a.system; saveAssistants(); renderAssistants(); toast('تم التعديل'); }
-        if(action === 'delete'){ if(confirm('حذف المساعد نهائياً؟')){ assistants.splice(idx,1); saveAssistants(); renderAssistants(); toast('تم الحذف'); } }
-      });
-
-      $('#addAssistant').addEventListener('click', ()=> {
-        const name = prompt('اسم المساعد:'); if(!name) return;
-        const system = prompt('نص النظام (دور المساعد):','أنت مساعد قانوني.');
-        const id = name.toLowerCase().replace(/\s+/g,'_') + '_' + Date.now().toString(36);
-        assistants.unshift({ id, name, system }); saveAssistants(); renderAssistants(); toast('تم الإضافة');
-      });
-
-      $('#assistantSelect').addEventListener('change', updateAssistantDetails);
-
-      // modes toggle
-      $$('.mode-btn').forEach(b => b.addEventListener('click', ()=> { $$('.mode-btn').forEach(x=>x.classList.remove('active')); b.classList.add('active'); }));
-
-      // progressive reveal (stream simulation). If streamToggle is on, reveal faster chunks.
-      let streamEnabled = false;
-      $('#streamToggle').addEventListener('click', ()=>{
-        streamEnabled = !streamEnabled;
-        $('#streamToggle').setAttribute('aria-pressed', String(streamEnabled));
-        $('#streamToggle').classList.toggle('active', streamEnabled);
-        toast(streamEnabled ? 'البث اللحظي مفعل (محلياً)' : 'البث اللحظي معطّل');
-      });
-
-      async function progressiveReveal(text){
-        const el = $('#analysisResult'); el.textContent = '';
-        const chars = Array.from(text);
-        for(let i=0;i<chars.length;i++){
-          el.textContent += chars[i];
-          if(i % 12 === 0) $('#progressBar i').style.width = Math.min(98, Math.round((i/chars.length)*100)) + '%';
-          await sleep(streamEnabled ? (3 + Math.random()*8) : (8 + Math.random()*18));
-        }
-        $('#progressBar i').style.width = '100%';
-      }
-      function sleep(ms){ return new Promise(r=>setTimeout(r, ms)); }
-
-      // Run analysis: try backend; fallback to local simulate; store history
-      $('#runBtn').addEventListener('click', async ()=>{
-        const text = $('#facts').value.trim();
-        if(!text){ toast('أدخل ملخص الوقائع'); return; }
-        const assistant = currentAssistant();
-        const mode = (document.querySelector('.mode-btn.active')||{}).dataset.mode || 'concise';
-        toggleRunning(true);
-        $('#analysisResult').textContent = '';
-        addHistory({ assistant: assistant.name, mode, text, time: new Date().toISOString(), status:'running' });
-        try{
-          const res = await fetch('/api/ai/analyze',{ method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify({ text, assistant, mode }) });
-          if(!res.ok) throw new Error('no-ai');
-          const json = await res.json();
-          const out = json.raw || (json.verdict ? json.verdict + '\n\n' + (json.recommendations||[]).map((r,i)=>`${i+1}. ${r}`).join('\n') : JSON.stringify(json));
-          await progressiveReveal(out);
-          addHistory({ assistant:assistant.name, mode, text, time: new Date().toISOString(), status:'done', output: out });
-          toast('اكتمل التحليل');
-        }catch(e){
-          const sim = `تحليل (${assistant.name}) — ${mode}\n\n• نقاط محتملة:\n- غياب إثبات التبليغ\n- نقص التفويض\n\nتوصيات:\n1. إرفاق إيصال\n2. طلب تفويض موقع`;
-          await progressiveReveal(sim);
-          addHistory({ assistant:assistant.name, mode, text, time: new Date().toISOString(), status:'done', output: sim });
-          toast('تم التحليل محلياً (وضع التجريبي)');
-        }finally{
-          toggleRunning(false); renderHistory();
-        }
-      });
-
-      function toggleRunning(isRunning){
-        $('#runBtn').disabled = isRunning;
-        $('#progressBar').style.display = isRunning ? 'block' : 'none';
-        if(!isRunning) $('#progressBar i').style.width = '0%';
-      }
-
-      // history management
-      function addHistory(item){
-        const list = JSON.parse(localStorage.getItem(HIST_KEY) || '[]');
-        list.unshift(item); if(list.length>80) list.length = 80;
-        localStorage.setItem(HIST_KEY, JSON.stringify(list));
-      }
-      function renderHistory(){
-        const list = JSON.parse(localStorage.getItem(HIST_KEY) || '[]');
-        const container = $('#historyList'); container.innerHTML = '';
-        if(!list || list.length === 0){ container.innerHTML = '<div class="muted">لا يوجد سجل</div>'; return; }
-        list.slice(0,50).forEach(h=>{
-          const n = document.createElement('div'); n.style.padding='8px'; n.style.borderBottom='1px dashed rgba(255,255,255,0.03)';
-          n.innerHTML = `<strong>${escape(h.assistant)}</strong> <div class="muted" style="font-size:12px">${new Date(h.time).toLocaleString()}</div><div style="margin-top:6px"><button class="mini" data-time="${h.time}" data-a="view">عرض</button> <button class="mini" data-time="${h.time}" data-a="dl">تنزيل</button></div>`;
-          container.appendChild(n);
-        });
-        container.querySelectorAll('button').forEach(b=>{
-          b.addEventListener('click', ()=>{
-            const t = b.dataset.time, a = b.dataset.a;
-            const list = JSON.parse(localStorage.getItem(HIST_KEY) || '[]');
-            const entry = list.find(x=>x.time === t);
-            if(!entry) return;
-            if(a === 'view') $('#analysisResult').textContent = entry.output || '[لا مخرج]';
-            if(a === 'dl') downloadText(entry.output || '', 'analysis-' + t + '.txt');
-          });
-        });
-      }
-
-      function downloadText(text, filename){
-        const blob = new Blob([text || ''], { type:'text/plain;charset=utf-8' });
-        const url = URL.createObjectURL(blob); const a = document.createElement('a'); a.href = url; a.download = filename; document.body.appendChild(a); a.click(); a.remove(); URL.revokeObjectURL(url);
-      }
-
-      // Save draft for facts
-      $('#saveDraftBtn').addEventListener('click', ()=> {
-        const txt = $('#facts').value;
-        localStorage.setItem(DRAFT_KEY, txt);
-        toast('تم حفظ المسودة محلياً');
-      });
-      // Load draft on start
-      const savedDraft = localStorage.getItem(DRAFT_KEY);
-      if(savedDraft) { $('#facts').value = savedDraft; }
-
-      // Export / print
-      $('#exportTxt').addEventListener('click', ()=> downloadText($('#analysisResult').textContent || '', 'analysis.txt'));
-      $('#printBtn').addEventListener('click', ()=> { const w = window.open('', '_blank'); w.document.write(`<pre style="white-space:pre-wrap">${escape($('#analysisResult').textContent||'')}</pre>`); w.document.close(); w.print(); });
-
-      // Case uploader (local simulation)
-      const uploader = $('#caseUploader'), fileList = $('#caseUploader'); // using same element to list
-      // We'll maintain an in-memory files array (names only)
-      let stagedFiles = [];
-      uploader.addEventListener('click', ()=>{
-        const inp = document.createElement('input'); inp.type = 'file'; inp.multiple = true; inp.onchange = ()=> handleFiles(inp.files); inp.click();
-      });
-      uploader.addEventListener('dragover', e=> { e.preventDefault(); uploader.style.outline = '2px dashed rgba(15,176,107,0.45)'; });
-      uploader.addEventListener('dragleave', e=> { e.preventDefault(); uploader.style.outline = ''; });
-      uploader.addEventListener('drop', e=> { e.preventDefault(); uploader.style.outline = ''; handleFiles(e.dataTransfer.files); });
-
-      function handleFiles(files){
-        if(!files || files.length === 0) return;
-        for(const f of files){
-          const id = 'f_' + Date.now() + Math.random().toString(36).slice(2,7);
-          stagedFiles.push({ id, name: f.name, size: f.size, type: f.type });
-        }
-        renderStagedFiles();
-        toast('أضيفت ملفات (محلياً)');
-      }
-      function renderStagedFiles(){
-        const list = stagedFiles;
-        const container = $('#fileList'); container.innerHTML = '';
-        list.forEach(f=>{
-          const el = document.createElement('div'); el.className = 'file-item';
-          el.innerHTML = `<div class="meta"><strong>${escape(f.name)}</strong><div class="muted" style="font-size:12px">${Math.round(f.size/1024)} KB • ${f.type||'—'}</div></div><div><button class="mini" data-id="${f.id}">حذف</button></div>`;
-          container.appendChild(el);
-        });
-        container.querySelectorAll('button').forEach(b=> b.addEventListener('click', ()=> {
-          const id = b.dataset.id; stagedFiles = stagedFiles.filter(x=>x.id !== id); renderStagedFiles(); toast('تم حذف الملف');
-        }));
-      }
-
-      // Submit case: validate + save locally (attempt server)
-      $('#submitCase').addEventListener('click', async ()=>{
-        $('#err_plaintiff').style.display='none'; $('#err_subject').style.display='none';
-        const plaintiff = $('#case_plaintiff').value.trim();
-        const subject = $('#case_subject').value.trim();
-        if(!plaintiff){ $('#err_plaintiff').textContent = 'اسم المدعي مطلوب'; $('#err_plaintiff').style.display='block'; return; }
-        if(!subject){ $('#err_subject').textContent = 'موضوع الدعوى مطلوب'; $('#err_subject').style.display='block'; return; }
-        $('#caseFeedback').style.display = 'block'; $('#caseFeedback').textContent = 'جاري قيد الدعوى...';
-        const payload = {
-          id: $('#case_id').value.trim() || 'C-' + Date.now().toString(36).toUpperCase(),
-          internalId: $('#case_internal').value.trim(),
-          plaintiff, subject, details: $('#case_details').value.trim(),
-          priority: $('#case_priority').value, status: $('#case_status').value, assigned: $('#case_assigned').value.trim(),
-          created: new Date().toISOString(), attachments: stagedFiles.map(f=>({ name: f.name })), audit:[{ actor:'نظام', action:'قيد محلي', at: new Date().toISOString() }]
-        };
-        try{
-          const res = await fetch('/api/cases', { method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify(payload) });
-          if(!res.ok) throw new Error('server');
-          const data = await res.json();
-          $('#caseFeedback').textContent = 'تم القيد — مرجع: ' + (data.id||payload.id);
-          saveCaseLocal(data);
-          stagedFiles = []; renderStagedFiles();
-          toast('تم قيد الدعوى عبر الخادم');
-        }catch(e){
-          saveCaseLocal(payload);
-          $('#caseFeedback').textContent = 'تم الحفظ محلياً';
-          toast('تم حفظ الدعوى محلياً');
-        }
-      });
-
-      function saveCaseLocal(c){
-        const list = JSON.parse(localStorage.getItem(CASE_KEY) || '[]'); list.unshift(c); localStorage.setItem(CASE_KEY, JSON.stringify(list)); renderJudgeCaseList();
-      }
-
-      function renderJudgeCaseList(){
-        const list = JSON.parse(localStorage.getItem(CASE_KEY) || '[]'); const el = $('#judgeCaseList'); el.innerHTML = '';
-        if(!list || list.length === 0){ el.innerHTML = '<div class="muted">لا توجد قضايا محلية</div>'; return; }
-        list.slice(0,50).forEach(c=>{
-          const row = document.createElement('div'); row.className = 'case-item';
-          row.style.display = 'flex'; row.style.justifyContent = 'space-between'; row.style.alignItems = 'center';
-          row.style.padding = '10px'; row.style.borderBottom = '1px dashed rgba(255,255,255,0.03)';
-          row.innerHTML = `<div style="flex:1"><strong>${escape(c.plaintiff||'—')}</strong><div class="muted" style="font-size:13px">${escape(c.id||'—')} — ${escape(c.subject||'—')}</div></div>
-            <div style="min-width:140px;text-align:left"><div class="muted" style="font-size:13px">${new Date(c.created||Date.now()).toLocaleDateString()}</div><div style="margin-top:8px"><button class="mini" data-id="${c.id}" data-action="open">عرض</button> <button class="mini" data-id="${c.id}" data-action="ai">AI</button></div></div>`;
-          el.appendChild(row);
-        });
-      }
-
-      // Open drawer, edit, save
-      $('#judgeCaseList').addEventListener('click', e=>{
-        const btn = e.target.closest('button'); if(!btn) return;
-        const id = btn.dataset.id, action = btn.dataset.action;
-        const list = JSON.parse(localStorage.getItem(CASE_KEY) || '[]');
-        const c = list.find(x=>x.id === id);
-        if(!c) return;
-        if(action === 'open') openDrawer(c);
-        if(action === 'ai'){ openDrawer(c); setTimeout(()=> $('#f_request_ai').click(), 150); }
-      });
-
-      function openDrawer(c){
-        const d = $('#judgeDrawer'); d.classList.add('show');
-        $('#drawerTitle').textContent = `قضية — ${c.id || ''}`;
-        $('#f_caseid').value = c.id || '';
-        $('#f_internal').value = c.internalId || '';
-        $('#f_plaintiff').value = c.plaintiff || '';
-        $('#f_subject').value = c.subject || '';
-        $('#f_created').textContent = new Date(c.created || Date.now()).toLocaleString();
-        $('#f_priority').value = c.priority || 'normal';
-        $('#f_status').value = c.status || 'open';
-        $('#f_assigned').value = c.assigned || '';
-        $('#f_notes').value = c.details || c.notes || '';
-        const att = $('#f_attachments'); att.innerHTML = ''; (c.attachments||[]).forEach(a=>{ const n = document.createElement('div'); n.className='file-item'; n.innerHTML = `<div class="meta">${escape(a.name)}</div><div><a class="mini" href="${a.url||'#'}" target="_blank">فتح</a></div>`; att.appendChild(n); });
-        $('#f_audit_list').innerHTML = (c.audit||[]).map(x=>`${new Date(x.at).toLocaleString()} — ${escape(x.actor)}: ${escape(x.action)}`).join('<br>') || '<div class="muted">لا سجلات</div>';
-        d.dataset.caseId = c.id;
-      }
-
-      $('#closeDrawer').addEventListener('click', ()=> $('#judgeDrawer').classList.remove('show'));
-
-      $('#f_save').addEventListener('click', ()=>{
-        const id = $('#judgeDrawer').dataset.caseId; if(!id) return toast('لا توجد قضية محددة'); const list = JSON.parse(localStorage.getItem(CASE_KEY) || '[]'); const idx = list.findIndex(x=>x.id === id); if(idx < 0) return toast('القضية غير موجودة'); list[idx].internalId = $('#f_internal').value.trim(); list[idx].plaintiff = $('#f_plaintiff').value.trim(); list[idx].subject = $('#f_subject').value.trim(); list[idx].priority = $('#f_priority').value; list[idx].status = $('#f_status').value; list[idx].assigned = $('#f_assigned').value.trim(); list[idx].notes = $('#f_notes').value.trim(); list[idx].audit = list[idx].audit || []; list[idx].audit.unshift({ actor:'مستخدم', action:'تعديل', at: new Date().toISOString() }); localStorage.setItem(CASE_KEY, JSON.stringify(list)); renderJudgeCaseList(); toast('تم حفظ التعديلات محلياً');
-      });
-
-      $('#f_request_ai').addEventListener('click', async ()=>{
-        const id = $('#judgeDrawer').dataset.caseId; if(!id) return;
-        const btn = $('#f_request_ai'); btn.disabled = true; btn.textContent = 'جاري...';
-        try{
-          const res = await fetch('/api/ai/analyze', { method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify({ caseId: id }) });
-          if(!res.ok) throw new Error('no-ai');
-          const json = await res.json();
-          const out = json.raw || json.verdict || 'لا نتيجة';
-          $('#f_notes').value += '\n\n[اقتراح AI]\n' + out;
-          toast('أضيف اقتراح AI');
-        }catch(e){
-          $('#f_notes').value += '\n\n[اقتراح تجريبي]\nراجع إثبات التبليغ.';
-          toast('فشل طلب الاقتراح — عرض اقتراح محلي');
-        }finally{ btn.disabled = false; btn.textContent = 'طلب اقتراح AI'; }
-      });
-
-      // load initial data & handlers
-      function init(){
-        if(!localStorage.getItem(AS_KEY)) localStorage.setItem(AS_KEY, JSON.stringify(defaultAssistants()));
-        if(!localStorage.getItem(CASE_KEY)) localStorage.setItem(CASE_KEY, JSON.stringify([]));
-        loadAssistants(); renderJudgeCaseList(); renderHistory();
-        // populate saved draft if exists
-        const d = localStorage.getItem(DRAFT_KEY); if(d) $('#facts').value = d;
-        // quick keyboard
-        window.addEventListener('keydown', e=>{ if((e.ctrlKey || e.metaKey) && e.key === 'Enter') $('#runBtn').click(); });
-      }
-      init();
-
-      // utility escape
-      function escape(s){ return String(s||'').replace(/[&<>"']/g, m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m])); }
-    })();
+        const data = await res.json();
+        resultEl.textContent = data.verdict + "\n\n" + data.recommendations.join('\n');
+      } catch(e) { resultEl.textContent = "تم التحليل محلياً: راجع المرفقات."; }
+    };
   </script>
 </body>
 </html>
