@@ -7,12 +7,16 @@
     
     <meta name="description" content="المنصة القضائية الذكية المتكاملة - خدمات للمواطنين، القضاة، والمكفوفين بمساعد ذكي متطور">
     <meta name="keywords" content="قضائي, محكمة, قانون, ذكاء اصطناعي, مكفوفين, خدمات قضائية, مساعد ذكي">
-    <meta name="author" content="رواق العدل - وزارة العدل">
+    <meta name="author" content="روان الصبحي - Rawaan Al-Subhi">
+    <meta name="copyright" content="© 2024 روان الصبحي. جميع الحقوق محفوظة.">
     <meta name="theme-color" content="#0a716e">
     
     <!-- Open Graph -->
     <meta property="og:title" content="رواق العدل - المنصة الذكية الشاملة">
     <meta property="og:description" content="خدمات قضائية ذكية للمواطنين والقضاة وذوي الإعاقة">
+    <meta property="og:type" content="website">
+    <meta property="og:image" content="https://i.imgur.com/placeholder.png">
+    <meta property="og:url" content="https://justice-platform.com">
     
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -72,6 +76,207 @@
             overflow-x: hidden;
             min-height: 100vh;
             line-height: 1.6;
+            position: relative;
+        }
+
+        /* شعار حقوق المطورة */
+        .developer-copyright {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            z-index: 9999;
+            background: rgba(2, 26, 26, 0.9);
+            backdrop-filter: blur(10px);
+            padding: 10px 20px;
+            border-radius: 50px;
+            border: 1px solid var(--border);
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.3);
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            animation: slideInLeft 0.5s ease;
+        }
+
+        @keyframes slideInLeft {
+            from { transform: translateX(100px); opacity: 0; }
+            to { transform: translateX(0); opacity: 1; }
+        }
+
+        .developer-copyright:hover {
+            transform: translateX(-5px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.4);
+        }
+
+        .developer-avatar {
+            width: 40px;
+            height: 40px;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.2rem;
+            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
+        }
+
+        .developer-info {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .developer-name {
+            font-weight: 700;
+            color: var(--accent);
+            font-size: 0.9rem;
+        }
+
+        .copyright-text {
+            font-size: 0.7rem;
+            color: var(--text-muted);
+        }
+
+        /* زر إظهار/إخفاء حقوق المطورة */
+        .copyright-toggle {
+            position: fixed;
+            bottom: 20px;
+            left: 20px;
+            z-index: 9999;
+            width: 50px;
+            height: 50px;
+            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+            border-radius: 50%;
+            border: none;
+            color: white;
+            font-size: 1.2rem;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 5px 20px rgba(10, 113, 110, 0.4);
+            transition: all 0.3s ease;
+        }
+
+        .copyright-toggle:hover {
+            transform: scale(1.1) rotate(15deg);
+            box-shadow: 0 8px 25px rgba(10, 113, 110, 0.6);
+        }
+
+        /* بطاقة حقوق المطورة الموسعة */
+        .developer-modal {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: linear-gradient(145deg, var(--bg-light), var(--bg));
+            border-radius: var(--radius-lg);
+            padding: 3rem;
+            border: 1px solid var(--border);
+            box-shadow: var(--shadow-heavy);
+            z-index: 10000;
+            max-width: 500px;
+            width: 90%;
+            display: none;
+            animation: modalAppear 0.5s ease;
+        }
+
+        @keyframes modalAppear {
+            from { opacity: 0; transform: translate(-50%, -60%); }
+            to { opacity: 1; transform: translate(-50%, -50%); }
+        }
+
+        .developer-modal.active {
+            display: block;
+        }
+
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.8);
+            backdrop-filter: blur(5px);
+            z-index: 9999;
+            display: none;
+        }
+
+        .modal-overlay.active {
+            display: block;
+        }
+
+        .modal-header {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .modal-avatar {
+            width: 100px;
+            height: 100px;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            border-radius: 50%;
+            margin: 0 auto 1.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 2.5rem;
+            box-shadow: 0 10px 30px rgba(102, 126, 234, 0.4);
+        }
+
+        .modal-header h3 {
+            color: var(--accent);
+            font-size: 1.8rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .modal-content {
+            text-align: center;
+            line-height: 1.8;
+        }
+
+        .contact-links {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            margin-top: 2rem;
+        }
+
+        .contact-link {
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid var(--border);
+            color: var(--text);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+            transition: all 0.3s ease;
+            text-decoration: none;
+        }
+
+        .contact-link:hover {
+            transform: translateY(-3px);
+            background: var(--accent);
+            color: #000;
+        }
+
+        .modal-close {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            background: none;
+            border: none;
+            color: var(--text-muted);
+            font-size: 1.5rem;
+            cursor: pointer;
+            transition: color 0.3s ease;
+        }
+
+        .modal-close:hover {
+            color: var(--accent);
         }
 
         /* ===== محرك الخلفية التفاعلي ===== */
@@ -837,7 +1042,7 @@
             display: none !important;
         }
 
-        /* ===== الفوتر المتقدم ===== */
+        /* ===== الفوتر المتقدم مع حقوق المطورة ===== */
         .footer {
             background: rgba(2, 26, 26, 0.95);
             border-top: 1px solid var(--border);
@@ -885,6 +1090,31 @@
             font-size: 0.9rem;
             border-top: 1px solid var(--border);
             margin-top: 3rem;
+            position: relative;
+        }
+
+        .developer-copyright-footer {
+            margin-top: 1rem;
+            padding: 1rem;
+            background: rgba(255, 255, 255, 0.02);
+            border-radius: var(--radius-sm);
+            border: 1px solid var(--border);
+        }
+
+        .developer-signature {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            padding: 8px 16px;
+            background: linear-gradient(135deg, rgba(102, 126, 234, 0.1), rgba(118, 75, 162, 0.1));
+            border-radius: 50px;
+            margin-top: 0.5rem;
+            animation: signatureGlow 3s infinite alternate;
+        }
+
+        @keyframes signatureGlow {
+            from { box-shadow: 0 0 10px rgba(102, 126, 234, 0.3); }
+            to { box-shadow: 0 0 20px rgba(102, 126, 234, 0.6); }
         }
 
         /* ===== تحسينات للجوال ===== */
@@ -895,6 +1125,11 @@
             
             .assistant-panel {
                 width: 300px;
+            }
+            
+            .developer-copyright {
+                bottom: 80px;
+                right: 20px;
             }
         }
 
@@ -945,6 +1180,18 @@
                 grid-template-columns: 1fr;
                 gap: 2rem;
             }
+            
+            .developer-copyright {
+                bottom: 80px;
+                right: 10px;
+                left: 10px;
+                padding: 8px 15px;
+            }
+            
+            .developer-modal {
+                padding: 2rem 1.5rem;
+                width: 95%;
+            }
         }
 
         @media (max-width: 480px) {
@@ -963,6 +1210,19 @@
                 height: 60px;
                 font-size: 1.5rem;
             }
+            
+            .developer-copyright {
+                flex-direction: column;
+                text-align: center;
+                gap: 8px;
+                border-radius: var(--radius);
+            }
+            
+            .copyright-toggle {
+                width: 45px;
+                height: 45px;
+                font-size: 1rem;
+            }
         }
     </style>
 </head>
@@ -971,10 +1231,69 @@
     <canvas id="bgCanvas"></canvas>
     <div class="bg-overlay"></div>
 
+    <!-- شعار حقوق المطورة الثابت -->
+    <div class="developer-copyright" id="developerCopyright">
+        <div class="developer-avatar">
+            <i class="fas fa-code"></i>
+        </div>
+        <div class="developer-info">
+            <div class="developer-name">روان الصبحي</div>
+            <div class="copyright-text">جميع الحقوق محفوظة © 2024</div>
+        </div>
+    </div>
+
+    <!-- زر تبديل إظهار/إخفاء حقوق المطورة -->
+    <button class="copyright-toggle" onclick="toggleCopyright()">
+        <i class="fas fa-copyright"></i>
+    </button>
+
+    <!-- نافذة حقوق المطورة الموسعة -->
+    <div class="modal-overlay" id="developerModalOverlay" onclick="closeDeveloperModal()"></div>
+    <div class="developer-modal" id="developerModal">
+        <button class="modal-close" onclick="closeDeveloperModal()">
+            <i class="fas fa-times"></i>
+        </button>
+        <div class="modal-header">
+            <div class="modal-avatar">
+                <i class="fas fa-laptop-code"></i>
+            </div>
+            <h3>روان الصبحي</h3>
+            <p style="color: var(--text-secondary);">مطورة واجهات أمامية وخبيرة تجربة مستخدم</p>
+        </div>
+        <div class="modal-content">
+            <p>مطورة هذا المشروع بكل فخره واعتزاز.</p>
+            <p>تم تطوير "رواق العدل" باستخدام أحدث تقنيات الويب مع التركيز على تجربة المستخدم وإمكانية الوصول للجميع.</p>
+            
+            <div class="contact-links">
+                <a href="mailto:rawaan@example.com" class="contact-link" title="البريد الإلكتروني">
+                    <i class="fas fa-envelope"></i>
+                </a>
+                <a href="https://github.com/rawaan" class="contact-link" title="جيت هاب" target="_blank">
+                    <i class="fab fa-github"></i>
+                </a>
+                <a href="https://linkedin.com/in/rawaan" class="contact-link" title="لينكد إن" target="_blank">
+                    <i class="fab fa-linkedin"></i>
+                </a>
+                <a href="https://twitter.com/rawaan" class="contact-link" title="تويتر" target="_blank">
+                    <i class="fab fa-twitter"></i>
+                </a>
+            </div>
+            
+            <div style="margin-top: 2rem; padding: 1rem; background: rgba(255, 255, 255, 0.02); border-radius: var(--radius-sm);">
+                <h4 style="color: var(--accent); margin-bottom: 0.5rem; font-size: 1rem;">
+                    <i class="fas fa-heart"></i> شكر وتقدير
+                </h4>
+                <p style="font-size: 0.9rem; color: var(--text-muted);">
+                    هذا العمل مقدم بكل حب للمساهمة في تطوير الخدمات القضائية الإلكترونية.
+                </p>
+            </div>
+        </div>
+    </div>
+
     <!-- الهيدر المتقدم -->
     <header class="header">
         <div class="header-content">
-            <a href="#" class="logo-container">
+            <a href="#" class="logo-container" onclick="showDeveloperInfo()">
                 <div class="logo-icon">
                     <i class="fas fa-scale-balanced"></i>
                 </div>
@@ -1009,6 +1328,9 @@
                 </button>
                 <button class="icon-btn" onclick="showHelp()">
                     <i class="fas fa-question-circle"></i>
+                </button>
+                <button class="icon-btn" onclick="showDeveloperInfo()" title="معلومات المطورة">
+                    <i class="fas fa-user-cog"></i>
                 </button>
             </div>
         </div>
@@ -1335,7 +1657,7 @@
         </div>
     </div>
 
-    <!-- الفوتر المتقدم -->
+    <!-- الفوتر المتقدم مع حقوق المطورة -->
     <footer class="footer">
         <div class="footer-content">
             <div class="footer-section">
@@ -1378,31 +1700,135 @@
         
         <div class="copyright">
             <p>© 2024 وزارة العدل - المملكة العربية السعودية. جميع الحقوق محفوظة.</p>
-            <p style="margin-top: 0.5rem; font-size: 0.8rem;">
+            
+            <div class="developer-copyright-footer">
+                <p style="font-size: 0.85rem; color: var(--text-secondary); margin-bottom: 0.5rem;">
+                    <i class="fas fa-code"></i> تم التطوير والتصميم بواسطة
+                </p>
+                <div class="developer-signature" onclick="showDeveloperInfo()" style="cursor: pointer;">
+                    <i class="fas fa-heart" style="color: #ff4757;"></i>
+                    <span style="font-weight: 700; color: var(--accent);">روان الصبحي</span>
+                    <span style="color: var(--text-muted); font-size: 0.8rem;">Rawaan Al-Subhi</span>
+                </div>
+                <p style="font-size: 0.75rem; color: var(--text-muted); margin-top: 0.5rem;">
+                    Frontend Developer & UI/UX Specialist
+                </p>
+            </div>
+            
+            <p style="margin-top: 1rem; font-size: 0.8rem;">
                 <i class="fas fa-shield-alt"></i> نظام آمن ومشفر وفق أعلى معايير الأمن السيبراني
             </p>
         </div>
     </footer>
 
     <script>
+        // --- نظام حقوق المطورة ---
+        let copyrightVisible = true;
+
+        function toggleCopyright() {
+            const copyrightElement = document.getElementById('developerCopyright');
+            copyrightVisible = !copyrightVisible;
+            
+            if (copyrightVisible) {
+                copyrightElement.style.display = 'flex';
+                showNotification('حقوق المطورة', 'تم إظهار شعار حقوق المطورة', 'info');
+            } else {
+                copyrightElement.style.display = 'none';
+                showNotification('حقوق المطورة', 'تم إخفاء شعار حقوق المطورة', 'warning');
+            }
+        }
+
+        function showDeveloperInfo() {
+            const modal = document.getElementById('developerModal');
+            const overlay = document.getElementById('developerModalOverlay');
+            
+            modal.classList.add('active');
+            overlay.classList.add('active');
+            
+            // إضافة تأثير صوتي بسيط
+            playSound('modal-open');
+        }
+
+        function closeDeveloperModal() {
+            const modal = document.getElementById('developerModal');
+            const overlay = document.getElementById('developerModalOverlay');
+            
+            modal.classList.remove('active');
+            overlay.classList.remove('active');
+            
+            // إضافة تأثير صوتي بسيط
+            playSound('modal-close');
+        }
+
+        function playSound(type) {
+            // محاكاة تأثيرات صوتية بسيطة
+            if (type === 'modal-open') {
+                const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+                const oscillator = audioContext.createOscillator();
+                const gainNode = audioContext.createGain();
+                
+                oscillator.connect(gainNode);
+                gainNode.connect(audioContext.destination);
+                
+                oscillator.frequency.value = 800;
+                oscillator.type = 'sine';
+                
+                gainNode.gain.setValueAtTime(0, audioContext.currentTime);
+                gainNode.gain.linearRampToValueAtTime(0.1, audioContext.currentTime + 0.1);
+                gainNode.gain.exponentialRampToValueAtTime(0.001, audioContext.currentTime + 0.3);
+                
+                oscillator.start(audioContext.currentTime);
+                oscillator.stop(audioContext.currentTime + 0.3);
+            }
+        }
+
+        // إضافة تأثيرات تفاعلية لحقوق المطورة
+        document.getElementById('developerCopyright').addEventListener('click', showDeveloperInfo);
+        
+        // إضافة تأثيرات عند التمرير
+        let lastScrollTop = 0;
+        window.addEventListener('scroll', function() {
+            const copyrightElement = document.getElementById('developerCopyright');
+            const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+            
+            if (scrollTop > lastScrollTop) {
+                // التمرير لأسفل
+                copyrightElement.style.transform = 'translateX(100px)';
+                copyrightElement.style.opacity = '0.5';
+            } else {
+                // التمرير لأعلى
+                copyrightElement.style.transform = 'translateX(0)';
+                copyrightElement.style.opacity = '1';
+            }
+            
+            lastScrollTop = scrollTop <= 0 ? 0 : scrollTop;
+        });
+
         // --- التهيئة الأولية المتقدمة ---
         document.addEventListener('DOMContentLoaded', function() {
+            // رسالة ترحيب من المطورة
+            setTimeout(() => {
+                showNotification('مرحباً بك في رواق العدل', 'تم التطوير بواسطة روان الصبحي ❤️', 'info');
+            }, 1500);
+            
             // تحديث الإحصائيات بشكل حيوي
             setInterval(updateLiveStats, 5000);
             
             // تحميل التفضيلات
             loadPreferences();
             
-            // رسالة ترحيب ذكية
-            setTimeout(() => {
-                showNotification('مرحباً بك في رواق العدل', 'يمكنك الآن استخدام جميع الخدمات القضائية الذكية', 'info');
-            }, 1500);
-            
             // تهيئة التسجيل الصوتي
             initVoiceRecognition();
             
             // تشغيل الخلفية التفاعلية
             initBackgroundEngine();
+            
+            // إضافة تأثير ظهور تدريجي
+            document.body.style.opacity = '0';
+            document.body.style.transition = 'opacity 0.5s ease';
+            setTimeout(() => {
+                document.body.style.opacity = '1';
+            }, 100);
         });
 
         // --- 1. نظام التبديل بين الواجهات ---
@@ -1986,6 +2412,12 @@
             if (darkMode) {
                 document.body.classList.add('dark-mode');
             }
+            
+            // تحميل حالة حقوق المطورة
+            const copyrightState = localStorage.getItem('copyrightVisible');
+            if (copyrightState === 'false') {
+                toggleCopyright();
+            }
         }
 
         function toggleDarkMode() {
@@ -2000,6 +2432,7 @@
                 <p><strong>للمواطنين:</strong> اختر الخدمة المطلوبة من القائمة الرئيسية</p>
                 <p><strong>للقضاة:</strong> استخدم لوحة التحكم المتقدمة للتحليل والأحكام</p>
                 <p><strong>للمكفوفين:</strong> اضغط على زر المساعد الصوتي في الزاوية</p>
+                <p><strong>حقوق المطورة:</strong> تم التطوير بواسطة روان الصبحي</p>
                 <p><strong>الدعم الفني:</strong> ٩٢٠٠٢٠٢٠٠</p>
             `;
             showNotification('مساعدة', 'انظر التعليمات في الإشعار', 'info');
@@ -2070,6 +2503,11 @@
         window.exportDraft = () => showNotification('تصدير PDF', 'جاري إنشاء ملف PDF...', 'info');
         window.sendToCourt = () => showNotification('إرسال للمحكمة', 'تم إرسال المسودة بنجاح', 'success');
         window.showNotifications = () => showNotification('الإشعارات', 'لديك ٣ إشعارات غير مقروءة', 'info');
+
+        // حفظ حالة حقوق المطورة عند الإغلاق
+        window.addEventListener('beforeunload', function() {
+            localStorage.setItem('copyrightVisible', copyrightVisible);
+        });
 
     </script>
 </body>
