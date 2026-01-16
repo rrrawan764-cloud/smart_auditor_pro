@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>رواق العدل — المساعد الذكي المتفاعل</title>
 
+  <!-- خطوط وأيقونات -->
   <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
@@ -20,15 +21,14 @@
     *{box-sizing:border-box}
     html,body{height:100%;margin:0;font-family:'Cairo',sans-serif;background:linear-gradient(180deg,var(--bg1),var(--bg2));color:#e8fff1;-webkit-font-smoothing:antialiased}
     a{color:var(--green)}
-
-    /* --- الجزء التفاعلي المضاف (الخلفية) --- */
-    #bgCanvas { position: fixed; inset: 0; z-index: -2; background: #020c0b; }
-    .bg-overlay { position: fixed; inset: 0; z-index: -1; background: radial-gradient(circle at center, transparent, rgba(0,0,0,0.4)); pointer-events: none; }
-    /* -------------------------------------- */
-
-    .wrap{max-width:var(--maxwidth);margin:18px auto;padding:14px;display:grid;grid-template-columns:320px 1fr;gap:16px;align-items:start; position:relative; z-index:1;}
+    /* Layout */
+    .wrap{max-width:var(--maxwidth);margin:18px auto;padding:14px;display:grid;grid-template-columns:320px 1fr;gap:16px;align-items:start}
     @media (max-width:980px){ .wrap{grid-template-columns:1fr;padding:10px} }
+    /* Canvas background */
+    #bgCanvas{position:fixed;inset:0;z-index:-2}
+    .bg-overlay{position:fixed;inset:0;z-index:-1;background:linear-gradient(180deg, rgba(0,8,7,0.18), rgba(0,12,10,0.36));pointer-events:none}
 
+    /* Sidebar */
     .sidebar{background:var(--glass);border-radius:var(--card-radius);padding:14px;border:1px solid rgba(255,255,255,0.03);box-shadow:0 18px 48px rgba(0,0,0,0.6);backdrop-filter: blur(6px)}
     .brand{display:flex;gap:10px;align-items:center}
     .logo{width:64px;height:64px;border-radius:12px;background:linear-gradient(180deg,var(--green),#0b7d56);display:flex;align-items:center;justify-content:center;box-shadow:0 10px 30px rgba(0,0,0,0.5)}
@@ -39,123 +39,453 @@
     .menu button.active{background:linear-gradient(90deg,var(--accent), rgba(255,255,255,0.02));border-left:4px solid var(--gold);color:#eaffef}
     .assistant-list{margin-top:12px;border-radius:10px;overflow:auto;max-height:260px;border:1px solid rgba(255,255,255,0.02);padding:6px;background:rgba(255,255,255,0.01)}
     .assistant-item{display:flex;justify-content:space-between;align-items:center;padding:8px;border-bottom:1px dashed rgba(255,255,255,0.02)}
+    .assistant-item:last-child{border-bottom:none}
     .assistant-name{font-weight:700}
     .muted{color:var(--muted);font-size:13px}
     .small{font-size:13px;padding:6px 10px}
 
+    /* Main */
     .main{display:flex;flex-direction:column;gap:12px}
     .card{border-radius:12px;padding:14px;background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));border:1px solid rgba(255,255,255,0.03);box-shadow:0 12px 36px rgba(0,0,0,0.6)}
     .topbar{display:flex;gap:12px;align-items:center;justify-content:space-between}
     .search{flex:1;display:flex;align-items:center;gap:8px;padding:8px;border-radius:10px;background:rgba(255,255,255,0.02);border:1px solid rgba(255,255,255,0.03)}
     .search input{border:0;background:transparent;outline:none;color:#eaffef}
+    .controls{display:flex;gap:8px}
 
+    /* Assistant area */
     .assistant-controls{display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-top:10px}
     select, textarea, input[type="text"]{width:100%;padding:10px;border-radius:10px;border:1px solid rgba(255,255,255,0.04);background:rgba(0,0,0,0.14);color:#eaffef;outline:none}
+    .col{flex:1}
+    .row{display:flex;gap:8px;align-items:center}
     textarea{min-height:140px;resize:vertical}
+    .modes{display:flex;gap:8px;align-items:center}
     .mode-btn{padding:8px 10px;border-radius:8px;border:1px solid rgba(255,255,255,0.04);cursor:pointer;background:transparent;color:var(--muted)}
     .mode-btn.active{background:rgba(255,255,255,0.02);color:#eaffef;border-color:rgba(255,255,255,0.06)}
     .progress{height:8px;background:rgba(255,255,255,0.03);border-radius:8px;overflow:hidden;margin-top:8px}
     .progress > i{display:block;height:100%;background:linear-gradient(90deg,var(--green),var(--gold));width:0%}
     pre.result{white-space:pre-wrap;background:rgba(255,255,255,0.01);padding:12px;border-radius:8px;border:1px solid rgba(255,255,255,0.03);color:#eaffef}
 
+    /* action bar bottom on mobile */
+    .mobile-actions{display:none}
+    @media (max-width:700px){
+      .wrap{padding:8px}
+      .assistant-list{max-height:160px}
+      .mobile-actions{display:flex;position:fixed;bottom:10px;left:50%;transform:translateX(-50%);gap:8px;background:rgba(0,0,0,0.6);padding:8px;border-radius:12px;z-index:60}
+    }
+
+    /* accessibility focus */
     :focus{outline:3px solid rgba(15,176,107,0.08);outline-offset:2px}
   </style>
 </head>
 <body>
-  <canvas id="bgCanvas"></canvas>
-  <div class="bg-overlay"></div>
+  <canvas id="bgCanvas" aria-hidden="true"></canvas>
+  <div class="bg-overlay" aria-hidden="true"></div>
 
-  <div class="wrap">
-    <aside class="sidebar card">
+  <div class="wrap" role="application" aria-label="رواق العدل — المساعد الذكي">
+    <!-- SIDEBAR -->
+    <aside class="sidebar card" aria-label="الشريط الجانبي">
       <div class="brand">
-        <div class="logo"><i class="fa-solid fa-balance-scale" style="color:#fff;font-size:20px"></i></div>
+        <div class="logo" aria-hidden="true"><i class="fa-solid fa-balance-scale" style="color:#fff;font-size:20px"></i></div>
         <div>
           <h1>رواق العدل</h1>
           <p class="muted">مساعد ذكي متعدد الشخصيات</p>
         </div>
       </div>
-      <nav class="menu">
+
+      <nav class="menu" aria-label="التنقل">
         <button class="active" data-panel="assistant">المساعد الذكي</button>
         <button data-panel="casefile">قيد دعوى</button>
         <button data-panel="memo">تبادل مذكرات</button>
         <button data-panel="sessions">جلسات رقمية</button>
+        <button data-panel="judgeboard">منصة القاضي</button>
+        <button data-panel="accessibility">الوصول</button>
+        <button data-panel="security">الأمن</button>
       </nav>
+
       <div style="margin-top:12px">
         <strong>قائمة المساعدين</strong>
-        <div class="assistant-list" id="assistantList"></div>
-        <button id="addAssistant" class="small">+ جديد</button>
+        <div class="assistant-list" id="assistantList" tabindex="0" aria-label="قائمة المساعدين"></div>
+
+        <div style="display:flex;gap:8px;margin-top:8px">
+          <button id="addAssistant" class="small">+ جديد</button>
+          <button id="reorderAssistants" class="small">إعادة ترتيب</button>
+        </div>
       </div>
+
+      <div style="margin-top:12px;text-align:center" class="muted">licensing@rawan.dev</div>
     </aside>
 
+    <!-- MAIN -->
     <main class="main">
-      <section id="panel-assistant" class="card">
-        <div style="display:flex;justify-content:space-between;align-items:center;gap:12px">
-          <h2>المساعد الذكي التفاعلي</h2>
-          <select id="assistantSelect" style="min-width:220px"></select>
+      <!-- Topbar -->
+      <div class="topbar">
+        <div class="search" role="search" aria-label="بحث موحد">
+          <i class="fa-solid fa-magnifying-glass" style="color:var(--muted)"></i>
+          <input id="unifiedSearch" placeholder="استعلام: رقم قضية، اسم، قرار..." />
         </div>
-        <textarea id="facts" placeholder="ألصق نص الدعوى أو اكتب ملخصاً..."></textarea>
-        <div class="progress" id="progressBar" style="display:none"><i></i></div>
-        <button id="runBtn" class="btn"><i class="fa-solid fa-rocket"></i> تشغيل التحليل</button>
-        <pre id="analysisResult" class="result" style="margin-top:15px">لم يتم تشغيل أي تحليل بعد.</pre>
+        <div class="controls">
+          <button id="themeToggle" class="small">سمة</button>
+        </div>
+      </div>
+
+      <!-- Assistant Panel -->
+      <section id="panel-assistant" class="card" role="region" aria-labelledby="assistantTitle">
+        <div style="display:flex;justify-content:space-between;align-items:center;gap:12px">
+          <h2 id="assistantTitle">المساعد الذكي التفاعلي</h2>
+          <div class="row">
+            <label for="assistantSelect" class="muted" style="margin-left:6px">الشخصية:</label>
+            <select id="assistantSelect" aria-label="اختيار شخصية المساعد" style="min-width:220px"></select>
+          </div>
+        </div>
+
+        <div style="margin-top:10px" class="assistant-controls" aria-hidden="false">
+          <div style="flex:1">
+            <label class="muted">ملخص الوقائع أو النص</label>
+            <textarea id="facts" placeholder="ألصق نص الدعوى أو اكتب ملخصًا..." aria-label="ملخص الوقائع"></textarea>
+            <div class="row" style="margin-top:8px">
+              <div class="modes" role="tablist" aria-label="وضع المساعد">
+                <button class="mode-btn active" data-mode="concise">مختصر</button>
+                <button class="mode-btn" data-mode="detailed">مفصّل</button>
+                <button class="mode-btn" data-mode="step">خطوات</button>
+              </div>
+            </div>
+            <div class="progress" aria-hidden="true" id="progressBar" style="display:none"><i></i></div>
+          </div>
+
+          <div style="width:220px;display:flex;flex-direction:column;gap:8px">
+            <button id="runBtn" class="btn" aria-live="polite" aria-busy="false"><i class="fa-solid fa-rocket"></i> تشغيل التحليل</button>
+            <button id="streamToggle" class="small">تفعيل البث اللحظي</button>
+            <button id="saveDraftBtn" class="small">حفظ مسودة</button>
+            <div style="margin-top:6px"><button id="exportTxt" class="small">تصدير</button> <button id="printBtn" class="small">طباعة</button></div>
+          </div>
+        </div>
+
+        <div style="display:flex;gap:12px;margin-top:12px;align-items:flex-start">
+          <div style="flex:1">
+            <h3>نتيجة التحليل</h3>
+            <pre id="analysisResult" class="result" aria-live="polite">لم يتم تشغيل أي تحليل بعد.</pre>
+          </div>
+
+          <aside style="width:320px">
+            <div class="card">
+              <h4>تفاصيل الشخصية</h4>
+              <div id="assistantDetails" class="muted" style="font-size:13px">اختر شخصية من القائمة لعرض الوصف.</div>
+            </div>
+
+            <div class="card" style="margin-top:12px">
+              <h4>سجل التحليلات</h4>
+              <div id="historyList" style="max-height:220px;overflow:auto"></div>
+            </div>
+          </aside>
+        </div>
       </section>
+
+      <!-- Other panels placeholders (fully implemented elsewhere in app) -->
+      <section id="panel-casefile" class="card" hidden><h2>قيد دعوى</h2><p class="muted">نموذج القيد متكامل — املأ الحقول وأرفق المستندات.</p></section>
+      <section id="panel-memo" class="card" hidden><h2>تبادل مذكرات</h2><p class="muted">إرسال ومتابعة المذكرات بين الأطراف.</p></section>
+      <section id="panel-sessions" class="card" hidden><h2>جلسات رقمية</h2><p class="muted">إنشاء روابط جلسات مؤمنة وتفريغ صوتي.</p></section>
+      <section id="panel-judgeboard" class="card" hidden><h2>منصة القاضي</h2><p class="muted">لوحات وقوائم أولوية القضايا.</p></section>
+      <section id="panel-accessibility" class="card" hidden><h2>الوصول</h2><p class="muted">TTS / STT / Live captions.</p></section>
+      <section id="panel-security" class="card" hidden><h2>الأمن</h2><p class="muted">PKI، SSO، سجلات تدقيق.</p></section>
     </main>
   </div>
 
+  <!-- Mobile quick actions -->
+  <div class="mobile-actions" role="navigation" aria-hidden="true">
+    <button onclick="document.getElementById('runBtn').click()" class="small">تشغيل</button>
+    <button onclick="openPanel('casefile')" class="small">قيد</button>
+    <button onclick="openPanel('memo')" class="small">مذكرة</button>
+  </div>
+
   <script>
-    /* --- محرك الخلفية التفاعلي (تمت إضافته ليعمل مع كودك) --- */
-    const canvas = document.getElementById('bgCanvas');
-    const ctx = canvas.getContext('2d');
-    let particles = [];
-    function resize() { canvas.width = window.innerWidth; canvas.height = window.innerHeight; }
-    window.onresize = resize; resize();
+    /* ---------------- Interactive background (lightweight) ---------------- */
+    (function(){
+      const canvas = document.getElementById('bgCanvas');
+      const ctx = canvas.getContext('2d');
+      let DPR = Math.max(1, window.devicePixelRatio || 1);
+      function resize(){
+        DPR = Math.max(1, window.devicePixelRatio || 1);
+        canvas.width = Math.floor(window.innerWidth * DPR);
+        canvas.height = Math.floor(window.innerHeight * DPR);
+        canvas.style.width = window.innerWidth + 'px';
+        canvas.style.height = window.innerHeight + 'px';
+        ctx.setTransform(DPR,0,0,DPR,0,0);
+      }
+      window.addEventListener('resize', resize);
+      resize();
 
-    class Particle {
-      constructor() {
-        this.x = Math.random() * canvas.width;
-        this.y = Math.random() * canvas.height;
-        this.speedX = Math.random() * 0.4 - 0.2;
-        this.speedY = Math.random() * 0.4 - 0.2;
-        this.size = Math.random() * 2;
-      }
-      update() {
-        this.x += this.speedX; this.y += this.speedY;
-        if (this.x > canvas.width || this.x < 0) this.speedX *= -1;
-        if (this.y > canvas.height || this.y < 0) this.speedY *= -1;
-      }
-      draw() {
-        ctx.fillStyle = 'rgba(15, 176, 107, 0.3)';
-        ctx.beginPath(); ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2); ctx.fill();
-      }
-    }
-    for(let i=0; i<80; i++) particles.push(new Particle());
-
-    function animate() {
-      ctx.clearRect(0,0,canvas.width, canvas.height);
-      particles.forEach(p => { p.update(); p.draw(); });
-      for(let i=0; i<particles.length; i++) {
-        for(let j=i; j<particles.length; j++) {
-          let dx = particles[i].x - particles[j].x;
-          let dy = particles[i].y - particles[j].y;
-          let dist = Math.sqrt(dx*dx + dy*dy);
-          if(dist < 100) {
-            ctx.strokeStyle = `rgba(15, 176, 107, ${0.1 - dist/1000})`;
-            ctx.beginPath(); ctx.moveTo(particles[i].x, particles[i].y);
-            ctx.lineTo(particles[j].x, particles[j].y); ctx.stroke();
-          }
+      // gentle animated lines + particles
+      const particles = [];
+      function initParticles(n=80){
+        particles.length=0;
+        for(let i=0;i<n;i++){
+          particles.push({ x: Math.random()*window.innerWidth, y: Math.random()*window.innerHeight, r: Math.random()*2+0.6, vx:(Math.random()-0.5)*0.6, vy:(Math.random()-0.5)*0.6, a: 0.2+Math.random()*0.6});
         }
       }
-      requestAnimationFrame(animate);
-    }
-    animate();
+      initParticles(window.innerWidth < 600 ? 40 : 90);
 
-    /* --- دوال وميكانيكية كودك الأصلي كما هي دون تغيير --- */
-    (function(){
-      // هنا تضعين بقية الدوال الخاصة بكِ (loadAssistants, runBtn click, إلخ)
-      // سيعمل المحرك التفاعلي في الخلفية بينما تظل دوالك تعمل في الواجهة
-      console.log("رواق العدل جاهز بالتفاعل!");
+      function draw(){
+        ctx.clearRect(0,0,canvas.width,canvas.height);
+        // faint background overlay
+        ctx.fillStyle = 'rgba(0,8,7,0.12)'; ctx.fillRect(0,0,window.innerWidth, window.innerHeight);
+        // lines
+        for(let i=0;i<20;i++){
+          ctx.strokeStyle = 'rgba(9,90,70,0.03)'; ctx.lineWidth = 1;
+          ctx.beginPath();
+          const startX = (i/20)*window.innerWidth + (Math.sin(Date.now()*0.0005 + i)*40);
+          ctx.moveTo(startX, -20);
+          ctx.lineTo(startX+200, window.innerHeight+20);
+          ctx.stroke();
+        }
+        // particles
+        particles.forEach(p => {
+          p.x += p.vx; p.y += p.vy;
+          if(p.x < -20) p.x = window.innerWidth + 20;
+          if(p.x > window.innerWidth + 20) p.x = -20;
+          if(p.y < -20) p.y = window.innerHeight + 20;
+          if(p.y > window.innerHeight + 20) p.y = -20;
+          const g = ctx.createRadialGradient(p.x,p.y,0,p.x,p.y,p.r*8);
+          g.addColorStop(0, `rgba(15,176,107,${p.a})`);
+          g.addColorStop(1, 'rgba(15,176,107,0)');
+          ctx.fillStyle = g;
+          ctx.beginPath(); ctx.arc(p.x,p.y,p.r,0,Math.PI*2); ctx.fill();
+        });
+        // connections (sparse)
+        for(let i=0;i<particles.length;i++){
+          for(let j=i+1;j<particles.length;j++){
+            const a = particles[i], b = particles[j];
+            const dx = a.x - b.x, dy = a.y - b.y;
+            const d = Math.sqrt(dx*dx+dy*dy);
+            if(d < 110){
+              ctx.strokeStyle = `rgba(15,176,107,${0.08 - d/1400})`; ctx.lineWidth = 0.4;
+              ctx.beginPath(); ctx.moveTo(a.x,a.y); ctx.lineTo(b.x,b.y); ctx.stroke();
+            }
+          }
+        }
+
+        requestAnimationFrame(draw);
+      }
+      draw();
+      window._initBg = initParticles;
     })();
-    
-    // ملاحظة: تأكدي من نقل بقية دوال الـ JavaScript الخاصة بكِ هنا ليعمل الموقع بالكامل
+
+    /* ---------------- Core UI & Assistant logic ---------------- */
+    (function(){
+      const $ = (s, r=document) => r.querySelector(s);
+      const $$ = (s, r=document) => Array.from(r.querySelectorAll(s));
+      const STORAGE = 'rwaq_assistants_rrrawan764-cloud';
+      const HIST_KEY = 'rwaq_history_rrrawan764-cloud';
+      let assistants = [];
+      let history = JSON.parse(localStorage.getItem(HIST_KEY)||'[]');
+
+      function defAssistants(){
+        return [
+          { id:'legal_expert', name:'الخبير القانوني', system: 'أنت خبير قانوني. ركز على النواقص القانونية والإجراءات.' },
+          { id:'tech_auditor', name:'المدقق التقني', system: 'أنت مدقق تقني. افحص الأدلة الرقمية وتحقق من الثبات.' }
+        ];
+      }
+
+      function loadAssistants(){
+        try { assistants = JSON.parse(localStorage.getItem(STORAGE) || 'null') || defAssistants(); }
+        catch(e){ assistants = defAssistants(); }
+        renderAssistants();
+      }
+
+      function saveAssistants(){ localStorage.setItem(STORAGE, JSON.stringify(assistants)); }
+
+      // Render assistants in list and select
+      function renderAssistants(){
+        const list = $('#assistantList'); list.innerHTML = '';
+        assistants.forEach(a => {
+          const el = document.createElement('div'); el.className='assistant-item';
+          el.innerHTML = `<div><div class="assistant-name">${escapeHtml(a.name)}</div><div class="tag muted" style="margin-top:6px">${escapeHtml(a.system.slice(0,80))}${a.system.length>80?'...':''}</div></div>
+            <div style="display:flex;gap:6px"><button class="small" data-id="${a.id}" data-action="select">اختيار</button><button class="small" data-id="${a.id}" data-action="edit">تعديل</button><button class="small" data-id="${a.id}" data-action="delete">حذف</button></div>`;
+          list.appendChild(el);
+        });
+
+        // fill select
+        const sel = $('#assistantSelect'); sel.innerHTML = assistants.map(a => `<option value="${a.id}">${escapeHtml(a.name)}</option>`).join('');
+        if(!sel.value && assistants.length) sel.value = assistants[0].id;
+        renderAssistantDetails(currentAssistant());
+      }
+
+      function escapeHtml(s){ return String(s).replace(/[&<>"']/g, m=> ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m])); }
+
+      function currentAssistant(){
+        const v = $('#assistantSelect').value;
+        return assistants.find(a=>a.id===v) || assistants[0];
+      }
+
+      // assistant list clicks
+      $('#assistantList').addEventListener('click', (e)=>{
+        const btn = e.target.closest('button');
+        if(!btn) return;
+        const id = btn.dataset.id;
+        const action = btn.dataset.action;
+        const idx = assistants.findIndex(a=>a.id===id);
+        if(action === 'select'){ $('#assistantSelect').value = id; renderAssistantDetails(assistants[idx]); toast('تم اختيار المساعد'); }
+        if(action === 'edit'){ editAssistant(assistants[idx]); }
+        if(action === 'delete'){ if(confirm('حذف المساعد نهائياً؟')){ assistants.splice(idx,1); saveAssistants(); renderAssistants(); toast('تم الحذف'); } }
+      });
+
+      // Add assistant modal (simple prompt)
+      $('#addAssistant').addEventListener('click', ()=>{
+        const name = prompt('اسم المساعد (مثال: الخبير القانوني):');
+        if(!name) return;
+        const system = prompt('نص النظام (كيف يتصرف المساعد) — اكتب تعليماته بالمختصر:','أنت خبير قانوني. قدّم نقاط نواقص وتوصيات.');
+        const id = name.toLowerCase().replace(/\s+/g,'_') + '_' + Date.now().toString(36);
+        assistants.unshift({ id, name, system: system || '' });
+        saveAssistants(); renderAssistants(); toast('تم إنشاء المساعد');
+      });
+
+      function editAssistant(a){
+        const name = prompt('تع��يل اسم المساعد:', a.name);
+        if(!name) return;
+        const system = prompt('تعديل نص النظام:', a.system);
+        a.name = name; a.system = system || a.system;
+        saveAssistants(); renderAssistants(); toast('تم التعديل');
+      }
+
+      // render assistant details
+      function renderAssistantDetails(a){
+        if(!a){ $('#assistantDetails').textContent = 'لا يوجد مساعد محدد'; return; }
+        $('#assistantDetails').innerHTML = `<strong>${escapeHtml(a.name)}</strong><div class="muted" style="margin-top:8px">${escapeHtml(a.system)}</div>`;
+      }
+
+      // modes
+      $$('.mode-btn').forEach(b=>{
+        b.addEventListener('click', ()=>{
+          $$('.mode-btn').forEach(x=>x.classList.remove('active'));
+          b.classList.add('active');
+        });
+      });
+
+      // Run analysis (streamed simulation if backend not streaming)
+      $('#runBtn').addEventListener('click', async ()=>{
+        const input = $('#facts').value.trim();
+        if(!input){ toast('اكتب أو ألصق نصاً للتحليل'); return; }
+        const assistant = currentAssistant();
+        const mode = (document.querySelector('.mode-btn.active')||{}).dataset.mode || 'concise';
+
+        // disable controls
+        $('#runBtn').disabled = true; $('#runBtn').setAttribute('aria-busy','true');
+        $('#progressBar').style.display = 'block';
+        $('#progressBar i').style.width = '4%';
+        $('#analysisResult').textContent = ''; // clear
+        addHistoryEntry({ assistant: assistant.name, mode, input, time: new Date().toISOString(), status: 'running' });
+
+        try {
+          // attempt real backend call
+          const res = await fetch('/api/ai/analyze', { method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify({ text: input, assistant, mode }) });
+          if(!res.ok) throw new Error('backend unavailable');
+          // prefer receiving structured response; if backend returns raw, handle
+          const json = await res.json();
+          // If backend provides streaming text in json.raw, simulate progressive reveal
+          const text = json.raw || (json.verdict ? (json.verdict + '\n\n' + (json.issues||[]).map(i=>'• '+i).join('\n') + '\n\nتوصيات:\n' + (json.recommendations||[]).map((r,i)=>`${i+1}. ${r}`).join('\n')) : JSON.stringify(json));
+          await progressiveReveal(text);
+          addHistoryEntry({ assistant: assistant.name, mode, input, time: new Date().toISOString(), status: 'done', output: text });
+          toast('اكتمل التحليل');
+        } catch(err){
+          // fallback: simulate streaming analysis locally
+          const sim = simulateAnalysisLocal(assistant, input, mode);
+          await progressiveReveal(sim);
+          addHistoryEntry({ assistant: assistant.name, mode, input, time: new Date().toISOString(), status: 'done', output: sim });
+          toast('التحليل تم في الوضع المحلي (fallback)');
+        } finally {
+          $('#runBtn').disabled = false; $('#runBtn').removeAttribute('aria-busy');
+          $('#progressBar i').style.width = '100%';
+          setTimeout(()=> { $('#progressBar').style.display = 'none'; $('#progressBar i').style.width='0%'; }, 600);
+          renderHistory();
+        }
+      });
+
+      // progressive reveal (stream-like)
+      async function progressiveReveal(fullText){
+        const el = $('#analysisResult');
+        el.textContent = '';
+        const chars = Array.from(fullText);
+        for(let i=0;i<chars.length;i++){
+          el.textContent += chars[i];
+          if(i % 12 === 0){ // increase progress every few chars
+            const pct = Math.min(98, Math.round((i / chars.length) * 100));
+            $('#progressBar i').style.width = pct + '%';
+          }
+          // adaptive delay: faster when small output, slower when long
+          await sleep(12 + Math.random()*18);
+        }
+      }
+      function sleep(ms){ return new Promise(r=>setTimeout(r, ms)); }
+
+      // local simulation generator (simple templated response)
+      function simulateAnalysisLocal(assistant, input, mode){
+        const header = `تحليل (${assistant.name}) — الوضع: ${mode}\n\n`;
+        const issues = ['غياب إثبات التبليغ', 'نقص التفويض', 'تباين بالتواريخ'];
+        const recs = ['إرفاق إيصال التبليغ', 'الحصول على تفويض موقع', 'تدقيق المستندات الأصلية'];
+        return header + 'نقاط محتملة:\n' + issues.map(i=>'• '+i).join('\n') + '\n\nتوصيات:\n' + recs.map((r,i)=>`${i+1}. ${r}`).join('\n');
+      }
+
+      /* ---------------- History management ---------------- */
+      function addHistoryEntry(entry){
+        history.unshift(entry);
+        if(history.length>60) history.length = 60;
+        localStorage.setItem(HIST_KEY, JSON.stringify(history));
+      }
+      function renderHistory(){
+        const container = $('#historyList');
+        container.innerHTML = history.map(h => `<div style="padding:8px;border-bottom:1px dashed rgba(255,255,255,0.03)"><strong>${escapeHtml(h.assistant)}</strong> <div class="muted" style="font-size:12px">${new Date(h.time).toLocaleString()}</div><div style="margin-top:6px"><button class="small" data-time="${h.time}" data-action="view">عرض</button><button class="small" data-time="${h.time}" data-action="download">تنزيل</button></div></div>`).join('') || '<div class="muted">لا يوجد سجل</div>';
+        // wire buttons
+        container.querySelectorAll('button').forEach(btn=>{
+          btn.addEventListener('click', (e)=>{
+            const action = btn.dataset.action; const time = btn.dataset.time;
+            const entry = history.find(xx => xx.time === time);
+            if(!entry) return;
+            if(action === 'view'){ $('#analysisResult').textContent = entry.output || '[لا يوجد مخرج]'; }
+            if(action === 'download'){ downloadText(entry.output || '', 'analysis-' + time + '.txt'); toast('تم تنزيل التحليل'); }
+          });
+        });
+      }
+      function downloadText(text, filename){
+        const blob = new Blob([text], { type:'text/plain;charset=utf-8' });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a'); a.href = url; a.download = filename; document.body.appendChild(a); a.click(); a.remove(); URL.revokeObjectURL(url);
+      }
+
+      // Export and print
+      $('#exportTxt').addEventListener('click', ()=> {
+        const content = $('#analysisResult').textContent || 'لا نتائج';
+        downloadText(content, 'rwaq_analysis_' + Date.now() + '.txt');
+      });
+      $('#printBtn').addEventListener('click', ()=> {
+        const w = window.open('', '_blank'); w.document.write(`<pre style="white-space:pre-wrap;font-family:inherit">${escapeHtml($('#analysisResult').textContent || '')}</pre>`); w.document.close(); w.focus(); w.print();
+      });
+
+      // history init
+      try { history = JSON.parse(localStorage.getItem(HIST_KEY) || '[]'); } catch(e){ history = []; }
+      renderHistory();
+
+      // Panel nav (other panels)
+      $$('.menu button').forEach(btn => btn.addEventListener('click', ()=>{
+        $$('.menu button').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        openPanel(btn.dataset.panel);
+      }));
+      function openPanel(name){
+        const mapping = { assistant:'panel-assistant', casefile:'panel-casefile', memo:'panel-memo', sessions:'panel-sessions', judgeboard:'panel-judgeboard', accessibility:'panel-accessibility', security:'panel-security' };
+        Object.values(mapping).forEach(id => { const el = document.getElementById(id); if(el) el.hidden = true; });
+        const id = mapping[name] || ('panel-' + name);
+        const el = document.getElementById(id); if(el) el.hidden = false;
+        window.scrollTo({ top:0, behavior:'smooth' });
+      }
+
+      // helper toast
+      function toast(msg){ const e = document.createElement('div'); e.textContent = msg; e.style.cssText = 'position:fixed;left:50%;top:24px;transform:translateX(-50%);background:rgba(0,0,0,0.7);color:#fff;padding:8px 12px;border-radius:8px;z-index:9999'; document.body.appendChild(e); setTimeout(()=> e.remove(), 2200); }
+
+      // init: load assistants, render
+      loadAssistants(); renderAssistants(); renderHistory();
+
+      // quick keyboard: Ctrl+Enter to run
+      window.addEventListener('keydown', (e)=>{ if((e.ctrlKey||e.metaKey) && e.key === 'Enter'){ $('#runBtn').click(); } });
+    })();
   </script>
 </body>
 </html>
