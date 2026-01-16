@@ -3,139 +3,133 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>رواق العدل — المساعد الذكي المتفاعل</title>
+  <title>رواق العدل — المظهر المحترف</title>
 
-  <!-- خطوط وأيقونات -->
+  <!-- خطوط -->
   <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
-  <meta name="description" content="رواق العدل — مساعد ذكي متقدم مع شخصيات قابلة للتخصيص وتحليل متدفق" />
+  <meta name="description" content="واجهة احترافية لمنصة المساعد الذكي وإدارة القضايا — رواق العدل" />
   <meta name="author" content="روان الصبحي" />
 
   <style>
-    /* ================ Design tokens ================ */
+    /* ---------------- Design tokens ---------------- */
     :root{
-      --bg1:#032b2a; --bg2:#073733;            /* deep teal backdrop */
-      --panel-bg: rgba(255,255,255,0.02);
+      --bg-1:#022d2c; --bg-2:#063733;
+      --card:#062e2b;
       --muted:#9bb6aa;
-      --green:#0fb06b;
+      --accent:#0fb06b;
       --gold:#FFB703;
       --glass: rgba(255,255,255,0.03);
-      --card-radius:12px;
-      --shadow: 0 12px 40px rgba(0,0,0,0.55);
-      --maxwidth:1200px;
-      --ui-ease: cubic-bezier(.2,.9,.2,1);
-      --hp: 18px; /* base heading padding */
+      --radius:12px;
+      --shadow: 0 18px 48px rgba(0,0,0,0.6);
+      --surface: rgba(255,255,255,0.02);
+      --maxw:1200px;
+      --ui-ease:cubic-bezier(.2,.9,.2,1);
+      --focus: 3px solid rgba(15,176,107,0.12);
     }
 
     *{box-sizing:border-box}
-    html,body{height:100%;margin:0;font-family:'Cairo',sans-serif;background:linear-gradient(180deg,var(--bg1),var(--bg2));color:#e8fff1;-webkit-font-smoothing:antialiased}
-    a{color:var(--green);text-decoration:none}
+    html,body{height:100%;margin:0;font-family:'Cairo',sans-serif;background:linear-gradient(180deg,var(--bg-1),var(--bg-2));color:#e9fff2;-webkit-font-smoothing:antialiased}
+    a{color:var(--accent);text-decoration:none}
 
-    /* ================ Layout ================ */
-    .wrap{max-width:var(--maxwidth);margin:20px auto;padding:16px;display:grid;grid-template-columns:300px 1fr;gap:18px;position:relative}
-    @media (max-width:1000px){ .wrap{grid-template-columns:1fr;padding:12px} }
+    /* ---------------- Layout ---------------- */
+    .app{max-width:var(--maxw);margin:20px auto;padding:16px;display:grid;grid-template-columns:320px 1fr;gap:18px;align-items:start}
+    @media(max-width:980px){ .app{grid-template-columns:1fr;padding:12px} }
 
-    /* background canvas + overlay */
+    /* background canvas */
     #bgCanvas{position:fixed;inset:0;z-index:-3;display:block}
     .bg-overlay{position:fixed;inset:0;z-index:-2;pointer-events:none;background:
-      radial-gradient(800px 260px at 8% 12%, rgba(180,240,210,0.05), transparent 8%),
-      radial-gradient(600px 220px at 92% 88%, rgba(120,200,170,0.035), transparent 8%),
-      linear-gradient(180deg, rgba(0,0,0,0.18), rgba(0,0,0,0.36));mix-blend-mode:multiply}
+      radial-gradient(800px 260px at 8% 12%, rgba(180,240,210,0.04), transparent 8%),
+      radial-gradient(600px 220px at 92% 88%, rgba(120,200,170,0.03), transparent 8%),
+      linear-gradient(180deg, rgba(0,0,0,0.16), rgba(0,0,0,0.34));mix-blend-mode:multiply}
 
-    /* ================ Sidebar ================ */
-    .sidebar{background:var(--panel-bg);border-radius:var(--card-radius);padding:14px;border:1px solid rgba(255,255,255,0.03);box-shadow:var(--shadow);backdrop-filter:blur(6px)}
-    .brand{display:flex;gap:10px;align-items:center}
-    .logo{width:60px;height:60px;border-radius:10px;background:linear-gradient(180deg,var(--green),#0b7d56);display:flex;align-items:center;justify-content:center;box-shadow:0 10px 30px rgba(0,0,0,0.45)}
-    .brand h1{margin:0;font-size:18px;color:#f8fff7}
+    /* ---------------- Sidebar ---------------- */
+    .sidebar{background:var(--card);border-radius:var(--radius);padding:14px;border:1px solid rgba(255,255,255,0.04);box-shadow:var(--shadow);backdrop-filter:blur(6px)}
+    .brand{display:flex;gap:12px;align-items:center}
+    .logo{width:58px;height:58px;border-radius:10px;background:linear-gradient(180deg,var(--accent),#0b7d56);display:flex;align-items:center;justify-content:center;box-shadow:0 8px 24px rgba(0,0,0,0.45)}
+    .brand h1{margin:0;font-size:18px;color:#f8fff9}
     .brand p{margin:0;color:var(--muted);font-size:13px}
+
     nav.menu{margin-top:14px;display:flex;flex-direction:column;gap:8px}
-    .menu button{display:flex;align-items:center;gap:10px;padding:10px;border-radius:10px;border:0;background:transparent;color:var(--muted);cursor:pointer;font-weight:700}
-    .menu button.active{background:linear-gradient(90deg, rgba(15,176,107,0.06), rgba(255,255,255,0.02));border-left:4px solid var(--gold);color:#f8fff7}
+    .menu button{display:flex;align-items:center;gap:10px;padding:10px;border-radius:10px;border:0;background:transparent;color:var(--muted);cursor:pointer;font-weight:700;text-align:right}
+    .menu button.active{background:linear-gradient(90deg, rgba(15,176,107,0.06), rgba(255,255,255,0.02));border-left:4px solid var(--gold);color:#f8fff9}
 
-    .assistant-list{margin-top:12px;border-radius:10px;overflow:auto;max-height:260px;padding:6px;background:rgba(255,255,255,0.01);border:1px solid rgba(255,255,255,0.02)}
-    .assistant-item{display:flex;justify-content:space-between;align-items:center;padding:8px;border-bottom:1px dashed rgba(255,255,255,0.02)}
-    .assistant-item .meta{color:var(--muted);font-size:12px}
-    .muted{color:var(--muted);font-size:13px}
+    .assistant-list{margin-top:12px;border-radius:10px;overflow:auto;max-height:260px;padding:6px;background:var(--surface);border:1px solid rgba(255,255,255,0.02)}
+    .assistant-item{display:flex;justify-content:space-between;align-items:center;padding:8px;border-bottom:1px dashed rgba(255,255,255,0.03)}
+    .assistant-item:last-child{border-bottom:0}
+    .assistant-item button{background:transparent;border:1px solid rgba(255,255,255,0.03);color:var(--muted);padding:6px;border-radius:8px;cursor:pointer}
 
-    /* ================ Main content ================ */
+    /* ---------------- Main ---------------- */
     .main{display:flex;flex-direction:column;gap:14px}
-    .card{border-radius:12px;padding:14px;background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));border:1px solid rgba(255,255,255,0.03);box-shadow:var(--shadow)}
+    .card{border-radius:12px;padding:14px;background:linear-gradient(180deg, rgba(255,255,255,0.015), rgba(255,255,255,0.01));border:1px solid rgba(255,255,255,0.03);box-shadow:var(--shadow)}
     .topbar{display:flex;gap:12px;align-items:center;justify-content:space-between}
-    .search{flex:1;display:flex;align-items:center;gap:8px;padding:8px;border-radius:10px;background:rgba(255,255,255,0.02);border:1px solid rgba(255,255,255,0.03)}
+    .search{flex:1;display:flex;align-items:center;gap:10px;padding:10px;border-radius:10px;background:rgba(255,255,255,0.02);border:1px solid rgba(255,255,255,0.03)}
     .search input{border:0;background:transparent;outline:none;color:#eaffef}
 
-    /* ================ Form elements ================ */
-    label{display:block;color:#eef7ef;font-weight:700;margin-bottom:6px}
-    input[type="text"], textarea, select, .file-drop {
-      width:100%; padding:10px;border-radius:10px;border:1px solid rgba(255,255,255,0.04);background:rgba(0,0,0,0.14);color:#eaffef;outline:none; font-size:14px;
-    }
+    /* ---------------- Form elements ---------------- */
+    label{display:block;color:#eaf7ef;font-weight:700;margin-bottom:6px}
+    input[type="text"], textarea, select, .file-drop{width:100%;padding:10px;border-radius:10px;border:1px solid rgba(255,255,255,0.04);background:rgba(0,0,0,0.14);color:#eaffef;outline:none;font-size:14px}
     textarea{min-height:120px;resize:vertical}
     .row{display:flex;gap:10px;align-items:center}
     .col{flex:1}
+    .help{font-size:13px;color:rgba(255,255,255,0.7)}
 
-    /* mode buttons */
-    .modes{display:flex;gap:8px}
     .mode-btn{padding:8px 10px;border-radius:8px;border:1px solid rgba(255,255,255,0.04);background:transparent;color:var(--muted);cursor:pointer}
     .mode-btn.active{background:rgba(255,255,255,0.02);color:#eaffef;border-color:rgba(255,255,255,0.06)}
 
-    /* progress */
     .progress{height:8px;background:rgba(255,255,255,0.03);border-radius:8px;overflow:hidden;margin-top:8px}
-    .progress > i{display:block;height:100%;background:linear-gradient(90deg,var(--green),var(--gold));width:0%;transition:width .28s var(--ui-ease)}
+    .progress > i{display:block;height:100%;background:linear-gradient(90deg,var(--accent),var(--gold));width:0%;transition:width .28s var(--ui-ease)}
 
-    /* buttons */
     .btn{display:inline-flex;gap:8px;align-items:center;background:linear-gradient(180deg,var(--gold),#d59b03);color:#071018;border:0;padding:10px 12px;border-radius:10px;font-weight:800;cursor:pointer}
     .btn.ghost{background:transparent;border:1px solid rgba(255,255,255,0.04);color:var(--muted);font-weight:700}
     .mini{font-size:13px;padding:6px 8px;border-radius:8px;background:transparent;border:1px solid rgba(255,255,255,0.03);color:var(--muted);cursor:pointer}
 
-    /* results */
     pre.result{white-space:pre-wrap;background:rgba(0,0,0,0.16);padding:14px;border-radius:8px;border:1px solid rgba(255,255,255,0.03);color:#eaffef}
 
-    /* panel-casefile professional layout */
     .form-grid{display:grid;grid-template-columns:1fr 320px;gap:12px}
-    @media (max-width:1000px){ .form-grid{grid-template-columns:1fr} }
+    @media(max-width:1000px){ .form-grid{grid-template-columns:1fr} }
 
-    .file-drop{display:flex;align-items:center;justify-content:center;min-height:86px;cursor:pointer}
+    .file-drop{display:flex;align-items:center;justify-content:center;min-height:86px;cursor:pointer;border-radius:10px}
 
-    /* drawer (judge details) */
-    .drawer { position: fixed; top: 70px; right: 20px; width:380px; max-width:calc(100% - 40px); height:calc(100% - 120px); background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01)); border-radius:10px; padding:14px; box-shadow:0 30px 80px rgba(0,0,0,0.7); z-index:1400; overflow:auto; display:none; }
-    .drawer.show{ display:block; }
-
-    .attachments{display:flex;flex-direction:column;gap:6px;margin-top:6px}
+    /* drawer */
+    .drawer{position:fixed;top:70px;right:20px;width:420px;max-width:calc(100% - 40px);height:calc(100% - 120px);background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));border-radius:12px;padding:16px;box-shadow:0 30px 80px rgba(0,0,0,0.75);z-index:1400;overflow:auto;transform:translateY(8px);opacity:0;pointer-events:none;transition:all .28s var(--ui-ease)}
+    .drawer.show{transform:translateY(0);opacity:1;pointer-events:auto}
     .attachment{display:flex;justify-content:space-between;align-items:center;padding:8px;border-radius:8px;background:rgba(255,255,255,0.02);border:1px solid rgba(255,255,255,0.03);color:var(--muted)}
 
-    /* small helpers */
+    /* focus */
+    :focus{outline:var(--focus);outline-offset:3px}
+
+    /* small */
     .muted-sm{font-size:12px;color:var(--muted)}
-    .help{font-size:12px;color:rgba(255,255,255,0.6)}
-    .visually-hidden{position:absolute!important;clip:rect(1px,1px,1px,1px);padding:0;border:0;height:1px;width:1px;overflow:hidden}
   </style>
 </head>
 <body>
   <canvas id="bgCanvas" aria-hidden="true"></canvas>
   <div class="bg-overlay" aria-hidden="true"></div>
 
-  <div class="wrap" role="application" aria-label="رواق العدل — المساعد الذكي">
-    <!-- SIDEBAR -->
-    <aside class="sidebar card" aria-label="الشريط الجانبي">
-      <div class="brand">
-        <div class="logo" aria-hidden="true"><i class="fa-solid fa-balance-scale" style="color:#fff;font-size:20px"></i></div>
+  <div class="app" role="application" aria-label="رواق العدل — المنصة">
+    <!-- Sidebar -->
+    <aside class="sidebar" aria-label="الشريط الجانبي">
+      <div class="brand" role="img" aria-label="شعار رواق العدل">
+        <div class="logo"><i class="fa-solid fa-balance-scale" style="color:#fff;font-size:20px"></i></div>
         <div>
           <h1>رواق العدل</h1>
-          <p class="muted">مساعد ومركز القضايا</p>
+          <p class="muted">مركز القضايا والمساعد</p>
         </div>
       </div>
 
       <nav class="menu" aria-label="التنقل">
-        <button class="active" data-panel="panel-assistant"><i class="fa-solid fa-brain"></i>&nbsp;المساعد الذكي</button>
-        <button data-panel="panel-casefile"><i class="fa-solid fa-file-circle-plus"></i>&nbsp;قيد دعوى</button>
-        <button data-panel="panel-memo"><i class="fa-solid fa-file-lines"></i>&nbsp;تبادل مذكرات</button>
-        <button data-panel="panel-sessions"><i class="fa-solid fa-video"></i>&nbsp;جلسات رقمية</button>
-        <button data-panel="panel-judgeboard"><i class="fa-solid fa-gavel"></i>&nbsp;منصة القاضي</button>
-        <button data-panel="panel-accessibility"><i class="fa-solid fa-universal-access"></i>&nbsp;الوصول</button>
-        <button data-panel="panel-security"><i class="fa-solid fa-shield"></i>&nbsp;الأمن</button>
+        <button class="active" data-panel="panel-assistant"><i class="fa-solid fa-brain"></i> المساعد الذكي</button>
+        <button data-panel="panel-casefile"><i class="fa-solid fa-file-circle-plus"></i> قيد دعوى</button>
+        <button data-panel="panel-judgeboard"><i class="fa-solid fa-gavel"></i> منصة القاضي</button>
+        <button data-panel="panel-memo"><i class="fa-solid fa-file-lines"></i> تبادل مذكرات</button>
+        <button data-panel="panel-sessions"><i class="fa-solid fa-video"></i> جلسات رقمية</button>
+        <button data-panel="panel-accessibility"><i class="fa-solid fa-universal-access"></i> الوصول</button>
+        <button data-panel="panel-security"><i class="fa-solid fa-shield"></i> الأمن</button>
       </nav>
 
-      <div style="margin-top:12px">
+      <div style="margin-top:14px">
         <strong>قائمة المساعدين</strong>
         <div class="assistant-list" id="assistantList" tabindex="0" aria-label="قائمة المساعدين"></div>
 
@@ -148,41 +142,41 @@
       <div style="margin-top:14px;text-align:center" class="muted">licensing@rawan.dev</div>
     </aside>
 
-    <!-- MAIN -->
-    <main class="main">
+    <!-- Main -->
+    <main class="main" id="mainContent">
       <div class="topbar card" role="region" aria-label="شريط الأدوات">
-        <div class="search" role="search" aria-label="بحث موحد">
+        <div class="search" role="search">
           <i class="fa-solid fa-magnifying-glass" style="color:var(--muted)"></i>
-          <input id="unifiedSearch" placeholder="بحث: رقم قضية، اسم، قرار..." aria-label="بحث القضايا" />
+          <input id="unifiedSearch" placeholder="بحث: رقم قضية، اسم، قرار..." aria-label="بحث القضايا">
         </div>
-        <div class="controls">
-          <button id="themeToggle" class="mini" aria-pressed="false">سمة</button>
-          <button id="openJudgeDrawer" class="mini" title="فتح تفاصيل قضية اختبار">قاضي — تجربة</button>
+        <div class="controls" style="display:flex;gap:8px;align-items:center">
+          <button id="themeToggle" class="mini" aria-pressed="false" title="تبديل السمة">سمة</button>
+          <button id="openJudgeDrawer" class="mini" title="فتح تجربة قضية">قاضي — تجربة</button>
         </div>
       </div>
 
-      <!-- ASSISTANT PANEL -->
+      <!-- Assistant -->
       <section id="panel-assistant" class="card" role="region" aria-labelledby="assistantTitle">
         <div style="display:flex;justify-content:space-between;align-items:center">
           <h2 id="assistantTitle">المساعد الذكي المتفاعل</h2>
           <div class="row" style="align-items:center">
-            <label for="assistantSelect" class="muted help" style="margin-left:8px">الشخصية</label>
+            <label for="assistantSelect" class="help" style="margin-left:10px">الشخصية</label>
             <select id="assistantSelect" aria-label="اختيار شخصية المساعد" style="min-width:220px"></select>
           </div>
         </div>
 
-        <div class="assistant-controls" style="margin-top:12px">
+        <div class="assistant-controls" style="margin-top:12px;display:flex;gap:12px">
           <div class="col">
             <label for="facts">ملخص الوقائع أو النص</label>
             <textarea id="facts" placeholder="ألصق نص الدعوى أو اكتب ملخصًا..." aria-label="ملخص الوقائع"></textarea>
 
-            <div class="row" style="margin-top:8px">
+            <div class="row" style="margin-top:8px;justify-content:space-between">
               <div class="modes" role="tablist" aria-label="وضع المساعد">
                 <button class="mode-btn active" data-mode="concise" aria-pressed="true">مختصر</button>
                 <button class="mode-btn" data-mode="detailed" aria-pressed="false">مفصّل</button>
                 <button class="mode-btn" data-mode="step" aria-pressed="false">خطوات</button>
               </div>
-              <div style="margin-left:auto" class="help muted-sm">اختصارات: Ctrl/Cmd+Enter للتشغيل</div>
+              <div class="help muted-sm">اختصار: Ctrl/Cmd + Enter</div>
             </div>
 
             <div class="progress" id="progressBar" aria-hidden="true"><i></i></div>
@@ -192,7 +186,7 @@
             <button id="runBtn" class="btn" aria-live="polite" aria-busy="false"><i class="fa-solid fa-rocket"></i> تشغيل التحليل</button>
             <button id="streamToggle" class="btn ghost" aria-pressed="false">بث لحظي</button>
             <button id="saveDraftBtn" class="btn ghost">حفظ مسودة</button>
-            <div style="display:flex;gap:8px;justify-content:flex-start">
+            <div style="display:flex;gap:8px;margin-top:6px">
               <button id="exportTxt" class="mini">تصدير</button>
               <button id="printBtn" class="mini">طباعة</button>
             </div>
@@ -208,7 +202,7 @@
           <aside style="width:320px">
             <div class="card">
               <h4>تفاصيل المساعد</h4>
-              <div id="assistantDetails" class="muted-sm" style="margin-top:8px">اختر شخصية لعرض النص النظامي الخاص بها.</div>
+              <div id="assistantDetails" class="muted-sm" style="margin-top:8px">اختر شخصية لعرض النص النظامي</div>
             </div>
 
             <div class="card" style="margin-top:12px">
@@ -219,43 +213,45 @@
         </div>
       </section>
 
-      <!-- CASE FILING (professional form) -->
+      <!-- Case filing -->
       <section id="panel-casefile" class="card" role="region" hidden>
         <h2 style="margin-top:0">قيد دعوى — نموذج جديد</h2>
-        <p class="muted">املأ الحقول أدناه ثم اضغط "قيد الدعوى". هناك تحقق مسبق للمرفقات والحقول الأساسية.</p>
+        <p class="muted">املأ الحقول الأساسية ثم اضغط "قيد الدعوى". النظام يتحقق من الحقول المطلوبة ويتيح حفظًا محليًا إذا انقطع الاتصال.</p>
 
         <form id="caseForm" class="form-grid" onsubmit="return false" novalidate>
           <div>
             <div style="display:flex;gap:12px">
               <div style="flex:1">
-                <label>رقم القضية (اختياري)</label>
+                <label for="case_id">رقم القضية (اختياري)</label>
                 <input id="case_id" type="text" placeholder="مثال: C-2026-012" />
               </div>
               <div style="width:180px">
-                <label>الرقم الداخلي</label>
+                <label for="case_internal">الرقم الداخلي</label>
                 <input id="case_internal" type="text" placeholder="رقم داخلي" />
               </div>
             </div>
 
             <div style="margin-top:12px">
-              <label>اسم المدعي</label>
+              <label for="case_plaintiff">اسم المدعي</label>
               <input id="case_plaintiff" type="text" required placeholder="اسم المدعي" />
+              <div id="err_plaintiff" class="muted-sm" style="display:none;color:#ffcccc"></div>
             </div>
 
             <div style="margin-top:12px">
-              <label>موضوع الدعوى</label>
+              <label for="case_subject">موضوع الدعوى</label>
               <input id="case_subject" type="text" required placeholder="موضوع الدعوى" />
+              <div id="err_subject" class="muted-sm" style="display:none;color:#ffcccc"></div>
             </div>
 
             <div style="margin-top:12px">
-              <label>تفاصيل/ملخص</label>
+              <label for="case_details">تفاصيل/ملخص</label>
               <textarea id="case_details" placeholder="تفاصيل الدعوى..." required></textarea>
             </div>
 
             <div style="display:flex;gap:8px;margin-top:12px;align-items:center">
               <div style="flex:1">
                 <label>مرفقات</label>
-                <div id="caseUploader" class="file-drop" tabindex="0">اسحب الملفات هنا أو اضغط للاختيار (PDF، صور)</div>
+                <div id="caseUploader" class="file-drop" tabindex="0" aria-label="مساحة رفع الملفات">اسحب الملفات هنا أو اضغط للاختيار (PDF، صور)</div>
                 <div id="caseUploadProgress" class="progress" style="display:none"><i></i></div>
               </div>
               <div style="width:160px">
@@ -269,9 +265,9 @@
 
           <aside>
             <div class="card">
-              <h4>إعدادات القيد</h4>
+              <h4>إعدادات</h4>
               <div style="margin-top:8px">
-                <label>الأولوية</label>
+                <label for="case_priority">الأولوية</label>
                 <select id="case_priority">
                   <option value="normal">عادية</option>
                   <option value="review">مراجعة</option>
@@ -280,7 +276,7 @@
               </div>
 
               <div style="margin-top:8px">
-                <label>الحالة</label>
+                <label for="case_status">الحالة</label>
                 <select id="case_status">
                   <option value="open">مفتوحة</option>
                   <option value="review">قيد المراجعة</option>
@@ -289,64 +285,94 @@
               </div>
 
               <div style="margin-top:8px">
-                <label>القاضي المعيّن (اختياري)</label>
+                <label for="case_assigned">القاضي المعيّن (اختياري)</label>
                 <input id="case_assigned" type="text" placeholder="اسم القاضي" />
               </div>
 
               <div style="margin-top:10px">
-                <h5 class="muted-sm">ملاحظات سريعة</h5>
-                <p class="muted-sm">بعد القيد سيظهر في لوحة القاضي ويمكن التعديل أو إصدار أوامر.</p>
+                <h5 class="muted-sm">ملاحظة</h5>
+                <p class="muted-sm">بعد القيد ستظهر الدعوى في لوحة القاضي حيث يمكن التعديل وإصدار الأوامر.</p>
               </div>
             </div>
           </aside>
         </form>
       </section>
 
-      <!-- PLACEHOLDERS -->
-      <section id="panel-memo" class="card" hidden><h2>تبادل مذكرات</h2><p class="muted">صندوق وارد/صادر مع توقيع رقمي (قيد الربط)</p></section>
-      <section id="panel-sessions" class="card" hidden><h2>جلسات رقمية</h2><p class="muted">حجز جلسات، روابط مؤمنة، تفريغ صوتي</p></section>
-
-      <!-- JUDGE BOARD simplified (opens drawer for details) -->
-      <section id="panel-judgeboard" class="card" hidden>
+      <!-- Judge board (simplified) -->
+      <section id="panel-judgeboard" class="card" role="region" hidden>
         <h2 style="margin-top:0">منصة القاضي — إدارة القضايا</h2>
-        <p class="muted">قائمة القضايا سريعة العرض — انقري عرض لتعديل/إصدار أوامر.</p>
+        <p class="muted">قائمة سريعة للقضايا — اضغط "عرض" لفتح تفاصيل القضية وتحريرها.</p>
         <div class="card" style="margin-top:12px">
           <div id="judgeCaseList" class="case-list" aria-live="polite"></div>
         </div>
       </section>
 
-      <section id="panel-accessibility" class="card" hidden><h2>الوصول</h2><p class="muted">TTS / STT / Live captions (تجريبي)</p></section>
+      <!-- other placeholders -->
+      <section id="panel-memo" class="card" hidden><h2>تبادل مذكرات</h2><p class="muted">صندوق وارد/صادر مع توقيع PKI (قيد الربط)</p></section>
+      <section id="panel-sessions" class="card" hidden><h2>جلسات رقمية</h2><p class="muted">روابط مؤمنة، تفريغ صوتي</p></section>
+      <section id="panel-accessibility" class="card" hidden><h2>الوصول</h2><p class="muted">TTS / STT / Live captions</p></section>
       <section id="panel-security" class="card" hidden><h2>الأمن</h2><p class="muted">PKI، SSO، سجلات تدقيق</p></section>
     </main>
   </div>
 
-  <!-- Drawer: judge detail (professional inputs) -->
-  <div id="judgeDrawer" class="drawer" role="dialog" aria-modal="true" aria-label="تفاصيل القضية">
+  <!-- Drawer: judge detail -->
+  <aside id="judgeDrawer" class="drawer" role="dialog" aria-modal="true" aria-labelledby="drawerTitle">
     <div style="display:flex;justify-content:space-between;align-items:center">
-      <h3 id="drawerTitle">تفاصيل القضية</h3>
+      <h3 id="drawerTitle" style="margin:0">تفاصيل القضية</h3>
       <div style="display:flex;gap:8px">
         <button id="closeDrawer" class="mini">إغلاق</button>
       </div>
     </div>
 
-    <div class="field"><label for="f_caseid">رقم القضية</label><div id="f_caseid" style="font-weight:800;color:var(--muted)"></div></div>
-    <div class="field"><label for="f_internal">الرقم الداخلي</label><input id="f_internal" type="text" /></div>
-    <div class="field"><label for="f_plaintiff">اسم المدعي</label><input id="f_plaintiff" type="text" /></div>
-    <div class="field"><label for="f_subject">موضوع الدعوى</label><input id="f_subject" type="text" /></div>
-    <div class="field"><label for="f_created">تاريخ الإنشاء</label><div id="f_created" class="muted-sm"></div></div>
+    <div style="margin-top:10px">
+      <label>رقم القضية</label>
+      <div id="f_caseid" style="font-weight:800;color:var(--muted)"></div>
+    </div>
 
-    <div class="field"><label for="f_priority">الأولوية</label>
+    <div style="margin-top:10px">
+      <label for="f_internal">الرقم الداخلي</label>
+      <input id="f_internal" type="text" />
+    </div>
+
+    <div style="margin-top:10px">
+      <label for="f_plaintiff">اسم المدعي</label>
+      <input id="f_plaintiff" type="text" />
+    </div>
+
+    <div style="margin-top:10px">
+      <label for="f_subject">موضوع الدعوى</label>
+      <input id="f_subject" type="text" />
+    </div>
+
+    <div style="margin-top:10px">
+      <label for="f_created">تاريخ الإنشاء</label>
+      <div id="f_created" class="muted-sm"></div>
+    </div>
+
+    <div style="margin-top:10px">
+      <label for="f_priority">الأولوية</label>
       <select id="f_priority"><option value="urgent">عاجلة</option><option value="review">مراجعة</option><option value="normal">عادية</option></select>
     </div>
 
-    <div class="field"><label for="f_status">الحالة</label>
+    <div style="margin-top:10px">
+      <label for="f_status">الحالة</label>
       <select id="f_status"><option value="open">مفتوحة</option><option value="review">قيد المراجعة</option><option value="completed">منجزة</option><option value="deferred">مؤجلة</option></select>
     </div>
 
-    <div class="field"><label for="f_assigned">القاضي المعيّن</label><input id="f_assigned" type="text" /></div>
-    <div class="field"><label for="f_notes">ملاحظات / ملخص</label><textarea id="f_notes"></textarea></div>
+    <div style="margin-top:10px">
+      <label for="f_assigned">القاضي المعيّن</label>
+      <input id="f_assigned" type="text" />
+    </div>
 
-    <div class="field"><label>المرفقات</label><div id="f_attachments" class="attachments"></div></div>
+    <div style="margin-top:10px">
+      <label for="f_notes">ملاحظات / ملخص</label>
+      <textarea id="f_notes"></textarea>
+    </div>
+
+    <div style="margin-top:10px">
+      <label>المرفقات</label>
+      <div id="f_attachments" class="attachments"></div>
+    </div>
 
     <div style="margin-top:12px;display:flex;gap:8px;flex-wrap:wrap">
       <button id="f_save" class="btn">حفظ</button>
@@ -356,56 +382,57 @@
       <button id="f_print" class="mini">طباعة</button>
     </div>
 
-    <div class="audit" style="margin-top:12px"><strong>سجل مختصر:</strong><div id="f_audit_list" class="muted-sm" style="margin-top:8px"></div></div>
-  </div>
+    <div style="margin-top:12px" class="audit"><strong>سجل مختصر:</strong><div id="f_audit_list" class="muted-sm" style="margin-top:8px"></div></div>
+  </aside>
 
   <div id="toastWrap" aria-live="polite" style="position:fixed;left:50%;transform:translateX(-50%);top:18px;z-index:2000"></div>
 
   <script>
-    /* ===================== Background canvas (circuit-like, image-style) ===================== */
+    /* ---------------- Background animation (refined for professional look) ---------------- */
     (function(){
       const canvas = document.getElementById('bgCanvas'), ctx = canvas.getContext('2d', {alpha:true});
-      let DPR = Math.max(1, window.devicePixelRatio || 1), W, H;
+      let DPR = Math.max(1, window.devicePixelRatio || 1), W = innerWidth, H = innerHeight;
       function resize(){ DPR = Math.max(1, window.devicePixelRatio || 1); W = canvas.width = Math.floor(innerWidth * DPR); H = canvas.height = Math.floor(innerHeight * DPR); canvas.style.width = innerWidth + 'px'; canvas.style.height = innerHeight + 'px'; ctx.setTransform(DPR,0,0,DPR,0,0); }
       addEventListener('resize', resize); resize();
 
-      const particles = [], circuits = [], binaries = [];
+      // lightweight particles + circuit traces + binary glyphs
+      const particles = []; const circuits = []; const glyphs = [];
       function init(){
-        particles.length = circuits.length = binaries.length = 0;
-        const pcount = Math.max(30, Math.floor(window.innerWidth/30));
-        for(let i=0;i<pcount;i++) particles.push({x:Math.random()*innerWidth,y:Math.random()*innerHeight,r:Math.random()*1.6+0.4,vx:(Math.random()-0.5)*0.25,vy:(Math.random()-0.5)*0.25,a:0.06+Math.random()*0.24});
+        particles.length = circuits.length = glyphs.length = 0;
+        const pcount = Math.max(30, Math.floor(innerWidth / 30));
+        for(let i=0;i<pcount;i++) particles.push({x:Math.random()*innerWidth,y:Math.random()*innerHeight,r:Math.random()*1.4+0.4,vx:(Math.random()-0.5)*0.2,vy:(Math.random()-0.5)*0.2,a:0.06+Math.random()*0.22});
         const cols = 20;
-        for(let i=0;i<cols;i++){ circuits.push({baseX:(i/cols)*innerWidth + (Math.random()*60-30),angle: i%2?1:-1,segments:6+Math.floor(Math.random()*6),segLen:(innerHeight+200)/10,thickness:0.6+Math.random()*1.4}); }
-        const bcount = Math.max(8, Math.floor(innerWidth/140));
-        for(let i=0;i<bcount;i++) binaries.push({x:Math.random()*innerWidth,y:Math.random()*innerHeight,v:0.2+Math.random()*0.6,char:Math.random()>0.5?'0':'1',a:0.04+Math.random()*0.18});
+        for(let i=0;i<cols;i++) circuits.push({baseX:(i/cols)*innerWidth + (Math.random()*60-30),angle:i%2?1:-1,segments:6+Math.floor(Math.random()*6),segLen:(innerHeight+200)/10,thickness:0.6+Math.random()*1.2});
+        const gcount = Math.max(8, Math.floor(innerWidth/120));
+        for(let i=0;i<gcount;i++) glyphs.push({x:Math.random()*innerWidth,y:Math.random()*innerHeight,v:0.2+Math.random()*0.5,char:Math.random()>0.5?'0':'1',a:0.04+Math.random()*0.14});
       }
       init();
 
-      let t=0;
+      let t = performance.now();
       function frame(now){
-        const dt = (now - t) / 1000; t = now;
+        const dt = (now - t)/1000; t = now;
         ctx.fillStyle = 'rgba(2,20,18,0.12)'; ctx.fillRect(0,0,innerWidth,innerHeight);
 
         // circuits
-        ctx.save(); ctx.lineCap='round';
-        circuits.forEach((c,idx) => {
+        ctx.save(); ctx.lineCap = 'round';
+        circuits.forEach((c, idx) => {
           ctx.beginPath();
-          let x = c.baseX + Math.sin(now*0.0005 + idx)*18;
-          let y = -60;
+          let x = c.baseX + Math.sin(now*0.0004 + idx)*12;
+          let y = -40;
           ctx.moveTo(x,y);
           for(let s=0;s<c.segments;s++){
-            x += c.angle * (12 + Math.sin(now*0.0006 + s)*8) + Math.cos(s*1.1 + idx)*6;
+            x += c.angle * (12 + Math.sin(now*0.0006 + s)*6) + Math.cos(s*0.95 + idx)*4;
             y += c.segLen - (s*2);
             ctx.lineTo(x, y);
           }
-          ctx.strokeStyle = 'rgba(80,160,140,0.12)';
+          ctx.strokeStyle = 'rgba(90,170,150,0.12)';
           ctx.lineWidth = c.thickness;
           ctx.stroke();
         });
         ctx.restore();
 
         // particles
-        particles.forEach(p => {
+        particles.forEach(p=>{
           p.x += p.vx; p.y += p.vy;
           if(p.x < -20) p.x = innerWidth + 20;
           if(p.x > innerWidth + 20) p.x = -20;
@@ -413,19 +440,19 @@
           if(p.y > innerHeight + 20) p.y = -20;
           const g = ctx.createRadialGradient(p.x,p.y,0,p.x,p.y,p.r*8);
           g.addColorStop(0, `rgba(140,240,200,${p.a})`);
-          g.addColorStop(1,'rgba(140,240,200,0)');
+          g.addColorStop(1, 'rgba(140,240,200,0)');
           ctx.fillStyle = g;
           ctx.beginPath(); ctx.arc(p.x,p.y,p.r*5,0,Math.PI*2); ctx.fill();
         });
 
-        // binary glyphs
+        // glyphs
         ctx.save(); ctx.font = '10px Cairo, monospace';
-        binaries.forEach(b => {
-          b.y += b.v * dt * 60;
-          if(b.y > innerHeight + 20) { b.y = -20; b.x = Math.random()*innerWidth; b.char = Math.random()>0.5?'0':'1'; }
-          ctx.globalAlpha = b.a;
+        glyphs.forEach(g=>{
+          g.y += g.v * dt * 60;
+          if(g.y > innerHeight + 20){ g.y = -20; g.x = Math.random()*innerWidth; g.char = Math.random()>0.5?'0':'1'; }
+          ctx.globalAlpha = g.a;
           ctx.fillStyle = 'rgba(170,230,200,0.08)';
-          ctx.fillText(b.char, b.x, b.y);
+          ctx.fillText(g.char, g.x, g.y);
         });
         ctx.restore();
 
@@ -435,216 +462,200 @@
       window._initBg = init;
     })();
 
-    /* ===================== UI + Logic ===================== */
+    /* ---------------- Helper utilities ---------------- */
+    const $ = (s, r=document) => r.querySelector(s);
+    const $$ = (s, r=document) => Array.from(r.querySelectorAll(s));
+    function showToast(msg, ttl=2200){
+      const wrap = document.getElementById('toastWrap');
+      const el = document.createElement('div'); el.textContent = msg;
+      el.style.cssText = 'background:rgba(0,0,0,0.75);color:#fff;padding:8px 12px;border-radius:8px;margin-top:6px;display:inline-block';
+      wrap.appendChild(el);
+      setTimeout(()=>{ el.style.opacity = '0'; setTimeout(()=>el.remove(), 300); }, ttl);
+    }
+    function escapeHtml(s){ return String(s||'').replace(/[&<>"']/g, m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m])); }
+
+    /* ---------------- Core UI & data ---------------- */
     (function(){
-      const $ = (s,r=document)=> r.querySelector(s);
-      const $$ = (s,r=document)=> Array.from(r.querySelectorAll(s));
-      const toastWrap = $('#toastWrap');
-
-      function showToast(msg, ttl=2200){
-        const el = document.createElement('div'); el.className='mini'; el.textContent = msg;
-        el.style.cssText = 'background:rgba(0,0,0,0.75);color:#fff;padding:8px 12px;border-radius:8px;margin-top:6px';
-        toastWrap.appendChild(el);
-        setTimeout(()=> { el.style.opacity = '0'; setTimeout(()=> el.remove(), 300); }, ttl);
-      }
-
-      // Assistants store
-      const STORAGE = 'rwaq_assistants_rrrawan764-cloud';
+      // Assistants store & UI
+      const AS_KEY = 'rwaq_assistants_rrrawan764-cloud';
       let assistants = [];
-      function defAssistants(){ return [
-        {id:'legal_expert', name:'الخبير القانوني', system:'أنت خبير قانوني. راجع نواقص الدعاوى وقدم توصيات قابلة للتنفيذ.'},
-        {id:'tech_auditor', name:'المدقق التقني', system:'أنت مدقق تقني. تحقق من سلامة المرفقات وأدلة التواقيع.'}
+      function defaultAssistants(){ return [
+        {id:'legal_expert', name:'الخبير القانوني', system:'أنت خبير قانوني. راجع النواقص وقدم توصيات عملية.'},
+        {id:'tech_auditor', name:'المدقق التقني', system:'أنت مدقق تقني: تحقَّق من سلامة المستندات والتواقيع.'}
       ]; }
-      function loadAssistants(){ try{ assistants = JSON.parse(localStorage.getItem(STORAGE)) || defAssistants(); }catch(e){ assistants = defAssistants(); } renderAssistants(); }
-      function saveAssistants(){ localStorage.setItem(STORAGE, JSON.stringify(assistants)); }
+      function loadAssistants(){ try{ assistants = JSON.parse(localStorage.getItem(AS_KEY)) || defaultAssistants(); }catch(e){ assistants = defaultAssistants(); } renderAssistants(); }
+      function saveAssistants(){ localStorage.setItem(AS_KEY, JSON.stringify(assistants)); }
 
       function renderAssistants(){
         const list = $('#assistantList'); list.innerHTML = '';
         assistants.forEach(a=>{
-          const it = document.createElement('div'); it.className='assistant-item';
-          it.innerHTML = `<div><div class="assistant-name">${escapeHtml(a.name)}</div><div class="meta">${escapeHtml(a.system.slice(0,80))}${a.system.length>80?'...':''}</div></div>
-                          <div style="display:flex;gap:6px"><button class="mini" data-id="${a.id}" data-action="select">اختيار</button><button class="mini" data-id="${a.id}" data-action="edit">تعديل</button><button class="mini" data-id="${a.id}" data-action="delete">حذف</button></div>`;
-          list.appendChild(it);
+          const row = document.createElement('div'); row.className = 'assistant-item';
+          row.innerHTML = `<div><div class="assistant-name">${escapeHtml(a.name)}</div><div class="meta">${escapeHtml(a.system.slice(0,80))}${a.system.length>80?'...':''}</div></div>
+            <div style="display:flex;gap:6px"><button class="mini" data-id="${a.id}" data-action="select">اختيار</button><button class="mini" data-id="${a.id}" data-action="edit">تعديل</button><button class="mini" data-id="${a.id}" data-action="delete">حذف</button></div>`;
+          list.appendChild(row);
         });
         const sel = $('#assistantSelect'); sel.innerHTML = assistants.map(a=>`<option value="${a.id}">${escapeHtml(a.name)}</option>`).join('');
         if(!sel.value && assistants.length) sel.value = assistants[0].id;
         renderAssistantDetails(currentAssistant());
       }
-
-      function escapeHtml(s){ return String(s||'').replace(/[&<>"']/g, m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m])); }
       function currentAssistant(){ const v = $('#assistantSelect').value; return assistants.find(a=>a.id===v) || assistants[0]; }
+      function renderAssistantDetails(a){ $('#assistantDetails').innerHTML = a ? `<strong>${escapeHtml(a.name)}</strong><div class="muted-sm" style="margin-top:6px">${escapeHtml(a.system)}</div>` : 'لا يوجد مساعد محدد'; }
 
-      // Assistant list actions
-      $('#assistantList').addEventListener('click', e=>{
+      // assistant list events
+      $('#assistantList').addEventListener('click', (e)=>{
         const btn = e.target.closest('button'); if(!btn) return;
         const id = btn.dataset.id, action = btn.dataset.action;
         const idx = assistants.findIndex(x=>x.id===id);
         if(action === 'select'){ $('#assistantSelect').value = id; renderAssistantDetails(assistants[idx]); showToast('تم اختيار المساعد'); }
-        if(action === 'edit'){ const a = assistants[idx]; const name = prompt('تعديل اسم المساعد:', a.name); if(!name) return; const system = prompt('نص النظام:', a.system); a.name = name; a.system = system || a.system; saveAssistants(); renderAssistants(); showToast('تم التعديل'); }
-        if(action === 'delete'){ if(confirm('حذف المساعد نهائيًا؟')){ assistants.splice(idx,1); saveAssistants(); renderAssistants(); showToast('تم الحذف'); } }
+        if(action === 'edit'){ const a = assistants[idx]; const name = prompt('تعديل اسم المساعد:', a.name); if(!name) return; const system = prompt('نص النظام:', a.system); a.name = name; a.system = system||a.system; saveAssistants(); renderAssistants(); showToast('تم التعديل'); }
+        if(action === 'delete'){ if(confirm('حذف المساعد نهائياً؟')){ assistants.splice(idx,1); saveAssistants(); renderAssistants(); showToast('تم الحذف'); } }
       });
+      $('#addAssistant').addEventListener('click', ()=>{ const name = prompt('اسم المساعد:'); if(!name) return; const system = prompt('نص النظام:', 'أنت مساعد قانوني.'); const id = name.toLowerCase().replace(/\s+/g,'_') + '_' + Date.now().toString(36); assistants.unshift({id,name,system}); saveAssistants(); renderAssistants(); showToast('تم الإضافة'); });
 
-      $('#addAssistant').addEventListener('click', ()=>{
-        const name = prompt('اسم المساعد:'); if(!name) return;
-        const system = prompt('نص النظام (دور المساعد):','أنت مساعد قانوني.');
-        const id = name.toLowerCase().replace(/\s+/g,'_') + '_' + Date.now().toString(36);
-        assistants.unshift({id,name,system}); saveAssistants(); renderAssistants(); showToast('تم الإضافة');
-      });
+      // modes
+      $$('.mode-btn').forEach(b => b.addEventListener('click', ()=> { $$('.mode-btn').forEach(x=>x.classList.remove('active')); b.classList.add('active'); }));
 
-      function renderAssistantDetails(a){
-        $('#assistantDetails').innerHTML = a ? `<strong>${escapeHtml(a.name)}</strong><div class="muted-sm" style="margin-top:6px">${escapeHtml(a.system)}</div>` : 'لا يوجد مساعد محدد';
-      }
-
-      // Modes toggle
-      $$('.mode-btn').forEach(b=> b.addEventListener('click', ()=>{
-        $$('.mode-btn').forEach(x=>x.classList.remove('active')); b.classList.add('active');
-      }));
-
-      // Run analysis
+      // run analysis (with progressive reveal and fallback)
       $('#runBtn').addEventListener('click', async ()=>{
         const text = $('#facts').value.trim();
-        if(!text){ showToast('أدخل ملخص الوقائع قبل التشغيل'); return; }
+        if(!text){ showToast('أدخل ملخص الوقائع'); return; }
         const assistant = currentAssistant();
         const mode = (document.querySelector('.mode-btn.active')||{}).dataset.mode || 'concise';
-        $('#runBtn').disabled = true; $('#runBtn').setAttribute('aria-busy','true'); $('#progressBar').style.display='block'; $('#progressBar i').style.width='4%';
+        toggleRun(true);
         $('#analysisResult').textContent = '';
-        addHistory({assistant:assistant.name,mode,text,time:new Date().toISOString(),status:'running'});
         try{
-          const res = await fetch('/api/ai/analyze',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({text,assistant,mode})});
-          if(!res.ok) throw new Error('AI unavailable');
+          const res = await fetch('/api/ai/analyze', { method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify({ text, assistant, mode }) });
+          if(!res.ok) throw new Error('no-ai');
           const json = await res.json();
-          const out = json.raw || (json.verdict ? json.verdict + '\n\n' + (json.issues||[]).map(i=>'• '+i).join('\n') : JSON.stringify(json));
+          const out = json.raw || (json.verdict ? json.verdict + '\n\n' + (json.recommendations||[]).map((r,i)=>`${i+1}. ${r}`).join('\n') : JSON.stringify(json));
           await progressiveReveal(out);
-          addHistory({assistant:assistant.name,mode,text,time:new Date().toISOString(),status:'done',output:out});
-          showToast('اكتمل التحليل');
+          showToast('انتهى التحليل');
         }catch(e){
-          const sim = simulate(assistant,text,mode);
+          const sim = `تحليل (${assistant.name}) — ${mode}\n\n• نقاط محتملة:\n- غياب إثبات التبليغ\n- نقص التفويض\n\nتوصيات:\n1. إرفاق إيصالات\n2. الحصول على تفويض موقع`;
           await progressiveReveal(sim);
-          addHistory({assistant:assistant.name,mode,text,time:new Date().toISOString(),status:'done',output:sim});
-          showToast('تم التحليل محليًا (وضع التجريبي)');
-        }finally{
-          $('#runBtn').disabled=false; $('#runBtn').removeAttribute('aria-busy'); $('#progressBar i').style.width='100%';
-          setTimeout(()=>{ $('#progressBar').style.display='none'; $('#progressBar i').style.width='0%';},600);
-          renderHistory();
-        }
+          showToast('تم التحليل محليًا');
+        }finally{ toggleRun(false); }
       });
 
-      async function progressiveReveal(text){
-        const el = $('#analysisResult'); el.textContent=''; const chars = Array.from(text);
-        for(let i=0;i<chars.length;i++){ el.textContent += chars[i]; if(i%12===0){ $('#progressBar i').style.width = Math.min(98, Math.round((i/chars.length)*100)) + '%'; } await new Promise(r=>setTimeout(r, 10 + Math.random()*20)); }
+      function toggleRun(isRunning){
+        $('#runBtn').disabled = isRunning;
+        $('#runBtn').setAttribute('aria-busy', isRunning ? 'true' : 'false');
+        $('#progressBar').style.display = isRunning ? 'block' : 'none';
+        if(!isRunning) $('#progressBar i').style.width = '0%';
       }
-      function simulate(a,t,m){ return `تحليل (${a.name}) — ${m}\n\n- نقاط محتملة:\n• غياب إثبات التبليغ\n• نقص التفويض\n\nتوصيات:\n1. إرفاق إيصالات\n2. الحصول على تفويض`}
 
-      /* ================= Casefile form: validation, upload simulation, save ================= */
-      function setupUploader(uploaderId, progressId){
-        const el = $(uploaderId), progress = $(progressId);
-        el.addEventListener('click', ()=> { const inp = document.createElement('input'); inp.type='file'; inp.multiple=true; inp.onchange=()=> handleFiles(inp.files, progress); inp.click(); });
-        ['dragenter','dragover'].forEach(ev=> el.addEventListener(ev, e=>{ e.preventDefault(); el.style.borderColor = 'rgba(15,176,107,0.45)'; }));
-        ['dragleave','drop'].forEach(ev=> el.addEventListener(ev, e=>{ e.preventDefault(); el.style.borderColor=''; if(e.type==='drop') handleFiles(e.dataTransfer.files, progress); }));
+      async function progressiveReveal(text){
+        const el = $('#analysisResult'); el.textContent = '';
+        const chars = Array.from(text);
+        for(let i=0;i<chars.length;i++){
+          el.textContent += chars[i];
+          if(i % 12 === 0) $('#progressBar i').style.width = Math.min(98, Math.round((i/chars.length)*100)) + '%';
+          await new Promise(r=>setTimeout(r, 8 + Math.random()*14));
+        }
+        $('#progressBar i').style.width = '100%';
+      }
+
+      // file uploader (simple UI, local simulation)
+      function setupUploader(btnSel, progSel){
+        const btn = $(btnSel), prog = $(progSel);
+        btn.addEventListener('click', ()=> { const inp = document.createElement('input'); inp.type='file'; inp.multiple=true; inp.onchange = ()=> handleFiles(inp.files, prog); inp.click(); });
+        ['dragenter','dragover'].forEach(ev=> btn.addEventListener(ev, e=> { e.preventDefault(); btn.style.borderColor = 'rgba(15,176,107,0.45)'; }));
+        ['dragleave','drop'].forEach(ev=> btn.addEventListener(ev, e=> { e.preventDefault(); btn.style.borderColor=''; if(e.type==='drop') handleFiles(e.dataTransfer.files, prog); }));
       }
       async function handleFiles(files, progressEl){
         if(!files || files.length===0) return;
-        progressEl.style.display='block';
-        const bar = progressEl.querySelector('i'); bar.style.width='0%';
-        for(let i=0;i<files.length;i++){
-          await new Promise(r=> setTimeout(r, 250 + Math.random()*400));
-          bar.style.width = `${Math.round(((i+1)/files.length)*100)}%`;
-        }
-        setTimeout(()=> { progressEl.style.display='none'; bar.style.width='0%'; showToast('تم رفع الملفات (محلياً)'); },300);
+        progressEl.style.display = 'block';
+        const bar = progressEl.querySelector('i'); bar.style.width = '0%';
+        for(let i=0;i<files.length;i++){ await new Promise(r=>setTimeout(r, 220 + Math.random()*260)); bar.style.width = `${Math.round(((i+1)/files.length)*100)}%`; }
+        setTimeout(()=>{ progressEl.style.display='none'; bar.style.width='0%'; showToast('تم رفع الملفات (محلياً)'); }, 300);
       }
-      setupUploader('#caseUploader','#caseUploadProgress');
+      setupUploader('#caseUploader', '#caseUploadProgress');
 
-      // Validate & submit case
+      // submit case (validate + save locally or send)
       $('#submitCase').addEventListener('click', async ()=>{
-        const plaintiff = $('#case_plaintiff').value.trim(), subject = $('#case_subject').value.trim(), details = $('#case_details').value.trim();
-        if(!plaintiff || !subject){ $('#caseFeedback').style.display='block'; $('#caseFeedback').textContent='المدعي وموضوع الدعوى مطلوبان.'; return; }
-        $('#caseFeedback').style.display='block'; $('#caseFeedback').textContent='جاري قيد الدعوى...';
+        const plaintiff = $('#case_plaintiff').value.trim();
+        const subject = $('#case_subject').value.trim();
+        const details = $('#case_details').value.trim();
+        $('#err_plaintiff').style.display = 'none'; $('#err_subject').style.display = 'none';
+        if(!plaintiff){ $('#err_plaintiff').textContent = 'الاسم مطلوب'; $('#err_plaintiff').style.display = 'block'; return; }
+        if(!subject){ $('#err_subject').textContent = 'الموضوع مطلوب'; $('#err_subject').style.display = 'block'; return; }
+
+        $('#caseFeedback').style.display = 'block'; $('#caseFeedback').textContent = 'جاري قيد الدعوى...';
         const payload = {
           id: $('#case_id').value.trim() || 'C-' + Date.now().toString(36).toUpperCase(),
           internalId: $('#case_internal').value.trim(),
           plaintiff, subject, details,
           priority: $('#case_priority').value, status: $('#case_status').value, assigned: $('#case_assigned').value.trim(),
-          created: new Date().toISOString(), attachments: []
+          created: new Date().toISOString(), attachments: [], audit:[{actor:'نظام',action:'قيد محلي',at:new Date().toISOString()}]
         };
         try{
-          const res = await fetch('/api/cases', {method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify(payload)});
+          const res = await fetch('/api/cases', { method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify(payload) });
           if(!res.ok) throw new Error('server');
           const data = await res.json();
           $('#caseFeedback').textContent = 'تم القيد — مرجع: ' + (data.id||payload.id);
           showToast('تم قيد الدعوى عبر الخادم');
           saveCaseLocal(data);
         }catch(e){
-          // fallback local save
           saveCaseLocal(payload);
           $('#caseFeedback').textContent = 'تم الحفظ محلياً (شبكة غير متاحة)';
           showToast('تم حفظ الدعوى محلياً');
         }
-        // reset minimal fields if desired
-        //document.getElementById('caseForm').reset();
       });
 
-      // Local storage for cases
-      const CASE_STORE = 'rwaq_cases_local';
-      function saveCaseLocal(caseObj){
-        const list = JSON.parse(localStorage.getItem(CASE_STORE) || '[]');
-        list.unshift(caseObj);
-        localStorage.setItem(CASE_STORE, JSON.stringify(list));
-        renderJudgeCaseList();
-      }
-
-      // Render judge case list
+      // local case store & render list
+      const CASE_KEY = 'rwaq_cases_local';
+      function saveCaseLocal(c){ const list = JSON.parse(localStorage.getItem(CASE_KEY)||'[]'); list.unshift(c); localStorage.setItem(CASE_KEY, JSON.stringify(list)); renderJudgeCaseList(); }
       function renderJudgeCaseList(){
-        const list = JSON.parse(localStorage.getItem(CASE_STORE) || '[]');
+        const list = JSON.parse(localStorage.getItem(CASE_KEY)||'[]');
         const el = $('#judgeCaseList'); el.innerHTML = '';
-        if(list.length === 0){ el.innerHTML = '<div class="muted">لا توجد قضايا مسجلة محلياً</div>'; return; }
+        if(!list || list.length === 0){ el.innerHTML = '<div class="muted">لا توجد قضايا محلية</div>'; return; }
         list.slice(0,50).forEach(c=>{
           const row = document.createElement('div'); row.className = 'case-item';
-          row.innerHTML = `<div style="flex:1"><strong>${escapeHtml(c.plaintiff||'---')}</strong><div class="case-meta">${escapeHtml(c.id||'---')} — ${escapeHtml(c.subject||'---')}</div></div>
-                           <div style="min-width:140px"><div class="case-meta">${new Date(c.created||Date.now()).toLocaleDateString()}</div><div style="margin-top:8px"><button class="mini" data-id="${c.id}" data-action="open">عرض</button><button class="mini" data-id="${c.id}" data-action="ai">AI</button></div></div>`;
+          row.style.display = 'flex'; row.style.justifyContent = 'space-between'; row.style.alignItems='center'; row.style.padding='10px'; row.style.borderBottom='1px dashed rgba(255,255,255,0.03)';
+          row.innerHTML = `<div style="flex:1"><strong>${escapeHtml(c.plaintiff||'—')}</strong><div class="muted-sm">${escapeHtml(c.id||'—')} — ${escapeHtml(c.subject||'—')}</div></div>
+            <div style="min-width:140px; text-align:left"><div class="muted-sm">${new Date(c.created||Date.now()).toLocaleDateString()}</div><div style="margin-top:8px"><button class="mini" data-id="${c.id}" data-action="open">عرض</button> <button class="mini" data-id="${c.id}" data-action="ai">AI</button></div></div>`;
           el.appendChild(row);
         });
       }
 
-      // Judge drawer: open by case id
+      // open judge drawer by id
       $('#judgeCaseList').addEventListener('click', e=>{
         const btn = e.target.closest('button'); if(!btn) return;
         const id = btn.dataset.id, action = btn.dataset.action;
-        const cases = JSON.parse(localStorage.getItem(CASE_STORE) || '[]');
-        const c = cases.find(x=>x.id===id);
+        const list = JSON.parse(localStorage.getItem(CASE_KEY) || '[]');
+        const c = list.find(x=>x.id === id);
         if(!c) return;
-        if(action==='open') openJudgeDrawer(c);
-        if(action==='ai'){ openJudgeDrawer(c); setTimeout(()=> $('#f_request_ai').click(),120); }
+        if(action === 'open') openJudgeDrawer(c);
+        if(action === 'ai'){ openJudgeDrawer(c); setTimeout(()=> $('#f_request_ai').click(), 200); }
       });
 
-      function openJudgeDrawer(caseObj){
-        $('#judgeDrawer').classList.add('show');
-        $('#drawerTitle').textContent = `قضية — ${caseObj.id || ''}`;
-        $('#f_caseid').textContent = caseObj.id || '';
-        $('#f_internal').value = caseObj.internalId || '';
-        $('#f_plaintiff').value = caseObj.plaintiff || '';
-        $('#f_subject').value = caseObj.subject || '';
-        $('#f_created').textContent = new Date(caseObj.created || Date.now()).toLocaleString();
-        $('#f_priority').value = caseObj.priority || 'normal';
-        $('#f_status').value = caseObj.status || 'open';
-        $('#f_assigned').value = caseObj.assigned || '';
-        $('#f_notes').value = caseObj.details || caseObj.notes || '';
-        // attachments & audit (simple)
-        const att = $('#f_attachments'); att.innerHTML='';
-        (caseObj.attachments||[]).forEach(a => { const node = document.createElement('div'); node.className='attachment'; node.innerHTML = `<div>${escapeHtml(a.name)}</div><div><a href="${a.url||'#'}" target="_blank" class="muted-sm">فتح</a></div>`; att.appendChild(node); });
-        const auditList = $('#f_audit_list'); auditList.innerHTML = (caseObj.audit||[]).map(it=>`${new Date(it.at).toLocaleString()} — ${escapeHtml(it.actor)}: ${escapeHtml(it.action)}`).join('<br>') || '<div class="muted">لا سجلات</div>';
-        // store currently opened case id in dataset
-        $('#judgeDrawer').dataset.caseId = caseObj.id;
+      function openJudgeDrawer(c){
+        const drawer = $('#judgeDrawer'); drawer.classList.add('show');
+        $('#drawerTitle').textContent = `قضية — ${c.id || ''}`;
+        $('#f_caseid').textContent = c.id || '';
+        $('#f_internal').value = c.internalId || '';
+        $('#f_plaintiff').value = c.plaintiff || '';
+        $('#f_subject').value = c.subject || '';
+        $('#f_created').textContent = new Date(c.created || Date.now()).toLocaleString();
+        $('#f_priority').value = c.priority || 'normal';
+        $('#f_status').value = c.status || 'open';
+        $('#f_assigned').value = c.assigned || '';
+        $('#f_notes').value = c.details || c.notes || '';
+        const att = $('#f_attachments'); att.innerHTML = '';
+        (c.attachments||[]).forEach(a=> { const node = document.createElement('div'); node.className='attachment'; node.innerHTML = `<div>${escapeHtml(a.name)}</div><div><a href="${a.url||'#'}" target="_blank" class="muted-sm">فتح</a></div>`; att.appendChild(node); });
+        $('#f_audit_list').innerHTML = (c.audit||[]).map(it=>`${new Date(it.at).toLocaleString()} — ${escapeHtml(it.actor)}: ${escapeHtml(it.action)}`).join('<br>') || '<div class="muted-sm">لا سجلات</div>';
+        drawer.dataset.caseId = c.id;
       }
 
       $('#closeDrawer').addEventListener('click', ()=> $('#judgeDrawer').classList.remove('show'));
 
-      // Drawer actions
+      // drawer actions: save, request AI (with fallback)
       $('#f_save').addEventListener('click', ()=>{
         const id = $('#judgeDrawer').dataset.caseId;
-        if(!id) return showToast('لا توجد قضية محددة');
-        const list = JSON.parse(localStorage.getItem(CASE_STORE)||'[]');
-        const idx = list.findIndex(x=>x.id===id);
-        if(idx<0) return showToast('قضية غير موجودة محلياً');
+        if(!id){ showToast('لا توجد قضية محددة'); return; }
+        const list = JSON.parse(localStorage.getItem(CASE_KEY)||'[]');
+        const idx = list.findIndex(x=>x.id === id);
+        if(idx < 0){ showToast('القضية غير موجودة محلياً'); return; }
         list[idx].internalId = $('#f_internal').value.trim();
         list[idx].plaintiff = $('#f_plaintiff').value.trim();
         list[idx].subject = $('#f_subject').value.trim();
@@ -652,60 +663,61 @@
         list[idx].status = $('#f_status').value;
         list[idx].assigned = $('#f_assigned').value.trim();
         list[idx].notes = $('#f_notes').value.trim();
-        list[idx].audit = list[idx].audit || [];
-        list[idx].audit.unshift({actor:'مستخدم',action:'حفظ تعديلات',at:new Date().toISOString()});
-        localStorage.setItem(CASE_STORE, JSON.stringify(list));
+        list[idx].audit = list[idx].audit || []; list[idx].audit.unshift({actor:'مستخدم',action:'حفظ تعديلات',at:new Date().toISOString()});
+        localStorage.setItem(CASE_KEY, JSON.stringify(list));
         renderJudgeCaseList(); showToast('تم حفظ التعديلات محلياً');
       });
 
       $('#f_request_ai').addEventListener('click', async ()=>{
-        const id = $('#judgeDrawer').dataset.caseId;
-        if(!id) return;
-        $('#f_request_ai').disabled = true; $('#f_request_ai').textContent = 'جاري الطلب...';
+        const id = $('#judgeDrawer').dataset.caseId; if(!id) return;
+        const btn = $('#f_request_ai'); btn.disabled = true; btn.textContent = 'جاري الطلب...';
         try{
-          const res = await fetch('/api/ai/analyze', {method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify({ caseId:id })});
-          if(!res.ok) throw new Error('AI unavailable');
-          const json = await res.json(); const out = json.raw || (json.verdict || 'لا نتيجة');
-          $('#f_request_ai').disabled = false; $('#f_request_ai').textContent = 'طلب اقتراح AI';
+          const res = await fetch('/api/ai/analyze', { method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify({ caseId: id }) });
+          if(!res.ok) throw new Error('no-ai');
+          const json = await res.json(); const out = json.raw || json.verdict || 'لا نتيجة';
           $('#f_notes').value += '\n\n[اقتراح AI]\n' + out;
-          showToast('تم إضافة اقتراح AI');
+          showToast('أضيف اقتراح AI للملاحظات');
         }catch(e){
-          $('#f_request_ai').disabled = false; $('#f_request_ai').textContent = 'طلب اقتراح AI';
-          showToast('فشل طلب الاقتراح — عرض محلي');
-          $('#f_notes').value += '\n\n[اقتراح تجريبي]\nراجع إثبات التبليغ والمفوضات.';
-        }
+          $('#f_notes').value += '\n\n[اقتراح تجريبي]\nراجع إثبات التبليغ والتفويض.';
+          showToast('فشل الطلب — عرض اقتراح تجريبي');
+        }finally{ btn.disabled = false; btn.textContent = 'طلب اقتراح AI'; }
       });
 
-      // History management
+      // history store and rendering
       const HIST_KEY = 'rwaq_history_rrrawan764-cloud';
-      function addHistory(h){ const hist = JSON.parse(localStorage.getItem(HIST_KEY)||'[]'); hist.unshift(h); if(hist.length>80) hist.length=80; localStorage.setItem(HIST_KEY, JSON.stringify(hist)); }
-      function renderHistory(){ const h = JSON.parse(localStorage.getItem(HIST_KEY)||'[]'); const container = $('#historyList'); container.innerHTML = h.map(it=>`<div style="padding:8px;border-bottom:1px dashed rgba(255,255,255,0.03)"><strong>${escapeHtml(it.assistant)}</strong> <div class="muted-sm">${new Date(it.time).toLocaleString()}</div><div style="margin-top:6px"><button class="mini" data-time="${it.time}" data-a="view">عرض</button><button class="mini" data-time="${it.time}" data-a="dl">تنزيل</button></div></div>`).join('') || '<div class="muted">لا يوجد سجل</div>'; container.querySelectorAll('button').forEach(btn=>btn.addEventListener('click', e=>{ const t=btn.dataset.time, a=btn.dataset.a; const hist=JSON.parse(localStorage.getItem(HIST_KEY)||'[]'); const entry=hist.find(x=>x.time===t); if(!entry) return; if(a==='view') $('#analysisResult').textContent = entry.output||'[لا مخرج]'; if(a==='dl') downloadText(entry.output||'', 'analysis-'+t+'.txt'); })); }
-      function downloadText(text, filename){ const blob=new Blob([text],{type:'text/plain'}); const url=URL.createObjectURL(blob); const a=document.createElement('a'); a.href=url; a.download=filename; document.body.appendChild(a); a.click(); a.remove(); URL.revokeObjectURL(url); }
+      function addHistory(entry){ const hist = JSON.parse(localStorage.getItem(HIST_KEY)||'[]'); hist.unshift(entry); if(hist.length>80) hist.length = 80; localStorage.setItem(HIST_KEY, JSON.stringify(hist)); renderHistory(); }
+      function renderHistory(){
+        const list = JSON.parse(localStorage.getItem(HIST_KEY)||'[]'); const container = $('#historyList'); container.innerHTML = '';
+        if(!list || list.length===0){ container.innerHTML = '<div class="muted">لا يوجد سجل</div>'; return; }
+        list.slice(0,50).forEach(h=>{
+          const node = document.createElement('div'); node.style.padding='8px'; node.style.borderBottom='1px dashed rgba(255,255,255,0.03)';
+          node.innerHTML = `<strong>${escapeHtml(h.assistant)}</strong> <div class="muted-sm">${new Date(h.time).toLocaleString()}</div><div style="margin-top:8px"><button class="mini" data-time="${h.time}" data-a="view">عرض</button> <button class="mini" data-time="${h.time}" data-a="dl">تنزيل</button></div>`;
+          container.appendChild(node);
+        });
+        container.querySelectorAll('button').forEach(b=> b.addEventListener('click', (e)=>{ const t=b.dataset.time, a=b.dataset.a; const list = JSON.parse(localStorage.getItem(HIST_KEY)||'[]'); const entry = list.find(x=>x.time===t); if(!entry) return; if(a==='view') $('#analysisResult').textContent = entry.output || '[لا مخرج]'; if(a==='dl') downloadText(entry.output||'', 'analysis-'+t+'.txt'); }));
+      }
 
-      // Export/print handlers already wired
-      $('#exportTxt').addEventListener('click', ()=> downloadText($('#analysisResult').textContent || '','analysis.txt'));
-      $('#printBtn').addEventListener('click', ()=> { const w=window.open('','_blank'); w.document.write(`<pre style="white-space:pre-wrap">${escapeHtml($('#analysisResult').textContent||'')}</pre>`); w.document.close(); w.print(); });
+      function downloadText(content, filename){ const blob = new Blob([content||''], {type:'text/plain;charset=utf-8'}); const url = URL.createObjectURL(blob); const a=document.createElement('a'); a.href = url; a.download = filename; document.body.appendChild(a); a.click(); a.remove(); URL.revokeObjectURL(url); }
 
       // Panel switching
-      $$('.menu button').forEach(btn=> btn.addEventListener('click', ()=>{
+      $$('.menu button').forEach(btn => btn.addEventListener('click', ()=>{
         $$('.menu button').forEach(b=>b.classList.remove('active')); btn.classList.add('active');
-        const mapping = {panel-assistant:'panel-assistant', panel-casefile:'panel-casefile', panel-memo:'panel-memo', panel-sessions:'panel-sessions', panel-judgeboard:'panel-judgeboard', panel-accessibility:'panel-accessibility', panel-security:'panel-security'};
+        const mapping = { 'panel-assistant':'panel-assistant','panel-casefile':'panel-casefile','panel-judgeboard':'panel-judgeboard','panel-memo':'panel-memo','panel-sessions':'panel-sessions','panel-accessibility':'panel-accessibility','panel-security':'panel-security' };
         Object.values(mapping).forEach(id => { const el = document.getElementById(id); if(el) el.hidden = true; });
         const id = btn.dataset.panel; const panel = document.getElementById(id); if(panel) panel.hidden = false;
         window.scrollTo({top:0,behavior:'smooth'});
       }));
 
-      // Keyboard shortcut
-      window.addEventListener('keydown', e=> { if((e.ctrlKey || e.metaKey) && e.key === 'Enter'){ $('#runBtn').click(); } });
+      // keyboard shortcut
+      window.addEventListener('keydown', e=> { if((e.ctrlKey||e.metaKey) && e.key==='Enter') $('#runBtn').click(); });
 
-      // helper open judge drawer button for demo
-      $('#openJudgeDrawer').addEventListener('click', ()=>{
-        const list = JSON.parse(localStorage.getItem('rwaq_cases_local')||'[]');
-        if(list && list[0]) openJudgeDrawer(list[0]); else showToast('لا توجد قضايا محلية لعرضها — أضف قيداً أولاً');
+      // helper demo open drawer
+      $('#openJudgeDrawer').addEventListener('click', ()=> {
+        const cases = JSON.parse(localStorage.getItem(CASE_KEY)||'[]');
+        if(cases && cases[0]) openJudgeDrawer(cases[0]); else showToast('لا توجد قضايا محلية — أنشئ قيداً أولاً');
       });
 
-      // Helpers: initialize
-      
+      // init
       function init(){ loadAssistants(); renderHistory(); renderJudgeCaseList(); }
       init();
     })();
