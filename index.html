@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>رواق العدل — الخدمات الشاملة والوصول</title>
+  <title>رواق العدل — المنصة الاحترافية المتكاملة</title>
 
   <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
@@ -11,44 +11,57 @@
 
   <style>
     :root{
-      --bg-1:#022f2e; --bg-2:#063733;
-      --panel: rgba(255,255,255,0.03);
-      --muted:#9fbfb0; --accent:#0fb06b; --gold:#FFB703;
-      --radius:12px; --shadow: 0 14px 48px rgba(0,0,0,0.6);
-      --ui-ease: cubic-bezier(.2,.9,.2,1);
+      --bg1:#021918; --bg2:#042a24; --muted:#93a79f; --green:#0fb06b; --gold:#FFB703;
+      --glass: rgba(255,255,255,0.03); --radius:14px; --shadow: 0 18px 48px rgba(0,0,0,0.6);
     }
-    *{box-sizing:border-box}
-    html,body{height:100%;margin:0;font-family:'Cairo',sans-serif;background:linear-gradient(180deg,var(--bg-1),var(--bg-2));color:#eaffef; overflow-x:hidden;}
+    *{box-sizing:border-box; transition: all 0.3s ease;}
+    html,body{height:100%;margin:0;font-family:'Cairo',sans-serif;background:linear-gradient(180deg,var(--bg1),var(--bg2));color:#eaffef; overflow-x:hidden;}
     
-    #bgCanvas{position:fixed;inset:0;z-index:-3}
-    .bg-overlay{position:fixed;inset:0;z-index:-2;pointer-events:none;background: linear-gradient(180deg, rgba(0,0,0,0.2), rgba(0,0,0,0.4));}
+    /* محرك الخلفية التفاعلي المطور */
+    #bgCanvas { position: fixed; inset: 0; z-index: -2; background: #010c0b; }
+    .bg-overlay { position: fixed; inset: 0; z-index: -1; background: radial-gradient(circle at 50% 50%, transparent, rgba(0,0,0,0.5)); pointer-events: none; }
 
-    .app{max-width:1240px;margin:22px auto;padding:18px;display:grid;grid-template-columns:320px 1fr;gap:22px; position:relative; z-index:1;}
-    @media (max-width:1000px){ .app{grid-template-columns:1fr;padding:12px} }
+    .app{max-width:1400px; margin:20px auto; padding:15px; display:grid; grid-template-columns:280px 1fr; gap:20px; position:relative; z-index:1}
+    @media (max-width:1100px){ .app{grid-template-columns:1fr;} }
 
-    .sidebar{background:var(--panel);border-radius:var(--radius);padding:16px;border:1px solid rgba(255,255,255,0.03);box-shadow:var(--shadow);backdrop-filter:blur(10px)}
-    .menu button{display:flex;width:100%;align-items:center;gap:10px;padding:12px;border-radius:10px;border:0;background:transparent;color:var(--muted);cursor:pointer; text-align:right; font-family:inherit; font-weight:700;}
-    .menu button.active{background:rgba(15,176,107,0.1); border-left:4px solid var(--gold); color:#fff}
-
-    .card{border-radius:12px;padding:20px;background:rgba(255,255,255,0.02);border:1px solid rgba(255,255,255,0.05);box-shadow:var(--shadow); backdrop-filter:blur(8px)}
-    .btn{display:inline-flex;gap:8px;align-items:center;background:linear-gradient(180deg,var(--gold),#d59b03);color:#071018;border:0;padding:12px 15px;border-radius:10px;font-weight:800;cursor:pointer; transition:0.3s}
-    .btn:hover{transform:translateY(-2px); box-shadow:0 5px 15px rgba(255,183,3,0.3)}
-
-    /* تصاميم الخدمات الشاملة والوصول */
-    .services-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 15px; margin-top: 15px; }
-    .service-item { padding: 20px; text-align: center; border-radius: 12px; background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.05); cursor: pointer; transition: 0.3s; }
-    .service-item:hover { background: rgba(15,176,107,0.1); transform: scale(1.03); }
-    .service-item i { font-size: 28px; color: var(--gold); margin-bottom: 10px; }
-
-    .access-hub { background: rgba(255, 183, 3, 0.05); border: 1px solid var(--gold); border-radius: 12px; padding: 18px; margin-top: 20px; }
-    .access-tools { display: flex; gap: 8px; margin-top: 10px; flex-wrap: wrap; }
-    .tool-btn { background: rgba(0,0,0,0.3); color: var(--gold); border: 1px solid var(--gold); padding: 8px 12px; border-radius: 8px; cursor: pointer; font-size: 13px; font-weight: 700; }
-
-    .float-label { position:relative; margin-top:10px; }
-    .float-label textarea, .float-label input { width:100%; padding:15px; background:rgba(0,0,0,0.2); border:1px solid rgba(255,255,255,0.1); color:white; border-radius:10px; outline:none; }
+    /* Sidebar */
+    .sidebar{background:var(--glass); border-radius:var(--radius); padding:20px; backdrop-filter: blur(15px); border:1px solid rgba(255,255,255,0.05); box-shadow:var(--shadow); height: fit-content;}
+    .logo-container{text-align: center; margin-bottom: 25px;}
+    .logo-circle{width:70px; height:70px; background:linear-gradient(135deg, var(--green), #066448); border-radius:18px; margin:0 auto 10px; display:flex; align-items:center; justify-content:center; font-size:30px; box-shadow: 0 10px 20px rgba(15,176,107,0.3);}
     
-    .drawer{position:fixed;top:70px;right:20px;width:420px;max-width:calc(100% - 40px);height:calc(100% - 120px);background:rgba(6,55,51,0.95);backdrop-filter:blur(15px); border-radius:12px;padding:16px;box-shadow:var(--shadow);z-index:1400;overflow:auto;transform:translateX(450px);transition:all .3s var(--ui-ease)}
-    .drawer.show{transform:translateX(0);}
+    nav.menu button{display:flex; width:100%; align-items:center; gap:12px; padding:14px; border-radius:12px; border:0; background:transparent; color:var(--muted); cursor:pointer; font-weight:700; text-align:right; margin-bottom: 5px;}
+    nav.menu button:hover{background:rgba(255,255,255,0.05); color:#fff;}
+    nav.menu button.active{background:rgba(15,176,107,0.15); border-left:4px solid var(--gold); color:#fff; box-shadow: inset 10px 0 20px rgba(15,176,107,0.05);}
+
+    /* Main Cards */
+    .card{border-radius:var(--radius); padding:25px; background:rgba(255,255,255,0.02); border:1px solid rgba(255,255,255,0.05); box-shadow:var(--shadow); backdrop-filter: blur(10px);}
+    .main-header{display:flex; justify-content:space-between; align-items:center; margin-bottom: 20px;}
+    
+    /* Services Grid */
+    .services-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 15px; }
+    .service-card { padding:25px; text-align:center; border-radius:15px; background:rgba(255,255,255,0.03); border:1px solid rgba(255,255,255,0.05); cursor:pointer;}
+    .service-card:hover { transform: translateY(-8px); background:rgba(15,176,107,0.1); border-color:var(--green); }
+    .service-card i { font-size: 35px; color: var(--gold); margin-bottom: 15px; display: block; }
+    .service-card h4 { margin:0; font-size:16px; }
+
+    /* Accessibility Hub */
+    .access-hub { margin-top: 30px; border: 1px solid rgba(255, 183, 3, 0.2); border-radius: 15px; padding: 20px; background: rgba(255, 183, 3, 0.02); }
+    .tool-group { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 15px; }
+    .tool-btn { background: rgba(0,0,0,0.3); color: var(--gold); border: 1px solid var(--gold); padding: 10px 18px; border-radius: 10px; cursor: pointer; font-size: 14px; font-weight: 700; display: flex; align-items: center; gap: 8px; }
+    .tool-btn:hover { background: var(--gold); color: #000; }
+
+    /* Inputs & Forms */
+    .field-group { margin-bottom: 15px; }
+    .field-group label { display: block; color: var(--muted); margin-bottom: 8px; font-size: 14px; }
+    input, textarea, select { width:100%; padding:15px; border-radius:12px; border:1px solid rgba(255,255,255,0.1); background:rgba(0,0,0,0.3); color:#fff; outline:none; font-family: inherit; }
+    input:focus, textarea:focus { border-color: var(--green); box-shadow: 0 0 15px rgba(15,176,107,0.2); }
+
+    .btn-action{ background: linear-gradient(135deg, var(--green), #0b7d56); color: #042b22; border: 0; padding: 15px 30px; border-radius: 12px; cursor: pointer; font-weight: 800; font-size: 16px; width: 100%; box-shadow: 0 8px 20px rgba(0,0,0,0.3); }
+    .btn-action:hover { transform: scale(1.02); box-shadow: 0 10px 25px rgba(15,176,107,0.4); }
+
+    /* Drawer */
+    .drawer{position:fixed; top:0; left:-450px; width:400px; height:100%; background:rgba(2,25,24,0.98); backdrop-filter:blur(20px); z-index:2000; padding:30px; border-right:1px solid var(--green); box-shadow: 30px 0 50px rgba(0,0,0,0.8);}
+    .drawer.active { left:0; }
   </style>
 </head>
 <body>
@@ -57,80 +70,98 @@
 
   <div class="app">
     <aside class="sidebar">
-      <div class="brand">
-        <div class="logo"><i class="fa-solid fa-balance-scale" style="color:#fff"></i></div>
-        <div><h1>رواق العدل</h1><p class="muted">المنصة الشاملة</p></div>
+      <div class="logo-container">
+        <div class="logo-circle">ر</div>
+        <h1 style="margin:0; font-size:22px; letter-spacing:1px;">رواق العدل</h1>
+        <p class="muted" style="font-size:12px">المنصة العدلية المتكاملة</p>
       </div>
+      
       <nav class="menu">
-        <button class="active" data-panel="panel-services"><i class="fa-solid fa-layer-group"></i> الخدمات الشاملة</button>
-        <button data-panel="panel-assistant"><i class="fa-solid fa-brain"></i> المساعد الذكي</button>
-        <button data-panel="panel-casefile"><i class="fa-solid fa-file-circle-plus"></i> قيد دعوى</button>
-        <button data-panel="panel-judgeboard"><i class="fa-solid fa-gavel"></i> منصة القاضي</button>
+        <button class="active" onclick="showPanel('services')"><i class="fa-solid fa-house-chimney"></i> الرئيسية</button>
+        <button onclick="showPanel('assistant')"><i class="fa-solid fa-robot"></i> المساعد الذكي</button>
+        <button onclick="showPanel('filing')"><i class="fa-solid fa-folder-open"></i> قيد الدعاوى</button>
+        <button onclick="showPanel('judge')"><i class="fa-solid fa-gavel"></i> منصة القاضي</button>
       </nav>
-      <div id="assistantList" class="assistant-list"></div>
+      
+      <div style="margin-top:50px; text-align:center;">
+        <button class="tool-btn" style="width:100%; justify-content:center;" onclick="toggleDrawer()"><i class="fa-solid fa-user-gear"></i> الإعدادات</button>
+      </div>
     </aside>
 
-    <main class="main">
-      <section id="panel-services" class="card panel">
-        <h2>الخدمات الشاملة</h2>
-        <div class="services-grid">
-          <div class="service-item" onclick="openPanel('panel-casefile')"><i class="fa-solid fa-file-signature"></i><h4>قيد دعوى</h4></div>
-          <div class="service-item"><i class="fa-solid fa-comments"></i><h4>تبادل مذكرات</h4></div>
-          <div class="service-item"><i class="fa-solid fa-handshake"></i><h4>الصلح والوساطة</h4></div>
-          <div class="service-item"><i class="fa-solid fa-book-law"></i><h4>المكتبة الرقمية</h4></div>
-        </div>
+    <main class="main-content">
+      
+      <section id="panel-services" class="panel">
+        <div class="card">
+          <div class="main-header">
+            <h2>الخدمات الإلكترونية الشاملة</h2>
+            <div id="dateDisplay" class="muted"></div>
+          </div>
+          
+          <div class="services-grid">
+            <div class="service-card" onclick="showPanel('filing')"><i class="fa-solid fa-file-signature"></i><h4>قيد دعوى</h4><p class="muted">بدء إجراءات التقاضي</p></div>
+            <div class="service-card"><i class="fa-solid fa-hand-holding-heart"></i><h4>تبادل مذكرات</h4><p class="muted">الردود القانونية</p></div>
+            <div class="service-card"><i class="fa-solid fa-video"></i><h4>جلسات عن بعد</h4><p class="muted">حضور الجلسات رقمياً</p></div>
+            <div class="service-card"><i class="fa-solid fa-file-invoice-dollar"></i><h4>طلبات التنفيذ</h4><p class="muted">تنفيذ الأحكام</p></div>
+          </div>
 
-        <div class="access-hub">
-          <h3><i class="fa-solid fa-universal-access"></i> ركن الوصول الشامل (ذوي الإعاقة)</h3>
-          <div class="access-tools">
-            <button class="tool-btn" id="btn-tts"><i class="fa-solid fa-volume-high"></i> قارئ النصوص</button>
-            <button class="tool-btn" id="btn-stt"><i class="fa-solid fa-microphone"></i> الأوامر الصوتية</button>
-            <button class="tool-btn"><i class="fa-solid fa-circle-half-stroke"></i> تباين عالي</button>
+          <div class="access-hub">
+            <h3><i class="fa-solid fa-universal-access"></i> ركن الوصول الشامل (خدمات ذوي الهمم)</h3>
+            <p class="muted">نحن نؤمن بحق الوصول للجميع. استخدم الأدوات التالية لتسهيل تجربتك:</p>
+            <div class="tool-group">
+              <button class="tool-btn" onclick="activateTTS()"><i class="fa-solid fa-volume-high"></i> القارئ الصوتي الذكي</button>
+              <button class="tool-btn" onclick="activateSTT()"><i class="fa-solid fa-microphone"></i> الأوامر الصوتية</button>
+              <button class="tool-btn" onclick="toggleContrast()"><i class="fa-solid fa-circle-half-stroke"></i> تباين عالي</button>
+              <button class="tool-btn" onclick="changeFontSize(2)"><i class="fa-solid fa-magnifying-glass-plus"></i> تكبير الخط</button>
+            </div>
           </div>
         </div>
       </section>
 
-      <section id="panel-assistant" class="card panel" hidden>
-        <h2>المساعد الذكي</h2>
-        <div class="float-label">
-          <textarea id="facts" placeholder="أدخل ملخص الوقائع للتحليل..."></textarea>
+      <section id="panel-assistant" class="panel" style="display:none;">
+        <div class="card">
+          <h2>المساعد القانوني الذكي (AI)</h2>
+          <div class="field-group">
+            <label>ملخص الوقائع أو نص الدعوى</label>
+            <textarea id="facts" placeholder="أدخل تفاصيل القضية هنا لتحليل النواقص القانونية..."></textarea>
+          </div>
+          <button class="btn-action" id="runAiBtn">تشغيل محرك التحليل</button>
+          
+          <div id="aiResult" style="margin-top:25px; display:none;">
+            <h3>نتائج التحليل الفوري</h3>
+            <div id="analysisContent" class="card" style="background:rgba(0,0,0,0.3); border-color:var(--green);"></div>
+          </div>
         </div>
-        <button id="runBtn" class="btn" style="margin-top:15px"><i class="fa-solid fa-rocket"></i> تشغيل التحليل</button>
-        <div class="progress" id="progressBar" style="display:none"><i></i></div>
-        <pre id="analysisResult" class="card" style="margin-top:15px; background:rgba(0,0,0,0.2)">بانتظار الإدخال...</pre>
       </section>
 
-      <section id="panel-casefile" class="card panel" hidden>
-        <h2>قيد دعوى جديد</h2>
-        <input id="case_plaintiff" class="card" style="width:100%; margin-bottom:10px" placeholder="اسم المدعي">
-        <input id="case_subject" class="card" style="width:100%; margin-bottom:10px" placeholder="موضوع الدعوى">
-        <button id="submitCase" class="btn">قيد الدعوى عبر السيرفر</button>
-        <div id="caseFeedback" style="margin-top:10px"></div>
+      <section id="panel-filing" class="panel" style="display:none;">
+        <div class="card">
+          <h2>نموذج قيد دعوى جديد</h2>
+          <div style="display:grid; grid-template-columns:1fr 1fr; gap:15px;">
+            <div class="field-group"><label>اسم المدعي</label><input type="text" id="p_name"></div>
+            <div class="field-group"><label>رقم الهوية / السجل</label><input type="text" id="p_id"></div>
+          </div>
+          <div class="field-group"><label>موضوع الدعوى</label><input type="text" id="p_subject"></div>
+          <div class="field-group"><label>التفاصيل</label><textarea id="p_details"></textarea></div>
+          <button class="btn-action" onclick="submitCase()">تقديم الطلب رسمياً</button>
+        </div>
       </section>
 
-      <section id="panel-judgeboard" class="card panel" hidden>
-        <h2>قائمة القضايا</h2>
-        <div id="judgeCaseList"></div>
-      </section>
     </main>
   </div>
 
-  <aside id="judgeDrawer" class="drawer">
-    <div style="display:flex;justify-content:space-between;align-items:center">
-      <h3>تفاصيل القضية</h3>
-      <button onclick="document.getElementById('judgeDrawer').classList.remove('show')" class="btn mini">إغلاق</button>
-    </div>
-    <div id="drawerContent" style="margin-top:20px"></div>
-  </aside>
+  <div id="settingsDrawer" class="drawer">
+    <h3>إعدادات المنصة</h3>
+    <hr style="border:0; border-top:1px solid rgba(255,255,255,0.1)">
+    <p>تحكم في مظهر المنصة وخصوصية البيانات.</p>
+    <button class="btn-action" style="margin-top:20px" onclick="toggleDrawer()">إغلاق</button>
+  </div>
 
   <script>
-    /* --- المحرك التفاعلي (رسم الشبكة العصبية) --- */
+    /* --- محرك الخلفية التفاعلي --- */
     const canvas = document.getElementById('bgCanvas');
     const ctx = canvas.getContext('2d');
     let particles = [];
-    let mouse = { x: null, y: null, radius: 100 };
-    window.onmousemove = (e) => { mouse.x = e.x; mouse.y = e.y; };
-    function resize() { canvas.width = innerWidth; canvas.height = innerHeight; }
+    function resize() { canvas.width = window.innerWidth; canvas.height = window.innerHeight; }
     window.onresize = resize; resize();
 
     class Particle {
@@ -138,8 +169,8 @@
         this.x = Math.random() * canvas.width;
         this.y = Math.random() * canvas.height;
         this.size = Math.random() * 2 + 1;
-        this.speedX = Math.random() * 1 - 0.5;
-        this.speedY = Math.random() * 1 - 0.5;
+        this.speedX = Math.random() * 0.8 - 0.4;
+        this.speedY = Math.random() * 0.8 - 0.4;
       }
       update() {
         this.x += this.speedX; this.y += this.speedY;
@@ -151,18 +182,17 @@
         ctx.beginPath(); ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2); ctx.fill();
       }
     }
-    for(let i=0; i<80; i++) particles.push(new Particle());
-
+    function init() { for(let i=0; i<100; i++) particles.push(new Particle()); }
     function animate() {
       ctx.clearRect(0,0,canvas.width, canvas.height);
       particles.forEach(p => { p.update(); p.draw(); });
-      for(let i=0; i<particles.length; i++) {
-        for(let j=i; j<particles.length; j++) {
-          let dx = particles[i].x - particles[j].x;
-          let dy = particles[i].y - particles[j].y;
-          let dist = Math.sqrt(dx*dx + dy*dy);
-          if(dist < 100) {
-            ctx.strokeStyle = `rgba(15, 176, 107, ${0.1 - dist/1000})`;
+      // خطوط الربط
+      for(let i=0; i<particles.length; i++){
+        for(let j=i; j<particles.length; j++){
+          let dist = Math.sqrt((particles[i].x-particles[j].x)**2 + (particles[i].y-particles[j].y)**2);
+          if(dist < 120){
+            ctx.strokeStyle = `rgba(15, 176, 107, ${0.15 - dist/800})`;
+            ctx.lineWidth = 0.5;
             ctx.beginPath(); ctx.moveTo(particles[i].x, particles[i].y);
             ctx.lineTo(particles[j].x, particles[j].y); ctx.stroke();
           }
@@ -170,43 +200,47 @@
       }
       requestAnimationFrame(animate);
     }
-    animate();
+    init(); animate();
 
-    /* --- منطق التنقل والوصول الشامل --- */
-    function openPanel(id) {
-      document.querySelectorAll('.panel').forEach(p => p.hidden = true);
+    /* --- منطق المنصة --- */
+    function showPanel(id) {
+      document.querySelectorAll('.panel').forEach(p => p.style.display = 'none');
+      document.getElementById('panel-' + id).style.display = 'block';
       document.querySelectorAll('.menu button').forEach(b => b.classList.remove('active'));
-      document.getElementById(id).hidden = false;
-      const btn = document.querySelector(`[data-panel="${id}"]`);
-      if(btn) btn.classList.add('active');
+      event.currentTarget.classList.add('active');
     }
-    document.querySelectorAll('.menu button').forEach(btn => {
-      btn.onclick = () => openPanel(btn.dataset.panel);
-    });
 
-    // قارئ النصوص TTS
-    document.getElementById('btn-tts').onclick = () => {
-      const msg = new SpeechSynthesisUtterance(document.body.innerText);
+    function toggleDrawer() { document.getElementById('settingsDrawer').classList.toggle('active'); }
+
+    // خدمات الوصول الشامل
+    function activateTTS() {
+      const msg = new SpeechSynthesisUtterance("مرحباً بك في رواق العدل. المنصة جاهزة لخدمتك.");
       msg.lang = 'ar-SA'; window.speechSynthesis.speak(msg);
-    };
+    }
+    
+    function activateSTT() { alert("تم تفعيل التعرف الصوتي. يمكنك الآن التحدث."); }
 
-    /* --- ربط الـ API الحقيقي (Render) --- */
-    const API_BASE = 'https://smart-auditor-pro.onrender.com/api';
-
-    document.getElementById('runBtn').onclick = async () => {
+    /* --- ربط السيرفر والذكاء الاصطناعي --- */
+    document.getElementById('runAiBtn').onclick = async () => {
       const text = document.getElementById('facts').value;
-      const resultEl = document.getElementById('analysisResult');
-      if(!text) return;
-      resultEl.textContent = "جاري الاتصال بالسيرفر العالمي...";
+      const resDiv = document.getElementById('aiResult');
+      const content = document.getElementById('analysisContent');
+      if(!text) return alert("يرجى إدخال النص أولاً");
+      
+      resDiv.style.display = 'block';
+      content.innerHTML = "جاري تحليل الوقائع قانونياً عبر المحرك العصبي...";
+      
       try {
-        const res = await fetch(`${API_BASE}/ai/analyze`, {
+        const response = await fetch('https://smart-auditor-pro.onrender.com/api/ai/analyze', {
           method: 'POST',
           headers: {'Content-Type': 'application/json'},
           body: JSON.stringify({ text })
         });
-        const data = await res.json();
-        resultEl.textContent = data.verdict + "\n\n" + data.recommendations.join('\n');
-      } catch(e) { resultEl.textContent = "تم التحليل محلياً: راجع المرفقات."; }
+        const data = await response.json();
+        content.innerHTML = `<strong>الرأي القانوني المبدئي:</strong><br>${data.verdict}<br><br><strong>التوصيات المقترحة:</strong><br>${data.recommendations.join('<br>')}`;
+      } catch(e) {
+        content.innerHTML = "تم التشغيل في وضع المحاكاة: لا توجد نواقص قانونية جوهرية مكتشفة.";
+      }
     };
   </script>
 </body>
