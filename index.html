@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>رواق العدل — المساعد الذكي المتفاعل (تعديل منصة القاضي)</title>
+  <title>رواق العدل — المساعد الذكي المتفاعل</title>
 
   <!-- خطوط وأيقونات -->
   <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700;800&display=swap" rel="stylesheet">
@@ -17,19 +17,14 @@
       --bg1:#061917; --bg2:#042a24; --muted:#93a79f; --green:#0fb06b; --gold:#FFB703;
       --glass: rgba(255,255,255,0.03); --card-radius:14px; --accent: rgba(15,176,107,0.06);
       --maxwidth:1200px; --ease: cubic-bezier(.2,.9,.2,1);
-
-      /* إضافات ذهبية خاصة بمنصة القاضي */
-      --gold-glass: rgba(255,183,3,0.06);
-      --gold-border: rgba(255,183,3,0.16);
-      --gold-strong: #d18f00;
+      --panel-width:420px;
     }
-
     *{box-sizing:border-box}
     html,body{height:100%;margin:0;font-family:'Cairo',sans-serif;background:linear-gradient(180deg,var(--bg1),var(--bg2));color:#e8fff1;-webkit-font-smoothing:antialiased}
     a{color:var(--green)}
-    /* Layout */
-    .wrap{max-width:var(--maxwidth);margin:18px auto;padding:14px;display:grid;grid-template-columns:320px 1fr;gap:16px;align-items:start}
-    @media (max-width:980px){ .wrap{grid-template-columns:1fr;padding:10px} }
+    .wrap{max-width:var(--maxwidth);margin:18px auto;padding:14px;display:grid;grid-template-columns:320px 1fr;gap:16px;align-items:start;position:relative}
+    @media (max-width:1100px){ .wrap{grid-template-columns:1fr} }
+
     /* Canvas background */
     #bgCanvas{position:fixed;inset:0;z-index:-2}
     .bg-overlay{position:fixed;inset:0;z-index:-1;background:linear-gradient(180deg, rgba(0,8,7,0.18), rgba(0,12,10,0.36));pointer-events:none}
@@ -58,49 +53,50 @@
     .search input{border:0;background:transparent;outline:none;color:#eaffef}
     .controls{display:flex;gap:8px}
 
-    /* Assistant area (unchanged) */
-    .assistant-controls{display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-top:10px}
-    select, textarea, input[type="text"]{width:100%;padding:10px;border-radius:10px;border:1px solid rgba(255,255,255,0.04);background:rgba(0,0,0,0.14);color:#eaffef;outline:none}
-    .col{flex:1}
-    .row{display:flex;gap:8px;align-items:center}
-    textarea{min-height:140px;resize:vertical}
-    .modes{display:flex;gap:8px;align-items:center}
-    .mode-btn{padding:8px 10px;border-radius:8px;border:1px solid rgba(255,255,255,0.04);cursor:pointer;background:transparent;color:var(--muted)}
-    .mode-btn.active{background:rgba(255,255,255,0.02);color:#eaffef;border-color:rgba(255,255,255,0.06)}
-    .progress{height:8px;background:rgba(255,255,255,0.03);border-radius:8px;overflow:hidden;margin-top:8px}
-    .progress > i{display:block;height:100%;background:linear-gradient(90deg,var(--green),var(--gold));width:0%}
-    pre.result{white-space:pre-wrap;background:rgba(255,255,255,0.01);padding:12px;border-radius:8px;border:1px solid rgba(255,255,255,0.03);color:#eaffef}
+    /* Case list */
+    .case-list{margin-top:12px;border-radius:10px;overflow:auto;max-height:600px;border:1px solid rgba(255,255,255,0.03);padding:8px;background:rgba(255,255,255,0.01)}
+    .case-item{display:flex;justify-content:space-between;align-items:center;padding:10px;border-radius:10px;margin-bottom:10px;background:linear-gradient(180deg,rgba(255,255,255,0.01),rgba(255,255,255,0.005));border:1px solid rgba(255,255,255,0.02)}
+    .case-meta{color:var(--muted);font-size:13px}
+    .badge{padding:6px 8px;border-radius:8px;font-weight:700;font-size:12px}
+    .badge.ok{background:rgba(15,176,107,0.12);color:var(--green);border:1px solid rgba(15,176,107,0.12)}
+    .badge.warn{background:rgba(255,183,3,0.08);color:var(--gold);border:1px solid rgba(255,183,3,0.08)}
+    .badge.urgent{background:rgba(255,80,80,0.08);color:#ff6b6b;border:1px solid rgba(255,80,80,0.06)}
+    .mini{font-size:13px;padding:6px 8px;border-radius:8px;background:transparent;border:1px solid rgba(255,255,255,0.03);color:var(--muted);cursor:pointer}
 
-    /* ------------------ تعديل خاص بمنصة القاضي: استبدال الأبيض بلمسات ذهبية ------------------ */
-    .judge-card {
-      background: linear-gradient(180deg, rgba(255,183,3,0.04), rgba(255,183,3,0.02)); /* خلفية زجاجية ذهبية خفيفة */
-      border: 1px solid var(--gold-border);
-      box-shadow: 0 20px 60px rgba(33,22,0,0.45);
-      color: #1b1200;
+    /* Detail drawer (right side) */
+    .drawer {
+      position: fixed;
+      top: 60px;
+      right: 20px;
+      width: var(--panel-width);
+      max-width: calc(100% - 40px);
+      height: calc(100% - 100px);
+      background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+      border: 1px solid rgba(255,255,255,0.04);
+      box-shadow: 0 20px 60px rgba(0,0,0,0.6);
+      border-radius: 12px;
+      padding: 14px;
+      z-index: 1200;
+      overflow:auto;
+      transform: translateX(8px);
     }
-    /* نص العناوين داخل منصة القاضي ذهبية داكنة */
-    .judge-card h2, .judge-card h3 { color: var(--gold-strong); }
-    /* قوائم القضايا مع تباين ذهبي للبطاقات */
-    .judge-card .case-item {
-      background: linear-gradient(180deg, rgba(255,236,173,0.06), rgba(255,236,173,0.03));
-      border: 1px solid rgba(220,170,70,0.08);
-      color: #1a1306;
-    }
-    .judge-card .case-meta { color: rgba(27,17,6,0.8); }
-    .judge-card .badge.ok { background: rgba(255,183,3,0.08); color: var(--gold-strong); border:1px solid rgba(255,183,3,0.12); }
-    .judge-card .badge.warn { background: rgba(255,183,3,0.06); color: var(--gold-strong); border:1px solid rgba(255,183,3,0.10); }
-    .judge-card .badge.urgent { background: rgba(200,70,50,0.06); color:#7a1a1a; border:1px solid rgba(200,70,50,0.08); }
+    .drawer.hidden { display:none; }
 
-    /* أزرار الإجراءات في القاضي بمظهر ذهبي */
-    .judge-card .mini { background: transparent; border: 1px solid rgba(255,183,3,0.08); color: var(--gold-strong); }
-    .judge-card .btn.ghost { border-color: rgba(255,183,3,0.09); color: var(--gold-strong); }
+    .drawer h3 { margin:0 0 8px 0; color: var(--gold); }
+    .field { margin-top:10px; display:flex; flex-direction:column; gap:6px; }
+    .field label { font-weight:700; color:#fff; font-size:13px; }
+    .field input[type="text"], .field select, .field textarea { padding:8px; border-radius:8px; border:1px solid rgba(255,255,255,0.04); background: rgba(0,0,0,0.12); color:#eaffef; width:100%; }
+    .field textarea { min-height:80px; resize:vertical; }
 
-    /* Chart inside judge: ensure canvas background matches */
-    .judge-card canvas { background: linear-gradient(180deg, rgba(255,250,230,0.03), rgba(255,250,230,0.01)); border-radius:8px; }
+    .actions { display:flex; gap:8px; margin-top:12px; justify-content:flex-start; flex-wrap:wrap; }
+    .actions button { padding:8px 10px; border-radius:8px; cursor:pointer; border:0; background:linear-gradient(180deg,var(--gold), #d59b03); color:#071018; font-weight:700; }
 
-    /* responsive */
-    @media (max-width:800px){
-      .case-list{max-height:260px}
+    .attachments { margin-top:10px; display:flex; flex-direction:column; gap:6px; }
+    .attachment { display:flex; justify-content:space-between; align-items:center; gap:8px; padding:8px; border-radius:8px; background:rgba(255,255,255,0.02); border:1px solid rgba(255,255,255,0.02); color:var(--muted); }
+    .audit { margin-top:12px; font-size:13px; color:var(--muted); border-top:1px dashed rgba(255,255,255,0.03); padding-top:10px; }
+
+    @media (max-width:900px){
+      .drawer { position: fixed; right: 10px; top: 70px; width: calc(100% - 20px); height: calc(100% - 140px); }
     }
   </style>
 </head>
@@ -108,25 +104,22 @@
   <canvas id="bgCanvas" aria-hidden="true"></canvas>
   <div class="bg-overlay" aria-hidden="true"></div>
 
-  <div class="wrap" role="application" aria-label="رواق العدل — المساعد الذكي">
-    <!-- SIDEBAR -->
-    <aside class="sidebar card">
+  <div class="wrap" role="application" aria-label="رواق العدل — المنصة">
+    <!-- Sidebar -->
+    <aside class="sidebar card" aria-label="الشريط الجانبي">
       <div class="brand">
         <div class="logo" aria-hidden="true"><i class="fa-solid fa-balance-scale" style="color:#fff;font-size:20px"></i></div>
         <div>
           <h1>رواق العدل</h1>
-          <p class="muted">مساعد ذكي متعدد الشخصيات</p>
+          <p class="muted">لوحة القضايا</p>
         </div>
       </div>
 
       <nav class="menu" aria-label="التنقل">
-        <button data-panel="assistant">المساعد الذكي</button>
-        <button data-panel="casefile">قيد دعوى</button>
-        <button data-panel="memo">تبادل مذكرات</button>
-        <button data-panel="sessions">جلسات رقمية</button>
-        <button class="active" data-panel="judgeboard">منصة القاضي</button>
-        <button data-panel="accessibility">الوصول</button>
-        <button data-panel="security">الأمن</button>
+        <button data-panel="judgeboard" class="active"><i class="fa-solid fa-gavel"></i>&nbsp;منصة القاضي</button>
+        <button data-panel="assistant"><i class="fa-solid fa-brain"></i>&nbsp;المساعد الذكي</button>
+        <button data-panel="casefile"><i class="fa-solid fa-file-circle-plus"></i>&nbsp;قيد دعوى</button>
+        <button data-panel="memo"><i class="fa-solid fa-file-lines"></i>&nbsp;تبادل مذكرات</button>
       </nav>
 
       <div style="margin-top:12px">
@@ -142,264 +135,342 @@
       <div style="margin-top:12px;text-align:center" class="muted">licensing@rawan.dev</div>
     </aside>
 
-    <!-- MAIN -->
+    <!-- Main -->
     <main class="main">
-      <!-- JUDGE BOARD (تم تعديلها لتستخدم لهجة ذهبية بدلاً من الأبيض) -->
-      <section id="judgeboard" class="card judge-card" role="region" aria-labelledby="judgeboardTitle">
-        <div style="display:flex;justify-content:space-between;align-items:center;gap:10px">
-          <h2 id="judgeboardTitle">منصة القاضي — لوحة التحكم</h2>
-          <div class="row">
-            <input id="searchCases" class="filter" placeholder="بحث: رقم القضية أو اسم الطرف" />
-            <select id="filterStatus" class="filter">
-              <option value="">كل الحالات</option>
-              <option value="urgent">عاجلة</option>
-              <option value="review">قيد المراجعة</option>
-              <option value="completed">مُنْجَزة</option>
-            </select>
-            <button id="refreshCases" class="mini">تحديث</button>
-          </div>
+      <div class="topbar">
+        <div class="search" role="search" aria-label="بحث موحد">
+          <i class="fa-solid fa-magnifying-glass" style="color:var(--muted)"></i>
+          <input id="searchCases" placeholder="بحث: رقم القضية، اسم المدعي، الموضوع..." />
         </div>
-
-        <p class="muted">عرض القضايا حسب الأولوية، اقتراحات AI، وإجراءات سريعة: إحالة، تأجيل، إصدار أمر مؤقت.</p>
-
-        <div class="judge-controls" style="margin-top:10px">
-          <button id="bulkAssign" class="mini">تعيين مجمّع</button>
-          <button id="bulkClose" class="mini">إغلاق مجمّع</button>
-          <button id="exportCsv" class="mini">تصدير CSV</button>
+        <div class="controls">
+          <button id="refreshBtn" class="mini">تحديث</button>
         </div>
+      </div>
 
-        <div style="display:grid;grid-template-columns:1fr 360px;gap:12px;margin-top:12px">
-          <div>
-            <div class="case-list" id="caseList" aria-live="polite" role="list"></div>
-          </div>
+      <section class="card">
+        <h2 style="margin-top:0;color:var(--gold)">قائمة القضايا</h2>
+        <p class="muted">اضغطي على أي قضية لعرض التفاصيل والتعديل السريع داخل لوحة القاضي.</p>
 
-          <aside>
-            <div class="card">
-              <h3>مخطط الحالة</h3>
-              <canvas id="judgeChart"></canvas>
-            </div>
-
-            <div class="card" style="margin-top:12px">
-              <h3>تفاصيل محددة</h3>
-              <div id="caseDetail" class="muted">اختر قضية لعرض التفاصيل، أو استخدم البحث/الفلتر للتصفية.</div>
-              <div style="margin-top:8px;display:flex;gap:8px">
-                <button id="assignBtn" class="btn ghost" disabled>تعيين لقاضٍ</button>
-                <button id="issueOrder" class="btn ghost" disabled>إصدار أمر</button>
-              </div>
-            </div>
-
-            <div class="card" style="margin-top:12px">
-              <h3>اقتراحات AI</h3>
-              <div id="aiSuggestions" class="muted">حدد قضية للحصول على اقتراحات الذكاء الاصطناعي.</div>
-              <div style="margin-top:8px"><button id="requestAISuggest" class="btn">طلب اقتراح</button></div>
-            </div>
-          </aside>
-        </div>
+        <div class="case-list" id="caseList" aria-live="polite" role="list"></div>
       </section>
-
-      <!-- Panels المتبقية (غير معدّلة) -->
-      <section id="panel-assistant" class="card" hidden><h2>المساعد الذكي</h2><p class="muted">انتقل إلى تبويب المساعد لتشغيل التحليل.</p></section>
-      <section id="panel-casefile" class="card" hidden><h2>قيد دعوى</h2><p class="muted">نموذج القيد متكامل — املأ الحقول وأرفق المستندات.</p></section>
-      <section id="panel-memo" class="card" hidden><h2>تباد�� مذكرات</h2><p class="muted">إرسال ومتابعة المذكرات بين الأطراف.</p></section>
-      <section id="panel-sessions" class="card" hidden><h2>جلسات رقمية</h2><p class="muted">إنشاء روابط جلسات مؤمنة وتفريغ صوتي.</p></section>
-      <section id="panel-accessibility" class="card" hidden><h2>الوصول</h2><p class="muted">TTS / STT / Live captions.</p></section>
-      <section id="panel-security" class="card" hidden><h2>الأمن</h2><p class="muted">PKI، SSO، سجلات تدقيق.</p></section>
     </main>
   </div>
 
+  <!-- Detail drawer -->
+  <div id="drawer" class="drawer hidden" role="dialog" aria-modal="true" aria-label="تفاصيل القضية">
+    <div style="display:flex;justify-content:space-between;align-items:center">
+      <h3 id="drawerTitle">تفاصيل القضية</h3>
+      <div style="display:flex;gap:8px">
+        <button id="closeDrawer" class="mini">إغلاق</button>
+      </div>
+    </div>
+
+    <div class="field"><label>رقم القضية</label><div id="f_id" style="font-weight:800;color:var(--muted)"></div></div>
+    <div class="field"><label>اسم المدعي</label><input id="f_plaintiff" type="text" /></div>
+    <div class="field"><label>موضوع الدعوى</label><input id="f_subject" type="text" /></div>
+    <div class="field"><label>تاريخ الإنشاء</label><div id="f_created" class="case-meta"></div></div>
+
+    <div class="field"><label>الأولوية</label>
+      <select id="f_priority">
+        <option value="urgent">عاجلة</option>
+        <option value="review">مراجعة</option>
+        <option value="normal">عادية</option>
+      </select>
+    </div>
+
+    <div class="field"><label>حالة القضية</label>
+      <select id="f_status">
+        <option value="open">مفتوحة</option>
+        <option value="review">قيد المراجعة</option>
+        <option value="completed">منجزة</option>
+        <option value="deferred">مؤجلة</option>
+      </select>
+    </div>
+
+    <div class="field"><label>القاضي المعين</label><input id="f_assigned" type="text" placeholder="اسم القاضي أو فراغ" /></div>
+
+    <div class="field"><label>ملاحظات / ملخص</label><textarea id="f_notes"></textarea></div>
+
+    <div class="field"><label>المرفقات</label>
+      <div class="attachments" id="f_attachments"></div>
+    </div>
+
+    <div class="field"><label>اقتراحات AI</label>
+      <div id="f_ai" class="muted">اضغطي "طلب اقتراح" للحصول على تحليل AI</div>
+      <div style="margin-top:8px"><button id="btnReqAI" class="mini">طلب اقتراح AI</button></div>
+    </div>
+
+    <div class="actions">
+      <button id="btnSave" class="btn">حفظ التعديلات</button>
+      <button id="btnAssign" class="mini">تعيين</button>
+      <button id="btnIssue" class="mini">إصدار أمر</button>
+      <button id="btnRefer" class="mini">إحالة</button>
+      <button id="btnPrint" class="mini">طباعة</button>
+    </div>
+
+    <div class="audit" id="f_audit"><strong>سجل مختصر:</strong><div id="f_audit_list" style="margin-top:6px;color:var(--muted)"></div></div>
+  </div>
+
   <script>
-    /* ========== Background (light) ========== */
+    // Minimal background animation (kept lightweight)
     (function(){
       const canvas = document.getElementById('bgCanvas'), ctx = canvas.getContext('2d');
       function resize(){ canvas.width = innerWidth; canvas.height = innerHeight; }
       addEventListener('resize', resize); resize();
-      let t = 0;
+      let t=0;
       function draw(){
-        ctx.clearRect(0,0,canvas.width, canvas.height);
+        ctx.clearRect(0,0,canvas.width,canvas.height);
         ctx.fillStyle = 'rgba(0,8,7,0.12)'; ctx.fillRect(0,0,canvas.width,canvas.height);
-        ctx.strokeStyle = 'rgba(10,80,60,0.04)';
-        ctx.lineWidth = 1;
-        const spacing = 160;
-        for(let x=-spacing; x<canvas.width+spacing; x+=spacing){
+        ctx.strokeStyle = 'rgba(9,90,70,0.03)';
+        for(let i=0;i<20;i++){
           ctx.beginPath();
-          ctx.moveTo(x + Math.sin(t*0.0008 + x*0.002)*12, -40);
-          ctx.lineTo(x + 180 + Math.sin(t*0.0009 + x*0.002)*12, canvas.height + 40);
+          const x = (i/20)*canvas.width + Math.sin(t*0.0006+i)*40;
+          ctx.moveTo(x,-40);
+          ctx.lineTo(x+200,canvas.height+40);
           ctx.stroke();
         }
-        t += 16;
+        t+=16;
         requestAnimationFrame(draw);
       }
       draw();
     })();
 
-    /* ========== Judge Board Logic (with golden accents) ========== */
+    // App logic: cases, drawer, AI call (stub/fallback)
     (function(){
-      const panels = document.querySelectorAll('nav.menu button');
-      panels.forEach(btn => btn.addEventListener('click', ()=>{
-        document.querySelectorAll('nav.menu button').forEach(b => b.classList.remove('active'));
-        btn.classList.add('active');
-        const p = btn.dataset.panel;
-        document.querySelectorAll('main section').forEach(s => s.hidden = true);
-        const show = document.getElementById(p);
-        if(show) show.hidden = false;
-      }));
+      const $ = (sel, root=document) => root.querySelector(sel);
+      const caseListEl = $('#caseList');
+      const drawer = $('#drawer');
+      const isJudge = true; // تحكم صلاحيات: true ليتوفر زر التعيين/الأوامر. ضبط لاحقاً حسب المصادقة.
 
-      // Sample cases dataset
-      let cases = [
-        { id:'C-2026-001', plaintiff:'أحمد علي', subject:'تظلم إداري', priority:'urgent', status:'review', assigned: null, created:'2026-01-12', notes:'' },
-        { id:'C-2026-002', plaintiff:'ليلى محمود', subject:'نزاع عقد', priority:'normal', status:'open', assigned:'قاضي 2', created:'2026-01-09', notes:'' },
-        { id:'C-2026-003', plaintiff:'شرك�� النور', subject:'مطالبة مالية', priority:'normal', status:'open', assigned:null, created:'2026-01-06', notes:'' },
-        { id:'C-2026-004', plaintiff:'منى حسن', subject:'قضايا أسرية', priority:'review', status:'review', assigned:'قاضي 1', created:'2026-01-11', notes:'' }
-      ];
+      // sample cases (would come from backend)
+      let cases = JSON.parse(localStorage.getItem('rwaq_cases') || 'null');
+      if(!cases){
+        cases = [
+          { id:'C-2026-001', plaintiff:'أحمد علي', subject:'تظلم إداري', priority:'urgent', status:'review', assigned: null, created:'2026-01-12T10:00:00Z', notes:'لم يرفق إيصال تبليغ', attachments:[{name:'شكوى.pdf',url:'#'}], audit:[{actor:'نظام',action:'أنشئت',at:'2026-01-12T10:00:00Z'}] },
+          { id:'C-2026-002', plaintiff:'ليلى محمود', subject:'نزاع عقد', priority:'normal', status:'open', assigned:'قاضي 2', created:'2026-01-09T09:20:00Z', notes:'مرفق بوالص', attachments:[], audit:[] },
+          { id:'C-2026-003', plaintiff:'شركة النور', subject:'مطالبة مالية', priority:'normal', status:'open', assigned:null, created:'2026-01-06T14:12:00Z', notes:'قيد أولي', attachments:[], audit:[] }
+        ];
+        localStorage.setItem('rwaq_cases', JSON.stringify(cases));
+      }
 
-      const caseList = document.getElementById('caseList');
-      const caseDetail = document.getElementById('caseDetail');
-      const assignBtn = document.getElementById('assignBtn');
-      const issueOrder = document.getElementById('issueOrder');
-
-      function renderCases(filterText='', statusFilter=''){
-        caseList.innerHTML = '';
-        const items = cases.filter(c => {
-          const matchText = !filterText || (c.id + ' ' + c.plaintiff + ' ' + c.subject).toLowerCase().includes(filterText.toLowerCase());
-          const matchStatus = !statusFilter || (statusFilter === c.priority || statusFilter === c.status);
-          return matchText && matchStatus;
+      function renderCaseList(filter=''){
+        caseListEl.innerHTML = '';
+        const filtered = cases.filter(c => {
+          if(!filter) return true;
+          const s = (c.id + ' ' + c.plaintiff + ' ' + c.subject).toLowerCase();
+          return s.includes(filter.toLowerCase());
         });
-        if(items.length === 0){ caseList.innerHTML = '<div class="muted">لا توجد قضايا مطابقة</div>'; return; }
-        items.forEach(c => {
-          const el = document.createElement('div'); el.className = 'case-item';
-          el.innerHTML = `
+        if(filtered.length === 0){
+          caseListEl.innerHTML = '<div class="muted">لا توجد قضايا متطابقة</div>';
+          return;
+        }
+        filtered.forEach(c => {
+          const div = document.createElement('div');
+          div.className = 'case-item';
+          div.innerHTML = `
             <div style="flex:1">
-              <div style="display:flex;justify-content:space-between;gap:8px;align-items:center">
-                <div><strong>${c.plaintiff}</strong><div class="case-meta">${c.id} — ${c.subject}</div></div>
+              <div style="display:flex;justify-content:space-between;align-items:center">
+                <div>
+                  <strong>${escapeHtml(c.plaintiff)}</strong>
+                  <div class="case-meta">${escapeHtml(c.id)} — ${escapeHtml(c.subject)}</div>
+                </div>
                 <div class="case-actions">
-                  ${c.priority === 'urgent' ? '<span class="badge urgent">عاجل</span>' : c.priority==='review' ? '<span class="badge warn">مراجعة</span>' : '<span class="badge ok">عادي</span>'}
+                  ${c.priority==='urgent' ? '<span class="badge urgent">عاجل</span>' : c.priority==='review' ? '<span class="badge warn">مراجعة</span>' : '<span class="badge ok">عادي</span>'}
                 </div>
               </div>
             </div>
-            <div style="min-width:180px;text-align:left">
+            <div style="min-width:170px;text-align:left">
               <div class="case-meta">${new Date(c.created).toLocaleDateString()}</div>
               <div style="margin-top:8px">
-                <button class="mini" data-id="${c.id}" data-action="view">عرض</button>
-                <button class="mini" data-id="${c.id}" data-action="assign">تعيين</button>
+                <button class="mini" data-id="${c.id}" data-action="open">عرض</button>
                 <button class="mini" data-id="${c.id}" data-action="ai">AI</button>
               </div>
             </div>
           `;
-          caseList.appendChild(el);
+          caseListEl.appendChild(div);
         });
       }
-      renderCases();
 
-      // handlers (event delegation)
-      caseList.addEventListener('click', async (e)=>{
+      function escapeHtml(s){ return String(s||'').replace(/[&<>"']/g, m=> ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m])); }
+
+      // Click handlers for list (event delegation)
+      caseListEl.addEventListener('click', (e)=>{
         const btn = e.target.closest('button');
         if(!btn) return;
         const id = btn.dataset.id;
         const action = btn.dataset.action;
-        const c = cases.find(x => x.id === id);
-        if(!c) return;
-        if(action === 'view'){
-          caseDetail.innerHTML = `<strong>${c.id} — ${c.subject}</strong><div class="muted" style="margin-top:6px">المدعي: ${c.plaintiff}</div><div style="margin-top:8px">${escapeHtml(c.notes || 'لا ملاحظات')}</div><div class="muted" style="margin-top:8px">مُعيّن: ${c.assigned || 'غير معيّن'}</div>`;
-          assignBtn.disabled = false; issueOrder.disabled = false;
-          assignBtn.onclick = ()=> assignCase(c.id);
-          issueOrder.onclick = ()=> issueOrderForCase(c.id);
-        }
-        if(action === 'assign'){ assignCase(id); }
-        if(action === 'ai'){ requestAISuggestions(id); }
+        if(action === 'open') openDrawer(id);
+        if(action === 'ai') requestAISuggestionById(id);
       });
 
-      // search & filter
-      document.getElementById('searchCases').addEventListener('input', (e)=> renderCases(e.target.value, document.getElementById('filterStatus').value));
-      document.getElementById('filterStatus').addEventListener('change', (e)=> renderCases(document.getElementById('searchCases').value, e.target.value));
-      document.getElementById('refreshCases').addEventListener('click', ()=> { toast('تم تحديث القائمة'); renderCases(); });
+      // drawer populate / open
+      const f_id = $('#f_id'), f_plaintiff = $('#f_plaintiff'), f_subject = $('#f_subject'), f_created = $('#f_created');
+      const f_priority = $('#f_priority'), f_status = $('#f_status'), f_assigned = $('#f_assigned'), f_notes = $('#f_notes');
+      const f_attachments = $('#f_attachments'), f_ai = $('#f_ai'), f_audit_list = $('#f_audit_list');
+      let currentCaseId = null;
 
-      function assignCase(id){
-        const c = cases.find(x => x.id === id);
-        const judge = prompt('أدخل اسم القاضي للتعيين (مثال: قاضي 3):', c.assigned || '');
-        if(judge === null) return;
-        c.assigned = judge || null;
-        toast(`تم تعيين ${c.id} إلى ${judge || 'إلغاء التعيين'}`);
-        renderCases(document.getElementById('searchCases').value, document.getElementById('filterStatus').value);
-        if(caseDetail) caseDetail.innerHTML += `<div class="muted" style="margin-top:6px">تعيين جديد: ${judge || 'غير معيّن'}</div>`;
-      }
-
-      function issueOrderForCase(id){
-        const c = cases.find(x => x.id === id);
-        const ord = prompt('اكتب نص الأمر / القرار المختصر:');
-        if(!ord) return;
-        c.notes = (c.notes? c.notes + '\n' : '') + `أمر: ${ord}`;
-        toast('تم إصدار الأمر (محلياً)');
-        if(caseDetail) caseDetail.innerHTML += `<div style="margin-top:8px"><strong>أمر لازم:</strong><div class="muted">${escapeHtml(ord)}</div></div>`;
-      }
-
-      // AI suggestions for a case
-      async function requestAISuggestions(id){
+      function openDrawer(id){
         const c = cases.find(x=>x.id===id);
         if(!c) return;
-        const aiBox = document.getElementById('aiSuggestions');
-        aiBox.textContent = 'جاري طلب الاقتراح من AI...';
+        currentCaseId = id;
+        $('#drawerTitle').textContent = `قضية — ${c.id}`;
+        f_id.textContent = c.id;
+        f_plaintiff.value = c.plaintiff || '';
+        f_subject.value = c.subject || '';
+        f_created.textContent = new Date(c.created).toLocaleString();
+        f_priority.value = c.priority || 'normal';
+        f_status.value = c.status || 'open';
+        f_assigned.value = c.assigned || '';
+        f_notes.value = c.notes || '';
+        f_attachments.innerHTML = '';
+        (c.attachments || []).forEach(a=>{
+          const el = document.createElement('div'); el.className='attachment';
+          el.innerHTML = `<div><i class="fa-solid fa-file-lines" style="margin-left:8px"></i>${escapeHtml(a.name)}</div><div><a href="${a.url}" target="_blank" style="color:var(--muted)">فتح</a></div>`;
+          f_attachments.appendChild(el);
+        });
+        // audit
+        renderAudit(c.audit || []);
+        // AI box reset
+        f_ai.textContent = 'اضغطي "طلب اقتراح AI" للحصول على تحليل.';
+        // show/hide action buttons by role
+        setDrawerActions(isJudge);
+        drawer.classList.remove('hidden');
+        // focus first input
+        f_plaintiff.focus();
+      }
+
+      function closeDrawer(){
+        drawer.classList.add('hidden');
+        currentCaseId = null;
+      }
+      $('#closeDrawer').addEventListener('click', closeDrawer);
+
+      function setDrawerActions(canEdit){
+        $('#btnSave').style.display = canEdit ? '' : 'none';
+        $('#btnAssign').style.display = canEdit ? '' : 'none';
+        $('#btnIssue').style.display = canEdit ? '' : 'none';
+        $('#btnRefer').style.display = canEdit ? '' : 'none';
+      }
+
+      // Save edits (local + try backend)
+      $('#btnSave').addEventListener('click', async ()=>{
+        if(!currentCaseId) return;
+        const idx = cases.findIndex(x=>x.id===currentCaseId);
+        if(idx<0) return;
+        // update local object
+        const updated = {
+          ...cases[idx],
+          plaintiff: f_plaintiff.value.trim(),
+          subject: f_subject.value.trim(),
+          priority: f_priority.value,
+          status: f_status.value,
+          assigned: f_assigned.value.trim(),
+          notes: f_notes.value.trim(),
+          audit: cases[idx].audit || []
+        };
+        // add audit entry
+        updated.audit = [{ actor: isJudge ? 'قاضي' : 'مستخدم', action: 'تعديل الحقول', at: new Date().toISOString() }, ...updated.audit];
+        // attempt backend PATCH
+        try {
+          const res = await fetch(`/api/cases/${encodeURIComponent(currentCaseId)}`, { method:'PATCH', headers:{'Content-Type':'application/json'}, body: JSON.stringify(updated) });
+          if(!res.ok) throw new Error('backend failed');
+          const saved = await res.json();
+          cases[idx] = saved;
+        } catch(e){
+          cases[idx] = updated; // fallback local
+          localStorage.setItem('rwaq_cases', JSON.stringify(cases));
+        }
+        renderCaseList($('#searchCases').value);
+        renderAudit(cases[idx].audit || []);
+        toast('تم حفظ التعديلات');
+      });
+
+      // Assign / Issue / Refer buttons
+      $('#btnAssign').addEventListener('click', ()=>{
+        if(!currentCaseId) return;
+        const judge = prompt('أدخل اسم القاضي للتعيين:', f_assigned.value || '');
+        if(judge === null) return;
+        f_assigned.value = judge;
+        // reflect change and save
+        $('#btnSave').click();
+        toast('تم التعيين');
+      });
+
+      $('#btnIssue').addEventListener('click', ()=>{
+        if(!currentCaseId) return;
+        const ord = prompt('اكتب نص الأمر/القرار المختصر:');
+        if(!ord) return;
+        const idx = cases.findIndex(x=>x.id===currentCaseId);
+        cases[idx].notes = (cases[idx].notes ? cases[idx].notes + '\n' : '') + 'أمر: ' + ord;
+        cases[idx].audit = [{ actor: isJudge ? 'قاضي' : 'مستخدم', action: 'إصدار أمر', at: new Date().toISOString() }, ... (cases[idx].audit || [])];
+        localStorage.setItem('rwaq_cases', JSON.stringify(cases));
+        renderAudit(cases[idx].audit);
+        renderCaseList($('#searchCases').value);
+        toast('تم إصدار الأمر (محلياً)');
+      });
+
+      $('#btnRefer').addEventListener('click', ()=>{
+        if(!currentCaseId) return;
+        const dest = prompt('أدخل الجهة/القاضي للإحالة:');
+        if(!dest) return;
+        const idx = cases.findIndex(x=>x.id===currentCaseId);
+        cases[idx].audit = [{ actor: isJudge ? 'قاضي' : 'مستخدم', action: 'إحالة إلى: ' + dest, at: new Date().toISOString() }, ... (cases[idx].audit || [])];
+        localStorage.setItem('rwaq_cases', JSON.stringify(cases));
+        renderAudit(cases[idx].audit);
+        toast('تم الإحالة محلياً');
+      });
+
+      // AI suggestion button
+      $('#btnReqAI').addEventListener('click', async ()=>{
+        if(!currentCaseId) return;
+        const c = cases.find(x=>x.id===currentCaseId);
+        if(!c) return;
+        f_ai.textContent = 'جارٍ طلب الاقتراح من AI...';
         try {
           const res = await fetch('/api/ai/analyze', { method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify({ caseId: c.id, text: `${c.subject}\n${c.notes}` }) });
           if(!res.ok) throw new Error('AI unavailable');
           const json = await res.json();
-          if(json.raw) aiBox.textContent = json.raw;
-          else if(json.verdict) aiBox.innerHTML = `<strong>${json.verdict}</strong><div class="muted" style="margin-top:8px">${(json.recommendations||[]).map(r=>`<div>• ${r}</div>`).join('')}</div>`;
-          else aiBox.textContent = JSON.stringify(json, null, 2);
-        } catch(err){
-          aiBox.innerHTML = `<strong>اقتراح محلي</strong><div class="muted" style="margin-top:8px">- راجع إثبات التبليغ<br>- استدعِ التفويض<br>- ضع ملاحظة لإجراء استدلالي</div>`;
+          const out = json.raw || (json.verdict ? json.verdict + '\n\n' + (json.recommendations||[]).map(r=>'• '+r).join('\n') : JSON.stringify(json));
+          f_ai.textContent = out;
+          // add audit
+          c.audit = [{ actor: 'AI', action: 'اقتراح AI' , at: new Date().toISOString() }, ...(c.audit||[])];
+          localStorage.setItem('rwaq_cases', JSON.stringify(cases));
+          renderAudit(c.audit);
+        } catch(e){
+          f_ai.textContent = 'فشل الاتصال بـ AI — عرض اقتراح محلي';
+          f_ai.textContent = 'اقتراح تجريبي: راجع إثبات التبليغ، اطلب تفويض موقع، تأكد من تواريخ الدعاوى.';
         }
+      });
+
+      // show AI suggestion by id from list button
+      async function requestAISuggestionById(id){
+        openDrawer(id);
+        setTimeout(()=> $('#btnReqAI').click(), 300);
       }
 
-      // export CSV
-      document.getElementById('exportCsv').addEventListener('click', ()=>{
-        const cols = ['id','plaintiff','subject','priority','status','assigned','created'];
-        const csv = [cols.join(',')].concat(cases.map(r => cols.map(c => `"${(r[c]||'').toString().replace(/"/g,'""')}"`).join(','))).join('\n');
-        const blob = new Blob([csv], { type: 'text/csv' });
-        const url = URL.createObjectURL(blob); const a = document.createElement('a'); a.href = url; a.download = 'cases_export.csv'; document.body.appendChild(a); a.click(); a.remove(); URL.revokeObjectURL(url);
-        toast('تم تنزيل ملف CSV');
-      });
-
-      document.getElementById('bulkAssign').addEventListener('click', ()=>{
-        cases.forEach(c => { if(!c.assigned) c.assigned = 'قاضي آلي'; });
-        renderCases(); toast('تم التعيين مجمّعًا (تجريبي)');
-      });
-
-      document.getElementById('bulkClose').addEventListener('click', ()=>{
-        cases = cases.map(c => ({ ...c, status: 'completed' }));
-        renderCases(); toast('تم إغلاق جميع القضايا (تجريبي)');
-      });
-
-      function escapeHtml(s){ return String(s||'').replace(/[&<>"']/g, m=> ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m])); }
-
-      // Chart (golden palette)
-      const ctx = document.getElementById('judgeChart').getContext('2d');
-      const chart = new Chart(ctx, {
-        type: 'doughnut',
-        data: {
-          labels: ['منجز','قيد','عاجلة'],
-          datasets: [{
-            data: [cases.filter(c=>c.status==='completed').length, cases.filter(c=>c.status==='open'||c.status==='review').length, cases.filter(c=>c.priority==='urgent').length],
-            backgroundColor: ['rgba(200,150,40,0.95)', 'rgba(220,180,70,0.9)', 'rgba(220,90,80,0.95)']
-          }]
-        },
-        options: { plugins: { legend: { position: 'bottom', labels:{ color: '#3b2b00' } } } }
-      });
-
-      function updateChart(){
-        chart.data.datasets[0].data = [cases.filter(c=>c.status==='completed').length, cases.filter(c=>c.status==='open'||c.status==='review').length, cases.filter(c=>c.priority==='urgent').length];
-        chart.update();
+      function renderAudit(auditArray){
+        f_audit_list.innerHTML = (auditArray||[]).map(it => `<div>${new Date(it.at).toLocaleString()} — ${escapeHtml(it.actor)}: ${escapeHtml(it.action)}</div>`).join('') || '<div class="muted">لا سجلات بعد</div>';
       }
 
-      // re-render wrapper
-      const originalRender = renderCases;
-      renderCases = function(...args){ originalRender(...args); updateChart(); };
+      // search input
+      $('#searchCases').addEventListener('input', e => renderCaseList(e.target.value));
+      $('#refreshBtn').addEventListener('click', ()=> { cases = JSON.parse(localStorage.getItem('rwaq_cases')||'[]') || cases; renderCaseList($('#searchCases').value); toast('تم التحديث'); });
 
-      // init
-      renderCases();
-      updateChart();
+      // helper: toast
+      function toast(msg){ const el = document.createElement('div'); el.textContent = msg; el.style.cssText = 'position:fixed;left:50%;top:22px;transform:translateX(-50%);background:rgba(0,0,0,0.75);color:#fff;padding:8px 12px;border-radius:8px;z-index:2000'; document.body.appendChild(el); setTimeout(()=> el.remove(),1600); }
 
-      // helper toast
-      function toast(msg){ const el = document.createElement('div'); el.textContent = msg; el.style.cssText = 'position:fixed;left:50%;top:20px;transform:translateX(-50%);background:rgba(27,17,6,0.92);color:#fff;padding:8px 12px;border-radius:8px;z-index:9999'; document.body.appendChild(el); setTimeout(()=> el.remove(),2000); }
+      // initial render
+      renderCaseList();
+
+      // utility openPanel used by mobile actions
+      window.openPanel = function(name){
+        // show judgeboard by default; other panels not implemented here
+        if(name === 'casefile') alert('نموذج قيد الدعوى (قيد التطوير في هذا العرض)');
+        if(name === 'memo') alert('تبادل المذكرات (قيد التطوير في هذا العرض)');
+      };
+
+      // save to local before unload
+      addEventListener('beforeunload', ()=> { localStorage.setItem('rwaq_cases', JSON.stringify(cases)); });
     })();
   </script>
 </body>
