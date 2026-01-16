@@ -1070,6 +1070,285 @@
       font-size: 13px;
     }
     
+    /* AI Assistant Specific Styles */
+    .ai-assistant-panel {
+      display: grid;
+      grid-template-columns: 2fr 1fr;
+      gap: 24px;
+    }
+    
+    @media (max-width: 1200px) {
+      .ai-assistant-panel {
+        grid-template-columns: 1fr;
+      }
+    }
+    
+    .case-input-form {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+    
+    .form-group {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+    
+    .form-label {
+      font-weight: 600;
+      color: var(--text-light);
+      font-size: 16px;
+    }
+    
+    .form-control {
+      padding: 16px;
+      border-radius: var(--radius);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      background: rgba(0, 0, 0, 0.2);
+      color: var(--text-light);
+      font-size: 16px;
+      font-family: 'Cairo', sans-serif;
+      transition: var(--transition);
+    }
+    
+    .form-control:focus {
+      outline: none;
+      border-color: var(--primary-light);
+      box-shadow: 0 0 0 3px rgba(15, 176, 107, 0.15);
+    }
+    
+    textarea.form-control {
+      min-height: 200px;
+      resize: vertical;
+      line-height: 1.6;
+    }
+    
+    .priority-tags {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      margin-top: 10px;
+    }
+    
+    .priority-tag {
+      padding: 8px 16px;
+      border-radius: 50px;
+      font-weight: 600;
+      font-size: 14px;
+      cursor: pointer;
+      transition: var(--transition);
+      border: 1px solid transparent;
+    }
+    
+    .priority-tag:hover {
+      transform: translateY(-2px);
+    }
+    
+    .priority-tag.active {
+      border-color: currentColor;
+    }
+    
+    .priority-low {
+      background: rgba(33, 150, 243, 0.15);
+      color: #64b5f6;
+    }
+    
+    .priority-medium {
+      background: rgba(255, 152, 0, 0.15);
+      color: #ffb74d;
+    }
+    
+    .priority-high {
+      background: rgba(229, 57, 53, 0.15);
+      color: #ef9a9a;
+    }
+    
+    .case-type-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 10px;
+    }
+    
+    .case-type-tag {
+      padding: 8px 16px;
+      border-radius: var(--radius-sm);
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      color: var(--muted);
+      font-size: 14px;
+      cursor: pointer;
+      transition: var(--transition);
+    }
+    
+    .case-type-tag:hover {
+      background: rgba(255, 255, 255, 0.1);
+      color: var(--text-light);
+    }
+    
+    .case-type-tag.active {
+      background: rgba(15, 176, 107, 0.2);
+      color: var(--text-light);
+      border-color: var(--primary-light);
+    }
+    
+    .ai-results {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+    
+    .result-section {
+      background: rgba(0, 0, 0, 0.2);
+      border-radius: var(--radius);
+      padding: 20px;
+      border: 1px solid rgba(255, 255, 255, 0.05);
+    }
+    
+    .result-title {
+      font-size: 18px;
+      font-weight: 700;
+      color: var(--text-light);
+      margin-bottom: 15px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    
+    .result-content {
+      color: var(--text);
+      line-height: 1.6;
+      font-size: 15px;
+    }
+    
+    .confidence-meter {
+      margin-top: 20px;
+    }
+    
+    .confidence-label {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 8px;
+    }
+    
+    .meter-bar {
+      height: 8px;
+      background: rgba(255, 255, 255, 0.05);
+      border-radius: 4px;
+      overflow: hidden;
+    }
+    
+    .meter-fill {
+      height: 100%;
+      background: linear-gradient(90deg, var(--primary-light), var(--accent));
+      border-radius: 4px;
+      width: 0%;
+      transition: width 0.5s var(--ui-ease);
+    }
+    
+    .timeline {
+      margin-top: 30px;
+    }
+    
+    .timeline-item {
+      display: flex;
+      gap: 15px;
+      padding: 15px 0;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    }
+    
+    .timeline-item:last-child {
+      border-bottom: 0;
+    }
+    
+    .timeline-marker {
+      width: 24px;
+      height: 24px;
+      border-radius: 50%;
+      background: var(--primary);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      margin-top: 3px;
+    }
+    
+    .timeline-content {
+      flex: 1;
+    }
+    
+    .timeline-title {
+      font-weight: 600;
+      color: var(--text-light);
+      margin-bottom: 5px;
+    }
+    
+    .timeline-desc {
+      color: var(--muted);
+      font-size: 14px;
+    }
+    
+    /* Cases Table */
+    .cases-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 20px;
+    }
+    
+    .cases-table th {
+      text-align: right;
+      padding: 15px;
+      background: rgba(0, 0, 0, 0.2);
+      color: var(--text-light);
+      font-weight: 600;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    }
+    
+    .cases-table td {
+      padding: 15px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    }
+    
+    .cases-table tr:hover {
+      background: rgba(255, 255, 255, 0.02);
+    }
+    
+    .case-id {
+      font-weight: 600;
+      color: var(--text-light);
+    }
+    
+    .case-plaintiff {
+      font-weight: 500;
+    }
+    
+    /* Badges */
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      padding: 5px 10px;
+      border-radius: 50px;
+      font-size: 12px;
+      font-weight: 600;
+    }
+    
+    .badge-urgent {
+      background: rgba(229, 57, 53, 0.15);
+      color: #ef9a9a;
+    }
+    
+    .badge-normal {
+      background: rgba(33, 150, 243, 0.15);
+      color: #64b5f6;
+    }
+    
+    .badge-review {
+      background: rgba(255, 152, 0, 0.15);
+      color: #ffb74d;
+    }
+    
     /* Footer */
     .footer {
       text-align: center;
@@ -1103,6 +1382,10 @@
       .btn {
         width: 100%;
         justify-content: center;
+      }
+      
+      .ai-assistant-panel {
+        gap: 20px;
       }
     }
   </style>
@@ -1288,6 +1571,152 @@
               <div id="historyList" style="max-height:260px;overflow:auto"></div>
               <div class="text-center mt-2">
                 <button id="clearHistory" class="btn mini">مسح السجل</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- AI Assistant Panel -->
+      <section id="panel-ai-judge" class="card" role="region" hidden>
+        <div class="card-header">
+          <div>
+            <h2>مساعد الذكاء الاصطناعي لفرز القضايا</h2>
+            <p class="card-subtitle">أدخل تفاصيل القضية لتحليلها وتصنيفها آلياً</p>
+          </div>
+          <div>
+            <button id="quickAnalysis" class="btn mini">
+              <i class="fa-solid fa-bolt"></i> تحليل سريع
+            </button>
+          </div>
+        </div>
+
+        <div class="ai-assistant-panel">
+          <!-- Left Column: Input Form -->
+          <div class="case-input-form">
+            <div class="form-group">
+              <label class="form-label">رقم القضية</label>
+              <input type="text" class="form-control" id="caseNumber" placeholder="أدخل رقم القضية أو اتركه فارغاً للإنشاء التلقائي">
+            </div>
+            
+            <div class="form-group">
+              <label class="form-label">أطراف القضية</label>
+              <input type="text" class="form-control" id="caseParties" placeholder="المدعي، المدعى عليه، الوكلاء">
+            </div>
+            
+            <div class="form-group">
+              <label class="form-label">موضوع القضية</label>
+              <select class="form-control" id="caseSubject">
+                <option value="">اختر موضوع القضية</option>
+                <option value="civil">مدنية</option>
+                <option value="commercial">تجارية</option>
+                <option value="criminal">جنائية</option>
+                <option value="administrative">إدارية</option>
+                <option value="labor">عمالية</option>
+                <option value="family">أحوال شخصية</option>
+                <option value="real-estate">عقارية</option>
+                <option value="intellectual">ملكية فكرية</option>
+              </select>
+            </div>
+            
+            <div class="form-group">
+              <label class="form-label">ملخص الوقائع</label>
+              <textarea class="form-control" id="caseSummary" placeholder="أدخل ملخصاً وافياً للوقائع والإجراءات السابقة..."></textarea>
+            </div>
+            
+            <div class="form-group">
+              <label class="form-label">الأدلة والمستندات المقدمة</label>
+              <textarea class="form-control" id="caseEvidence" placeholder="قائمة بالأدلة والمستندات المقدمة من الأطراف..."></textarea>
+            </div>
+            
+            <div class="form-group">
+              <label class="form-label">تحديد الأولوية</label>
+              <div class="priority-tags">
+                <div class="priority-tag priority-low" data-priority="low">منخفضة</div>
+                <div class="priority-tag priority-medium active" data-priority="medium">متوسطة</div>
+                <div class="priority-tag priority-high" data-priority="high">عاجلة</div>
+              </div>
+            </div>
+            
+            <div class="form-group">
+              <label class="form-label">التصنيف التلقائي للقضية</label>
+              <div class="case-type-tags">
+                <div class="case-type-tag" data-type="simple">بسيطة</div>
+                <div class="case-type-tag active" data-type="complex">معقدة</div>
+                <div class="case-type-tag" data-type="precedent">سابقة</div>
+                <div class="case-type-tag" data-type="sensitive">حساسة</div>
+              </div>
+            </div>
+            
+            <div class="form-group">
+              <button id="analyzeCaseAI" class="btn btn-primary">
+                <i class="fa-solid fa-magnifying-glass-chart"></i> تحليل القضية باستخدام الذكاء الاصطناعي
+              </button>
+            </div>
+          </div>
+          
+          <!-- Right Column: AI Results -->
+          <div class="ai-results">
+            <div class="result-section">
+              <h3 class="result-title">
+                <i class="fa-solid fa-chess-board"></i> تصنيف القضية
+              </h3>
+              <div class="result-content" id="classificationResult">
+                <p>أدخل تفاصيل القضية للحصول على تحليل الذكاء الاصطناعي.</p>
+              </div>
+              
+              <div class="confidence-meter mt-3">
+                <div class="confidence-label">
+                  <span>ثقة التحليل</span>
+                  <span id="confidenceValue">0%</span>
+                </div>
+                <div class="meter-bar">
+                  <div class="meter-fill" id="confidenceMeter"></div>
+                </div>
+              </div>
+            </div>
+            
+            <div class="result-section">
+              <h3 class="result-title">
+                <i class="fa-solid fa-flag"></i> مستوى الأولوية المقترح
+              </h3>
+              <div class="result-content" id="priorityResult">
+                <p>سيظهر مستوى الأولوية المقترح هنا.</p>
+              </div>
+            </div>
+            
+            <div class="result-section">
+              <h3 class="result-title">
+                <i class="fa-solid fa-lightbulb"></i> التوصيات والملاحظات
+              </h3>
+              <div class="result-content" id="recommendationsResult">
+                <p>سيظهر التوصيات والملاحظات المهمة هنا.</p>
+              </div>
+            </div>
+            
+            <div class="result-section">
+              <h3 class="result-title">
+                <i class="fa-solid fa-clock-rotate-left"></i> الإجراءات المقترحة
+              </h3>
+              <div class="result-content" id="actionsResult">
+                <p>ستظهر خطوات العمل والإجراءات المقترحة هنا.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <div class="timeline mt-4">
+          <h3 class="result-title">
+            <i class="fa-solid fa-timeline"></i> الخطوات الزمنية المقترحة
+          </h3>
+          <div id="timelineContent">
+            <div class="timeline-item">
+              <div class="timeline-marker">
+                <i class="fa-solid fa-1" style="color:white;font-size:10px"></i>
+              </div>
+              <div class="timeline-content">
+                <div class="timeline-title">إدخال بيانات القضية</div>
+                <div class="timeline-desc">أدخل تفاصيل القضية للحصول على تحليل الذكاء الاصطناعي</div>
               </div>
             </div>
           </div>
@@ -1600,8 +2029,1464 @@
 
   <!-- JavaScript -->
   <script>
-    // حفظ المساحة - سيتم وضع كود JavaScript الكامل هنا
-    // (الكود الأصلي المعدل مع تحسينات)
+    // تهيئة النظام
+    document.addEventListener('DOMContentLoaded', function() {
+      // العناصر الأساسية
+      const $ = (selector, root = document) => root.querySelector(selector);
+      const $$ = (selector, root = document) => Array.from(root.querySelectorAll(selector));
+      
+      // تهيئة خلفية Canvas
+      initCanvasBackground();
+      
+      // تهيئة المساعدين
+      initAssistants();
+      
+      // تهيئة التنقل
+      initNavigation();
+      
+      // تهيئة نظام الذكاء الاصطناعي
+      initAIJudgeAssistant();
+      
+      // تهيئة نظام القضايا
+      initCaseSystem();
+      
+      // تهيئة نظام الإشعارات
+      initNotifications();
+      
+      // تهيئة الأحداث العامة
+      initGlobalEvents();
+    });
+    
+    // تهيئة خلفية Canvas
+    function initCanvasBackground() {
+      const canvas = $('#bgCanvas'), ctx = canvas.getContext('2d');
+      
+      function resize() { 
+        canvas.width = innerWidth; 
+        canvas.height = innerHeight; 
+        canvas.style.width = innerWidth + 'px'; 
+        canvas.style.height = innerHeight + 'px'; 
+      }
+      
+      addEventListener('resize', resize); 
+      resize();
+      
+      const particles = [];
+      const N = Math.max(24, Math.floor(window.innerWidth / 40));
+      
+      for(let i = 0; i < N; i++) {
+        particles.push({ 
+          x: Math.random() * innerWidth, 
+          y: Math.random() * innerHeight, 
+          r: Math.random() * 1.6 + 0.4, 
+          vx: (Math.random() - 0.5) * 0.25, 
+          vy: (Math.random() - 0.5) * 0.25, 
+          a: 0.06 + Math.random() * 0.2 
+        });
+      }
+      
+      (function frame() {
+        ctx.fillStyle = 'rgba(2, 20, 18, 0.12)'; 
+        ctx.fillRect(0, 0, innerWidth, innerHeight);
+        ctx.strokeStyle = 'rgba(10, 80, 60, 0.03)';
+        
+        for(let i = 0; i < 18; i++) {
+          ctx.beginPath();
+          const x = (i / 18) * innerWidth + Math.sin(Date.now() * 0.0006 + i) * 20;
+          ctx.moveTo(x, -40); 
+          ctx.lineTo(x + 220, innerHeight + 40); 
+          ctx.stroke();
+        }
+        
+        particles.forEach(p => {
+          p.x += p.vx; 
+          p.y += p.vy;
+          
+          if(p.x < -20) p.x = innerWidth + 20;
+          if(p.x > innerWidth + 20) p.x = -20;
+          if(p.y < -20) p.y = innerHeight + 20;
+          if(p.y > innerHeight + 20) p.y = -20;
+          
+          const g = ctx.createRadialGradient(p.x, p.y, 0, p.x, p.y, p.r * 8);
+          g.addColorStop(0, `rgba(140, 240, 200, ${p.a})`); 
+          g.addColorStop(1, 'rgba(140, 240, 200, 0)');
+          
+          ctx.fillStyle = g; 
+          ctx.beginPath(); 
+          ctx.arc(p.x, p.y, p.r * 5, 0, Math.PI * 2); 
+          ctx.fill();
+        });
+        
+        requestAnimationFrame(frame);
+      })();
+    }
+    
+    // تهيئة المساعدين
+    function initAssistants() {
+      const ASSISTANTS_KEY = 'rwaq_assistants_v2';
+      const assistants = [
+        {
+          id: 'legal_expert',
+          name: 'الخبير القانوني',
+          description: 'خبير في التحليل القانوني والمراجعة',
+          system: 'أنت خبير قانوني متخصص في تحليل القضايا وتقديم التوصيات القانونية. راجع الوقائع بدقة وقدم تحليلاً شاملاً للنواقص القانونية والإجراءات المطلوبة.'
+        },
+        {
+          id: 'tech_auditor',
+          name: 'المدقق التقني',
+          description: 'مدقق في المستندات والمرفقات التقنية',
+          system: 'أنت مدقق تقني متخصص في مراجعة المرفقات والبيانات التقنية. تحقق من اكتمال المستندات وتوافقها مع الأنظمة.'
+        },
+        {
+          id: 'judge_assistant',
+          name: 'مساعد القاضي',
+          description: 'مساعد متخصص في فرز وتصنيف القضايا',
+          system: 'أنت مساعد قاضي متخصص في تحليل وتصنيف القضايا بناءً على نوعها وتعقيدها وأولويتها. قدم توصيات للفرز والتوزيع المناسب.'
+        },
+        {
+          id: 'procedure_expert',
+          name: 'خبير الإجراءات',
+          description: 'متخصص في الإجراءات القانونية والخطوات',
+          system: 'أنت خبير في الإجراءات القانونية والخطوات القضائية. حدد الإجراءات المطلوبة والجداول الزمنية المناسبة لكل قضية.'
+        }
+      ];
+      
+      // تحميل المساعدين من localStorage أو استخدام القيمة الافتراضية
+      let savedAssistants = JSON.parse(localStorage.getItem(ASSISTANTS_KEY));
+      if (!savedAssistants) {
+        localStorage.setItem(ASSISTANTS_KEY, JSON.stringify(assistants));
+        savedAssistants = assistants;
+      }
+      
+      // عرض المساعدين في القائمة
+      renderAssistants(savedAssistants);
+      
+      // إضافة مساعد جديد
+      $('#addAssistant').addEventListener('click', () => {
+        const name = prompt('اسم المساعد الجديد:');
+        if (!name) return;
+        
+        const description = prompt('وصف المساعد:');
+        const system = prompt('نص النظام (دور المساعد):', 'أنت مساعد قانوني.');
+        
+        const newAssistant = {
+          id: 'assistant_' + Date.now(),
+          name,
+          description: description || 'مساعد قانوني',
+          system: system || 'أنت مساعد قانوني.'
+        };
+        
+        savedAssistants.push(newAssistant);
+        localStorage.setItem(ASSISTANTS_KEY, JSON.stringify(savedAssistants));
+        renderAssistants(savedAssistants);
+        showToast('تم إضافة المساعد بنجاح', 'success');
+      });
+      
+      // إدارة المساعدين
+      $('#manageAssistants').addEventListener('click', () => {
+        showToast('قريباً: شاشة إدارة المساعدين', 'info');
+      });
+    }
+    
+    // عرض المساعدين في القائمة
+    function renderAssistants(assistants) {
+      const assistantList = $('#assistantList');
+      const assistantSelect = $('#assistantSelect');
+      
+      // تحديث قائمة المساعدين في الشريط الجانبي
+      assistantList.innerHTML = assistants.map(assistant => `
+        <div class="assistant-item" data-id="${assistant.id}">
+          <div class="assistant-info">
+            <div class="assistant-name">${escapeHtml(assistant.name)}</div>
+            <div class="assistant-desc">${escapeHtml(assistant.description)}</div>
+          </div>
+          <div class="assistant-actions">
+            <button class="btn mini" data-action="select" data-id="${assistant.id}">اختيار</button>
+            <button class="btn mini" data-action="edit" data-id="${assistant.id}">تعديل</button>
+          </div>
+        </div>
+      `).join('');
+      
+      // تحديث قائمة اختيار المساعدين
+      assistantSelect.innerHTML = assistants.map(assistant => 
+        `<option value="${assistant.id}">${escapeHtml(assistant.name)}</option>`
+      ).join('');
+      
+      // إضافة مستمعي الأحداث لأزرار المساعدين
+      assistantList.querySelectorAll('[data-action="select"]').forEach(button => {
+        button.addEventListener('click', (e) => {
+          const assistantId = e.target.dataset.id;
+          const assistants = JSON.parse(localStorage.getItem('rwaq_assistants_v2'));
+          const assistant = assistants.find(a => a.id === assistantId);
+          
+          if (assistant) {
+            $('#assistantSelect').value = assistantId;
+            updateAssistantDetails(assistant);
+            showToast(`تم اختيار المساعد: ${assistant.name}`, 'success');
+          }
+        });
+      });
+      
+      assistantList.querySelectorAll('[data-action="edit"]').forEach(button => {
+        button.addEventListener('click', (e) => {
+          const assistantId = e.target.dataset.id;
+          const assistants = JSON.parse(localStorage.getItem('rwaq_assistants_v2'));
+          const assistant = assistants.find(a => a.id === assistantId);
+          
+          if (assistant) {
+            const newName = prompt('اسم المساعد:', assistant.name);
+            if (!newName) return;
+            
+            const newDesc = prompt('وصف المساعد:', assistant.description);
+            const newSystem = prompt('نص النظام:', assistant.system);
+            
+            assistant.name = newName;
+            assistant.description = newDesc || assistant.description;
+            assistant.system = newSystem || assistant.system;
+            
+            localStorage.setItem('rwaq_assistants_v2', JSON.stringify(assistants));
+            renderAssistants(assistants);
+            showToast('تم تحديث المساعد بنجاح', 'success');
+          }
+        });
+      });
+      
+      // تحديث تفاصيل المساعد المختار
+      if (assistants.length > 0) {
+        const firstAssistant = assistants[0];
+        $('#assistantSelect').value = firstAssistant.id;
+        updateAssistantDetails(firstAssistant);
+      }
+    }
+    
+    // تحديث تفاصيل المساعد
+    function updateAssistantDetails(assistant) {
+      const assistantDetails = $('#assistantDetails');
+      assistantDetails.innerHTML = `
+        <strong>${escapeHtml(assistant.name)}</strong>
+        <div class="muted" style="margin-top:6px">${escapeHtml(assistant.description)}</div>
+        <div class="muted" style="margin-top:4px; font-size:13px">${escapeHtml(assistant.system)}</div>
+      `;
+    }
+    
+    // تهيئة التنقل
+    function initNavigation() {
+      const menuButtons = $$('.menu button');
+      const panels = $$('main section');
+      
+      menuButtons.forEach(button => {
+        button.addEventListener('click', () => {
+          // إزالة النشاط من جميع الأزرار
+          menuButtons.forEach(btn => btn.classList.remove('active'));
+          // إضافة النشاط للزر المضغوط
+          button.classList.add('active');
+          
+          // إخفاء جميع اللوحات
+          panels.forEach(panel => panel.hidden = true);
+          
+          // إظهار اللوحة المختارة
+          const panelId = button.dataset.panel;
+          const targetPanel = $(`#${panelId}`);
+          if (targetPanel) {
+            targetPanel.hidden = false;
+          }
+          
+          // تحديث العنوان في شريط البحث
+          updateSearchPlaceholder(panelId);
+        });
+      });
+      
+      // شريط البحث الموحد
+      const searchInput = $('#unifiedSearch');
+      searchInput.addEventListener('keypress', (e) => {
+        if (e.key === 'Enter') {
+          performSearch(searchInput.value);
+        }
+      });
+    }
+    
+    // تحديث نص البحث بناءً على اللوحة النشطة
+    function updateSearchPlaceholder(panelId) {
+      const searchInput = $('#unifiedSearch');
+      const placeholders = {
+        'panel-assistant': 'بحث في التحليلات القانونية...',
+        'panel-casefile': 'بحث في القضايا...',
+        'panel-judgeboard': 'بحث في قضايا القاضي...',
+        'panel-memo': 'بحث في المذكرات...',
+        'panel-stats': 'بحث في الإحصائيات...'
+      };
+      
+      searchInput.placeholder = placeholders[panelId] || 'بحث: رقم قضية، اسم مدعٍ، قرار، موضوع...';
+    }
+    
+    // تنفيذ البحث
+    function performSearch(query) {
+      if (!query.trim()) return;
+      
+      const activePanel = $$('.menu button.active')[0]?.dataset.panel;
+      
+      switch(activePanel) {
+        case 'panel-assistant':
+          searchInAnalyses(query);
+          break;
+        case 'panel-casefile':
+        case 'panel-judgeboard':
+          searchInCases(query);
+          break;
+        default:
+          showToast(`جار البحث عن: "${query}"`, 'info');
+      }
+    }
+    
+    // البحث في التحليلات
+    function searchInAnalyses(query) {
+      showToast(`جار البحث في التحليلات عن: "${query}"`, 'info');
+      // يمكن إضافة منطق البحث الفعلي هنا
+    }
+    
+    // البحث في القضايا
+    function searchInCases(query) {
+      showToast(`جار البحث في القضايا عن: "${query}"`, 'info');
+      // يمكن إضافة منطق البحث الفعلي هنا
+    }
+    
+    // تهيئة نظام الذكاء الاصطناعي للقاضي
+    function initAIJudgeAssistant() {
+      const analyzeButton = $('#analyzeCaseAI');
+      const quickAnalysisButton = $('#quickAnalysis');
+      const priorityTags = $$('.priority-tag');
+      const caseTypeTags = $$('.case-type-tag');
+      
+      // إعداد أزرار الأولوية
+      priorityTags.forEach(tag => {
+        tag.addEventListener('click', () => {
+          priorityTags.forEach(t => t.classList.remove('active'));
+          tag.classList.add('active');
+        });
+      });
+      
+      // إعداد أزرار نوع القضية
+      caseTypeTags.forEach(tag => {
+        tag.addEventListener('click', () => {
+          caseTypeTags.forEach(t => t.classList.remove('active'));
+          tag.classList.add('active');
+        });
+      });
+      
+      // تحليل سريع
+      quickAnalysisButton.addEventListener('click', () => {
+        fillSampleData();
+        analyzeCase();
+      });
+      
+      // تحليل القضية
+      analyzeButton.addEventListener('click', analyzeCase);
+      
+      // تحليل القضية
+      function analyzeCase() {
+        const caseNumber = $('#caseNumber').value.trim() || `CASE-${Date.now().toString().slice(-6)}`;
+        const caseParties = $('#caseParties').value.trim();
+        const caseSubject = $('#caseSubject').value;
+        const caseSummary = $('#caseSummary').value.trim();
+        const caseEvidence = $('#caseEvidence').value.trim();
+        const priority = $$('.priority-tag.active')[0]?.dataset.priority || 'medium';
+        const caseType = $$('.case-type-tag.active')[0]?.dataset.type || 'complex';
+        
+        if (!caseSummary) {
+          showToast('يرجى إدخال ملخص الوقائع', 'warning');
+          return;
+        }
+        
+        // عرض تحميل
+        analyzeButton.innerHTML = '<span class="loading"><span></span><span></span><span></span></span> جاري التحليل...';
+        analyzeButton.disabled = true;
+        
+        // محاكاة تحليل الذكاء الاصطناعي
+        setTimeout(() => {
+          const analysis = generateAIAnalysis({
+            caseNumber,
+            caseParties,
+            caseSubject,
+            caseSummary,
+            caseEvidence,
+            priority,
+            caseType
+          });
+          
+          // عرض النتائج
+          displayAnalysisResults(analysis);
+          
+          // إعادة زر التحليل إلى حالته الأصلية
+          analyzeButton.innerHTML = '<i class="fa-solid fa-magnifying-glass-chart"></i> تحليل القضية باستخدام الذكاء الاصطناعي';
+          analyzeButton.disabled = false;
+          
+          showToast('تم تحليل القضية بنجاح', 'success');
+        }, 2000);
+      }
+    }
+    
+    // ملء بيانات تجريبية
+    function fillSampleData() {
+      const sampleCases = [
+        {
+          parties: 'شركة التقنية المتقدمة ضد مؤسسة البرمجيات الحديثة',
+          subject: 'commercial',
+          summary: 'نزاع تعاقدي حول تنفيذ مشروع برمجي بقيمة 2 مليون ريال. المدعي يطالب بتنفيذ العقد أو تعويض مالي، بينما يدعي المدعى عليه وجود عيوب في المواصفات المقدمة.',
+          evidence: 'عقد تنفيذ المشروع، مراسلات البريد الإلكتروني، تقارير فنية، مستندات الدفع.'
+        },
+        {
+          parties: 'محمد أحمد السالم ضد شركة التأمين الوطنية',
+          subject: 'civil',
+          summary: 'مطالبة بتعويض عن حادث مروري. المدعي يدعي إصابته بإعاقة دائمة بسبب الحادث، بينما تدعي شركة التأمين أن الحادث ناتج عن إهمال المدعي.',
+          evidence: 'تقرير الشرطة، التقارير الطبية، صور الحادث، وثائق التأمين.'
+        }
+      ];
+      
+      const randomCase = sampleCases[Math.floor(Math.random() * sampleCases.length)];
+      
+      $('#caseParties').value = randomCase.parties;
+      $('#caseSubject').value = randomCase.subject;
+      $('#caseSummary').value = randomCase.summary;
+      $('#caseEvidence').value = randomCase.evidence;
+    }
+    
+    // توليد تحليل الذكاء الاصطناعي
+    function generateAIAnalysis(data) {
+      const caseTypes = {
+        civil: 'مدنية',
+        commercial: 'تجارية',
+        criminal: 'جنائية',
+        administrative: 'إدارية',
+        labor: 'عمالية',
+        family: 'أحوال شخصية',
+        'real-estate': 'عقارية',
+        intellectual: 'ملكية فكرية'
+      };
+      
+      const priorities = {
+        low: 'منخفضة',
+        medium: 'متوسطة',
+        high: 'عاجلة'
+      };
+      
+      const caseTypeLabels = {
+        simple: 'بسيطة',
+        complex: 'معقدة',
+        precedent: 'سابقة',
+        sensitive: 'حساسة'
+      };
+      
+      // تحديد مستوى الثقة بناءً على كمية البيانات
+      let confidence = 75;
+      if (data.caseSummary.length > 500) confidence = 85;
+      if (data.caseSummary.length < 100) confidence = 60;
+      
+      // تحديد الإجراءات المقترحة بناءً على نوع القضية
+      let recommendedActions = [
+        'مراجعة المستندات والمرفقات المقدمة',
+        'تحديد الاختصاص القضائي',
+        'إعداد جدول زمني للإجراءات'
+      ];
+      
+      if (data.caseType === 'complex') {
+        recommendedActions.push('تشكيل لجنة فنية للمساعدة في التحليل');
+        recommendedActions.push('تحديد موعد لجلسة استماع مبدئية');
+      }
+      
+      if (data.priority === 'high') {
+        recommendedActions.push('تسريع الإجراءات نظراً لأولوية القضية');
+        recommendedActions.push('إشعار جميع الأطراف بجدول زمني مضغوط');
+      }
+      
+      // توليد التوصيات
+      const recommendations = [
+        'يوصى بمراجعة كاملة للمستندات والمرفقات للتأكد من اكتمالها',
+        'ينصح بتحديد القاضي المناسب بناءً على تخصص القضية',
+        'يوصى بإعداد مذكرة إجرائية مفصلة للقضية'
+      ];
+      
+      if (data.caseSubject === 'commercial') {
+        recommendations.push('ينصح بالاستعانة بخبير تجاري للمساعدة في التحليل');
+      }
+      
+      if (data.caseSubject === 'criminal') {
+        recommendations.push('ينصح بتكليف محقق مختص لمراجعة الأدلة');
+      }
+      
+      // توليد الجدول الزمني المقترح
+      const timeline = [
+        { title: 'اليوم 1-3', desc: 'مراجعة أولية للمستندات وتحديد الاختصاص' },
+        { title: 'اليوم 4-7', desc: 'تشكيل هيئة النظر وتحديد الإجراءات الأولية' },
+        { title: 'اليوم 8-14', desc: 'إجراء جلسة استماع مبدئية وتحديد المسار' },
+        { title: 'اليوم 15-30', desc: 'استكمال الإجراءات والبدء في النظر الموضوعي' }
+      ];
+      
+      if (data.priority === 'high') {
+        timeline.forEach(item => {
+          item.desc = item.desc + ' (مستعجل)';
+        });
+      }
+      
+      return {
+        classification: `تصنيف القضية: <strong>${caseTypes[data.caseSubject] || 'عامة'}</strong><br>
+                       نوع القضية: <strong>${caseTypeLabels[data.caseType]}</strong><br>
+                       مستوى التعقيد: <strong>${data.caseType === 'complex' ? 'عالي' : 'متوسط'}</strong><br>
+                       الحالة العامة: <strong>${data.caseType === 'sensitive' ? 'تتطلب تعامل خاص' : 'عادية'}</strong>`,
+        
+        priority: `مستوى الأولوية: <strong>${priorities[data.priority]}</strong><br>
+                   التوصية: <strong>${data.priority === 'high' ? 'معالجة فورية' : data.priority === 'medium' ? 'معالجة في الوقت المناسب' : 'معالجة عادية'}</strong><br>
+                   المدة المتوقعة: <strong>${data.priority === 'high' ? '15-30 يوم' : data.priority === 'medium' ? '1-3 أشهر' : '3-6 أشهر'}</strong>`,
+        
+        recommendations: recommendations.map(rec => `• ${rec}`).join('<br>'),
+        
+        actions: recommendedActions.map((action, index) => `${index + 1}. ${action}`).join('<br>'),
+        
+        confidence,
+        
+        timeline
+      };
+    }
+    
+    // عرض نتائج التحليل
+    function displayAnalysisResults(analysis) {
+      // تحديث تصنيف القضية
+      $('#classificationResult').innerHTML = analysis.classification;
+      
+      // تحديث مستوى الأولوية
+      $('#priorityResult').innerHTML = analysis.priority;
+      
+      // تحديث التوصيات
+      $('#recommendationsResult').innerHTML = analysis.recommendations;
+      
+      // تحديث الإجراءات المقترحة
+      $('#actionsResult').innerHTML = analysis.actions;
+      
+      // تحديث مؤشر الثقة
+      $('#confidenceValue').textContent = `${analysis.confidence}%`;
+      $('#confidenceMeter').style.width = `${analysis.confidence}%`;
+      
+      // تحديث الجدول الزمني
+      const timelineContent = $('#timelineContent');
+      timelineContent.innerHTML = analysis.timeline.map((item, index) => `
+        <div class="timeline-item">
+          <div class="timeline-marker">
+            <i class="fa-solid fa-${index + 1}" style="color:white;font-size:10px"></i>
+          </div>
+          <div class="timeline-content">
+            <div class="timeline-title">${item.title}</div>
+            <div class="timeline-desc">${item.desc}</div>
+          </div>
+        </div>
+      `).join('');
+    }
+    
+    // تهيئة نظام القضايا
+    function initCaseSystem() {
+      const CASES_KEY = 'rwaq_cases_v2';
+      
+      // تحميل القضايا من localStorage
+      let cases = JSON.parse(localStorage.getItem(CASES_KEY)) || [];
+      
+      // تحديث إحصائيات القضايا
+      updateCaseStats(cases);
+      
+      // عرض القضايا في لوحة القاضي
+      renderCases(cases);
+      
+      // زر تقديم قضية جديدة
+      $('#submitCase').addEventListener('click', submitNewCase);
+      
+      // زر تحديث القائمة
+      $('#refreshCases').addEventListener('click', () => {
+        cases = JSON.parse(localStorage.getItem(CASES_KEY)) || [];
+        renderCases(cases);
+        updateCaseStats(cases);
+        showToast('تم تحديث قائمة القضايا', 'success');
+      });
+      
+      // زر حفظ كمسودة
+      $('#draftCase').addEventListener('click', saveAsDraft);
+      
+      // نظام رفع الملفات
+      initFileUpload();
+    }
+    
+    // تقديم قضية جديدة
+    function submitNewCase() {
+      const caseId = $('#case_id').value.trim() || `CASE-${Date.now().toString(36).toUpperCase()}`;
+      const plaintiff = $('#case_plaintiff').value.trim();
+      const subject = $('#case_subject').value.trim();
+      const details = $('#case_details').value.trim();
+      
+      if (!plaintiff || !subject || !details) {
+        showToast('يرجى ملء جميع الحقول المطلوبة', 'warning');
+        return;
+      }
+      
+      const newCase = {
+        id: caseId,
+        internalId: $('#case_internal').value.trim(),
+        plaintiff,
+        subject,
+        details,
+        priority: $('#case_priority').value,
+        status: $('#case_status').value,
+        assigned: $('#case_assigned').value.trim(),
+        date: $('#case_date').value,
+        created: new Date().toISOString(),
+        attachments: [],
+        audit: [{ actor: 'نظام', action: 'قيد محلي', at: new Date().toISOString() }]
+      };
+      
+      // تحميل القضايا الحالية
+      let cases = JSON.parse(localStorage.getItem('rwaq_cases_v2')) || [];
+      cases.unshift(newCase);
+      
+      // حفظ القضايا المحدثة
+      localStorage.setItem('rwaq_cases_v2', JSON.stringify(cases));
+      
+      // عرض رسالة النجاح
+      $('#caseFeedback').innerHTML = `
+        <div style="color:var(--success);font-weight:600">
+          <i class="fa-solid fa-check-circle"></i> تم قيد القضية بنجاح
+        </div>
+        <div class="muted mt-1">رقم القضية: ${caseId}</div>
+      `;
+      $('#caseFeedback').style.display = 'block';
+      
+      // تحديث الإحصائيات والعرض
+      updateCaseStats(cases);
+      renderCases(cases);
+      
+      // إعادة تعيين النموذج
+      resetCaseForm();
+      
+      showToast('تم قيد القضية بنجاح', 'success');
+    }
+    
+    // حفظ كمسودة
+    function saveAsDraft() {
+      const caseId = $('#case_id').value.trim() || `DRAFT-${Date.now().toString(36).toUpperCase()}`;
+      
+      const draftCase = {
+        id: caseId,
+        internalId: $('#case_internal').value.trim(),
+        plaintiff: $('#case_plaintiff').value.trim(),
+        subject: $('#case_subject').value.trim(),
+        details: $('#case_details').value.trim(),
+        priority: $('#case_priority').value,
+        status: 'draft',
+        assigned: $('#case_assigned').value.trim(),
+        date: $('#case_date').value,
+        created: new Date().toISOString(),
+        attachments: [],
+        audit: [{ actor: 'نظام', action: 'حفظ كمسودة', at: new Date().toISOString() }]
+      };
+      
+      // حفظ المسودة في localStorage منفصل
+      const drafts = JSON.parse(localStorage.getItem('rwaq_drafts')) || [];
+      drafts.unshift(draftCase);
+      localStorage.setItem('rwaq_drafts', JSON.stringify(drafts));
+      
+      showToast('تم حفظ القضية كمسودة', 'success');
+    }
+    
+    // إعادة تعيين نموذج القضية
+    function resetCaseForm() {
+      $('#case_id').value = '';
+      $('#case_internal').value = '';
+      $('#case_plaintiff').value = '';
+      $('#case_subject').value = '';
+      $('#case_details').value = '';
+      $('#case_priority').value = 'normal';
+      $('#case_status').value = 'open';
+      $('#case_assigned').value = '';
+      $('#case_date').value = '';
+      $('#fileList').innerHTML = '';
+    }
+    
+    // تحديث إحصائيات القضايا
+    function updateCaseStats(cases) {
+      const totalCases = cases.length;
+      const openCases = cases.filter(c => c.status === 'open').length;
+      const urgentCases = cases.filter(c => c.priority === 'urgent').length;
+      const assignedCases = cases.filter(c => c.assigned && c.assigned.trim() !== '').length;
+      
+      $('#totalCases').textContent = totalCases;
+      $('#openCases').textContent = openCases;
+      $('#urgentCases').textContent = urgentCases;
+      $('#assignedCases').textContent = assignedCases;
+    }
+    
+    // عرض القضايا
+    function renderCases(cases) {
+      const caseList = $('#judgeCaseList');
+      
+      if (cases.length === 0) {
+        caseList.innerHTML = `
+          <div class="text-center muted" style="padding:40px">
+            <i class="fa-solid fa-folder-open" style="font-size:48px"></i>
+            <p class="mt-2">لا توجد قضايا مسجلة بعد</p>
+            <p class="muted">استخدم نموذج "قيد دعوى جديدة" لإضافة قضية</p>
+          </div>
+        `;
+        return;
+      }
+      
+      caseList.innerHTML = cases.map(caseItem => `
+        <div class="case-item" data-case-id="${caseItem.id}">
+          <div class="case-info">
+            <div class="case-title">${escapeHtml(caseItem.plaintiff)}</div>
+            <div class="case-meta">
+              <span>رقم القضية: ${escapeHtml(caseItem.id)}</span>
+              <span>الموضوع: ${escapeHtml(caseItem.subject)}</span>
+              <span class="status-badge ${getStatusClass(caseItem.priority)}">
+                ${getPriorityText(caseItem.priority)}
+              </span>
+            </div>
+          </div>
+          <div class="case-actions">
+            <button class="btn mini" onclick="viewCaseDetails('${caseItem.id}')">
+              <i class="fa-solid fa-eye"></i> عرض
+            </button>
+            <button class="btn mini" onclick="analyzeWithAI('${caseItem.id}')">
+              <i class="fa-solid fa-robot"></i> تحليل
+            </button>
+          </div>
+        </div>
+      `).join('');
+    }
+    
+    // تحليل القضية باستخدام الذكاء الاصطناعي
+    function analyzeWithAI(caseId) {
+      const cases = JSON.parse(localStorage.getItem('rwaq_cases_v2')) || [];
+      const caseItem = cases.find(c => c.id === caseId);
+      
+      if (!caseItem) {
+        showToast('القضية غير موجودة', 'error');
+        return;
+      }
+      
+      // الانتقال إلى لوحة المساعد الذكي
+      $$('.menu button').forEach(btn => btn.classList.remove('active'));
+      $$('.menu button')[0].classList.add('active');
+      
+      $$('main section').forEach(panel => panel.hidden = true);
+      $('#panel-assistant').hidden = false;
+      
+      // ملء بيانات القضية في المساعد الذكي
+      $('#facts').value = `
+القضية: ${caseItem.id}
+المدعي/المدعى عليه: ${caseItem.plaintiff}
+الموضوع: ${caseItem.subject}
+التفاصيل: ${caseItem.details}
+الحالة: ${caseItem.status}
+الأولوية: ${caseItem.priority}
+      `.trim();
+      
+      showToast(`جار تحليل القضية ${caseItem.id} باستخدام الذكاء الاصطناعي`, 'info');
+    }
+    
+    // عرض تفاصيل القضية
+    function viewCaseDetails(caseId) {
+      const cases = JSON.parse(localStorage.getItem('rwaq_cases_v2')) || [];
+      const caseItem = cases.find(c => c.id === caseId);
+      
+      if (!caseItem) {
+        showToast('القضية غير موجودة', 'error');
+        return;
+      }
+      
+      // ملء بيانات القضية في الدرج
+      $('#drawerTitle').textContent = `قضية — ${caseItem.id}`;
+      $('#f_caseid').value = caseItem.id;
+      $('#f_internal').value = caseItem.internalId || '';
+      $('#f_plaintiff').value = caseItem.plaintiff;
+      $('#f_subject').value = caseItem.subject;
+      $('#f_created').textContent = new Date(caseItem.created).toLocaleString('ar-SA');
+      $('#f_priority').value = caseItem.priority;
+      $('#f_status').value = caseItem.status;
+      $('#f_assigned').value = caseItem.assigned || '';
+      $('#f_notes').value = caseItem.details;
+      
+      // المرفقات
+      const attachments = $('#f_attachments');
+      attachments.innerHTML = caseItem.attachments && caseItem.attachments.length > 0
+        ? caseItem.attachments.map(att => `
+            <div class="file-item">
+              <div class="file-meta">
+                <div class="file-name">${escapeHtml(att.name)}</div>
+                <div class="file-size">${att.size ? formatFileSize(att.size) : 'غير معروف'}</div>
+              </div>
+              <div>
+                <button class="btn mini">فتح</button>
+              </div>
+            </div>
+          `).join('')
+        : '<div class="muted text-center">لا توجد مرفقات</div>';
+      
+      // سجل التعديلات
+      const auditList = $('#f_audit_list');
+      auditList.innerHTML = caseItem.audit && caseItem.audit.length > 0
+        ? caseItem.audit.map(audit => `
+            <div>${new Date(audit.at).toLocaleString('ar-SA')} — ${escapeHtml(audit.actor)}: ${escapeHtml(audit.action)}</div>
+          `).join('')
+        : '<div class="muted">لا توجد سجلات تعديل</div>';
+      
+      // حفظ معرف القضية في الدرج
+      $('#judgeDrawer').dataset.caseId = caseId;
+      
+      // عرض الدرج
+      $('#judgeDrawer').classList.add('show');
+    }
+    
+    // تهيئة رفع الملفات
+    function initFileUpload() {
+      const uploader = $('#caseUploader');
+      const fileList = $('#fileList');
+      let uploadedFiles = [];
+      
+      uploader.addEventListener('click', () => {
+        const input = document.createElement('input');
+        input.type = 'file';
+        input.multiple = true;
+        input.onchange = (e) => handleFiles(e.target.files);
+        input.click();
+      });
+      
+      uploader.addEventListener('dragover', (e) => {
+        e.preventDefault();
+        uploader.classList.add('dragover');
+      });
+      
+      uploader.addEventListener('dragleave', (e) => {
+        e.preventDefault();
+        uploader.classList.remove('dragover');
+      });
+      
+      uploader.addEventListener('drop', (e) => {
+        e.preventDefault();
+        uploader.classList.remove('dragover');
+        handleFiles(e.dataTransfer.files);
+      });
+      
+      function handleFiles(files) {
+        if (!files || files.length === 0) return;
+        
+        Array.from(files).forEach(file => {
+          const fileId = 'file_' + Date.now() + '_' + Math.random().toString(36).substr(2, 9);
+          
+          uploadedFiles.push({
+            id: fileId,
+            name: file.name,
+            size: file.size,
+            type: file.type,
+            file: file
+          });
+        });
+        
+        renderFileList();
+        showToast(`تم إضافة ${files.length} ملف(ات)`, 'success');
+      }
+      
+      function renderFileList() {
+        fileList.innerHTML = uploadedFiles.map(file => `
+          <div class="file-item" data-file-id="${file.id}">
+            <div class="file-meta">
+              <div class="file-name">${escapeHtml(file.name)}</div>
+              <div class="file-size">${formatFileSize(file.size)} • ${file.type || 'غير معروف'}</div>
+            </div>
+            <div>
+              <button class="btn mini" onclick="removeFile('${file.id}')">حذف</button>
+            </div>
+          </div>
+        `).join('');
+      }
+      
+      // دالة حذف الملف (تعريفها عالمياً لاستخدامها في الأحداث)
+      window.removeFile = function(fileId) {
+        uploadedFiles = uploadedFiles.filter(file => file.id !== fileId);
+        renderFileList();
+        showToast('تم حذف الملف', 'success');
+      };
+    }
+    
+    // تهيئة نظام الإشعارات
+    function initNotifications() {
+      const notificationBtn = $('#notificationsBtn');
+      const notificationCount = $('#notificationCount');
+      
+      // تحميل الإشعارات من localStorage
+      let notifications = JSON.parse(localStorage.getItem('rwaq_notifications')) || [];
+      
+      // تحديث عدد الإشعارات
+      updateNotificationCount(notifications.length);
+      
+      // عند النقر على زر الإشعارات
+      notificationBtn.addEventListener('click', () => {
+        showNotifications(notifications);
+      });
+    }
+    
+    // تحديث عدد الإشعارات
+    function updateNotificationCount(count) {
+      const notificationCount = $('#notificationCount');
+      
+      if (count > 0) {
+        notificationCount.textContent = count;
+        notificationCount.classList.remove('hidden');
+      } else {
+        notificationCount.classList.add('hidden');
+      }
+    }
+    
+    // عرض الإشعارات
+    function showNotifications(notifications) {
+      // يمكن تطوير هذه الوظيفة لعرض قائمة منبثقة بالإشعارات
+      if (notifications.length === 0) {
+        showToast('لا توجد إشعارات جديدة', 'info');
+      } else {
+        showToast(`لديك ${notifications.length} إشعار(ات) جديدة`, 'info');
+      }
+    }
+    
+    // تهيئة الأحداث العامة
+    function initGlobalEvents() {
+      // تبديل السمة
+      $('#themeToggle').addEventListener('click', toggleTheme);
+      
+      // فتح/إغلاق درج القاضي
+      $('#openJudgeDrawer').addEventListener('click', openJudgeDrawer);
+      $('#closeDrawer').addEventListener('click', closeJudgeDrawer);
+      
+      // حفظ التعديلات في الدرج
+      $('#f_save').addEventListener('click', saveCaseEdits);
+      
+      // طلب اقتراح الذكاء الاصطناعي من الدرج
+      $('#f_request_ai').addEventListener('click', requestAIFromDrawer);
+      
+      // أحداث لوحة المساعد الذكي
+      initAssistantPanelEvents();
+    }
+    
+    // تبديل السمة
+    function toggleTheme() {
+      const body = document.body;
+      const currentTheme = body.getAttribute('data-theme') || 'dark';
+      const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+      
+      body.setAttribute('data-theme', newTheme);
+      showToast(`تم التبديل إلى السمة ${newTheme === 'dark' ? 'الداكنة' : 'الفاتحة'}`, 'success');
+    }
+    
+    // فتح درج القاضي
+    function openJudgeDrawer() {
+      // عرض قضية تجريبية
+      viewCaseDetails('CASE-DEMO-001');
+    }
+    
+    // إغلاق درج القاضي
+    function closeJudgeDrawer() {
+      $('#judgeDrawer').classList.remove('show');
+    }
+    
+    // حفظ تعديلات القضية من الدرج
+    function saveCaseEdits() {
+      const caseId = $('#judgeDrawer').dataset.caseId;
+      if (!caseId) {
+        showToast('لا توجد قضية محددة', 'warning');
+        return;
+      }
+      
+      let cases = JSON.parse(localStorage.getItem('rwaq_cases_v2')) || [];
+      const caseIndex = cases.findIndex(c => c.id === caseId);
+      
+      if (caseIndex === -1) {
+        showToast('القضية غير موجودة', 'error');
+        return;
+      }
+      
+      // تحديث بيانات القضية
+      cases[caseIndex].internalId = $('#f_internal').value.trim();
+      cases[caseIndex].plaintiff = $('#f_plaintiff').value.trim();
+      cases[caseIndex].subject = $('#f_subject').value.trim();
+      cases[caseIndex].priority = $('#f_priority').value;
+      cases[caseIndex].status = $('#f_status').value;
+      cases[caseIndex].assigned = $('#f_assigned').value.trim();
+      cases[caseIndex].details = $('#f_notes').value.trim();
+      
+      // إضافة سجل تعديل
+      cases[caseIndex].audit = cases[caseIndex].audit || [];
+      cases[caseIndex].audit.unshift({
+        actor: 'القاضي',
+        action: 'تعديل بيانات القضية',
+        at: new Date().toISOString()
+      });
+      
+      // حفظ التعديلات
+      localStorage.setItem('rwaq_cases_v2', JSON.stringify(cases));
+      
+      // تحديث العرض
+      renderCases(cases);
+      updateCaseStats(cases);
+      
+      showToast('تم حفظ التعديلات بنجاح', 'success');
+    }
+    
+    // طلب اقتراح الذكاء الاصطناعي من الدرج
+    function requestAIFromDrawer() {
+      const caseId = $('#judgeDrawer').dataset.caseId;
+      if (!caseId) {
+        showToast('لا توجد قضية محددة', 'warning');
+        return;
+      }
+      
+      const button = $('#f_request_ai');
+      const originalText = button.innerHTML;
+      
+      button.innerHTML = '<span class="loading"><span></span><span></span><span></span></span> جاري التحليل...';
+      button.disabled = true;
+      
+      // محاكاة تحليل الذكاء الاصطناعي
+      setTimeout(() => {
+        const aiSuggestion = `
+[اقتراح الذكاء الاصطناعي - ${new Date().toLocaleString('ar-SA')}]
+
+بناءً على تحليل القضية، أقترح ما يلي:
+
+1. مراجعة كافة المستندات والمرفقات للتأكد من اكتمالها
+2. تحديد الاختصاص القضائي المناسب
+3. إعداد جدول زمني للإجراءات القادمة
+4. تحديد الحاجة لأي خبراء أو مستشارين متخصصين
+5. إعداد قائمة بالإجراءات العاجلة إذا كانت القضية مستعجلة
+
+توصية: يوصى بمعالجة القضية في إطار زمني مناسب مع مراعاة أولويتها.
+        `.trim();
+        
+        // إضافة الاقتراح إلى الملاحظات
+        const notes = $('#f_notes');
+        notes.value = notes.value + '\n\n' + aiSuggestion;
+        
+        button.innerHTML = originalText;
+        button.disabled = false;
+        
+        showToast('تم إضافة اقتراح الذكاء الاصطناعي', 'success');
+      }, 1500);
+    }
+    
+    // تهيئة أحداث لوحة المساعد الذكي
+    function initAssistantPanelEvents() {
+      // تشغيل التحليل
+      $('#runBtn').addEventListener('click', runAnalysis);
+      
+      // تبديل وضع البث
+      $('#streamToggle').addEventListener('click', toggleStream);
+      
+      // حفظ المسودة
+      $('#saveDraftBtn').addEventListener('click', saveDraft);
+      
+      // نسخ النتيجة
+      $('#copyResult').addEventListener('click', copyResult);
+      
+      // مسح النتيجة
+      $('#clearResult').addEventListener('click', clearResult);
+      
+      // تصدير النتيجة
+      $('#exportTxt').addEventListener('click', exportResult);
+      
+      // طباعة النتيجة
+      $('#printBtn').addEventListener('click', printResult);
+      
+      // مشاركة النتيجة
+      $('#shareBtn').addEventListener('click', shareResult);
+      
+      // مسح السجل
+      $('#clearHistory').addEventListener('click', clearHistory);
+      
+      // اختصار لوحة المفاتيح
+      document.addEventListener('keydown', (e) => {
+        if ((e.ctrlKey || e.metaKey) && e.key === 'Enter') {
+          e.preventDefault();
+          runAnalysis();
+        }
+      });
+    }
+    
+    // تشغيل التحليل
+    async function runAnalysis() {
+      const text = $('#facts').value.trim();
+      if (!text) {
+        showToast('يرجى إدخال نص للتحليل', 'warning');
+        return;
+      }
+      
+      const assistantSelect = $('#assistantSelect');
+      const assistantId = assistantSelect.value;
+      const assistants = JSON.parse(localStorage.getItem('rwaq_assistants_v2'));
+      const assistant = assistants.find(a => a.id === assistantId);
+      
+      if (!assistant) {
+        showToast('يرجى اختيار مساعد', 'warning');
+        return;
+      }
+      
+      const mode = $$('.mode-btn.active')[0]?.dataset.mode || 'concise';
+      
+      // عرض شريط التقدم
+      const progressBar = $('#progressBar');
+      progressBar.style.display = 'block';
+      
+      // تعطيل زر التشغيل
+      const runBtn = $('#runBtn');
+      runBtn.disabled = true;
+      runBtn.innerHTML = '<span class="loading"><span></span><span></span><span></span></span> جاري التحليل...';
+      
+      // محاكاة التحليل
+      try {
+        const analysis = await simulateAnalysis(text, assistant, mode);
+        
+        // عرض النتيجة بشكل تدريجي
+        await displayResultProgressive(analysis);
+        
+        // حفظ في السجل
+        saveToHistory(text, assistant, mode, analysis);
+        
+        showToast('تم الانتهاء من التحليل بنجاح', 'success');
+      } catch (error) {
+        showToast('حدث خطأ أثناء التحليل', 'error');
+        $('#analysisResult').textContent = 'حدث خطأ أثناء التحليل. يرجى المحاولة مرة أخرى.';
+      } finally {
+        // إعادة تعطيل زر التشغيل وإخفاء شريط التقدم
+        runBtn.disabled = false;
+        runBtn.innerHTML = '<i class="fa-solid fa-rocket"></i> تشغيل التحليل القانوني';
+        progressBar.style.display = 'none';
+        $('#progressBar i').style.width = '0%';
+      }
+    }
+    
+    // محاكاة التحليل
+    function simulateAnalysis(text, assistant, mode) {
+      return new Promise((resolve) => {
+        setTimeout(() => {
+          const analysis = generateMockAnalysis(text, assistant, mode);
+          resolve(analysis);
+        }, 2000);
+      });
+    }
+    
+    // توليد تحليل تجريبي
+    function generateMockAnalysis(text, assistant, mode) {
+      const modes = {
+        concise: 'مختصر',
+        detailed: 'مفصّل',
+        step: 'خطوات إجرائية',
+        precedent: 'سوابق قضائية'
+      };
+      
+      const modeText = modes[mode] || 'مختصر';
+      
+      return `
+تحليل قانوني بواسطة: ${assistant.name}
+وضع التحليل: ${modeText}
+التاريخ: ${new Date().toLocaleString('ar-SA')}
+
+ملخص النص المدخل:
+${text.substring(0, 200)}${text.length > 200 ? '...' : ''}
+
+النتائج الرئيسية:
+1. تم تحديد ${Math.floor(text.length / 50)} قضية فرعية رئيسية
+2. ${text.includes('تعويض') ? 'تم تحديد مطالبات تعويض' : 'لا توجد مطالبات تعويض واضحة'}
+3. ${text.includes('عقد') ? 'تم تحديد عناصر عقدية' : 'لا توجد عناصر عقدية واضحة'}
+
+التوصيات:
+• مراجعة المستندات والمرفقات المقدمة
+• ${text.includes('تعويض') ? 'تحديد أسس التعويض والمبلغ المناسب' : 'تحديد المطالبات القانونية الرئيسية'}
+• إعداد جدول زمني للإجراءات القضائية
+
+الخطوات التالية:
+1. مراجعة شاملة للمستندات
+2. تحديد الاختصاص القضائي
+3. إعداد المذكرات القانونية
+4. تحديد الجدول الزمني للإجراءات
+
+ملاحظة: هذا تحليل أولي ويعتمد على المعلومات المقدمة فقط.
+      `.trim();
+    }
+    
+    // عرض النتيجة بشكل تدريجي
+    async function displayResultProgressive(text) {
+      const resultElement = $('#analysisResult');
+      resultElement.textContent = '';
+      
+      const characters = text.split('');
+      const streamEnabled = $('#streamToggle').getAttribute('aria-pressed') === 'true';
+      const speed = streamEnabled ? 10 : 30;
+      
+      for (let i = 0; i < characters.length; i++) {
+        resultElement.textContent += characters[i];
+        
+        // تحديث شريط التقدم
+        if (i % 100 === 0) {
+          const progress = Math.min(98, Math.round((i / characters.length) * 100));
+          $('#progressBar i').style.width = `${progress}%`;
+        }
+        
+        // تأخير للتحكم في سرعة العرض
+        await sleep(speed);
+      }
+      
+      $('#progressBar i').style.width = '100%';
+    }
+    
+    // تأخير
+    function sleep(ms) {
+      return new Promise(resolve => setTimeout(resolve, ms));
+    }
+    
+    // حفظ في السجل
+    function saveToHistory(text, assistant, mode, analysis) {
+      const HISTORY_KEY = 'rwaq_analysis_history';
+      const history = JSON.parse(localStorage.getItem(HISTORY_KEY)) || [];
+      
+      history.unshift({
+        id: 'hist_' + Date.now(),
+        text: text.substring(0, 500),
+        assistant: assistant.name,
+        mode,
+        analysis: analysis.substring(0, 1000),
+        timestamp: new Date().toISOString()
+      });
+      
+      // حفظ فقط آخر 50 تحليل
+      if (history.length > 50) {
+        history.length = 50;
+      }
+      
+      localStorage.setItem(HISTORY_KEY, JSON.stringify(history));
+      renderHistory(history);
+    }
+    
+    // عرض السجل
+    function renderHistory(history) {
+      const historyList = $('#historyList');
+      
+      if (history.length === 0) {
+        historyList.innerHTML = '<div class="muted text-center">لا يوجد سجل تحليلات</div>';
+        return;
+      }
+      
+      historyList.innerHTML = history.slice(0, 10).map(item => `
+        <div class="assistant-item">
+          <div class="assistant-info">
+            <div class="assistant-name">${escapeHtml(item.assistant)}</div>
+            <div class="assistant-desc">${escapeHtml(item.text.substring(0, 80))}${item.text.length > 80 ? '...' : ''}</div>
+            <div class="muted" style="font-size:12px;margin-top:4px">
+              ${new Date(item.timestamp).toLocaleString('ar-SA')}
+            </div>
+          </div>
+          <div class="assistant-actions">
+            <button class="btn mini" onclick="loadFromHistory('${item.id}')">عرض</button>
+          </div>
+        </div>
+      `).join('');
+    }
+    
+    // تحميل من السجل
+    window.loadFromHistory = function(historyId) {
+      const HISTORY_KEY = 'rwaq_analysis_history';
+      const history = JSON.parse(localStorage.getItem(HISTORY_KEY)) || [];
+      const item = history.find(h => h.id === historyId);
+      
+      if (item) {
+        $('#analysisResult').textContent = item.analysis;
+        showToast('تم تحميل التحليل من السجل', 'success');
+      }
+    };
+    
+    // تبديل وضع البث
+    function toggleStream() {
+      const button = $('#streamToggle');
+      const isPressed = button.getAttribute('aria-pressed') === 'true';
+      
+      button.setAttribute('aria-pressed', !isPressed);
+      button.classList.toggle('active', !isPressed);
+      
+      showToast(`وضع البث ${!isPressed ? 'مفعل' : 'معطل'}`, !isPressed ? 'success' : 'info');
+    }
+    
+    // حفظ المسودة
+    function saveDraft() {
+      const text = $('#facts').value.trim();
+      if (!text) {
+        showToast('لا يوجد نص لحفظه', 'warning');
+        return;
+      }
+      
+      localStorage.setItem('rwaq_assistant_draft', text);
+      showToast('تم حفظ المسودة بنجاح', 'success');
+    }
+    
+    // نسخ النتيجة
+    function copyResult() {
+      const text = $('#analysisResult').textContent;
+      if (!text.trim()) {
+        showToast('لا يوجد نص للنسخ', 'warning');
+        return;
+      }
+      
+      navigator.clipboard.writeText(text).then(() => {
+        showToast('تم نسخ النتيجة إلى الحافظة', 'success');
+      });
+    }
+    
+    // مسح النتيجة
+    function clearResult() {
+      if (confirm('هل أنت متأكد من مسح نتيجة التحليل؟')) {
+        $('#analysisResult').textContent = '';
+        showToast('تم مسح نتيجة التحليل', 'success');
+      }
+    }
+    
+    // تصدير النتيجة
+    function exportResult() {
+      const text = $('#analysisResult').textContent;
+      if (!text.trim()) {
+        showToast('لا يوجد نص للتصدير', 'warning');
+        return;
+      }
+      
+      const blob = new Blob([text], { type: 'text/plain;charset=utf-8' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = `تحليل-قانوني-${new Date().toISOString().slice(0, 10)}.txt`;
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      URL.revokeObjectURL(url);
+      
+      showToast('تم تصدير النتيجة', 'success');
+    }
+    
+    // طباعة النتيجة
+    function printResult() {
+      const text = $('#analysisResult').textContent;
+      if (!text.trim()) {
+        showToast('لا يوجد نص للطباعة', 'warning');
+        return;
+      }
+      
+      const printWindow = window.open('', '_blank');
+      printWindow.document.write(`
+        <!DOCTYPE html>
+        <html dir="rtl" lang="ar">
+        <head>
+          <meta charset="UTF-8">
+          <title>تحليل قانوني - رواق العدل</title>
+          <style>
+            body { font-family: 'Cairo', sans-serif; line-height: 1.6; padding: 20px; }
+            h1 { color: #0a716e; }
+            pre { white-space: pre-wrap; background: #f5f5f5; padding: 20px; border-radius: 8px; }
+          </style>
+        </head>
+        <body>
+          <h1>تحليل قانوني - رواق العدل</h1>
+          <p>تاريخ الطباعة: ${new Date().toLocaleString('ar-SA')}</p>
+          <hr>
+          <pre>${escapeHtml(text)}</pre>
+        </body>
+        </html>
+      `);
+      printWindow.document.close();
+      printWindow.print();
+    }
+    
+    // مشاركة النتيجة
+    function shareResult() {
+      const text = $('#analysisResult').textContent;
+      if (!text.trim()) {
+        showToast('لا يوجد نص للمشاركة', 'warning');
+        return;
+      }
+      
+      if (navigator.share) {
+        navigator.share({
+          title: 'تحليل قانوني - رواق العدل',
+          text: text.substring(0, 100) + '...',
+          url: window.location.href
+        });
+      } else {
+        showToast('خاصية المشاركة غير مدعومة في هذا المتصفح', 'info');
+      }
+    }
+    
+    // مسح السجل
+    function clearHistory() {
+      if (confirm('هل أنت متأكد من مسح سجل التحليلات؟ لا يمكن التراجع عن هذا الإجراء.')) {
+        localStorage.removeItem('rwaq_analysis_history');
+        $('#historyList').innerHTML = '<div class="muted text-center">لا يوجد سجل تحليلات</div>';
+        showToast('تم مسح سجل التحليلات', 'success');
+      }
+    }
+    
+    // دالات مساعدة
+    function escapeHtml(text) {
+      const div = document.createElement('div');
+      div.textContent = text;
+      return div.innerHTML;
+    }
+    
+    function showToast(message, type = 'info') {
+      const container = $('#toastContainer');
+      const toast = document.createElement('div');
+      
+      toast.className = `toast toast-${type}`;
+      toast.innerHTML = `
+        <div class="toast-content">${message}</div>
+        <button class="toast-close">&times;</button>
+      `;
+      
+      container.appendChild(toast);
+      
+      // إضافة مستمع حدث لإغلاق الإشعار
+      toast.querySelector('.toast-close').addEventListener('click', () => {
+        toast.remove();
+      });
+      
+      // إزالة الإشعار تلقائياً بعد 5 ثوانٍ
+      setTimeout(() => {
+        if (toast.parentNode) {
+          toast.style.opacity = '0';
+          setTimeout(() => toast.remove(), 300);
+        }
+      }, 5000);
+    }
+    
+    function getStatusClass(priority) {
+      switch (priority) {
+        case 'urgent': return 'status-urgent';
+        case 'review': return 'status-review';
+        default: return 'status-open';
+      }
+    }
+    
+    function getPriorityText(priority) {
+      switch (priority) {
+        case 'urgent': return 'عاجلة';
+        case 'review': return 'مراجعة';
+        default: return 'عادية';
+      }
+    }
+    
+    function formatFileSize(bytes) {
+      if (bytes === 0) return '0 بايت';
+      
+      const k = 1024;
+      const sizes = ['بايت', 'كيلوبايت', 'ميجابايت', 'جيجابايت'];
+      const i = Math.floor(Math.log(bytes) / Math.log(k));
+      
+      return parseFloat((bytes / Math.pow(k, i)).toFixed(1)) + ' ' + sizes[i];
+    }
   </script>
 </body>
 </html>
