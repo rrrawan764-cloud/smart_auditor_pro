@@ -14,22 +14,39 @@
 
   <style>
     :root{
-      --bg1:#061917; --bg2:#042a24; --muted:#93a79f; --green:#0fb06b; --gold:#FFB703;
-      --glass: rgba(255,255,255,0.03); --card-radius:14px; --accent: rgba(15,176,107,0.06);
-      --maxwidth:1200px; --ease: cubic-bezier(.2,.9,.2,1);
+      --bg1:#032b2a;      /* deep teal for the image-like background */
+      --bg2:#073733;
+      --muted:#9bb6aa;
+      --green:#0fb06b;
+      --gold:#FFB703;
+      --glass: rgba(255,255,255,0.03);
+      --card-radius:14px;
+      --accent: rgba(15,176,107,0.06);
+      --maxwidth:1200px;
+      --ease: cubic-bezier(.2,.9,.2,1);
     }
     *{box-sizing:border-box}
     html,body{height:100%;margin:0;font-family:'Cairo',sans-serif;background:linear-gradient(180deg,var(--bg1),var(--bg2));color:#e8fff1;-webkit-font-smoothing:antialiased}
     a{color:var(--green)}
     /* Layout */
-    .wrap{max-width:var(--maxwidth);margin:18px auto;padding:14px;display:grid;grid-template-columns:320px 1fr;gap:16px;align-items:start}
+    .wrap{max-width:var(--maxwidth);margin:18px auto;padding:14px;display:grid;grid-template-columns:320px 1fr;gap:16px;align-items:start;position:relative}
     @media (max-width:980px){ .wrap{grid-template-columns:1fr;padding:10px} }
-    /* Canvas background */
-    #bgCanvas{position:fixed;inset:0;z-index:-2}
-    .bg-overlay{position:fixed;inset:0;z-index:-1;background:linear-gradient(180deg, rgba(0,8,7,0.18), rgba(0,12,10,0.36));pointer-events:none}
 
-    /* Sidebar */
-    .sidebar{background:var(--glass);border-radius:var(--card-radius);padding:14px;border:1px solid rgba(255,255,255,0.03);box-shadow:0 18px 48px rgba(0,0,0,0.6);backdrop-filter: blur(6px)}
+    /* Canvas background occupies full viewport */
+    #bgCanvas{position:fixed;inset:0;z-index:-2;display:block}
+    /* subtle texture overlay to match the image look */
+    .bg-overlay{
+      position:fixed;inset:0;z-index:-1;
+      background:
+        radial-gradient(800px 300px at 10% 10%, rgba(0,0,0,0.12), transparent 10%),
+        radial-gradient(600px 260px at 90% 80%, rgba(20,50,40,0.08), transparent 6%),
+        linear-gradient(180deg, rgba(0,0,0,0.22), rgba(0,0,0,0.36));
+      mix-blend-mode: multiply;
+      pointer-events:none;
+    }
+
+    /* Sidebar & UI (kept as in original, colors tuned on teal) */
+    .sidebar{background:rgba(255,255,255,0.02);border-radius:var(--card-radius);padding:14px;border:1px solid rgba(255,255,255,0.03);box-shadow:0 18px 48px rgba(0,0,0,0.6);backdrop-filter: blur(6px)}
     .brand{display:flex;gap:10px;align-items:center}
     .logo{width:64px;height:64px;border-radius:12px;background:linear-gradient(180deg,var(--green),#0b7d56);display:flex;align-items:center;justify-content:center;box-shadow:0 10px 30px rgba(0,0,0,0.5)}
     .brand h1{margin:0;font-size:18px;color:#eaffef}
@@ -52,7 +69,7 @@
     .search input{border:0;background:transparent;outline:none;color:#eaffef}
     .controls{display:flex;gap:8px}
 
-    /* Assistant area */
+    /* Assistant area (unchanged) */
     .assistant-controls{display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-top:10px}
     select, textarea, input[type="text"]{width:100%;padding:10px;border-radius:10px;border:1px solid rgba(255,255,255,0.04);background:rgba(0,0,0,0.14);color:#eaffef;outline:none}
     .col{flex:1}
@@ -65,7 +82,7 @@
     .progress > i{display:block;height:100%;background:linear-gradient(90deg,var(--green),var(--gold));width:0%}
     pre.result{white-space:pre-wrap;background:rgba(255,255,255,0.01);padding:12px;border-radius:8px;border:1px solid rgba(255,255,255,0.03);color:#eaffef}
 
-    /* action bar bottom on mobile */
+    /* mobile actions */
     .mobile-actions{display:none}
     @media (max-width:700px){
       .wrap{padding:8px}
@@ -73,7 +90,6 @@
       .mobile-actions{display:flex;position:fixed;bottom:10px;left:50%;transform:translateX(-50%);gap:8px;background:rgba(0,0,0,0.6);padding:8px;border-radius:12px;z-index:60}
     }
 
-    /* accessibility focus */
     :focus{outline:3px solid rgba(15,176,107,0.08);outline-offset:2px}
   </style>
 </head>
@@ -198,78 +214,203 @@
   </div>
 
   <script>
-    /* ---------------- Interactive background (lightweight) ---------------- */
+    /* ---------------- Interactive circuit-like background to match supplied image (style 2) ---------------- */
     (function(){
       const canvas = document.getElementById('bgCanvas');
-      const ctx = canvas.getContext('2d');
+      const ctx = canvas.getContext('2d', { alpha:true });
       let DPR = Math.max(1, window.devicePixelRatio || 1);
+      let W = 0, H = 0;
+
       function resize(){
         DPR = Math.max(1, window.devicePixelRatio || 1);
-        canvas.width = Math.floor(window.innerWidth * DPR);
-        canvas.height = Math.floor(window.innerHeight * DPR);
+        W = canvas.width = Math.floor(window.innerWidth * DPR);
+        H = canvas.height = Math.floor(window.innerHeight * DPR);
         canvas.style.width = window.innerWidth + 'px';
         canvas.style.height = window.innerHeight + 'px';
         ctx.setTransform(DPR,0,0,DPR,0,0);
       }
-      window.addEventListener('resize', resize);
+      window.addEventListener('resize', resize, { passive:true });
       resize();
 
-      // gentle animated lines + particles
+      // parameters tuned to resemble the provided dark-teal circuit image
+      const params = {
+        lineColor: 'rgba(100,200,170,0.13)',    // soft teal lines
+        highlight: 'rgba(180,255,220,0.06)',    // faint highlights
+        binaryColor: 'rgba(180,230,200,0.08)',
+        particleCount: Math.max(30, Math.floor(window.innerWidth/30)),
+        circuitLines: 22
+      };
+
+      // moving particles (soft)
       const particles = [];
-      function initParticles(n=80){
-        particles.length=0;
-        for(let i=0;i<n;i++){
-          particles.push({ x: Math.random()*window.innerWidth, y: Math.random()*window.innerHeight, r: Math.random()*2+0.6, vx:(Math.random()-0.5)*0.6, vy:(Math.random()-0.5)*0.6, a: 0.2+Math.random()*0.6});
+      function initParticles(){
+        particles.length = 0;
+        for(let i=0;i<params.particleCount;i++){
+          particles.push({
+            x: Math.random()*window.innerWidth,
+            y: Math.random()*window.innerHeight,
+            r: Math.random()*1.6 + 0.4,
+            vx: (Math.random()-0.5)*0.2,
+            vy: (Math.random()-0.5)*0.2,
+            a: 0.08 + Math.random()*0.22
+          });
         }
       }
-      initParticles(window.innerWidth < 600 ? 40 : 90);
 
-      function draw(){
-        ctx.clearRect(0,0,canvas.width,canvas.height);
-        // faint background overlay
-        ctx.fillStyle = 'rgba(0,8,7,0.12)'; ctx.fillRect(0,0,window.innerWidth, window.innerHeight);
-        // lines
-        for(let i=0;i<20;i++){
-          ctx.strokeStyle = 'rgba(9,90,70,0.03)'; ctx.lineWidth = 1;
-          ctx.beginPath();
-          const startX = (i/20)*window.innerWidth + (Math.sin(Date.now()*0.0005 + i)*40);
-          ctx.moveTo(startX, -20);
-          ctx.lineTo(startX+200, window.innerHeight+20);
-          ctx.stroke();
+      // circuit line definition: a set of diagonal polyline segments with small right-angle steps
+      const circuits = [];
+      function initCircuits(){
+        circuits.length = 0;
+        const cols = params.circuitLines;
+        for(let i=0;i<cols;i++){
+          const baseX = (i/cols) * window.innerWidth + (Math.random()*40 - 20);
+          const angle = (Math.random() > 0.5) ? -1 : 1;
+          const segments = 6 + Math.floor(Math.random()*8);
+          const segLen = (window.innerHeight + 200) / segments;
+          const thickness = 0.6 + Math.random()*1.6;
+          circuits.push({ baseX, angle, segments, segLen, thickness, wobble: Math.random()*0.6 });
         }
-        // particles
+      }
+
+      // binary glyphs
+      const binaries = [];
+      function initBinaries(){
+        binaries.length=0;
+        const n = Math.max(10, Math.floor(window.innerWidth / 120));
+        for(let i=0;i<n;i++){
+          binaries.push({
+            x: Math.random()*window.innerWidth,
+            y: Math.random()*window.innerHeight,
+            v: 0.2 + Math.random()*0.6,
+            char: Math.random()>0.5 ? '0' : '1',
+            a: 0.04 + Math.random()*0.18,
+            size: 10 + Math.random()*10
+          });
+        }
+      }
+
+      function resetAll(){
+        initParticles();
+        initCircuits();
+        initBinaries();
+      }
+      resetAll();
+
+      // mouse parallax
+      let mx = 0, my = 0;
+      window.addEventListener('pointermove', (e)=>{
+        mx = (e.clientX - window.innerWidth/2) / window.innerWidth;
+        my = (e.clientY - window.innerHeight/2) / window.innerHeight;
+      }, { passive:true });
+
+      // draw helpers:
+      function drawBackground(){
+        // base gradient already applied via CSS; we draw overlays
+      }
+
+      function drawCircuits(now){
+        ctx.save();
+        ctx.lineCap = 'round';
+        circuits.forEach((c, idx) => {
+          ctx.beginPath();
+          let x = c.baseX + mx * 40 * c.wobble;
+          let y = -60;
+          ctx.moveTo(x, y);
+          for(let s=0;s<c.segments;s++){
+            // create stepped path reminiscent of PCB traces
+            const stepX = (Math.sin(now*0.0007 + s*0.8 + idx) * 18) + c.angle * (12 + s*2);
+            const stepY = y + c.segLen - (s*2);
+            x += stepX;
+            y = stepY;
+            ctx.lineTo(x + mx*6, y + my*6);
+          }
+          ctx.strokeStyle = params.lineColor;
+          ctx.lineWidth = c.thickness;
+          ctx.stroke();
+
+          // small highlights on some circuits
+          if(idx % 4 === 0){
+            ctx.strokeStyle = params.highlight;
+            ctx.lineWidth = c.thickness * 0.5;
+            ctx.stroke();
+          }
+        });
+        ctx.restore();
+      }
+
+      function drawParticles(dt){
+        ctx.save();
         particles.forEach(p => {
-          p.x += p.vx; p.y += p.vy;
+          p.x += p.vx * (1 + Math.abs(mx)*0.6);
+          p.y += p.vy * (1 + Math.abs(my)*0.6);
           if(p.x < -20) p.x = window.innerWidth + 20;
           if(p.x > window.innerWidth + 20) p.x = -20;
           if(p.y < -20) p.y = window.innerHeight + 20;
           if(p.y > window.innerHeight + 20) p.y = -20;
-          const g = ctx.createRadialGradient(p.x,p.y,0,p.x,p.y,p.r*8);
-          g.addColorStop(0, `rgba(15,176,107,${p.a})`);
-          g.addColorStop(1, 'rgba(15,176,107,0)');
-          ctx.fillStyle = g;
-          ctx.beginPath(); ctx.arc(p.x,p.y,p.r,0,Math.PI*2); ctx.fill();
-        });
-        // connections (sparse)
-        for(let i=0;i<particles.length;i++){
-          for(let j=i+1;j<particles.length;j++){
-            const a = particles[i], b = particles[j];
-            const dx = a.x - b.x, dy = a.y - b.y;
-            const d = Math.sqrt(dx*dx+dy*dy);
-            if(d < 110){
-              ctx.strokeStyle = `rgba(15,176,107,${0.08 - d/1400})`; ctx.lineWidth = 0.4;
-              ctx.beginPath(); ctx.moveTo(a.x,a.y); ctx.lineTo(b.x,b.y); ctx.stroke();
-            }
-          }
-        }
 
-        requestAnimationFrame(draw);
+          const px = p.x + mx*10;
+          const py = p.y + my*10;
+
+          const g = ctx.createRadialGradient(px, py, 0, px, py, p.r*8);
+          g.addColorStop(0, `rgba(150,230,200,${p.a})`);
+          g.addColorStop(1, `rgba(150,230,200,0)`);
+          ctx.fillStyle = g;
+          ctx.beginPath();
+          ctx.arc(px, py, p.r*6, 0, Math.PI*2);
+          ctx.fill();
+        });
+        ctx.restore();
       }
-      draw();
-      window._initBg = initParticles;
+
+      function drawBinary(dt){
+        ctx.save();
+        ctx.font = '10px Cairo, monospace';
+        binaries.forEach(b=>{
+          b.y += b.v * (1 + Math.abs(mx)*0.6);
+          if(b.y > window.innerHeight + 20){ b.y = -20; b.x = Math.random()*window.innerWidth; b.char = Math.random()>0.5?'0':'1'; }
+          ctx.globalAlpha = b.a;
+          ctx.fillStyle = params.binaryColor;
+          ctx.fillText(b.char, b.x + mx*4, b.y + my*4);
+        });
+        ctx.restore();
+      }
+
+      let last = performance.now();
+      function frame(now){
+        const dt = Math.min(0.06, (now - last)/1000);
+        last = now;
+        // translucent clear to create slight trails
+        ctx.fillStyle = 'rgba(2,20,18,0.12)';
+        ctx.fillRect(0,0,window.innerWidth, window.innerHeight);
+
+        drawCircuits(now);
+        drawParticles(dt);
+        drawBinary(dt);
+
+        // small glow overlay
+        ctx.save();
+        ctx.globalCompositeOperation = 'lighter';
+        ctx.fillStyle = 'rgba(6,60,50,0.02)';
+        ctx.fillRect(0,0,window.innerWidth, window.innerHeight);
+        ctx.restore();
+
+        requestAnimationFrame(frame);
+      }
+
+      requestAnimationFrame(frame);
+
+      // responsiveness
+      let rt;
+      window.addEventListener('resize', ()=>{
+        clearTimeout(rt);
+        rt = setTimeout(()=> {
+          resize();
+          resetAll();
+        }, 180);
+      });
     })();
 
-    /* ---------------- Core UI & Assistant logic ---------------- */
+    /* ---------------- Core UI & Assistant logic (unchanged from previous) ---------------- */
     (function(){
       const $ = (s, r=document) => r.querySelector(s);
       const $$ = (s, r=document) => Array.from(r.querySelectorAll(s));
@@ -293,7 +434,6 @@
 
       function saveAssistants(){ localStorage.setItem(STORAGE, JSON.stringify(assistants)); }
 
-      // Render assistants in list and select
       function renderAssistants(){
         const list = $('#assistantList'); list.innerHTML = '';
         assistants.forEach(a => {
@@ -303,7 +443,6 @@
           list.appendChild(el);
         });
 
-        // fill select
         const sel = $('#assistantSelect'); sel.innerHTML = assistants.map(a => `<option value="${a.id}">${escapeHtml(a.name)}</option>`).join('');
         if(!sel.value && assistants.length) sel.value = assistants[0].id;
         renderAssistantDetails(currentAssistant());
@@ -316,7 +455,6 @@
         return assistants.find(a=>a.id===v) || assistants[0];
       }
 
-      // assistant list clicks
       $('#assistantList').addEventListener('click', (e)=>{
         const btn = e.target.closest('button');
         if(!btn) return;
@@ -328,7 +466,6 @@
         if(action === 'delete'){ if(confirm('حذف المساعد نهائياً؟')){ assistants.splice(idx,1); saveAssistants(); renderAssistants(); toast('تم الحذف'); } }
       });
 
-      // Add assistant modal (simple prompt)
       $('#addAssistant').addEventListener('click', ()=>{
         const name = prompt('اسم المساعد (مثال: الخبير القانوني):');
         if(!name) return;
@@ -339,20 +476,18 @@
       });
 
       function editAssistant(a){
-        const name = prompt('تع��يل اسم المساعد:', a.name);
+        const name = prompt('تعديل اسم المساعد:', a.name);
         if(!name) return;
         const system = prompt('تعديل نص النظام:', a.system);
         a.name = name; a.system = system || a.system;
         saveAssistants(); renderAssistants(); toast('تم التعديل');
       }
 
-      // render assistant details
       function renderAssistantDetails(a){
         if(!a){ $('#assistantDetails').textContent = 'لا يوجد مساعد محدد'; return; }
         $('#assistantDetails').innerHTML = `<strong>${escapeHtml(a.name)}</strong><div class="muted" style="margin-top:8px">${escapeHtml(a.system)}</div>`;
       }
 
-      // modes
       $$('.mode-btn').forEach(b=>{
         b.addEventListener('click', ()=>{
           $$('.mode-btn').forEach(x=>x.classList.remove('active'));
@@ -360,33 +495,27 @@
         });
       });
 
-      // Run analysis (streamed simulation if backend not streaming)
       $('#runBtn').addEventListener('click', async ()=>{
         const input = $('#facts').value.trim();
         if(!input){ toast('اكتب أو ألصق نصاً للتحليل'); return; }
         const assistant = currentAssistant();
         const mode = (document.querySelector('.mode-btn.active')||{}).dataset.mode || 'concise';
 
-        // disable controls
         $('#runBtn').disabled = true; $('#runBtn').setAttribute('aria-busy','true');
         $('#progressBar').style.display = 'block';
         $('#progressBar i').style.width = '4%';
-        $('#analysisResult').textContent = ''; // clear
+        $('#analysisResult').textContent = '';
         addHistoryEntry({ assistant: assistant.name, mode, input, time: new Date().toISOString(), status: 'running' });
 
         try {
-          // attempt real backend call
           const res = await fetch('/api/ai/analyze', { method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify({ text: input, assistant, mode }) });
           if(!res.ok) throw new Error('backend unavailable');
-          // prefer receiving structured response; if backend returns raw, handle
           const json = await res.json();
-          // If backend provides streaming text in json.raw, simulate progressive reveal
           const text = json.raw || (json.verdict ? (json.verdict + '\n\n' + (json.issues||[]).map(i=>'• '+i).join('\n') + '\n\nتوصيات:\n' + (json.recommendations||[]).map((r,i)=>`${i+1}. ${r}`).join('\n')) : JSON.stringify(json));
           await progressiveReveal(text);
           addHistoryEntry({ assistant: assistant.name, mode, input, time: new Date().toISOString(), status: 'done', output: text });
           toast('اكتمل التحليل');
         } catch(err){
-          // fallback: simulate streaming analysis locally
           const sim = simulateAnalysisLocal(assistant, input, mode);
           await progressiveReveal(sim);
           addHistoryEntry({ assistant: assistant.name, mode, input, time: new Date().toISOString(), status: 'done', output: sim });
@@ -399,24 +528,21 @@
         }
       });
 
-      // progressive reveal (stream-like)
       async function progressiveReveal(fullText){
         const el = $('#analysisResult');
         el.textContent = '';
         const chars = Array.from(fullText);
         for(let i=0;i<chars.length;i++){
           el.textContent += chars[i];
-          if(i % 12 === 0){ // increase progress every few chars
+          if(i % 12 === 0){
             const pct = Math.min(98, Math.round((i / chars.length) * 100));
             $('#progressBar i').style.width = pct + '%';
           }
-          // adaptive delay: faster when small output, slower when long
           await sleep(12 + Math.random()*18);
         }
       }
       function sleep(ms){ return new Promise(r=>setTimeout(r, ms)); }
 
-      // local simulation generator (simple templated response)
       function simulateAnalysisLocal(assistant, input, mode){
         const header = `تحليل (${assistant.name}) — الوضع: ${mode}\n\n`;
         const issues = ['غياب إثبات التبليغ', 'نقص التفويض', 'تباين بالتواريخ'];
@@ -424,7 +550,6 @@
         return header + 'نقاط محتملة:\n' + issues.map(i=>'• '+i).join('\n') + '\n\nتوصيات:\n' + recs.map((r,i)=>`${i+1}. ${r}`).join('\n');
       }
 
-      /* ---------------- History management ---------------- */
       function addHistoryEntry(entry){
         history.unshift(entry);
         if(history.length>60) history.length = 60;
@@ -433,7 +558,6 @@
       function renderHistory(){
         const container = $('#historyList');
         container.innerHTML = history.map(h => `<div style="padding:8px;border-bottom:1px dashed rgba(255,255,255,0.03)"><strong>${escapeHtml(h.assistant)}</strong> <div class="muted" style="font-size:12px">${new Date(h.time).toLocaleString()}</div><div style="margin-top:6px"><button class="small" data-time="${h.time}" data-action="view">عرض</button><button class="small" data-time="${h.time}" data-action="download">تنزيل</button></div></div>`).join('') || '<div class="muted">لا يوجد سجل</div>';
-        // wire buttons
         container.querySelectorAll('button').forEach(btn=>{
           btn.addEventListener('click', (e)=>{
             const action = btn.dataset.action; const time = btn.dataset.time;
@@ -450,7 +574,6 @@
         const a = document.createElement('a'); a.href = url; a.download = filename; document.body.appendChild(a); a.click(); a.remove(); URL.revokeObjectURL(url);
       }
 
-      // Export and print
       $('#exportTxt').addEventListener('click', ()=> {
         const content = $('#analysisResult').textContent || 'لا نتائج';
         downloadText(content, 'rwaq_analysis_' + Date.now() + '.txt');
@@ -459,11 +582,9 @@
         const w = window.open('', '_blank'); w.document.write(`<pre style="white-space:pre-wrap;font-family:inherit">${escapeHtml($('#analysisResult').textContent || '')}</pre>`); w.document.close(); w.focus(); w.print();
       });
 
-      // history init
       try { history = JSON.parse(localStorage.getItem(HIST_KEY) || '[]'); } catch(e){ history = []; }
       renderHistory();
 
-      // Panel nav (other panels)
       $$('.menu button').forEach(btn => btn.addEventListener('click', ()=>{
         $$('.menu button').forEach(b => b.classList.remove('active'));
         btn.classList.add('active');
@@ -477,13 +598,9 @@
         window.scrollTo({ top:0, behavior:'smooth' });
       }
 
-      // helper toast
       function toast(msg){ const e = document.createElement('div'); e.textContent = msg; e.style.cssText = 'position:fixed;left:50%;top:24px;transform:translateX(-50%);background:rgba(0,0,0,0.7);color:#fff;padding:8px 12px;border-radius:8px;z-index:9999'; document.body.appendChild(e); setTimeout(()=> e.remove(), 2200); }
 
-      // init: load assistants, render
       loadAssistants(); renderAssistants(); renderHistory();
-
-      // quick keyboard: Ctrl+Enter to run
       window.addEventListener('keydown', (e)=>{ if((e.ctrlKey||e.metaKey) && e.key === 'Enter'){ $('#runBtn').click(); } });
     })();
   </script>
