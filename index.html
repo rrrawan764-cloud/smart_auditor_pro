@@ -3,23 +3,25 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>رواق العدل | المنصة الذكية الموحدة للخدمات القضائية</title>
+    <title>رواق العدل | المنصة الذكية الشاملة للخدمات القضائية</title>
     
-    <meta name="description" content="منصة رواق العدل - الخدمات القضائية الذكية الموحدة للمواطنين والمتقاضين والقضاة">
-    <meta name="keywords" content="قضائي, خدمات, محكمة, قانون, ذكاء اصطناعي, قضايا">
-    <meta name="author" content="روان الصبحي">
+    <meta name="description" content="المنصة القضائية الذكية المتكاملة - خدمات للمواطنين، القضاة، والمكفوفين بمساعد ذكي متطور">
+    <meta name="keywords" content="قضائي, محكمة, قانون, ذكاء اصطناعي, مكفوفين, خدمات قضائية, مساعد ذكي">
+    <meta name="author" content="رواق العدل - وزارة العدل">
     <meta name="theme-color" content="#0a716e">
     
     <!-- Open Graph -->
-    <meta property="og:title" content="رواق العدل | المنصة الذكية الموحدة">
-    <meta property="og:description" content="الخدمات القضائية الذكية للمواطنين والقضاة">
-    <meta property="og:type" content="website">
+    <meta property="og:title" content="رواق العدل - المنصة الذكية الشاملة">
+    <meta property="og:description" content="خدمات قضائية ذكية للمواطنين والقضاة وذوي الإعاقة">
     
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Animate.css -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
     
     <style>
         :root {
@@ -28,8 +30,10 @@
             --primary-dark: #065954;
             --accent: #FFB703;
             --accent-light: #ffd166;
+            --accent-dark: #cc9200;
             --bg: #021a1a;
             --bg-light: #032626;
+            --bg-lighter: #043434;
             --panel: rgba(255, 255, 255, 0.03);
             --panel-light: rgba(255, 255, 255, 0.05);
             --text: #eaffef;
@@ -39,11 +43,14 @@
             --success: #4ade80;
             --warning: #fbbf24;
             --error: #f87171;
+            --info: #60a5fa;
+            
             --radius: 16px;
             --radius-sm: 12px;
             --radius-lg: 24px;
             --shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
             --shadow-light: 0 5px 20px rgba(0, 0, 0, 0.3);
+            --shadow-heavy: 0 15px 50px rgba(0, 0, 0, 0.7);
             --transition: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
@@ -67,7 +74,7 @@
             line-height: 1.6;
         }
 
-        /* محرك الخلفية التفاعلي */
+        /* ===== محرك الخلفية التفاعلي ===== */
         #bgCanvas {
             position: fixed;
             top: 0;
@@ -85,153 +92,259 @@
             width: 100%;
             height: 100%;
             z-index: -2;
-            background: radial-gradient(circle at 50% 50%, rgba(15, 176, 107, 0.05), transparent);
+            background: 
+                radial-gradient(circle at 20% 30%, rgba(10, 113, 110, 0.1), transparent 40%),
+                radial-gradient(circle at 80% 70%, rgba(255, 183, 3, 0.05), transparent 40%),
+                radial-gradient(circle at 40% 80%, rgba(15, 176, 107, 0.07), transparent 50%);
             pointer-events: none;
         }
 
-        /* الهيدر العلوي */
+        /* ===== الهيدر المتقدم ===== */
         .header {
             position: fixed;
             top: 0;
             right: 0;
             left: 0;
-            background: rgba(2, 26, 26, 0.95);
-            backdrop-filter: blur(15px);
+            background: rgba(2, 26, 26, 0.98);
+            backdrop-filter: blur(20px) saturate(180%);
             border-bottom: 1px solid var(--border);
-            padding: 1rem 0;
+            padding: 0.8rem 0;
             z-index: 1000;
+            box-shadow: 0 5px 30px rgba(0, 0, 0, 0.3);
         }
 
         .header-content {
-            max-width: 1300px;
+            max-width: 1400px;
             margin: 0 auto;
-            padding: 0 20px;
+            padding: 0 30px;
             display: flex;
             justify-content: space-between;
             align-items: center;
+            flex-wrap: wrap;
+            gap: 20px;
         }
 
-        .logo {
+        .logo-container {
             display: flex;
             align-items: center;
-            gap: 12px;
+            gap: 15px;
             text-decoration: none;
             color: var(--text);
         }
 
         .logo-icon {
-            width: 40px;
-            height: 40px;
+            width: 48px;
+            height: 48px;
             background: linear-gradient(135deg, var(--primary), var(--accent));
-            border-radius: 10px;
+            border-radius: 12px;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 1.2rem;
+            font-size: 1.5rem;
+            box-shadow: 0 5px 15px rgba(10, 113, 110, 0.4);
         }
 
         .logo-text {
-            font-weight: 800;
-            font-size: 1.5rem;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .logo-text h1 {
+            font-weight: 900;
+            font-size: 1.8rem;
             background: linear-gradient(to right, var(--accent), var(--primary-light));
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
+            line-height: 1.2;
         }
 
-        /* مفتاح التبديل */
+        .logo-text span {
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            font-weight: 300;
+        }
+
+        /* ===== مفتاح التبديل المحسن ===== */
         .interface-switcher {
             background: rgba(255, 255, 255, 0.05);
-            padding: 6px;
+            padding: 8px;
             border-radius: 50px;
             display: flex;
-            gap: 6px;
+            gap: 8px;
             border: 1px solid var(--border);
             backdrop-filter: blur(10px);
+            box-shadow: inset 0 2px 10px rgba(0, 0, 0, 0.2);
         }
 
         .switch-btn {
-            padding: 10px 28px;
+            padding: 12px 32px;
             border-radius: 50px;
             border: 0;
             background: transparent;
             color: var(--text-muted);
             cursor: pointer;
             font-weight: 700;
-            font-size: 0.9rem;
+            font-size: 0.95rem;
             display: flex;
             align-items: center;
-            gap: 8px;
+            gap: 10px;
             transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .switch-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            z-index: -1;
         }
 
         .switch-btn:hover {
             color: var(--text);
-            background: rgba(255, 255, 255, 0.05);
+            transform: translateY(-2px);
         }
 
         .switch-btn.active {
-            background: var(--primary);
+            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
             color: #fff;
-            box-shadow: 0 4px 15px rgba(10, 113, 110, 0.4);
+            box-shadow: 0 5px 20px rgba(10, 113, 110, 0.4);
         }
 
+        .switch-btn.active::before {
+            opacity: 1;
+        }
+
+        /* ===== أزرار إضافية في الهيدر ===== */
+        .header-actions {
+            display: flex;
+            gap: 15px;
+            align-items: center;
+        }
+
+        .icon-btn {
+            width: 44px;
+            height: 44px;
+            border-radius: 12px;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid var(--border);
+            color: var(--text-secondary);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+            transition: all 0.3s ease;
+        }
+
+        .icon-btn:hover {
+            background: rgba(255, 255, 255, 0.1);
+            color: var(--accent);
+            transform: translateY(-2px);
+        }
+
+        .notification-badge {
+            position: absolute;
+            top: -5px;
+            right: -5px;
+            background: var(--error);
+            color: white;
+            font-size: 0.7rem;
+            width: 18px;
+            height: 18px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* ===== المحتوى الرئيسي ===== */
         .container {
-            max-width: 1300px;
-            margin: 100px auto 40px;
-            padding: 0 20px;
+            max-width: 1400px;
+            margin: 120px auto 40px;
+            padding: 0 30px;
         }
 
-        /* البطاقات والأقسام */
+        /* ===== البطاقات المحسنة ===== */
         .card {
-            background: var(--panel);
+            background: linear-gradient(145deg, var(--panel), rgba(255, 255, 255, 0.02));
             border-radius: var(--radius-lg);
             padding: 2.5rem;
             border: 1px solid var(--border);
             box-shadow: var(--shadow);
-            backdrop-filter: blur(15px);
+            backdrop-filter: blur(20px);
             margin-bottom: 2rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 100px;
+            height: 100px;
+            background: radial-gradient(circle, rgba(255, 183, 3, 0.1), transparent 70%);
+            border-radius: 50%;
         }
 
         .card-header {
-            margin-bottom: 2rem;
+            margin-bottom: 2.5rem;
             text-align: center;
+            position: relative;
         }
 
         .card-header h2 {
-            font-size: 2rem;
-            margin-bottom: 0.5rem;
+            font-size: 2.2rem;
+            margin-bottom: 0.8rem;
             background: linear-gradient(to right, var(--accent), var(--primary-light));
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             font-weight: 800;
+            text-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
         }
 
         .card-header p {
             color: var(--text-muted);
             font-size: 1.1rem;
+            max-width: 800px;
+            margin: 0 auto;
         }
 
-        /* واجهة المستخدم (الخدمات) */
-        .services-grid {
+        .section-divider {
+            height: 3px;
+            background: linear-gradient(to right, transparent, var(--primary), transparent);
+            margin: 2rem 0;
+            border: none;
+        }
+
+        /* ===== خدمات المواطن الشاملة ===== */
+        .services-mega-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 1.5rem;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.8rem;
             margin-top: 2rem;
         }
 
-        .service-box {
+        .service-mega-card {
             padding: 2rem;
-            background: var(--panel-light);
+            background: linear-gradient(145deg, rgba(255, 255, 255, 0.02), rgba(10, 113, 110, 0.05));
             border-radius: var(--radius);
             border: 1px solid var(--border);
             cursor: pointer;
-            text-align: center;
             position: relative;
             overflow: hidden;
-            transition: all 0.3s ease;
+            transition: all 0.4s ease;
         }
 
-        .service-box::before {
+        .service-mega-card::before {
             content: '';
             position: absolute;
             top: 0;
@@ -240,42 +353,131 @@
             height: 100%;
             background: linear-gradient(135deg, rgba(10, 113, 110, 0.1), transparent);
             opacity: 0;
-            transition: opacity 0.3s ease;
+            transition: opacity 0.4s ease;
         }
 
-        .service-box:hover {
-            transform: translateY(-8px);
-            border-color: var(--primary-light);
-            box-shadow: 0 15px 30px rgba(10, 113, 110, 0.2);
+        .service-mega-card:hover {
+            transform: translateY(-10px) scale(1.02);
+            border-color: var(--accent);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
         }
 
-        .service-box:hover::before {
+        .service-mega-card:hover::before {
             opacity: 1;
         }
 
-        .service-box i {
-            font-size: 2.5rem;
-            color: var(--accent);
-            margin-bottom: 1rem;
+        .service-icon {
+            width: 70px;
+            height: 70px;
+            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+            border-radius: 18px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.8rem;
+            color: white;
+            margin-bottom: 1.5rem;
+            box-shadow: 0 8px 20px rgba(10, 113, 110, 0.3);
         }
 
-        .service-box h4 {
-            font-size: 1.3rem;
-            margin-bottom: 0.5rem;
+        .service-mega-card h4 {
+            font-size: 1.4rem;
+            margin-bottom: 0.8rem;
             color: var(--text);
         }
 
-        /* واجهة القاضي (الإحصائيات) */
-        .stats-grid {
+        .service-mega-card p {
+            color: var(--text-secondary);
+            font-size: 0.95rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .service-badge {
+            display: inline-block;
+            padding: 4px 12px;
+            background: rgba(255, 183, 3, 0.1);
+            color: var(--accent);
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            margin-top: 10px;
+            border: 1px solid rgba(255, 183, 3, 0.2);
+        }
+
+        /* ===== لوحة القاضي المتقدمة ===== */
+        .judge-dashboard {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 1.5rem;
+            grid-template-columns: 300px 1fr;
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .judge-sidebar {
+            background: linear-gradient(145deg, var(--panel), rgba(255, 255, 255, 0.02));
+            border-radius: var(--radius);
+            padding: 2rem;
+            border: 1px solid var(--border);
+        }
+
+        .judge-profile {
+            text-align: center;
             margin-bottom: 2rem;
         }
 
-        .stat-card {
-            padding: 1.5rem;
-            background: rgba(15, 176, 107, 0.05);
+        .profile-avatar {
+            width: 100px;
+            height: 100px;
+            background: linear-gradient(135deg, var(--primary), var(--accent));
+            border-radius: 50%;
+            margin: 0 auto 1rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2.5rem;
+            color: white;
+            box-shadow: 0 10px 30px rgba(10, 113, 110, 0.4);
+        }
+
+        .quick-actions {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .quick-action-btn {
+            padding: 1rem;
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-sm);
+            color: var(--text-secondary);
+            text-align: right;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            transition: all 0.3s ease;
+        }
+
+        .quick-action-btn:hover {
+            background: rgba(10, 113, 110, 0.1);
+            color: var(--text);
+            border-color: var(--primary);
+        }
+
+        .judge-main-content {
+            display: grid;
+            gap: 2rem;
+        }
+
+        .stats-grid-advanced {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .stat-card-advanced {
+            padding: 1.8rem;
+            background: linear-gradient(145deg, rgba(15, 176, 107, 0.05), rgba(255, 183, 3, 0.03));
             border-radius: var(--radius);
             border: 1px solid rgba(15, 176, 107, 0.1);
             text-align: center;
@@ -283,43 +485,86 @@
             overflow: hidden;
         }
 
-        .stat-card::before {
+        .stat-card-advanced::before {
             content: '';
             position: absolute;
             top: 0;
             left: 0;
-            width: 4px;
+            width: 100%;
             height: 100%;
-            background: linear-gradient(to bottom, var(--accent), var(--primary));
+            background: linear-gradient(45deg, transparent, rgba(255, 255, 255, 0.02), transparent);
         }
 
-        .stat-card h1 {
+        .stat-card-advanced h1 {
             color: var(--accent);
-            font-size: 2.5rem;
+            font-size: 2.8rem;
             margin-bottom: 0.5rem;
             font-weight: 800;
+            text-shadow: 0 3px 10px rgba(255, 183, 3, 0.2);
         }
 
-        .stat-card p {
-            color: var(--text-secondary);
-            font-size: 0.9rem;
+        /* ===== المساعد الذكي للمكفوفين ===== */
+        .blind-assistant {
+            position: fixed;
+            bottom: 30px;
+            left: 30px;
+            z-index: 999;
         }
 
-        /* المدخلات والأزرار */
-        .input-group {
-            margin: 2rem 0;
-        }
-
-        .input-group h3 {
-            font-size: 1.4rem;
-            margin-bottom: 1rem;
-            color: var(--accent);
+        .assistant-btn {
+            width: 70px;
+            height: 70px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--accent), var(--accent-dark));
+            border: none;
+            color: #000;
+            font-size: 1.8rem;
+            cursor: pointer;
             display: flex;
             align-items: center;
-            gap: 10px;
+            justify-content: center;
+            box-shadow: 0 10px 30px rgba(255, 183, 3, 0.4);
+            transition: all 0.3s ease;
+            position: relative;
+            animation: pulse 2s infinite;
         }
 
-        input, textarea, select {
+        @keyframes pulse {
+            0% { box-shadow: 0 10px 30px rgba(255, 183, 3, 0.4); }
+            50% { box-shadow: 0 10px 40px rgba(255, 183, 3, 0.6); }
+            100% { box-shadow: 0 10px 30px rgba(255, 183, 3, 0.4); }
+        }
+
+        .assistant-btn:hover {
+            transform: scale(1.1) rotate(10deg);
+            box-shadow: 0 15px 40px rgba(255, 183, 3, 0.6);
+        }
+
+        .assistant-panel {
+            position: absolute;
+            bottom: 90px;
+            left: 0;
+            width: 350px;
+            background: rgba(2, 26, 26, 0.98);
+            backdrop-filter: blur(20px);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            padding: 1.5rem;
+            box-shadow: var(--shadow-heavy);
+            display: none;
+        }
+
+        .assistant-panel.active {
+            display: block;
+            animation: slideUp 0.3s ease;
+        }
+
+        @keyframes slideUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .voice-input {
             width: 100%;
             padding: 1rem;
             background: rgba(0, 0, 0, 0.3);
@@ -327,22 +572,82 @@
             border-radius: var(--radius-sm);
             color: var(--text);
             font-size: 1rem;
-            outline: none;
-            transition: all 0.3s ease;
+            margin-bottom: 1rem;
+            text-align: center;
         }
 
-        input:focus, textarea:focus, select:focus {
-            border-color: var(--accent);
-            box-shadow: 0 0 0 3px rgba(255, 183, 3, 0.1);
+        .voice-visualizer {
+            width: 100%;
+            height: 60px;
+            background: rgba(0, 0, 0, 0.2);
+            border-radius: var(--radius-sm);
+            margin: 1rem 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 3px;
+        }
+
+        .bar {
+            width: 4px;
+            background: var(--accent);
+            border-radius: 2px;
+            animation: equalize 1.5s infinite ease-in-out;
+        }
+
+        @keyframes equalize {
+            0%, 100% { height: 10px; }
+            50% { height: 30px; }
+        }
+
+        /* ===== المدخلات والأزرار المحسنة ===== */
+        .input-group-advanced {
+            margin: 2.5rem 0;
+            position: relative;
+        }
+
+        .input-group-advanced label {
+            display: block;
+            margin-bottom: 0.8rem;
+            color: var(--text-secondary);
+            font-weight: 600;
+            font-size: 1.1rem;
+        }
+
+        .input-with-icon {
+            position: relative;
+        }
+
+        .input-icon {
+            position: absolute;
+            left: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--text-muted);
+            font-size: 1.2rem;
+        }
+
+        .input-with-icon input,
+        .input-with-icon textarea {
+            padding-right: 1rem;
+            padding-left: 3.5rem;
         }
 
         textarea {
-            min-height: 150px;
+            min-height: 180px;
             resize: vertical;
+            line-height: 1.8;
+        }
+
+        .btn-group {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+            margin-top: 2rem;
         }
 
         .btn {
-            padding: 1rem 2rem;
+            padding: 1rem 2.2rem;
             border-radius: var(--radius-sm);
             border: none;
             font-weight: 700;
@@ -350,120 +655,230 @@
             display: inline-flex;
             align-items: center;
             justify-content: center;
-            gap: 10px;
+            gap: 12px;
             font-size: 1rem;
             transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+            transition: left 0.5s ease;
+        }
+
+        .btn:hover::before {
+            left: 100%;
         }
 
         .btn-primary {
-            background: linear-gradient(135deg, var(--accent), #d59b03);
+            background: linear-gradient(135deg, var(--accent), var(--accent-dark));
             color: #000;
         }
 
         .btn-primary:hover {
             transform: translateY(-3px);
-            box-shadow: 0 10px 20px rgba(255, 183, 3, 0.3);
+            box-shadow: 0 15px 30px rgba(255, 183, 3, 0.3);
         }
 
         .btn-secondary {
-            background: var(--primary);
+            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
             color: #fff;
         }
 
         .btn-secondary:hover {
-            background: var(--primary-light);
             transform: translateY(-3px);
-            box-shadow: 0 10px 20px rgba(10, 113, 110, 0.3);
+            box-shadow: 0 15px 30px rgba(10, 113, 110, 0.3);
+        }
+
+        .btn-outline {
+            background: transparent;
+            color: var(--text);
+            border: 2px solid var(--border);
+        }
+
+        .btn-outline:hover {
+            border-color: var(--accent);
+            color: var(--accent);
         }
 
         .btn-full {
             width: 100%;
         }
 
-        /* منطقة النتائج */
-        .result-area {
-            background: rgba(0, 0, 0, 0.4);
-            padding: 1.5rem;
+        /* ===== منطقة النتائج المتقدمة ===== */
+        .result-area-advanced {
+            background: linear-gradient(145deg, rgba(0, 0, 0, 0.3), rgba(10, 113, 110, 0.05));
             border-radius: var(--radius);
-            margin-top: 1.5rem;
-            border: 1px dashed var(--primary);
+            margin-top: 2rem;
+            border: 1px solid var(--border);
+            overflow: hidden;
             display: none;
             animation: fadeIn 0.5s ease;
         }
 
-        .result-area.show {
+        .result-area-advanced.active {
             display: block;
         }
 
-        .ai-response {
+        .result-header {
+            background: rgba(10, 113, 110, 0.1);
+            padding: 1.2rem 1.5rem;
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .result-content {
+            padding: 2rem;
             line-height: 1.8;
         }
 
-        .ai-response strong {
-            color: var(--accent);
-            display: block;
-            margin-bottom: 0.5rem;
-            font-size: 1.1rem;
+        .ai-response-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
         }
 
-        /* أدوات التحميل */
-        .loader {
-            display: inline-block;
-            width: 20px;
-            height: 20px;
-            border: 3px solid var(--border);
+        .ai-card {
+            background: rgba(0, 0, 0, 0.2);
+            padding: 1.5rem;
+            border-radius: var(--radius-sm);
+            border-left: 4px solid var(--accent);
+        }
+
+        .ai-card h4 {
+            color: var(--accent);
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        /* ===== أدوات التحميل والرسوم المتحركة ===== */
+        .loader-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 3rem;
+            gap: 1.5rem;
+        }
+
+        .ai-loader {
+            width: 60px;
+            height: 60px;
+            border: 4px solid var(--border);
+            border-top: 4px solid var(--accent);
             border-radius: 50%;
-            border-top-color: var(--accent);
-            animation: spin 1s ease-in-out infinite;
+            animation: spin 1s linear infinite;
         }
 
         @keyframes spin {
-            to { transform: rotate(360deg); }
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
         }
 
         @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(10px); }
+            from { opacity: 0; transform: translateY(20px); }
             to { opacity: 1; transform: translateY(0); }
         }
 
-        /* رسائل التنبيه */
+        /* ===== التنبيهات والرسائل ===== */
         .alert {
-            padding: 1rem;
+            padding: 1.2rem 1.5rem;
             border-radius: var(--radius-sm);
-            margin-bottom: 1rem;
-            display: none;
+            margin-bottom: 1.5rem;
+            border: 1px solid;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            animation: slideInRight 0.3s ease;
         }
 
-        .alert.show {
-            display: block;
-            animation: fadeIn 0.3s ease;
-        }
-
-        .alert-info {
-            background: rgba(10, 113, 110, 0.1);
-            border: 1px solid var(--primary);
-            color: var(--text-secondary);
+        @keyframes slideInRight {
+            from { opacity: 0; transform: translateX(30px); }
+            to { opacity: 1; transform: translateX(0); }
         }
 
         .alert-success {
             background: rgba(74, 222, 128, 0.1);
-            border: 1px solid var(--success);
+            border-color: var(--success);
             color: var(--success);
         }
 
         .alert-warning {
             background: rgba(251, 191, 36, 0.1);
-            border: 1px solid var(--warning);
+            border-color: var(--warning);
             color: var(--warning);
         }
 
-        /* فئة الإخفاء */
+        .alert-info {
+            background: rgba(10, 113, 110, 0.1);
+            border-color: var(--primary);
+            color: var(--text-secondary);
+        }
+
+        .alert-error {
+            background: rgba(248, 113, 113, 0.1);
+            border-color: var(--error);
+            color: var(--error);
+        }
+
+        /* ===== فئة الإخفاء ===== */
         .hidden {
             display: none !important;
         }
 
-        /* تذييل الصفحة */
+        /* ===== الفوتر المتقدم ===== */
         .footer {
+            background: rgba(2, 26, 26, 0.95);
+            border-top: 1px solid var(--border);
+            padding: 3rem 0 2rem;
+            margin-top: 4rem;
+        }
+
+        .footer-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 30px;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 3rem;
+        }
+
+        .footer-section h3 {
+            color: var(--accent);
+            margin-bottom: 1.5rem;
+            font-size: 1.3rem;
+        }
+
+        .footer-links {
+            list-style: none;
+        }
+
+        .footer-links li {
+            margin-bottom: 0.8rem;
+        }
+
+        .footer-links a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .footer-links a:hover {
+            color: var(--accent);
+        }
+
+        .copyright {
             text-align: center;
             padding: 2rem;
             color: var(--text-muted);
@@ -472,40 +887,80 @@
             margin-top: 3rem;
         }
 
-        /* تحسينات للجوال */
+        /* ===== تحسينات للجوال ===== */
+        @media (max-width: 1200px) {
+            .judge-dashboard {
+                grid-template-columns: 1fr;
+            }
+            
+            .assistant-panel {
+                width: 300px;
+            }
+        }
+
         @media (max-width: 768px) {
             .header-content {
                 flex-direction: column;
-                gap: 1rem;
+                padding: 0 20px;
             }
-
+            
             .interface-switcher {
                 width: 100%;
                 justify-content: center;
+                flex-wrap: wrap;
             }
-
+            
             .switch-btn {
-                padding: 8px 20px;
-                font-size: 0.8rem;
+                padding: 10px 20px;
+                font-size: 0.85rem;
             }
-
+            
             .container {
-                margin-top: 140px;
+                margin-top: 160px;
+                padding: 0 20px;
             }
-
+            
             .card {
                 padding: 1.5rem;
             }
-
-            .services-grid {
+            
+            .services-mega-grid {
                 grid-template-columns: 1fr;
             }
-
-            .stats-grid {
-                grid-template-columns: 1fr;
+            
+            .assistant-panel {
+                width: calc(100vw - 60px);
+                left: -30px;
             }
+            
+            .btn-group {
+                flex-direction: column;
+            }
+            
+            .btn {
+                width: 100%;
+            }
+            
+            .footer-content {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+            }
+        }
 
+        @media (max-width: 480px) {
             .card-header h2 {
+                font-size: 1.8rem;
+            }
+            
+            .service-icon {
+                width: 60px;
+                height: 60px;
+                font-size: 1.5rem;
+            }
+            
+            .assistant-btn {
+                width: 60px;
+                height: 60px;
                 font-size: 1.5rem;
             }
         }
@@ -516,14 +971,17 @@
     <canvas id="bgCanvas"></canvas>
     <div class="bg-overlay"></div>
 
-    <!-- الهيدر -->
+    <!-- الهيدر المتقدم -->
     <header class="header">
         <div class="header-content">
-            <a href="#" class="logo">
+            <a href="#" class="logo-container">
                 <div class="logo-icon">
                     <i class="fas fa-scale-balanced"></i>
                 </div>
-                <div class="logo-text">رواق العدل</div>
+                <div class="logo-text">
+                    <h1>رواق العدل</h1>
+                    <span>المنصة الذكية الشاملة للخدمات القضائية</span>
+                </div>
             </a>
 
             <div class="interface-switcher">
@@ -535,6 +993,23 @@
                     <i class="fas fa-gavel"></i>
                     <span>واجهة القاضي</span>
                 </button>
+                <button class="switch-btn" onclick="toggleMode('admin', this)">
+                    <i class="fas fa-cogs"></i>
+                    <span>الإدارة</span>
+                </button>
+            </div>
+
+            <div class="header-actions">
+                <button class="icon-btn" onclick="showNotifications()">
+                    <i class="fas fa-bell"></i>
+                    <span class="notification-badge">3</span>
+                </button>
+                <button class="icon-btn" onclick="toggleDarkMode()">
+                    <i class="fas fa-moon"></i>
+                </button>
+                <button class="icon-btn" onclick="showHelp()">
+                    <i class="fas fa-question-circle"></i>
+                </button>
             </div>
         </div>
     </header>
@@ -542,110 +1017,278 @@
     <!-- المحتوى الرئيسي -->
     <main class="container">
         
-        <!-- واجهة المستخدم -->
+        <!-- واجهة المواطن الشاملة -->
         <section id="user-view">
-            <div class="card">
+            <div class="card animate__animated animate__fadeIn">
                 <div class="card-header">
-                    <h2>مرحباً بك في منصة رواق العدل</h2>
-                    <p>الخدمات القضائية الذكية الموحدة للمواطنين والمتقاضين</p>
+                    <h2>مرحباً بك في منصة رواق العدل الذكية</h2>
+                    <p>جميع الخدمات القضائية في مكان واحد - سريعة، آمنة، وذكية</p>
                 </div>
 
-                <!-- خدمات سريعة -->
-                <div class="services-grid">
-                    <div class="service-box" onclick="showAlert('info', 'سيتم توجيهك إلى نموذج رفع دعوى جديد')">
-                        <i class="fas fa-file-circle-plus"></i>
-                        <h4>طلب قيد دعوى</h4>
-                        <p class="text-muted">رفع قضية جديدة بمساعدة الذكاء الاصطناعي</p>
+                <hr class="section-divider">
+
+                <!-- خدمات المواطن المتكاملة -->
+                <h3 style="color: var(--accent); margin-bottom: 1.5rem; font-size: 1.8rem;">
+                    <i class="fas fa-th-large"></i> الخدمات الشاملة
+                </h3>
+                
+                <div class="services-mega-grid">
+                    <!-- مجموعة الخدمات الأساسية -->
+                    <div class="service-mega-card" onclick="openService('new-case')">
+                        <div class="service-icon">
+                            <i class="fas fa-file-contract"></i>
+                        </div>
+                        <h4>رفع دعوى جديدة</h4>
+                        <p>ابدأ دعوى قضائية جديدة بمساعدة الذكاء الاصطناعي لتصنيفها وإكمال مستنداتها</p>
+                        <span class="service-badge">خدمة ذكية</span>
                     </div>
-                    
-                    <div class="service-box" onclick="activateVoice()">
-                        <i class="fas fa-microphone"></i>
-                        <h4>المساعد الصوتي</h4>
-                        <p class="text-muted">خدمة ناطقة للمكفوفين وذوي الهمم</p>
+
+                    <div class="service-mega-card" onclick="openService('track-case')">
+                        <div class="service-icon">
+                            <i class="fas fa-search-location"></i>
+                        </div>
+                        <h4>متابعة الدعاوى</h4>
+                        <p>تابع حالة دعواك خطوة بخطوة مع تحديثات فورية وإشعارات تلقائية</p>
+                        <span class="service-badge">مباشر</span>
                     </div>
-                    
-                    <div class="service-box" onclick="showAlert('info', 'أدخل رقم الهوية الوطنية للاستعلام')">
-                        <i class="fas fa-magnifying-glass"></i>
-                        <h4>تتبع معاملة</h4>
-                        <p class="text-muted">استعلام موحد بمختلف الرقم القضائية</p>
+
+                    <div class="service-mega-card" onclick="openService('appointment')">
+                        <div class="service-icon">
+                            <i class="fas fa-calendar-alt"></i>
+                        </div>
+                        <h4>حجز مواعيد</h4>
+                        <p>حجز مواعيد الجلسات والاستشارات والزيارات إلكترونياً</p>
+                        <span class="service-badge">مواعيد مرنة</span>
                     </div>
-                    
-                    <div class="service-box" onclick="showAlert('info', 'الخدمة قيد التطوير')">
-                        <i class="fas fa-calendar-check"></i>
-                        <h4>حجز موعد</h4>
-                        <p class="text-muted">حجز مواعيد الجلسات إلكترونياً</p>
+
+                    <!-- مجموعة الخدمات المتقدمة -->
+                    <div class="service-mega-card" onclick="openService('documents')">
+                        <div class="service-icon">
+                            <i class="fas fa-folder-open"></i>
+                        </div>
+                        <h4>المستندات الرقمية</h4>
+                        <p>رفع وإدارة المستندات القانونية بشكل آمن ومشفر</p>
+                        <span class="service-badge">مشفر AES-256</span>
+                    </div>
+
+                    <div class="service-mega-card" onclick="openService('payments')">
+                        <div class="service-icon">
+                            <i class="fas fa-credit-card"></i>
+                        </div>
+                        <h4>الدفع الإلكتروني</h4>
+                        <p>سداد الرسوم القضائية والخدمات عبر منصات دفع آمنة</p>
+                        <span class="service-badge">مدعوم بالشبكة</span>
+                    </div>
+
+                    <div class="service-mega-card" onclick="openService('consultation')">
+                        <div class="service-icon">
+                            <i class="fas fa-comments"></i>
+                        </div>
+                        <h4>استشارات قانونية</h4>
+                        <p>استشارات أولية مع محامين معتمدين ومتخصصين</p>
+                        <span class="service-badge">بشري + ذكي</span>
+                    </div>
+
+                    <!-- خدمات خاصة -->
+                    <div class="service-mega-card" onclick="activateBlindAssistant()">
+                        <div class="service-icon">
+                            <i class="fas fa-eye-slash"></i>
+                        </div>
+                        <h4>خدمات المكفوفين</h4>
+                        <p>واجهة صوتية متكاملة ومساعد ذكي للمستخدمين ذوي الإعاقة البصرية</p>
+                        <span class="service-badge">خاص</span>
+                    </div>
+
+                    <div class="service-mega-card" onclick="openService('emergency')">
+                        <div class="service-icon">
+                            <i class="fas fa-ambulance"></i>
+                        </div>
+                        <h4>خدمات عاجلة</h4>
+                        <p>معالجة القضايا العاجلة والإجراءات المستعجلة</p>
+                        <span class="service-badge">24/7</span>
+                    </div>
+
+                    <div class="service-mega-card" onclick="openService('reports')">
+                        <div class="service-icon">
+                            <i class="fas fa-chart-bar"></i>
+                        </div>
+                        <h4>تقارير وإحصائيات</h4>
+                        <p>تقارير مفصلة عن سير الدعاوى والإحصائيات القضائية</p>
+                        <span class="service-badge">تحليلات</span>
                     </div>
                 </div>
 
-                <!-- استشارة قانونية -->
-                <div class="input-group">
-                    <h3><i class="fas fa-robot"></i> استشارة قانونية سريعة</h3>
-                    <p class="text-muted" style="margin-bottom: 1rem;">اكتب سؤالك القانوني أو صف حالتك للحصول على توجيه مبدئي</p>
+                <!-- المساعد الذكي القانوني -->
+                <div class="input-group-advanced">
+                    <h3 style="color: var(--accent); margin-bottom: 1.5rem; font-size: 1.8rem;">
+                        <i class="fas fa-robot"></i> المساعد القانوني الذكي
+                    </h3>
                     
-                    <div class="alert alert-info" id="userAlert"></div>
+                    <div id="userAlert" class="alert alert-info">
+                        <i class="fas fa-info-circle"></i>
+                        اسأل عن أي استفسار قانوني أو صف حالتك للحصول على توجيه مبدئي
+                    </div>
                     
-                    <textarea id="userQuestion" 
-                              placeholder="مثال: لدي نزاع مع شريك في عقد تجاري، ما هي الخطوات القانونية التي يجب اتباعها؟"
-                              style="margin-bottom: 1.5rem;"></textarea>
+                    <div class="input-with-icon">
+                        <i class="input-icon fas fa-question-circle"></i>
+                        <textarea id="userQuestion" 
+                                  placeholder="صِف حالتك القانونية أو اكتب سؤالك بالتفصيل... 
+مثال: لدي نزاع مع جاري حول حدود الأرض، وقد رفض الحوار وأصبح النزاع يتصاعد. ما هي الإجراءات القانونية المناسبة في النظام السعودي؟"></textarea>
+                    </div>
                     
-                    <button class="btn btn-primary btn-full" onclick="runUserAI()">
-                        <i class="fas fa-wand-magic-sparkles"></i>
-                        <span>الحصول على توجيه قانوني</span>
-                    </button>
+                    <div class="btn-group">
+                        <button class="btn btn-primary" onclick="runUserAI()">
+                            <i class="fas fa-brain"></i>
+                            <span>تحليل ذكي</span>
+                        </button>
+                        <button class="btn btn-secondary" onclick="voiceInput()">
+                            <i class="fas fa-microphone"></i>
+                            <span>إدخال صوتي</span>
+                        </button>
+                        <button class="btn btn-outline" onclick="clearInput()">
+                            <i class="fas fa-eraser"></i>
+                            <span>مسح</span>
+                        </button>
+                    </div>
                     
-                    <div id="userAiRes" class="result-area">
-                        <div class="ai-response" id="userResponse"></div>
+                    <div id="userAiRes" class="result-area-advanced">
+                        <div class="result-header">
+                            <h4><i class="fas fa-lightbulb"></i> تحليل المساعد الذكي</h4>
+                            <button class="icon-btn" onclick="speakResponse()" style="width: 40px; height: 40px;">
+                                <i class="fas fa-volume-up"></i>
+                            </button>
+                        </div>
+                        <div class="result-content">
+                            <div id="userResponse"></div>
+                        </div>
                     </div>
                 </div>
             </div>
         </section>
 
-        <!-- واجهة القاضي -->
+        <!-- واجهة القاضي المتقدمة -->
         <section id="judge-view" class="hidden">
-            <div class="card">
+            <div class="card animate__animated animate__fadeIn">
                 <div class="card-header">
-                    <h2>لوحة تحكم القاضي الذكية</h2>
-                    <p>فرز القضايا، تحليل الوقائع، وإصدار المسودات بمساعدة الذكاء الاصطناعي</p>
+                    <h2>لوحة تحكم القاضي المتقدمة</h2>
+                    <p>إدارة القضايا، التحليل الذكي، وإصدار الأحكام بمساعدة الذكاء الاصطناعي</p>
                 </div>
 
-                <!-- الإحصائيات -->
-                <div class="stats-grid">
-                    <div class="stat-card">
-                        <h1 id="count1">12</h1>
-                        <p>قضايا قيد الانتظار</p>
-                    </div>
-                    <div class="stat-card">
-                        <h1 id="count2">5</h1>
-                        <p>قضايا عاجلة</p>
-                    </div>
-                    <div class="stat-card">
-                        <h1 id="count3">8</h1>
-                        <p>جلسات اليوم</p>
-                    </div>
-                    <div class="stat-card">
-                        <h1 id="count4">24</h1>
-                        <p>قرارات صادرة</p>
-                    </div>
-                </div>
+                <div class="judge-dashboard">
+                    <!-- الشريط الجانبي -->
+                    <div class="judge-sidebar">
+                        <div class="judge-profile">
+                            <div class="profile-avatar">
+                                <i class="fas fa-user-tie"></i>
+                            </div>
+                            <h3>القاضي/ أحمد العتيبي</h3>
+                            <p style="color: var(--text-muted); font-size: 0.9rem;">المحكمة العامة - الرياض</p>
+                            <div style="margin-top: 1rem; padding: 0.5rem; background: rgba(10, 113, 110, 0.1); border-radius: 8px;">
+                                <small style="color: var(--accent);">المستوى: خبير</small>
+                            </div>
+                        </div>
 
-                <!-- محلل الوقائع -->
-                <div class="input-group">
-                    <h3><i class="fas fa-brain"></i> محلل وقائع القضية</h3>
-                    <p class="text-muted" style="margin-bottom: 1rem;">الصق نص الوقائع للتحليل القانوني وصياغة مسودة القرار</p>
-                    
-                    <div class="alert alert-info" id="judgeAlert"></div>
-                    
-                    <textarea id="judgeText" 
-                              placeholder="مثال: المدعي: أحمد محمد، المدعى عليه: شركة الأمل، تاريخ النزاع: ١٤٤٤/٠٥/١٠، وقائع الدعوى: عدم سداد مستحقات تعاقدية..."
-                              style="min-height: 200px; margin-bottom: 1.5rem;"></textarea>
-                    
-                    <button class="btn btn-secondary btn-full" onclick="runJudgeAI()">
-                        <i class="fas fa-gavel"></i>
-                        <span>تشغيل محلل الوقائع</span>
-                    </button>
-                    
-                    <div id="judgeAiRes" class="result-area">
-                        <div class="ai-response" id="judgeResponse"></div>
+                        <div class="quick-actions">
+                            <div class="quick-action-btn" onclick="openCaseManagement()">
+                                <i class="fas fa-tasks"></i>
+                                <span>إدارة القضايا</span>
+                            </div>
+                            <div class="quick-action-btn" onclick="openSessions()">
+                                <i class="fas fa-calendar-day"></i>
+                                <span>جلسات اليوم</span>
+                            </div>
+                            <div class="quick-action-btn" onclick="openDecisions()">
+                                <i class="fas fa-file-signature"></i>
+                                <span>مسودات الأحكام</span>
+                            </div>
+                            <div class="quick-action-btn" onclick="openLegalResearch()">
+                                <i class="fas fa-book"></i>
+                                <span>البحث القانوني</span>
+                            </div>
+                            <div class="quick-action-btn" onclick="openStatistics()">
+                                <i class="fas fa-chart-pie"></i>
+                                <span>إحصائيات</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- المحتوى الرئيسي -->
+                    <div class="judge-main-content">
+                        <!-- الإحصائيات السريعة -->
+                        <div class="stats-grid-advanced">
+                            <div class="stat-card-advanced">
+                                <h1 id="pendingCases">42</h1>
+                                <p>قضايا قيد النظر</p>
+                            </div>
+                            <div class="stat-card-advanced">
+                                <h1 id="urgentCases">8</h1>
+                                <p>قضايا عاجلة</p>
+                            </div>
+                            <div class="stat-card-advanced">
+                                <h1 id="todaysSessions">6</h1>
+                                <p>جلسات اليوم</p>
+                            </div>
+                            <div class="stat-card-advanced">
+                                <h1 id="decisionsCount">24</h1>
+                                <p>قرارات هذا الشهر</p>
+                            </div>
+                        </div>
+
+                        <!-- محلل الوقائع المتقدم -->
+                        <div class="input-group-advanced">
+                            <h3 style="color: var(--accent); margin-bottom: 1.5rem; font-size: 1.8rem;">
+                                <i class="fas fa-microscope"></i> محلل الوقائع الذكي
+                            </h3>
+                            
+                            <div id="judgeAlert" class="alert alert-info">
+                                <i class="fas fa-info-circle"></i>
+                                الصق نص الوقائع للحصول على تحليل قانوني متقدم ومسودة قرار
+                            </div>
+                            
+                            <div class="input-with-icon">
+                                <i class="input-icon fas fa-file-alt"></i>
+                                <textarea id="judgeText" 
+                                          placeholder="أدخل نص وقائع القضية بالتفصيل...
+مثال:
+المدعي: محمد عبدالله، المدعى عليه: شركة التقنية المحدودة
+تاريخ النزاع: ١٤٤٤/٠٦/١٥
+طبيعة النزاع: تعاقدي - عدم سداد مستحقات عقد تطوير برمجي
+الأدلة: العقد الموقع، المراسلات الإلكترونية، كشوفات البنك
+المطلوب: المطالبة بالمبلغ المتفق عليه مع التعويضات"></textarea>
+                            </div>
+                            
+                            <div class="btn-group">
+                                <button class="btn btn-secondary" onclick="runJudgeAI()">
+                                    <i class="fas fa-gavel"></i>
+                                    <span>تحليل قانوني</span>
+                                </button>
+                                <button class="btn btn-primary" onclick="generateDraft()">
+                                    <i class="fas fa-file-contract"></i>
+                                    <span>إنشاء مسودة</span>
+                                </button>
+                                <button class="btn btn-outline" onclick="checkPrecedents()">
+                                    <i class="fas fa-balance-scale"></i>
+                                    <span>بحث في السوابق</span>
+                                </button>
+                            </div>
+                            
+                            <div id="judgeAiRes" class="result-area-advanced">
+                                <div class="result-header">
+                                    <h4><i class="fas fa-chart-bar"></i> نتائج التحليل المتقدم</h4>
+                                    <div>
+                                        <button class="icon-btn" onclick="exportAnalysis()" style="width: 40px; height: 40px;">
+                                            <i class="fas fa-download"></i>
+                                        </button>
+                                        <button class="icon-btn" onclick="printAnalysis()" style="width: 40px; height: 40px;">
+                                            <i class="fas fa-print"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                                <div class="result-content">
+                                    <div id="judgeResponse"></div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -653,321 +1296,780 @@
 
     </main>
 
-    <!-- الفوتر -->
+    <!-- المساعد الذكي للمكفوفين -->
+    <div class="blind-assistant">
+        <button class="assistant-btn" onclick="toggleAssistant()">
+            <i class="fas fa-ear-deaf"></i>
+        </button>
+        <div class="assistant-panel" id="assistantPanel">
+            <h3 style="color: var(--accent); margin-bottom: 1rem; text-align: center;">
+                <i class="fas fa-accessible-icon"></i> المساعد الذكي للمكفوفين
+            </h3>
+            
+            <div class="voice-visualizer" id="voiceVisualizer">
+                <div class="bar" style="animation-delay: 0s"></div>
+                <div class="bar" style="animation-delay: 0.1s"></div>
+                <div class="bar" style="animation-delay: 0.2s"></div>
+                <div class="bar" style="animation-delay: 0.3s"></div>
+                <div class="bar" style="animation-delay: 0.4s"></div>
+                <div class="bar" style="animation-delay: 0.5s"></div>
+            </div>
+            
+            <input type="text" class="voice-input" id="voiceInput" placeholder="اضغط على زر الميكروفون وابدأ بالحديث..." readonly>
+            
+            <div class="btn-group" style="margin-top: 1rem;">
+                <button class="btn btn-primary btn-full" onclick="startVoiceRecognition()">
+                    <i class="fas fa-microphone"></i>
+                    <span>بدء التسجيل الصوتي</span>
+                </button>
+                <button class="btn btn-outline btn-full" onclick="speakInstructions()">
+                    <i class="fas fa-volume-up"></i>
+                    <span>التعليمات الصوتية</span>
+                </button>
+            </div>
+            
+            <div style="margin-top: 1rem; font-size: 0.8rem; color: var(--text-muted); text-align: center;">
+                <i class="fas fa-info-circle"></i>
+                يمكنك قول: "ابحث عن قضيتي" أو "ما هي خدمات المكفوفين"
+            </div>
+        </div>
+    </div>
+
+    <!-- الفوتر المتقدم -->
     <footer class="footer">
-        <p>© 2024 رواق العدل - المنصة الذكية الموحدة للخدمات القضائية</p>
-        <p style="margin-top: 0.5rem; font-size: 0.8rem;">
-            <i class="fas fa-shield-alt"></i> جميع البيانات مشفرة ومحمية وفق الأنظمة السعودية
-        </p>
+        <div class="footer-content">
+            <div class="footer-section">
+                <h3>رواق العدل</h3>
+                <p style="color: var(--text-secondary); line-height: 1.8;">
+                    المنصة الذكية الشاملة للخدمات القضائية في المملكة العربية السعودية، تقدم حلولاً تقنية متقدمة لخدمة المواطنين والقضاة والمحامين.
+                </p>
+            </div>
+            
+            <div class="footer-section">
+                <h3>روابط سريعة</h3>
+                <ul class="footer-links">
+                    <li><a href="#">الرئيسية</a></li>
+                    <li><a href="#">الخدمات الإلكترونية</a></li>
+                    <li><a href="#">الدعم الفني</a></li>
+                    <li><a href="#">الأسئلة الشائعة</a></li>
+                    <li><a href="#">اتصل بنا</a></li>
+                </ul>
+            </div>
+            
+            <div class="footer-section">
+                <h3>خدمات خاصة</h3>
+                <ul class="footer-links">
+                    <li><a href="#" onclick="activateBlindAssistant()">خدمات المكفوفين</a></li>
+                    <li><a href="#">خدمات ذوي الهمم</a></li>
+                    <li><a href="#">الاستشارات المجانية</a></li>
+                    <li><a href="#">خدمات الطوارئ</a></li>
+                </ul>
+            </div>
+            
+            <div class="footer-section">
+                <h3>تواصل معنا</h3>
+                <ul class="footer-links">
+                    <li><a href="#"><i class="fas fa-phone"></i> ٩٢٠٠٢٠٢٠٠</a></li>
+                    <li><a href="#"><i class="fas fa-envelope"></i> info@justice.gov.sa</a></li>
+                    <li><a href="#"><i class="fas fa-map-marker-alt"></i> وزارة العدل - الرياض</a></li>
+                </ul>
+            </div>
+        </div>
+        
+        <div class="copyright">
+            <p>© 2024 وزارة العدل - المملكة العربية السعودية. جميع الحقوق محفوظة.</p>
+            <p style="margin-top: 0.5rem; font-size: 0.8rem;">
+                <i class="fas fa-shield-alt"></i> نظام آمن ومشفر وفق أعلى معايير الأمن السيبراني
+            </p>
+        </div>
     </footer>
 
     <script>
-        // --- التهيئة الأولية ---
+        // --- التهيئة الأولية المتقدمة ---
         document.addEventListener('DOMContentLoaded', function() {
-            // تحديث أرقام الإحصائيات بشكل عشوائي
-            setInterval(updateStats, 3000);
+            // تحديث الإحصائيات بشكل حيوي
+            setInterval(updateLiveStats, 5000);
             
-            // عرض رسالة ترحيب
+            // تحميل التفضيلات
+            loadPreferences();
+            
+            // رسالة ترحيب ذكية
             setTimeout(() => {
-                showAlert('info', 'مرحباً بك في رواق العدل. اختر الخدمة المناسبة من القائمة.', 'userAlert');
-            }, 1000);
+                showNotification('مرحباً بك في رواق العدل', 'يمكنك الآن استخدام جميع الخدمات القضائية الذكية', 'info');
+            }, 1500);
+            
+            // تهيئة التسجيل الصوتي
+            initVoiceRecognition();
+            
+            // تشغيل الخلفية التفاعلية
+            initBackgroundEngine();
         });
 
-        // --- 1. التبديل بين الواجهات ---
+        // --- 1. نظام التبديل بين الواجهات ---
         function toggleMode(mode, btn) {
             const userView = document.getElementById('user-view');
             const judgeView = document.getElementById('judge-view');
             const btns = document.querySelectorAll('.switch-btn');
 
-            // تحديث الأزرار
+            // تحديث حالة الأزرار
             btns.forEach(b => b.classList.remove('active'));
             btn.classList.add('active');
 
-            // تبديل الواجهات
+            // إضافة تأثيرات انتقالية
             if (mode === 'user') {
                 userView.classList.remove('hidden');
                 judgeView.classList.add('hidden');
-                showAlert('info', 'واجهة المواطن: يمكنك الآن استخدام الخدمات العامة', 'userAlert');
-            } else {
+                showNotification('واجهة المواطن', 'الخدمات الشاملة للمواطنين والمتقاضين', 'info');
+            } else if (mode === 'judge') {
                 userView.classList.add('hidden');
                 judgeView.classList.remove('hidden');
-                showAlert('warning', 'واجهة القاضي: هذه الواجهة مخصصة للقضاة المعتمدين فقط', 'judgeAlert');
+                showNotification('واجهة القاضي', 'لوحة التحكم المتقدمة للقضاة المعتمدين', 'warning');
+                updateJudgeStats();
+            } else if (mode === 'admin') {
+                showNotification('قريباً', 'واجهة الإدارة قيد التطوير', 'info');
+                btns[0].click(); // العودة لواجهة المواطن
             }
         }
 
-        // --- 2. محرك الذكاء الاصطناعي للمستخدم ---
+        // --- 2. خدمات المواطن الشاملة ---
+        const services = {
+            'new-case': {
+                title: 'رفع دعوى جديدة',
+                description: 'ابدأ دعوى قضائية جديدة',
+                steps: ['التصنيف الذكي', 'إدخال البيانات', 'رفع المستندات', 'الدفع الإلكتروني']
+            },
+            'track-case': {
+                title: 'متابعة الدعاوى',
+                description: 'تابع حالة دعواك'
+            }
+        };
+
+        function openService(serviceId) {
+            const service = services[serviceId];
+            if (service) {
+                showNotification(service.title, service.description, 'info');
+                if (service.steps) {
+                    // محاكاة عملية متعددة الخطوات
+                    simulateServiceFlow(service.steps);
+                }
+            }
+        }
+
+        function simulateServiceFlow(steps) {
+            let currentStep = 0;
+            const interval = setInterval(() => {
+                if (currentStep < steps.length) {
+                    showNotification(`الخطوة ${currentStep + 1}`, steps[currentStep], 'info');
+                    currentStep++;
+                } else {
+                    clearInterval(interval);
+                    showNotification('اكتملت العملية', 'تم تنفيذ جميع الخطوات بنجاح', 'success');
+                }
+            }, 2000);
+        }
+
+        // --- 3. المساعد الذكي للمستخدم ---
         function runUserAI() {
             const question = document.getElementById('userQuestion').value.trim();
             const resultArea = document.getElementById('userAiRes');
             const responseDiv = document.getElementById('userResponse');
 
             if (!question) {
-                showAlert('warning', 'يرجى كتابة سؤال أو وصف المشكلة', 'userAlert');
+                showNotification('تنبيه', 'يرجى كتابة سؤال أو وصف المشكلة', 'warning');
                 return;
             }
 
-            // إظهار منطقة النتائج
-            resultArea.classList.add('show');
+            // إظهار تأثير التحميل
+            resultArea.classList.add('active');
             responseDiv.innerHTML = `
-                <div style="text-align: center; padding: 2rem;">
-                    <div class="loader" style="margin: 0 auto 1rem;"></div>
-                    <p>جاري تحليل سؤالك والبحث في الأنظمة واللوائح...</p>
+                <div class="loader-container">
+                    <div class="ai-loader"></div>
+                    <p>جاري تحليل سؤالك باستخدام الذكاء الاصطناعي...</p>
+                    <p style="color: var(--text-muted); font-size: 0.9rem;">
+                        <i class="fas fa-cogs"></i> البحث في القوانين واللوائح والسوابق القضائية
+                    </p>
                 </div>
             `;
 
-            // محاكاة استجابة الذكاء الاصطناعي
+            // محاكاة تحليل متقدم
             setTimeout(() => {
-                const responses = [
-                    `<strong>🏛️ توجيه قانوني أولي:</strong><br>
-                    بناءً على الأنظمة السعودية، يُنصح بالتوجه إلى المحكمة المختصة ضمن اختصاص مكان المدعى عليه.<br><br>
-                    <strong>📋 الإجراءات المقترحة:</strong><br>
-                    1. تجهيز المستندات العقدية والمراسلات<br>
-                    2. رفع الدعوى عبر منصة "ناجز" الإلكترونية<br>
-                    3. تحديد نوع الدعوى (مدنية/تجارية)<br><br>
-                    <strong>⚖️ المادة المرجعية:</strong> المادة ٥٢ من نظام المرافعات الشرعية`,
-                    
-                    `<strong>🔍 تحليل الوقائع:</strong><br>
-                    تم رصد أن النزاع من نوع تعاقدي تجاري. تنطبق عليه أحكام النظام التجاري السعودي.<br><br>
-                    <strong>💡 توصية:</strong> جمع الأدلة الكتابية أولاً قبل رفع الدعوى.<br><br>
-                    <strong>📞 جهات الدعم:</strong> يمكن الاستعانة بمحام معتمد من وزارة العدل.`,
-                    
-                    `<strong>📊 التصنيف القانوني:</strong><br>
-                    النزاع يصنف تحت "الدعاوى المالية التعاقدية".<br><br>
-                    <strong>⏱️ المدة المتوقعة:</strong> ٣-٦ أشهر حسب تعقيد القضية.<br><br>
-                    <strong>✅ الخطوة التالية:</strong> زيارة مركز خدمة المواطنين في المحكمة المختصة.`
-                ];
-
-                const randomResponse = responses[Math.floor(Math.random() * responses.length)];
+                const analysis = generateAdvancedAnalysis(question);
+                responseDiv.innerHTML = analysis;
                 
-                responseDiv.innerHTML = randomResponse + `
-                    <div style="margin-top: 1.5rem; padding-top: 1rem; border-top: 1px solid var(--border);">
-                        <small><i class="fas fa-info-circle"></i> هذا التوجيه أولي ولا يغني عن استشارة قانونية متخصصة.</small>
-                    </div>
-                `;
+                // تسجيل الاستفسار
+                logQuery(question, 'user');
                 
-                showAlert('success', 'تم تحليل سؤالك بنجاح', 'userAlert');
-            }, 2000);
+                showNotification('اكتمل التحليل', 'تم تحليل سؤالك بنجاح', 'success');
+            }, 3000);
         }
 
-        // --- 3. محرك الذكاء الاصطناعي للقاضي ---
+        function generateAdvancedAnalysis(question) {
+            const analyses = [
+                {
+                    title: "📋 التصنيف القانوني",
+                    content: "النزاع يصنف تحت <strong>المسائل المدنية العقارية</strong> وفق النظام السعودي.",
+                    icon: "fas fa-tag"
+                },
+                {
+                    title: "⚖️ الإجراءات المقترحة",
+                    content: "1. محاولة الصلح مع الجار عبر وسيط محلي<br>2. رفع دعوى تحديد حدود<br>3. طلب تعيين خبير عقاري",
+                    icon: "fas fa-list-check"
+                },
+                {
+                    title: "📚 المواد القانونية",
+                    content: "المواد ٤٥-٥٢ من نظام المرافعات، المادة ٨٠٠ من النظام المدني",
+                    icon: "fas fa-book-law"
+                },
+                {
+                    title: "⏱️ المدة المتوقعة",
+                    content: "٣-٨ أشهر حسب تعقيد القضية وتوافر الأدلة",
+                    icon: "fas fa-clock"
+                },
+                {
+                    title: "💡 توصيات إضافية",
+                    content: "• توثيق جميع المراسلات<br>• جمع شهادات الجيران<br>• تصوير الموقع الحالي",
+                    icon: "fas fa-lightbulb"
+                }
+            ];
+
+            let html = `<div class="ai-response-grid">`;
+            analyses.forEach(item => {
+                html += `
+                    <div class="ai-card">
+                        <h4><i class="${item.icon}"></i> ${item.title}</h4>
+                        <p>${item.content}</p>
+                    </div>
+                `;
+            });
+            html += `</div>`;
+            
+            html += `
+                <div style="margin-top: 2rem; padding: 1.5rem; background: rgba(10, 113, 110, 0.05); border-radius: var(--radius-sm);">
+                    <h4 style="color: var(--accent); margin-bottom: 1rem;">
+                        <i class="fas fa-handshake"></i> الخطوات التالية
+                    </h4>
+                    <ol style="padding-right: 1.5rem; line-height: 2;">
+                        <li>زيارة أقرب محكمة مختصة</li>
+                        <li>تقديم طلب الصلح الإلزامي</li>
+                        <li>إعداد ملف الدعوة كاملاً</li>
+                        <li>المتابعة عبر المنصة الإلكترونية</li>
+                    </ol>
+                    <div style="margin-top: 1rem; display: flex; gap: 1rem;">
+                        <button class="btn btn-primary" onclick="downloadGuide()">
+                            <i class="fas fa-download"></i> دليل خطوة بخطوة
+                        </button>
+                        <button class="btn btn-outline" onclick="bookConsultation()">
+                            <i class="fas fa-user-tie"></i> حجز استشارة
+                        </button>
+                    </div>
+                </div>
+            `;
+            
+            return html;
+        }
+
+        // --- 4. لوحة القاضي المتقدمة ---
+        function updateJudgeStats() {
+            // تحديث الإحصائيات بشكل عشوائي واقعي
+            const stats = {
+                pendingCases: Math.floor(Math.random() * 20) + 30,
+                urgentCases: Math.floor(Math.random() * 5) + 3,
+                todaysSessions: Math.floor(Math.random() * 3) + 4,
+                decisionsCount: Math.floor(Math.random() * 10) + 20
+            };
+
+            Object.keys(stats).forEach(key => {
+                const element = document.getElementById(key);
+                if (element) {
+                    animateCounter(element, stats[key]);
+                }
+            });
+        }
+
+        function animateCounter(element, target) {
+            const current = parseInt(element.textContent);
+            const diff = target - current;
+            const steps = 20;
+            const step = diff / steps;
+            let currentStep = 0;
+
+            const interval = setInterval(() => {
+                if (currentStep < steps) {
+                    element.textContent = Math.floor(current + (step * currentStep));
+                    currentStep++;
+                } else {
+                    element.textContent = target;
+                    clearInterval(interval);
+                }
+            }, 50);
+        }
+
         function runJudgeAI() {
             const caseText = document.getElementById('judgeText').value.trim();
             const resultArea = document.getElementById('judgeAiRes');
             const responseDiv = document.getElementById('judgeResponse');
 
             if (!caseText) {
-                showAlert('warning', 'يرجى إدخال نص وقائع القضية للتحليل', 'judgeAlert');
+                showNotification('تنبيه', 'يرجى إدخال نص وقائع القضية', 'warning');
                 return;
             }
 
-            resultArea.classList.add('show');
+            resultArea.classList.add('active');
             responseDiv.innerHTML = `
-                <div style="text-align: center; padding: 2rem;">
-                    <div class="loader" style="margin: 0 auto 1rem;"></div>
-                    <p>جاري التدقيق القانوني وتحليل الوقائع وصياغة التوصيات...</p>
+                <div class="loader-container">
+                    <div class="ai-loader"></div>
+                    <p>جاري التحليل القانوني المتقدم...</p>
+                    <p style="color: var(--text-muted); font-size: 0.9rem;">
+                        <i class="fas fa-search"></i> البحث في السوابق القضائية والمراجع القانونية
+                    </p>
                 </div>
             `;
 
             setTimeout(() => {
-                const analyses = [
-                    `<strong>🔬 التحليل القانوني:</strong><br>
-                    تم رصد تعارض في تواريخ التبليغ مع المادة ١٥ من نظام المرافعات.<br><br>
-                    <strong>⚠️ النواقص الملحوظة:</strong><br>
-                    1. عدم إرفاق إشعار التخلف عن السداد<br>
-                    2. عدم توثيق محاولات الصلح السابقة<br><br>
-                    <strong>📝 مسودة القرار:</strong><br>
-                    "بناءً على الوقائع، يطلب من المدعي استكمال المستندات الناقصة خلال ١٥ يوم."`,
-                    
-                    `<strong>⚖️ التكييف القانوني:</strong><br>
-                    القضية تصنف تحت "نزاع تعاقدي تجاري" وفق النظام التجاري.<br><br>
-                    <strong>📊 توصيات الحكم:</strong><br>
-                    1. إحالة القضية للخبرة المالية<br>
-                    2. طلب كشف حساب من البنك المركزي<br>
-                    3. تحديد جلسة للمرافعة النهائية<br><br>
-                    <strong>⏳ الإجراء العاجل:</strong> تعيين خبير محاسب خلال أسبوع.`,
-                    
-                    `<strong>🎯 نقاط التركيز:</strong><br>
-                    1. تحديد الاختصاص القضائي بدقة<br>
-                    2. التحقق من أهلية الأطراف<br>
-                    3. مراجعة آجال التقادم<br><br>
-                    <strong>📋 المسودة المقترحة:</strong><br>
-                    "لعدم اكتمال الأوراق، تحدد جلسة استكمال مستندات بتاريخ..."`
-                ];
-
-                const randomAnalysis = analyses[Math.floor(Math.random() * analyses.length)];
-                
-                responseDiv.innerHTML = randomAnalysis + `
-                    <div style="margin-top: 1.5rem; padding-top: 1rem; border-top: 1px solid var(--border);">
-                        <small><i class="fas fa-lightbulb"></i> تم توليد المسودة باستخدام نموذج قانوني معتمد من وزارة العدل.</small>
-                    </div>
-                `;
-                
-                showAlert('success', 'تم تحليل القضية وإعداد مسودة القرار', 'judgeAlert');
+                const analysis = generateJudgeAnalysis(caseText);
+                responseDiv.innerHTML = analysis;
                 
                 // تحديث الإحصائيات
-                updateStats();
-            }, 2500);
+                updateJudgeStats();
+                
+                showNotification('اكتمل التحليل', 'تم تحليل القضية وإعداد التوصيات', 'success');
+            }, 3500);
         }
 
-        // --- 4. خدمات ذوي الهمم ---
-        function activateVoice() {
-            showAlert('info', 'تفعيل الوضع الصوتي... تحدث الآن', 'userAlert');
-            
-            if ('speechSynthesis' in window) {
-                const msg = new SpeechSynthesisUtterance();
-                msg.text = "مرحباً بكم في خدمة المساعد الصوتي لرواق العدل. اضغط مطولاً على أيقونة الميكروفون وقم بتسجيل صوتك للبحث عن قضاياك أو الاستفسار عن خدماتنا.";
-                msg.lang = 'ar-SA';
-                msg.rate = 0.9;
-                msg.pitch = 1;
+        function generateJudgeAnalysis(caseText) {
+            const wordCount = caseText.split(' ').length;
+            const issues = ['تعارض في الأدلة', 'نقص في المستندات', 'عدم وضوح الاختصاص'];
+            const recommendations = [
+                'طلب استكمال المستندات الناقصة',
+                'إحالة القضية للخبرة الفنية',
+                'تحديد جلسة للمرافعة'
+            ];
+
+            return `
+                <div class="ai-response-grid">
+                    <div class="ai-card">
+                        <h4><i class="fas fa-chart-bar"></i> التحليل الإحصائي</h4>
+                        <p>عدد الكلمات: <strong>${wordCount}</strong><br>
+                           مستوى التعقيد: <strong>${wordCount > 200 ? 'عالي' : 'متوسط'}</strong><br>
+                           عدد القضايا المشابهة: <strong>${Math.floor(Math.random() * 15) + 5}</strong></p>
+                    </div>
+                    
+                    <div class="ai-card">
+                        <h4><i class="fas fa-exclamation-triangle"></i> النواقص الملحوظة</h4>
+                        <ul style="padding-right: 1.5rem;">
+                            ${issues.map(issue => `<li>${issue}</li>`).join('')}
+                        </ul>
+                    </div>
+                    
+                    <div class="ai-card">
+                        <h4><i class="fas fa-check-circle"></i> الإجراءات المقترحة</h4>
+                        <ol style="padding-right: 1.5rem;">
+                            ${recommendations.map(rec => `<li>${rec}</li>`).join('')}
+                        </ol>
+                    </div>
+                    
+                    <div class="ai-card">
+                        <h4><i class="fas fa-balance-scale"></i> السوابق القضائية</h4>
+                        <p>تم العثور على <strong>${Math.floor(Math.random() * 8) + 3}</strong> قضايا مشابهة<br>
+                           نسبة النجاح: <strong>${Math.floor(Math.random() * 30) + 60}%</strong><br>
+                           متوسط المدة: <strong>${Math.floor(Math.random() * 6) + 4} أشهر</strong></p>
+                    </div>
+                </div>
                 
-                window.speechSynthesis.speak(msg);
-                
-                // محاكاة الاستجابة الصوتية
-                setTimeout(() => {
-                    showAlert('success', 'الخدمة الصوتية نشطة. يمكنك التحدث الآن.', 'userAlert');
-                }, 1000);
+                <div style="margin-top: 2rem;">
+                    <h4 style="color: var(--accent); margin-bottom: 1rem;">
+                        <i class="fas fa-file-contract"></i> مسودة القرار المقترحة
+                    </h4>
+                    <div style="background: rgba(0, 0, 0, 0.2); padding: 1.5rem; border-radius: var(--radius-sm); border: 1px solid var(--border);">
+                        <p style="line-height: 2;">
+                            بناءً على وقائع الدعوة والتحليل القانوني، يقرر:<br>
+                            ١- تحديد جلسة استكمال مستندات خلال ١٥ يوم.<br>
+                            ٢- تكليف المدعي بتقديم المستندات الناقصة.<br>
+                            ٣- إشعار المدعى عليه بالحضور في الجلسة المحددة.<br>
+                            ٤- تحميل الرسوم على من يخسر الدعوة.
+                        </p>
+                        <div style="margin-top: 1.5rem; display: flex; gap: 1rem; flex-wrap: wrap;">
+                            <button class="btn btn-primary" onclick="saveDraft()">
+                                <i class="fas fa-save"></i> حفظ المسودة
+                            </button>
+                            <button class="btn btn-secondary" onclick="exportDraft()">
+                                <i class="fas fa-download"></i> تصدير كـ PDF
+                            </button>
+                            <button class="btn btn-outline" onclick="sendToCourt()">
+                                <i class="fas fa-paper-plane"></i> إرسال للمحكمة
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+
+        // --- 5. المساعد الذكي للمكفوفين ---
+        let isListening = false;
+        let recognition = null;
+
+        function initVoiceRecognition() {
+            if ('webkitSpeechRecognition' in window || 'SpeechRecognition' in window) {
+                const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+                recognition = new SpeechRecognition();
+                recognition.lang = 'ar-SA';
+                recognition.continuous = false;
+                recognition.interimResults = true;
+
+                recognition.onstart = function() {
+                    isListening = true;
+                    document.getElementById('voiceVisualizer').style.display = 'flex';
+                    showNotification('المساعد الصوتي', 'جاري الاستماع... تحدث الآن', 'info');
+                };
+
+                recognition.onresult = function(event) {
+                    const transcript = event.results[0][0].transcript;
+                    document.getElementById('voiceInput').value = transcript;
+                    
+                    // معالجة الأوامر الصوتية
+                    processVoiceCommand(transcript);
+                };
+
+                recognition.onend = function() {
+                    isListening = false;
+                    document.getElementById('voiceVisualizer').style.display = 'none';
+                };
+
+                recognition.onerror = function(event) {
+                    showNotification('خطأ', 'حدث خطأ في التعرف الصوتي', 'error');
+                };
             } else {
-                showAlert('warning', 'المتصفح لا يدعم الميزة الصوتية', 'userAlert');
+                showNotification('تنبيه', 'المتصفح لا يدعم التعرف الصوتي', 'warning');
             }
         }
 
-        // --- 5. نظام الإشعارات ---
-        function showAlert(type, message, targetId) {
-            const alertDiv = document.getElementById(targetId);
-            if (!alertDiv) return;
-            
-            alertDiv.className = `alert alert-${type} show`;
-            alertDiv.innerHTML = `
-                <i class="fas fa-${type === 'success' ? 'check-circle' : type === 'warning' ? 'exclamation-triangle' : 'info-circle'}"></i>
-                ${message}
+        function toggleAssistant() {
+            const panel = document.getElementById('assistantPanel');
+            panel.classList.toggle('active');
+        }
+
+        function startVoiceRecognition() {
+            if (recognition && !isListening) {
+                recognition.start();
+            } else {
+                showNotification('المساعد الصوتي', 'جاري إعداد النظام الصوتي...', 'info');
+                setTimeout(() => {
+                    if (recognition) recognition.start();
+                }, 1000);
+            }
+        }
+
+        function processVoiceCommand(command) {
+            command = command.toLowerCase();
+            let response = '';
+
+            if (command.includes('ابحث عن قضية') || command.includes('قضيتي')) {
+                response = 'سأبحث عن قضاياك. هل تريد البحث برقم الهوية أم رقم القضية؟';
+                searchForCases();
+            } else if (command.includes('الخدمات') || command.includes('خدمات')) {
+                response = 'خدمات رواق العدل تشمل: رفع دعوى، متابعة قضية، حجز موعد، واستشارات قانونية. أي خدمة تريد؟';
+            } else if (command.includes('مساعدة') || command.includes('مساعدة')) {
+                response = 'أنا هنا لمساعدتك. يمكنك قول: ابحث عن قضيتي، ما هي الخدمات، احجز موعد، أو استشارة قانونية.';
+            } else if (command.includes('موعد') || command.includes('حجز')) {
+                response = 'سأفتح صفحة حجز المواعيد لك. هل تريد موعد استشارة أم جلسة محكمة؟';
+                openService('appointment');
+            } else {
+                response = 'لم أفهم طلبك. يمكنك قول: ابحث عن قضيتي، ما هي الخدمات، أو احجز موعد.';
+            }
+
+            // قراءة الرد صوتياً
+            speak(response);
+        }
+
+        function speak(text) {
+            if ('speechSynthesis' in window) {
+                const utterance = new SpeechSynthesisUtterance(text);
+                utterance.lang = 'ar-SA';
+                utterance.rate = 0.9;
+                utterance.pitch = 1;
+                utterance.volume = 1;
+                window.speechSynthesis.speak(utterance);
+            }
+        }
+
+        function speakInstructions() {
+            const instructions = `
+                مرحباً بك في المساعد الذكي للمكفوفين في رواق العدل.
+                يمكنك استخدام الأوامر الصوتية التالية:
+                ابحث عن قضية - للبحث عن قضاياك.
+                الخدمات - لعرض جميع الخدمات المتاحة.
+                احجز موعد - لحجز موعد في المحكمة.
+                استشارة - للحصول على استشارة قانونية.
+                مساعدة - لسماع هذه التعليمات مرة أخرى.
+                اضغط على زر الميكروفون وابدأ بالتحدث.
+            `;
+            speak(instructions);
+        }
+
+        function activateBlindAssistant() {
+            toggleMode('user', document.querySelector('.switch-btn'));
+            toggleAssistant();
+            setTimeout(() => {
+                speakInstructions();
+            }, 500);
+        }
+
+        // --- 6. نظام الإشعارات المتقدم ---
+        function showNotification(title, message, type = 'info') {
+            // إنشاء عنصر الإشعار
+            const notification = document.createElement('div');
+            notification.className = `alert alert-${type} animate__animated animate__fadeInRight`;
+            notification.innerHTML = `
+                <i class="fas fa-${getNotificationIcon(type)}"></i>
+                <div>
+                    <strong>${title}</strong>
+                    <p style="margin: 0; font-size: 0.9rem;">${message}</p>
+                </div>
+                <button class="icon-btn" onclick="this.parentElement.remove()" style="width: 30px; height: 30px; margin-right: auto;">
+                    <i class="fas fa-times"></i>
+                </button>
             `;
             
+            // إضافة الأنماط
+            notification.style.cssText = `
+                position: fixed;
+                top: 100px;
+                left: 30px;
+                z-index: 10000;
+                max-width: 400px;
+                animation-duration: 0.3s;
+            `;
+            
+            document.body.appendChild(notification);
+            
+            // إزالة تلقائية بعد 5 ثوان
             setTimeout(() => {
-                alertDiv.classList.remove('show');
+                if (notification.parentElement) {
+                    notification.style.animation = 'fadeOut 0.3s ease';
+                    setTimeout(() => notification.remove(), 300);
+                }
             }, 5000);
         }
 
-        // --- 6. تحديث الإحصائيات الحيوية ---
-        function updateStats() {
-            const stats = ['count1', 'count2', 'count3', 'count4'];
-            stats.forEach(statId => {
-                const element = document.getElementById(statId);
-                if (element) {
-                    const current = parseInt(element.textContent);
-                    const change = Math.floor(Math.random() * 3) - 1; // -1, 0, 1
-                    const newValue = Math.max(0, current + change);
-                    element.textContent = newValue;
-                }
-            });
+        function getNotificationIcon(type) {
+            const icons = {
+                'success': 'check-circle',
+                'error': 'exclamation-circle',
+                'warning': 'exclamation-triangle',
+                'info': 'info-circle'
+            };
+            return icons[type] || 'info-circle';
         }
 
-        // --- 7. محرك الخلفية الحية ---
-        const canvas = document.getElementById('bgCanvas');
-        const ctx = canvas.getContext('2d');
-        let particles = [];
+        // --- 7. نظام الخلفية التفاعلية المتقدم ---
+        function initBackgroundEngine() {
+            const canvas = document.getElementById('bgCanvas');
+            const ctx = canvas.getContext('2d');
+            let particles = [];
+            let lines = [];
 
-        function resizeCanvas() {
-            canvas.width = window.innerWidth;
-            canvas.height = window.innerHeight;
-        }
-
-        class Particle {
-            constructor() {
-                this.x = Math.random() * canvas.width;
-                this.y = Math.random() * canvas.height;
-                this.size = Math.random() * 1.5 + 0.5;
-                this.speed = Math.random() * 0.3 + 0.1;
-                this.opacity = Math.random() * 0.2 + 0.1;
+            function resizeCanvas() {
+                canvas.width = window.innerWidth;
+                canvas.height = window.innerHeight;
+                initParticles();
             }
 
-            update() {
-                this.y -= this.speed;
-                if (this.y < 0) {
-                    this.y = canvas.height;
+            class Particle {
+                constructor() {
                     this.x = Math.random() * canvas.width;
+                    this.y = Math.random() * canvas.height;
+                    this.size = Math.random() * 2 + 0.5;
+                    this.speedX = (Math.random() - 0.5) * 0.5;
+                    this.speedY = (Math.random() - 0.5) * 0.5;
+                    this.color = `rgba(${Math.floor(Math.random() * 20) + 10}, 
+                                      ${Math.floor(Math.random() * 100) + 150}, 
+                                      ${Math.floor(Math.random() * 50) + 100}, 
+                                      ${Math.random() * 0.3 + 0.1})`;
+                }
+
+                update() {
+                    this.x += this.speedX;
+                    this.y += this.speedY;
+
+                    if (this.x > canvas.width) this.x = 0;
+                    if (this.x < 0) this.x = canvas.width;
+                    if (this.y > canvas.height) this.y = 0;
+                    if (this.y < 0) this.y = canvas.height;
+                }
+
+                draw() {
+                    ctx.fillStyle = this.color;
+                    ctx.beginPath();
+                    ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                    ctx.fill();
                 }
             }
 
-            draw() {
-                ctx.fillStyle = `rgba(15, 176, 107, ${this.opacity})`;
-                ctx.beginPath();
-                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
-                ctx.fill();
+            function initParticles() {
+                particles = [];
+                const particleCount = Math.min(100, Math.floor((canvas.width * canvas.height) / 10000));
+                for (let i = 0; i < particleCount; i++) {
+                    particles.push(new Particle());
+                }
             }
-        }
 
-        function initParticles() {
-            particles = [];
-            for (let i = 0; i < 60; i++) {
-                particles.push(new Particle());
-            }
-        }
+            function drawConnections() {
+                for (let i = 0; i < particles.length; i++) {
+                    for (let j = i + 1; j < particles.length; j++) {
+                        const dx = particles[i].x - particles[j].x;
+                        const dy = particles[i].y - particles[j].y;
+                        const distance = Math.sqrt(dx * dx + dy * dy);
 
-        function animate() {
-            ctx.clearRect(0, 0, canvas.width, canvas.height);
-            
-            // رسم شبكة خلفية
-            ctx.strokeStyle = 'rgba(255, 255, 255, 0.02)';
-            ctx.lineWidth = 1;
-            
-            // خطوط رأسية
-            for (let x = 0; x < canvas.width; x += 50) {
-                ctx.beginPath();
-                ctx.moveTo(x, 0);
-                ctx.lineTo(x, canvas.height);
-                ctx.stroke();
+                        if (distance < 100) {
+                            ctx.beginPath();
+                            ctx.strokeStyle = `rgba(15, 176, 107, ${0.1 * (1 - distance / 100)})`;
+                            ctx.lineWidth = 0.5;
+                            ctx.moveTo(particles[i].x, particles[i].y);
+                            ctx.lineTo(particles[j].x, particles[j].y);
+                            ctx.stroke();
+                        }
+                    }
+                }
             }
-            
-            // خطوط أفقية
-            for (let y = 0; y < canvas.height; y += 50) {
-                ctx.beginPath();
-                ctx.moveTo(0, y);
-                ctx.lineTo(canvas.width, y);
-                ctx.stroke();
-            }
-            
-            // تحديث ورسم الجسيمات
-            particles.forEach(particle => {
-                particle.update();
-                particle.draw();
-            });
-            
-            requestAnimationFrame(animate);
-        }
 
-        // تهيئة الخلفية
-        window.addEventListener('resize', () => {
+            function animate() {
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+                
+                // رسم الشبكة الخلفية
+                ctx.strokeStyle = 'rgba(255, 255, 255, 0.02)';
+                ctx.lineWidth = 1;
+                
+                const gridSize = 60;
+                for (let x = 0; x < canvas.width; x += gridSize) {
+                    ctx.beginPath();
+                    ctx.moveTo(x, 0);
+                    ctx.lineTo(x, canvas.height);
+                    ctx.stroke();
+                }
+                for (let y = 0; y < canvas.height; y += gridSize) {
+                    ctx.beginPath();
+                    ctx.moveTo(0, y);
+                    ctx.lineTo(canvas.width, y);
+                    ctx.stroke();
+                }
+
+                particles.forEach(particle => {
+                    particle.update();
+                    particle.draw();
+                });
+
+                drawConnections();
+
+                requestAnimationFrame(animate);
+            }
+
+            window.addEventListener('resize', resizeCanvas);
             resizeCanvas();
-            initParticles();
-        });
+            animate();
+        }
 
-        resizeCanvas();
-        initParticles();
-        animate();
+        // --- 8. وظائف مساعدة إضافية ---
+        function updateLiveStats() {
+            // تحديث إحصاءات حية عشوائية
+            const elements = document.querySelectorAll('.stat-card-advanced h1');
+            elements.forEach(element => {
+                const current = parseInt(element.textContent);
+                const change = Math.floor(Math.random() * 3) - 1;
+                const newValue = Math.max(0, current + change);
+                element.textContent = newValue;
+            });
+        }
 
-        // --- 8. تأثيرات تفاعلية إضافية ---
-        document.querySelectorAll('.service-box').forEach(box => {
-            box.addEventListener('mouseenter', function() {
-                const icon = this.querySelector('i');
-                icon.style.transform = 'scale(1.2) rotate(5deg)';
-            });
-            
-            box.addEventListener('mouseleave', function() {
-                const icon = this.querySelector('i');
-                icon.style.transform = 'scale(1) rotate(0deg)';
-            });
-        });
+        function loadPreferences() {
+            // تحميل التفضيلات من localStorage
+            const darkMode = localStorage.getItem('darkMode') === 'true';
+            if (darkMode) {
+                document.body.classList.add('dark-mode');
+            }
+        }
 
-        // --- 9. تحسين تجربة النصوص ---
-        document.querySelectorAll('textarea').forEach(textarea => {
-            textarea.addEventListener('focus', function() {
-                this.parentElement.style.transform = 'translateY(-5px)';
-            });
-            
-            textarea.addEventListener('blur', function() {
-                this.parentElement.style.transform = 'translateY(0)';
-            });
-        });
+        function toggleDarkMode() {
+            document.body.classList.toggle('dark-mode');
+            localStorage.setItem('darkMode', document.body.classList.contains('dark-mode'));
+            showNotification('الوضع الليلي', document.body.classList.contains('dark-mode') ? 'مفعل' : 'معطل', 'info');
+        }
+
+        function showHelp() {
+            const helpContent = `
+                <h3>دليل استخدام رواق العدل</h3>
+                <p><strong>للمواطنين:</strong> اختر الخدمة المطلوبة من القائمة الرئيسية</p>
+                <p><strong>للقضاة:</strong> استخدم لوحة التحكم المتقدمة للتحليل والأحكام</p>
+                <p><strong>للمكفوفين:</strong> اضغط على زر المساعد الصوتي في الزاوية</p>
+                <p><strong>الدعم الفني:</strong> ٩٢٠٠٢٠٢٠٠</p>
+            `;
+            showNotification('مساعدة', 'انظر التعليمات في الإشعار', 'info');
+        }
+
+        function logQuery(query, userType) {
+            // محاكاة تسجيل الاستفسارات
+            console.log(`[${new Date().toLocaleString()}] ${userType}: ${query}`);
+        }
+
+        // --- 9. تعريف وظائف الأزرار الإضافية ---
+        function voiceInput() {
+            showNotification('الإدخال الصوتي', 'سيتم تفعيل الميكروفون قريباً', 'info');
+            setTimeout(() => {
+                startVoiceRecognition();
+            }, 1000);
+        }
+
+        function clearInput() {
+            document.getElementById('userQuestion').value = '';
+            document.getElementById('judgeText').value = '';
+            showNotification('تم المسح', 'تم مسح النص بنجاح', 'success');
+        }
+
+        function speakResponse() {
+            const response = document.getElementById('userResponse').textContent;
+            if (response) {
+                speak(response.substring(0, 500)); // تقليل النص للقراءة
+            }
+        }
+
+        function generateDraft() {
+            showNotification('إنشاء مسودة', 'جاري إنشاء مسودة القرار...', 'info');
+            setTimeout(() => {
+                showNotification('تم الإنشاء', 'تم إنشاء المسودة بنجاح', 'success');
+            }, 2000);
+        }
+
+        function checkPrecedents() {
+            showNotification('بحث في السوابق', 'جاري البحث في القضايا المشابهة...', 'info');
+            setTimeout(() => {
+                showNotification('اكتمل البحث', `تم العثور على ${Math.floor(Math.random() * 10) + 5} قضايا مشابهة`, 'success');
+            }, 2500);
+        }
+
+        function exportAnalysis() {
+            showNotification('التصدير', 'جاري تحضير الملف للتحميل...', 'info');
+            setTimeout(() => {
+                showNotification('جاهز للتحميل', 'اضغط لحفظ الملف', 'success');
+            }, 1500);
+        }
+
+        function printAnalysis() {
+            window.print();
+        }
+
+        function searchForCases() {
+            showNotification('بحث عن القضايا', 'جاري البحث في قاعدة البيانات...', 'info');
+            setTimeout(() => {
+                showNotification('تم العثور', `تم العثور على ${Math.floor(Math.random() * 5) + 1} قضايا`, 'success');
+            }, 2000);
+        }
+
+        // تعريف الوظائف الأخرى
+        window.downloadGuide = () => showNotification('تحميل الدليل', 'جاري التحميل...', 'info');
+        window.bookConsultation = () => openService('consultation');
+        window.saveDraft = () => showNotification('حفظ المسودة', 'تم حفظ المسودة بنجاح', 'success');
+        window.exportDraft = () => showNotification('تصدير PDF', 'جاري إنشاء ملف PDF...', 'info');
+        window.sendToCourt = () => showNotification('إرسال للمحكمة', 'تم إرسال المسودة بنجاح', 'success');
+        window.showNotifications = () => showNotification('الإشعارات', 'لديك ٣ إشعارات غير مقروءة', 'info');
 
     </script>
 </body>
