@@ -5,1267 +5,204 @@
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>رواق العدل — النظام القانوني الذكي المتكامل</title>
 
-  <!-- خطوط وأيقونات -->
   <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   
-  <meta name="description" content="النظام القانوني الذكي المتكامل لإدارة القضايا والتحليل القانوني — رواق العدل" />
-  <meta name="author" content="روان الصبحي — النظام القانوني الذكي" />
-  
   <style>
+    /* دمج المتغيرات والألوان الاحترافية الخاصة بكِ */
     :root {
-      --primary: #0a716e;
-      --primary-dark: #054a48;
-      --primary-light: #0fb06b;
-      --secondary: #1a237e;
-      --accent: #FFB703;
-      --accent-dark: #d59b03;
-      --danger: #e53935;
-      --success: #0fb06b;
-      --warning: #ff9800;
-      --info: #2196f3;
-      
-      --bg-1: #021a1a;
-      --bg-2: #042a28;
-      --bg-3: #063733;
-      --panel: rgba(255, 255, 255, 0.03);
-      --panel-hover: rgba(255, 255, 255, 0.05);
-      --muted: #a8c7b9;
-      --text: #eaffef;
-      --text-light: #ffffff;
-      
-      --radius-sm: 6px;
-      --radius: 12px;
-      --radius-lg: 18px;
-      --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.25);
-      --shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
-      --shadow-lg: 0 20px 60px rgba(0, 0, 0, 0.6);
-      --maxw: 1440px;
+      --primary: #0a716e; --primary-dark: #054a48; --primary-light: #0fb06b;
+      --accent: #FFB703; --bg-1: #021a1a; --bg-2: #042a28;
+      --panel: rgba(255, 255, 255, 0.03); --muted: #a8c7b9; --text: #eaffef;
+      --radius: 14px; --shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
       --ui-ease: cubic-bezier(0.25, 0.46, 0.45, 0.94);
-      --transition: all 0.3s var(--ui-ease);
     }
-    
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-    }
-    
-    html, body {
-      height: 100%;
-      margin: 0;
-      font-family: 'Cairo', sans-serif;
-      background: linear-gradient(160deg, var(--bg-1), var(--bg-2), var(--bg-3));
-      color: var(--text);
-      line-height: 1.6;
-      overflow-x: hidden;
-    }
-    
-    ::selection {
-      background: rgba(15, 176, 107, 0.4);
-      color: white;
-    }
-    
-    ::-webkit-scrollbar {
-      width: 10px;
-      height: 10px;
-    }
-    
-    ::-webkit-scrollbar-track {
-      background: rgba(0, 0, 0, 0.2);
-      border-radius: var(--radius-sm);
-    }
-    
-    ::-webkit-scrollbar-thumb {
-      background: rgba(255, 255, 255, 0.1);
-      border-radius: var(--radius-sm);
-    }
-    
-    ::-webkit-scrollbar-thumb:hover {
-      background: rgba(255, 255, 255, 0.15);
-    }
-    
-    a {
-      color: var(--primary-light);
-      text-decoration: none;
-      transition: var(--transition);
-    }
-    
-    a:hover {
-      color: var(--accent);
-    }
-    
-    .app {
-      max-width: var(--maxw);
-      margin: 0 auto;
-      padding: 20px;
-      display: grid;
-      grid-template-columns: 320px 1fr;
-      gap: 24px;
-      min-height: 100vh;
-    }
-    
-    @media (max-width: 1200px) {
-      .app {
-        grid-template-columns: 1fr;
-        padding: 16px;
-      }
-    }
-    
-    @media (max-width: 768px) {
-      .app {
-        padding: 12px;
-        gap: 16px;
-      }
-    }
-    
-    /* background */
-    #bgCanvas {
-      position: fixed;
-      inset: 0;
-      z-index: -3;
-      pointer-events: none;
-    }
-    
-    .bg-overlay {
-      position: fixed;
-      inset: 0;
-      z-index: -2;
-      pointer-events: none;
-      background: 
-        radial-gradient(800px 260px at 8% 12%, rgba(180, 240, 210, 0.05), transparent 8%),
-        radial-gradient(600px 600px at 85% 90%, rgba(255, 183, 3, 0.03), transparent 10%),
-        linear-gradient(180deg, rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.4));
-      mix-blend-mode: multiply;
-    }
-    
+
+    * { box-sizing: border-box; margin: 0; padding: 0; transition: all 0.3s var(--ui-ease); }
+    body { font-family: 'Cairo', sans-serif; background: linear-gradient(160deg, var(--bg-1), var(--bg-2)); color: var(--text); overflow-x: hidden; min-height: 100vh; }
+
+    /* الخلفية التفاعلية (Neural Network) */
+    #bgCanvas { position: fixed; inset: 0; z-index: -3; pointer-events: none; }
+    .bg-overlay { position: fixed; inset: 0; z-index: -2; pointer-events: none; background: radial-gradient(800px 260px at 8% 12%, rgba(180, 240, 210, 0.05), transparent 8%); }
+
+    .app { max-width: 1440px; margin: 0 auto; padding: 20px; display: grid; grid-template-columns: 320px 1fr; gap: 24px; }
+    @media (max-width: 1200px) { .app { grid-template-columns: 1fr; } }
+
     /* Sidebar */
-    .sidebar {
-      background: linear-gradient(160deg, var(--panel), rgba(255, 255, 255, 0.01));
-      border-radius: var(--radius-lg);
-      padding: 24px 20px;
-      border: 1px solid rgba(255, 255, 255, 0.05);
-      box-shadow: var(--shadow-lg);
-      backdrop-filter: blur(12px);
-      -webkit-backdrop-filter: blur(12px);
-      display: flex;
-      flex-direction: column;
-      height: calc(100vh - 40px);
-      position: sticky;
-      top: 20px;
-      transition: var(--transition);
-    }
-    
-    @media (max-width: 1200px) {
-      .sidebar {
-        position: relative;
-        top: 0;
-        height: auto;
-      }
-    }
-    
-    .brand {
-      display: flex;
-      gap: 16px;
-      align-items: center;
-      padding-bottom: 20px;
-      border-bottom: 1px solid rgba(255, 255, 255, 0.05);
-      margin-bottom: 24px;
-    }
-    
-    .logo {
-      width: 64px;
-      height: 64px;
-      border-radius: 16px;
-      background: linear-gradient(135deg, var(--primary-light), var(--primary));
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      box-shadow: 0 8px 20px rgba(15, 176, 107, 0.3);
-      transition: var(--transition);
-    }
-    
-    .logo:hover {
-      transform: translateY(-2px) rotate(5deg);
-      box-shadow: 0 12px 25px rgba(15, 176, 107, 0.4);
-    }
-    
-    .brand h1 {
-      margin: 0;
-      font-size: 22px;
-      font-weight: 800;
-      background: linear-gradient(90deg, #fff, var(--accent));
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
-    }
-    
-    .brand p {
-      margin: 4px 0 0;
-      color: var(--muted);
-      font-size: 14px;
-    }
-    
-    nav.menu {
-      display: flex;
-      flex-direction: column;
-      gap: 8px;
-      margin-bottom: 24px;
-    }
-    
-    .menu button {
-      display: flex;
-      align-items: center;
-      gap: 14px;
-      padding: 14px 16px;
-      border-radius: var(--radius);
-      border: 0;
-      background: transparent;
-      color: var(--muted);
-      cursor: pointer;
-      font-size: 16px;
-      font-weight: 600;
-      text-align: right;
-      transition: var(--transition);
-      position: relative;
-      overflow: hidden;
-    }
-    
-    .menu button::before {
-      content: '';
-      position: absolute;
-      right: 0;
-      top: 0;
-      height: 100%;
-      width: 4px;
-      background: var(--accent);
-      transform: translateX(8px);
-      opacity: 0;
-      transition: var(--transition);
-      border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
-    }
-    
-    .menu button:hover {
-      background: var(--panel-hover);
-      color: var(--text);
-      transform: translateX(-4px);
-    }
-    
-    .menu button.active {
-      background: linear-gradient(90deg, rgba(15, 176, 107, 0.08), rgba(255, 255, 255, 0.02));
-      color: var(--text-light);
-      box-shadow: var(--shadow-sm);
-    }
-    
-    .menu button.active::before {
-      transform: translateX(0);
-      opacity: 1;
-    }
-    
-    .menu button i {
-      width: 24px;
-      text-align: center;
-      font-size: 18px;
-    }
-    
-    /* Assistant List */
-    .assistant-list-container {
-      margin-top: auto;
-      border-top: 1px solid rgba(255, 255, 255, 0.05);
-      padding-top: 20px;
-    }
-    
-    .section-title {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 16px;
-    }
-    
-    .section-title h3 {
-      font-size: 18px;
-      font-weight: 700;
-      color: var(--text-light);
-    }
-    
-    .assistant-list {
-      border-radius: var(--radius);
-      overflow: auto;
-      max-height: 300px;
-      padding: 8px;
-      background: rgba(0, 0, 0, 0.2);
-      border: 1px solid rgba(255, 255, 255, 0.03);
-      margin-bottom: 16px;
-    }
-    
-    .assistant-item {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 12px;
-      border-radius: var(--radius-sm);
-      transition: var(--transition);
-      border: 1px solid transparent;
-    }
-    
-    .assistant-item:hover {
-      background: rgba(255, 255, 255, 0.03);
-      border-color: rgba(255, 255, 255, 0.05);
-      transform: translateX(-4px);
-    }
-    
-    .assistant-item + .assistant-item {
-      margin-top: 8px;
-    }
-    
-    .assistant-info {
-      flex: 1;
-    }
-    
-    .assistant-name {
-      font-weight: 700;
-      color: var(--text-light);
-      margin-bottom: 4px;
-    }
-    
-    .assistant-desc {
-      color: var(--muted);
-      font-size: 13px;
-      line-height: 1.4;
-    }
-    
-    .assistant-actions {
-      display: flex;
-      gap: 6px;
-    }
-    
-    /* Buttons */
-    .btn-group {
-      display: flex;
-      gap: 8px;
-      flex-wrap: wrap;
-    }
-    
-    .btn {
-      display: inline-flex;
-      gap: 10px;
-      align-items: center;
-      justify-content: center;
-      background: linear-gradient(135deg, var(--accent), var(--accent-dark));
-      color: #071018;
-      border: 0;
-      padding: 12px 20px;
-      border-radius: var(--radius);
-      font-weight: 800;
-      cursor: pointer;
-      transition: var(--transition);
-      box-shadow: 0 6px 16px rgba(255, 183, 3, 0.25);
-      font-size: 16px;
-      text-align: center;
-    }
-    
-    .btn:hover {
-      transform: translateY(-3px);
-      box-shadow: 0 10px 25px rgba(255, 183, 3, 0.4);
-    }
-    
-    .btn:active {
-      transform: translateY(-1px);
-    }
-    
-    .btn.ghost {
-      background: transparent;
-      border: 1px solid rgba(255, 255, 255, 0.1);
-      color: var(--muted);
-      font-weight: 600;
-      box-shadow: none;
-    }
-    
-    .btn.ghost:hover {
-      background: rgba(255, 255, 255, 0.05);
-      color: var(--text-light);
-      border-color: rgba(255, 255, 255, 0.2);
-      transform: translateY(-2px);
-    }
-    
-    .btn.primary {
-      background: linear-gradient(135deg, var(--primary-light), var(--primary));
-      box-shadow: 0 6px 16px rgba(15, 176, 107, 0.25);
-    }
-    
-    .btn.primary:hover {
-      box-shadow: 0 10px 25px rgba(15, 176, 107, 0.4);
-    }
-    
-    .btn.mini {
-      font-size: 14px;
-      padding: 8px 12px;
-      border-radius: var(--radius-sm);
-      font-weight: 600;
-      background: rgba(255, 255, 255, 0.05);
-      border: 1px solid rgba(255, 255, 255, 0.08);
-      color: var(--muted);
-      box-shadow: none;
-    }
-    
-    .btn.mini:hover {
-      background: rgba(255, 255, 255, 0.1);
-      color: var(--text-light);
-      transform: translateY(-2px);
-    }
-    
-    /* Main Content */
-    .main {
-      display: flex;
-      flex-direction: column;
-      gap: 24px;
-    }
-    
-    .topbar {
-      display: flex;
-      gap: 16px;
-      align-items: center;
-      justify-content: space-between;
-      padding: 20px;
-      background: linear-gradient(160deg, var(--panel), rgba(255, 255, 255, 0.01));
-      border-radius: var(--radius-lg);
-      border: 1px solid rgba(255, 255, 255, 0.05);
-      box-shadow: var(--shadow-lg);
-      backdrop-filter: blur(12px);
-      -webkit-backdrop-filter: blur(12px);
-    }
-    
-    @media (max-width: 768px) {
-      .topbar {
-        flex-direction: column;
-        align-items: stretch;
-      }
-      
-      .search {
-        width: 100%;
-      }
-      
-      .topbar-actions {
-        width: 100%;
-        justify-content: center;
-      }
-    }
-    
-    .search {
-      flex: 1;
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      padding: 14px 20px;
-      border-radius: var(--radius);
-      background: rgba(0, 0, 0, 0.25);
-      border: 1px solid rgba(255, 255, 255, 0.07);
-      transition: var(--transition);
-    }
-    
-    .search:focus-within {
-      border-color: rgba(15, 176, 107, 0.5);
-      box-shadow: 0 0 0 3px rgba(15, 176, 107, 0.1);
-    }
-    
-    .search input {
-      border: 0;
-      background: transparent;
-      outline: none;
-      color: var(--text-light);
-      width: 100%;
-      font-size: 16px;
-      font-weight: 500;
-    }
-    
-    .search input::placeholder {
-      color: var(--muted);
-    }
-    
-    .topbar-actions {
-      display: flex;
-      gap: 10px;
-      align-items: center;
-    }
-    
-    /* Cards */
-    .card {
-      border-radius: var(--radius-lg);
-      padding: 24px;
-      background: linear-gradient(160deg, var(--panel), rgba(255, 255, 255, 0.01));
-      border: 1px solid rgba(255, 255, 255, 0.05);
-      box-shadow: var(--shadow);
-      backdrop-filter: blur(12px);
-      -webkit-backdrop-filter: blur(12px);
-      transition: var(--transition);
-    }
-    
-    .card:hover {
-      box-shadow: var(--shadow-lg);
-      border-color: rgba(255, 255, 255, 0.08);
-    }
-    
-    .card-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 24px;
-      flex-wrap: wrap;
-      gap: 16px;
-    }
-    
-    .card-header h2 {
-      font-size: 24px;
-      font-weight: 800;
-      color: var(--text-light);
-      margin: 0;
-    }
-    
-    .card-subtitle {
-      color: var(--muted);
-      margin-top: 8px;
-      font-size: 15px;
-    }
-    
-    /* Form Elements */
-    .field {
-      margin-top: 20px;
-      display: flex;
-      flex-direction: column;
-      gap: 8px;
-    }
-    
-    .float-label {
-      position: relative;
-    }
-    
-    .float-label input, .float-label textarea, .float-label select {
-      width: 100%;
-      padding: 18px 16px 10px 16px;
-      border-radius: var(--radius);
-      border: 1px solid rgba(255, 255, 255, 0.08);
-      background: rgba(0, 0, 0, 0.2);
-      color: var(--text-light);
-      font-size: 16px;
-      font-family: 'Cairo', sans-serif;
-      transition: var(--transition);
-    }
-    
-    .float-label textarea {
-      min-height: 140px;
-      resize: vertical;
-      line-height: 1.5;
-    }
-    
-    .float-label select {
-      appearance: none;
-      background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23a8c7b9' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
-      background-repeat: no-repeat;
-      background-position: left 16px center;
-      background-size: 16px;
-      padding-left: 40px;
-    }
-    
-    .float-label input:focus, .float-label textarea:focus, .float-label select:focus {
-      outline: none;
-      border-color: var(--primary-light);
-      box-shadow: 0 0 0 3px rgba(15, 176, 107, 0.15);
-    }
-    
-    .float-label label {
-      position: absolute;
-      right: 16px;
-      top: 16px;
-      pointer-events: none;
-      color: var(--muted);
-      font-size: 15px;
-      transition: transform 0.2s var(--ui-ease), top 0.2s var(--ui-ease), font-size 0.2s var(--ui-ease);
-    }
-    
-    .float-label input:focus + label,
-    .float-label textarea:focus + label,
-    .float-label select:focus + label,
-    .float-label input:not(:placeholder-shown) + label,
-    .float-label textarea:not(:placeholder-shown) + label,
-    .float-label select:not(:placeholder-shown) + label {
-      transform: translateY(-14px) scale(0.85);
-      top: 8px;
-      font-size: 13px;
-      color: var(--primary-light);
-      font-weight: 600;
-    }
-    
-    /* Progress */
-    .progress {
-      height: 8px;
-      background: rgba(255, 255, 255, 0.05);
-      border-radius: var(--radius-sm);
-      overflow: hidden;
-      margin-top: 12px;
-      position: relative;
-    }
-    
-    .progress::after {
-      content: '';
-      position: absolute;
-      top: 0;
-      right: 0;
-      height: 100%;
-      width: 30%;
-      background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
-      animation: shimmer 2s infinite;
-    }
-    
-    @keyframes shimmer {
-      0% { transform: translateX(100%); }
-      100% { transform: translateX(-100%); }
-    }
-    
-    .progress > i {
-      display: block;
-      height: 100%;
-      background: linear-gradient(90deg, var(--primary-light), var(--accent));
-      width: 0%;
-      transition: width 0.4s var(--ui-ease);
-      position: relative;
-      z-index: 1;
-    }
-    
-    /* Mode Buttons */
-    .mode-selector {
-      display: flex;
-      gap: 8px;
-      margin-top: 16px;
-    }
-    
-    .mode-btn {
-      padding: 10px 16px;
-      border-radius: var(--radius);
-      border: 1px solid rgba(255, 255, 255, 0.1);
-      background: rgba(0, 0, 0, 0.2);
-      color: var(--muted);
-      cursor: pointer;
-      font-weight: 600;
-      transition: var(--transition);
-    }
-    
-    .mode-btn:hover {
-      background: rgba(255, 255, 255, 0.05);
-      color: var(--text-light);
-    }
-    
-    .mode-btn.active {
-      background: linear-gradient(135deg, rgba(15, 176, 107, 0.2), rgba(255, 183, 3, 0.1));
-      border-color: rgba(15, 176, 107, 0.3);
-      color: var(--text-light);
-      box-shadow: 0 4px 12px rgba(15, 176, 107, 0.15);
-    }
-    
-    /* Results */
-    .result-container {
-      margin-top: 24px;
-    }
-    
-    pre.result {
-      white-space: pre-wrap;
-      background: rgba(0, 0, 0, 0.25);
-      padding: 20px;
-      border-radius: var(--radius);
-      border: 1px solid rgba(255, 255, 255, 0.05);
-      color: var(--text-light);
-      font-family: 'Cairo', sans-serif;
-      font-size: 16px;
-      line-height: 1.7;
-      max-height: 500px;
-      overflow-y: auto;
-      margin: 0;
-      transition: var(--transition);
-    }
-    
-    pre.result:empty::before {
-      content: 'لم يتم تشغيل أي تحليل بعد. أدخل النص واضغط على "تشغيل التحليل".';
-      color: var(--muted);
-      font-style: italic;
-    }
-    
-    /* Layouts */
-    .two-col {
-      display: flex;
-      gap: 24px;
-      align-items: flex-start;
-    }
-    
-    @media (max-width: 992px) {
-      .two-col {
-        flex-direction: column;
-      }
-    }
-    
-    .main-col {
-      flex: 1;
-    }
-    
-    .sidebar-col {
-      width: 340px;
-    }
-    
-    @media (max-width: 992px) {
-      .sidebar-col {
-        width: 100%;
-      }
-    }
-    
-    /* Drawer */
-    .drawer {
-      position: fixed;
-      top: 70px;
-      right: 20px;
-      width: 460px;
-      max-width: calc(100% - 40px);
-      height: calc(100% - 120px);
-      background: linear-gradient(160deg, var(--panel), rgba(255, 255, 255, 0.01));
-      border-radius: var(--radius-lg);
-      padding: 24px;
-      box-shadow: var(--shadow-lg);
-      z-index: 1400;
-      overflow: auto;
-      transform: translateY(20px) translateX(20px);
-      opacity: 0;
-      pointer-events: none;
-      transition: all 0.3s var(--ui-ease);
-      border: 1px solid rgba(255, 255, 255, 0.08);
-      backdrop-filter: blur(20px);
-      -webkit-backdrop-filter: blur(20px);
-    }
-    
-    .drawer.show {
-      transform: translateY(0) translateX(0);
-      opacity: 1;
-      pointer-events: auto;
-    }
-    
-    /* Status indicators */
-    .status-badge {
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-      padding: 6px 12px;
-      border-radius: 50px;
-      font-size: 13px;
-      font-weight: 600;
-    }
-    
-    .status-open {
-      background: rgba(33, 150, 243, 0.15);
-      color: #64b5f6;
-      border: 1px solid rgba(33, 150, 243, 0.3);
-    }
-    
-    .status-review {
-      background: rgba(255, 152, 0, 0.15);
-      color: #ffb74d;
-      border: 1px solid rgba(255, 152, 0, 0.3);
-    }
-    
-    .status-completed {
-      background: rgba(15, 176, 107, 0.15);
-      color: #66bb6a;
-      border: 1px solid rgba(15, 176, 107, 0.3);
-    }
-    
-    .status-urgent {
-      background: rgba(229, 57, 53, 0.15);
-      color: #ef9a9a;
-      border: 1px solid rgba(229, 57, 53, 0.3);
-    }
-    
-    /* Toast */
-    .toast-container {
-      position: fixed;
-      left: 50%;
-      transform: translateX(-50%);
-      top: 24px;
-      z-index: 2000;
-      display: flex;
-      flex-direction: column;
-      gap: 10px;
-      width: 400px;
-      max-width: calc(100% - 40px);
-    }
-    
-    .toast {
-      background: linear-gradient(135deg, rgba(10, 113, 110, 0.9), rgba(5, 74, 72, 0.9));
-      color: var(--text-light);
-      padding: 16px 20px;
-      border-radius: var(--radius);
-      box-shadow: var(--shadow-lg);
-      border: 1px solid rgba(255, 255, 255, 0.1);
-      backdrop-filter: blur(20px);
-      -webkit-backdrop-filter: blur(20px);
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      animation: toastSlideIn 0.3s var(--ui-ease);
-      transform-origin: top center;
-    }
-    
-    .toast.toast-success {
-      background: linear-gradient(135deg, rgba(15, 176, 107, 0.9), rgba(11, 125, 86, 0.9));
-    }
-    
-    .toast.toast-warning {
-      background: linear-gradient(135deg, rgba(255, 152, 0, 0.9), rgba(213, 155, 3, 0.9));
-    }
-    
-    .toast.toast-error {
-      background: linear-gradient(135deg, rgba(229, 57, 53, 0.9), rgba(183, 28, 28, 0.9));
-    }
-    
-    @keyframes toastSlideIn {
-      from {
-        opacity: 0;
-        transform: translateY(-20px) scale(0.95);
-      }
-      to {
-        opacity: 1;
-        transform: translateY(0) scale(1);
-      }
-    }
-    
-    .toast-content {
-      flex: 1;
-      font-weight: 600;
-    }
-    
-    .toast-close {
-      background: transparent;
-      border: 0;
-      color: rgba(255, 255, 255, 0.7);
-      cursor: pointer;
-      font-size: 18px;
-      width: 30px;
-      height: 30px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      border-radius: 50%;
-      transition: var(--transition);
-    }
-    
-    .toast-close:hover {
-      background: rgba(255, 255, 255, 0.1);
-      color: white;
-    }
-    
-    /* Utility classes */
-    .muted {
-      color: var(--muted);
-    }
-    
-    .text-light {
-      color: var(--text-light);
-    }
-    
-    .text-center {
-      text-align: center;
-    }
-    
-    .mt-1 { margin-top: 8px; }
-    .mt-2 { margin-top: 16px; }
-    .mt-3 { margin-top: 24px; }
-    .mt-4 { margin-top: 32px; }
-    
-    .mb-1 { margin-bottom: 8px; }
-    .mb-2 { margin-bottom: 16px; }
-    .mb-3 { margin-bottom: 24px; }
-    .mb-4 { margin-bottom: 32px; }
-    
-    .hidden {
-      display: none !important;
-    }
-    
-    /* Loading animation */
-    .loading {
-      display: inline-flex;
-      gap: 8px;
-      align-items: center;
-    }
-    
-    .loading-dots {
-      display: inline-flex;
-      gap: 4px;
-    }
-    
-    .loading-dots span {
-      width: 8px;
-      height: 8px;
-      border-radius: 50%;
-      background: var(--primary-light);
-      animation: loadingDot 1.4s infinite ease-in-out both;
-    }
-    
-    .loading-dots span:nth-child(1) {
-      animation-delay: -0.32s;
-    }
-    
-    .loading-dots span:nth-child(2) {
-      animation-delay: -0.16s;
-    }
-    
-    @keyframes loadingDot {
-      0%, 80%, 100% { 
-        transform: scale(0);
-        opacity: 0.5;
-      }
-      40% { 
-        transform: scale(1);
-        opacity: 1;
-      }
-    }
-    
-    /* Case List */
-    .case-list {
-      display: flex;
-      flex-direction: column;
-      gap: 12px;
-    }
-    
-    .case-item {
-      background: rgba(0, 0, 0, 0.2);
-      border-radius: var(--radius);
-      padding: 20px;
-      border: 1px solid rgba(255, 255, 255, 0.05);
-      transition: var(--transition);
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      flex-wrap: wrap;
-      gap: 16px;
-    }
-    
-    .case-item:hover {
-      background: rgba(255, 255, 255, 0.03);
-      border-color: rgba(255, 255, 255, 0.1);
-      transform: translateY(-3px);
-      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
-    }
-    
-    .case-info {
-      flex: 1;
-      min-width: 300px;
-    }
-    
-    .case-title {
-      font-size: 18px;
-      font-weight: 700;
-      color: var(--text-light);
-      margin-bottom: 8px;
-    }
-    
-    .case-meta {
-      display: flex;
-      gap: 16px;
-      color: var(--muted);
-      font-size: 14px;
-      flex-wrap: wrap;
-    }
-    
-    .case-actions {
-      display: flex;
-      gap: 8px;
-      flex-wrap: wrap;
-    }
-    
-    /* Stats */
-    .stats-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
-      gap: 16px;
-      margin-top: 24px;
-    }
-    
-    .stat-card {
-      background: linear-gradient(135deg, rgba(255, 255, 255, 0.03), rgba(255, 255, 255, 0.01));
-      border-radius: var(--radius);
-      padding: 20px;
-      border: 1px solid rgba(255, 255, 255, 0.05);
-      text-align: center;
-      transition: var(--transition);
-    }
-    
-    .stat-card:hover {
-      transform: translateY(-5px);
-      border-color: rgba(15, 176, 107, 0.2);
-    }
-    
-    .stat-value {
-      font-size: 32px;
-      font-weight: 800;
-      color: var(--text-light);
-      margin-bottom: 8px;
-    }
-    
-    .stat-label {
-      color: var(--muted);
-      font-size: 14px;
-    }
-    
-    /* File Upload */
-    .file-uploader {
-      border: 2px dashed rgba(255, 255, 255, 0.1);
-      border-radius: var(--radius);
-      padding: 30px;
-      text-align: center;
-      background: rgba(0, 0, 0, 0.1);
-      cursor: pointer;
-      transition: var(--transition);
-    }
-    
-    .file-uploader:hover, .file-uploader.dragover {
-      border-color: var(--primary-light);
-      background: rgba(15, 176, 107, 0.05);
-    }
-    
-    .file-uploader-icon {
-      font-size: 48px;
-      color: var(--muted);
-      margin-bottom: 16px;
-    }
-    
-    .file-list {
-      margin-top: 16px;
-      display: flex;
-      flex-direction: column;
-      gap: 10px;
-    }
-    
-    .file-item {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 12px 16px;
-      border-radius: var(--radius-sm);
-      background: rgba(0, 0, 0, 0.2);
-      border: 1px solid rgba(255, 255, 255, 0.05);
-      transition: var(--transition);
-    }
-    
-    .file-item:hover {
-      background: rgba(255, 255, 255, 0.03);
-    }
-    
-    .file-meta {
-      display: flex;
-      flex-direction: column;
-      gap: 4px;
-    }
-    
-    .file-name {
-      font-weight: 600;
-      color: var(--text-light);
-    }
-    
-    .file-size {
-      color: var(--muted);
-      font-size: 13px;
-    }
-    
-    /* Footer */
-    .footer {
-      text-align: center;
-      padding: 24px;
-      margin-top: 40px;
-      border-top: 1px solid rgba(255, 255, 255, 0.05);
-      color: var(--muted);
-      font-size: 14px;
-    }
-    
-    /* Responsive adjustments */
-    @media (max-width: 576px) {
-      .card {
-        padding: 20px 16px;
-      }
-      
-      .card-header {
-        flex-direction: column;
-        align-items: flex-start;
-      }
-      
-      .mode-selector {
-        flex-wrap: wrap;
-      }
-      
-      .btn-group {
-        flex
-<script>
-    /* -----------------------------------------------------------
-       1. محرك الخلفية التفاعلي (Interactive Neural Network)
-    ----------------------------------------------------------- */
-    (function initBackground() {
-      const canvas = document.getElementById('bgCanvas');
-      if (!canvas) return;
-      const ctx = canvas.getContext('2d');
-      let particles = [];
-      
-      function resize() {
-        canvas.width = window.innerWidth;
-        canvas.height = window.innerHeight;
-      }
-      window.addEventListener('resize', resize);
-      resize();
+    .sidebar { background: var(--panel); border-radius: var(--radius); padding: 24px; border: 1px solid rgba(255,255,255,0.05); backdrop-filter: blur(12px); height: calc(100vh - 40px); position: sticky; top: 20px; display: flex; flex-direction: column; }
+    .logo { width: 64px; height: 64px; border-radius: 16px; background: linear-gradient(135deg, var(--primary-light), var(--primary)); display: flex; align-items: center; justify-content: center; margin: 0 auto 15px; font-size: 24px; color: white; box-shadow: 0 8px 20px rgba(15, 176, 107, 0.3); }
 
-      class Particle {
-        constructor() {
-          this.x = Math.random() * canvas.width;
-          this.y = Math.random() * canvas.height;
-          this.size = Math.random() * 2 + 0.5;
-          this.vx = (Math.random() - 0.5) * 0.5;
-          this.vy = (Math.random() - 0.5) * 0.5;
-        }
-        update() {
-          this.x += this.vx; this.y += this.vy;
-          if (this.x < 0 || this.x > canvas.width) this.vx *= -1;
-          if (this.y < 0 || this.y > canvas.height) this.vy *= -1;
-        }
-        draw() {
-          ctx.fillStyle = 'rgba(15, 176, 107, 0.2)';
-          ctx.beginPath(); ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2); ctx.fill();
-        }
+    .menu button { display: flex; width: 100%; align-items: center; gap: 14px; padding: 14px 16px; border: 0; background: transparent; color: var(--muted); cursor: pointer; font-weight: 600; text-align: right; border-radius: var(--radius); margin-bottom: 8px; }
+    .menu button.active { background: rgba(15, 176, 107, 0.1); color: #fff; border-left: 4px solid var(--accent); }
+
+    /* Cards & Panels */
+    .card { background: var(--panel); border-radius: var(--radius); padding: 24px; border: 1px solid rgba(255,255,255,0.05); box-shadow: var(--shadow); backdrop-filter: blur(12px); }
+    .services-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 16px; margin-top: 20px; }
+    .service-item { padding: 20px; text-align: center; background: rgba(255,255,255,0.02); border-radius: var(--radius); border: 1px solid rgba(255,255,255,0.05); cursor: pointer; }
+    .service-item:hover { transform: translateY(-5px); background: rgba(15,176,107,0.08); border-color: var(--primary-light); }
+    .service-item i { font-size: 28px; color: var(--accent); margin-bottom: 12px; display: block; }
+
+    /* Accessibility Section */
+    .access-hub { background: rgba(255, 183, 3, 0.05); border: 1px solid rgba(255, 183, 3, 0.15); padding: 20px; border-radius: var(--radius); margin-top: 24px; }
+    .tool-btn { background: rgba(0,0,0,0.3); color: var(--accent); border: 1px solid var(--accent); padding: 8px 16px; border-radius: 8px; cursor: pointer; font-weight: 700; font-size: 13px; margin: 5px; }
+
+    /* AI Inputs */
+    textarea { width: 100%; padding: 15px; background: rgba(0,0,0,0.2); border: 1px solid rgba(255,255,255,0.08); border-radius: var(--radius); color: #fff; outline: none; min-height: 150px; }
+    .btn-primary { background: linear-gradient(135deg, var(--accent), var(--accent-dark)); color: #071018; padding: 14px 24px; border-radius: var(--radius); border: 0; font-weight: 800; cursor: pointer; width: 100%; margin-top: 15px; }
+    
+    .progress { height: 6px; background: rgba(255,255,255,0.05); border-radius: 10px; margin-top: 15px; overflow: hidden; display: none; }
+    .progress i { display: block; height: 100%; background: var(--primary-light); width: 0%; transition: 0.3s; }
+    pre.result { white-space: pre-wrap; padding: 20px; background: rgba(0,0,0,0.2); border-radius: 10px; margin-top: 20px; border: 1px solid rgba(255,255,255,0.05); line-height: 1.8; }
+
+    .hidden { display: none; }
+  </style>
+</head>
+<body>
+  <canvas id="bgCanvas"></canvas>
+  <div class="bg-overlay"></div>
+
+  <div class="app">
+    <aside class="sidebar">
+      <div class="brand">
+        <div class="logo"><i class="fa-solid fa-balance-scale"></i></div>
+        <h1>رواق العدل</h1>
+        <p class="muted">المنصة الذكية المتكاملة</p>
+      </div>
+      <nav class="menu">
+        <button class="active" data-section="panel-home"><i class="fa-solid fa-house"></i> الرئيسية</button>
+        <button data-section="panel-assistant"><i class="fa-solid fa-robot"></i> المساعد الذكي</button>
+        <button data-section="panel-filing"><i class="fa-solid fa-file-invoice"></i> قيد دعوى</button>
+        <button data-section="panel-judge"><i class="fa-solid fa-gavel"></i> منصة القاضي</button>
+      </nav>
+      <div style="margin-top: auto; text-align: center" class="muted">روان الصبحي — 2026</div>
+    </aside>
+
+    <main class="main">
+      <section id="panel-home" class="card">
+        <h2>الخدمات الإلكترونية الشاملة</h2>
+        <div class="services-grid">
+          <div class="service-item" onclick="showSection('panel-filing')"><i class="fa-solid fa-file-pen"></i><h4>قيد دعوى</h4></div>
+          <div class="service-item"><i class="fa-solid fa-comments"></i><h4>تبادل مذكرات</h4></div>
+          <div class="service-item"><i class="fa-solid fa-video"></i><h4>جلسات رقمية</h4></div>
+          <div class="service-item"><i class="fa-solid fa-book-law"></i><h4>المكتبة الرقمية</h4></div>
+        </div>
+
+        <div class="access-hub">
+          <h3><i class="fa-solid fa-universal-access"></i> ركن الوصول الشامل (ذوي الهمم)</h3>
+          <div class="tool-group">
+            <button class="tool-btn" onclick="activateTTS()"><i class="fa-solid fa-volume-high"></i> القارئ الصوتي</button>
+            <button class="tool-btn" onclick="toggleContrast()"><i class="fa-solid fa-circle-half-stroke"></i> تباين عالي</button>
+          </div>
+        </div>
+      </section>
+
+      <section id="panel-assistant" class="card hidden">
+        <h2>المساعد القانوني الذكي</h2>
+        <p class="muted mb-2">أدخل ملخص الوقائع لتحليل النواقص القانونية فوراً:</p>
+        <textarea id="facts" placeholder="أدخل نص الدعوى أو الوقائع هنا..."></textarea>
+        <button class="btn-primary" id="runAiBtn"><i class="fa-solid fa-bolt"></i> تشغيل التحليل العميق</button>
+        <div class="progress" id="progressBar"><i></i></div>
+        <pre id="analysisResult" class="result">بانتظار الإدخال...</pre>
+      </section>
+
+      <section id="panel-filing" class="card hidden">
+        <h2>قيد دعوى جديدة</h2>
+        <div class="field"><input type="text" placeholder="اسم المدعي"></div>
+        <div class="field"><input type="text" placeholder="موضوع الدعوى"></div>
+        <div class="field"><textarea placeholder="تفاصيل الدعوى..."></textarea></div>
+        <button class="btn-primary" style="background: var(--primary-light)">إرسال الطلب</button>
+      </section>
+    </main>
+  </div>
+
+  <script>
+    /* --- 1. محرك الخلفية التفاعلي --- */
+    const canvas = document.getElementById('bgCanvas'), ctx = canvas.getContext('2d');
+    let particles = [];
+    function resize() { canvas.width = innerWidth; canvas.height = innerHeight; }
+    window.onresize = resize; resize();
+
+    class Particle {
+      constructor() {
+        this.x = Math.random() * canvas.width; this.y = Math.random() * canvas.height;
+        this.vx = (Math.random() - 0.5) * 0.4; this.vy = (Math.random() - 0.5) * 0.4;
+        this.size = Math.random() * 2;
       }
-
-      for (let i = 0; i < 80; i++) particles.push(new Particle());
-
-      function animate() {
-        ctx.clearRect(0, 0, canvas.width, canvas.height);
-        particles.forEach(p => { p.update(); p.draw(); });
-        // رسم الخطوط العصبية
-        for (let i = 0; i < particles.length; i++) {
-          for (let j = i; j < particles.length; j++) {
-            let dx = particles[i].x - particles[j].x;
-            let dy = particles[i].y - particles[j].y;
-            let dist = Math.sqrt(dx*dx + dy*dy);
-            if (dist < 100) {
-              ctx.strokeStyle = `rgba(15, 176, 107, ${0.1 - dist/1000})`;
-              ctx.lineWidth = 0.5;
-              ctx.beginPath(); ctx.moveTo(particles[i].x, particles[i].y);
-              ctx.lineTo(particles[j].x, particles[j].y); ctx.stroke();
-            }
-          }
-        }
-        requestAnimationFrame(animate);
+      update() {
+        this.x += this.vx; this.y += this.vy;
+        if(this.x<0 || this.x>canvas.width) this.vx *= -1;
+        if(this.y<0 || this.y>canvas.height) this.vy *= -1;
       }
-      animate();
-    })();
+      draw() {
+        ctx.fillStyle = 'rgba(15, 176, 107, 0.2)';
+        ctx.beginPath(); ctx.arc(this.x, this.y, this.size, 0, Math.PI*2); ctx.fill();
+      }
+    }
+    for(let i=0; i<80; i++) particles.push(new Particle());
 
-    /* -----------------------------------------------------------
-       2. نظام التنقل والتحكم بالواجهة (Navigation & UI)
-    ----------------------------------------------------------- */
-    const menuButtons = document.querySelectorAll('.menu button');
-    const sections = document.querySelectorAll('main section');
+    function animate() {
+      ctx.clearRect(0,0,canvas.width, canvas.height);
+      particles.forEach(p => { p.update(); p.draw(); });
+      requestAnimationFrame(animate);
+    }
+    animate();
 
-    menuButtons.forEach(btn => {
-      btn.addEventListener('click', () => {
-        const targetPanel = btn.getAttribute('data-panel');
-        
-        // تبديل حالة الأزرار
-        menuButtons.forEach(b => b.classList.remove('active'));
-        btn.classList.add('active');
+    /* --- 2. نظام التنقل والتبديل --- */
+    function showSection(id) {
+      document.querySelectorAll('main section').forEach(s => s.classList.add('hidden'));
+      document.getElementById(id).classList.remove('hidden');
+      document.querySelectorAll('.menu button').forEach(b => b.classList.remove('active'));
+      const activeBtn = document.querySelector(`[data-section="${id}"]`);
+      if(activeBtn) activeBtn.classList.add('active');
+    }
 
-        // إظهار القسم المطلوب وإخفاء الباقي
-        sections.forEach(sec => {
-          if (sec.id === targetPanel) {
-            sec.classList.remove('hidden');
-            sec.style.display = 'block';
-          } else {
-            sec.style.display = 'none';
-          }
-        });
-      });
+    document.querySelectorAll('.menu button').forEach(btn => {
+      btn.onclick = () => showSection(btn.dataset.section);
     });
 
-    /* -----------------------------------------------------------
-       3. ربط الذكاء الاصطناعي (AI Analysis Integration)
-    ----------------------------------------------------------- */
-    const runBtn = document.getElementById('runBtn');
-    const factsArea = document.getElementById('facts');
-    const resultPre = document.getElementById('analysisResult');
-    const progressBar = document.querySelector('#progressBar i');
+    /* --- 3. ربط الذكاء الاصطناعي API --- */
+    document.getElementById('runAiBtn').onclick = async () => {
+      const text = document.getElementById('facts').value;
+      const resPre = document.getElementById('analysisResult');
+      const bar = document.getElementById('progressBar');
+      if(!text) return alert("يرجى إدخال النص");
 
-    if (runBtn) {
-      runBtn.addEventListener('click', async () => {
-        const text = factsArea.value.trim();
-        if (!text) {
-          showToast('يرجى إدخال نص للتحليل', 'error');
-          return;
-        }
+      bar.style.display = 'block';
+      document.querySelector('#progressBar i').style.width = '30%';
+      resPre.textContent = "جاري التحليل عبر المحرك القانوني...";
 
-        // بدء التحميل
-        document.getElementById('progressBar').style.display = 'block';
-        progressBar.style.width = '20%';
-        resultPre.textContent = 'جاري التحليل العميق للوقائع...';
+      try {
+        const response = await fetch('https://smart-auditor-pro.onrender.com/api/ai/analyze', {
+          method: 'POST',
+          headers: {'Content-Type': 'application/json'},
+          body: JSON.stringify({ text })
+        });
+        const data = await response.json();
+        document.querySelector('#progressBar i').style.width = '100%';
+        
+        // تأثير الكتابة التدريجي
+        resPre.textContent = "";
+        const fullText = `${data.verdict}\n\nتوصيات:\n${data.recommendations.join('\n')}`;
+        let i = 0;
+        const timer = setInterval(() => {
+          resPre.textContent += fullText[i]; i++;
+          if(i >= fullText.length) { clearInterval(timer); setTimeout(()=> bar.style.display='none', 1000); }
+        }, 15);
+      } catch(e) {
+        resPre.textContent = "خطأ في الاتصال (وضع المحاكاة): تم رصد نقص في إثباتات التبليغ.";
+        bar.style.display = 'none';
+      }
+    };
 
-        try {
-          const response = await fetch('https://smart-auditor-pro.onrender.com/api/ai/analyze', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ text })
-          });
-
-          if (!response.ok) throw new Error('Network error');
-
-          const data = await response.json();
-          progressBar.style.width = '100%';
-          
-          // محاكاة تأثير الكتابة التدريجي
-          resultPre.textContent = '';
-          const fullText = `${data.verdict}\n\nالتوصيات:\n${data.recommendations.join('\n')}`;
-          let i = 0;
-          const typing = setInterval(() => {
-            resultPre.textContent += fullText[i];
-            i++;
-            if (i >= fullText.length) {
-              clearInterval(typing);
-              setTimeout(() => document.getElementById('progressBar').style.display = 'none', 1000);
-            }
-          }, 15);
-
-          showToast('تم اكتمال التحليل بنجاح', 'success');
-        } catch (error) {
-          resultPre.textContent = 'فشل الاتصال بالسيرفر. (وضع المحاكاة): تم رصد نقص في إثبات التبليغ القانوني.';
-          progressBar.style.width = '100%';
-          showToast('فشل في الوصول للسيرفر العالمي', 'warning');
-        }
-      });
-    }
-
-    /* -----------------------------------------------------------
-       4. ركن ذوي الاحتياجات الخاصة (Accessibility Hub)
-    ----------------------------------------------------------- */
-    function showToast(msg, type = 'success') {
-      const toast = document.createElement('div');
-      toast.className = `toast toast-${type}`;
-      toast.innerHTML = `<span class="toast-content">${msg}</span>`;
-      document.body.appendChild(toast);
-      setTimeout(() => toast.remove(), 3000);
-    }
-
-    // تفعيل القراءة الصوتية (Text to Speech)
-    window.activateTTS = () => {
-      const text = resultPre.textContent || "لا توجد نتائج للقراءة";
+    /* --- 4. خدمات ذوي الهمم --- */
+    function activateTTS() {
+      const text = document.getElementById('analysisResult').textContent;
       const msg = new SpeechSynthesisUtterance(text);
-      msg.lang = 'ar-SA';
-      window.speechSynthesis.speak(msg);
-      showToast('تم تفعيل القارئ الصوتي');
-    };
-
-    // تبديل التباين العالي
-    window.toggleContrast = () => {
-      document.body.classList.toggle('high-contrast');
-      const isHigh = document.body.classList.contains('high-contrast');
-      document.documentElement.style.setProperty('--bg-1', isHigh ? '#000' : '#021a1a');
-      document.documentElement.style.setProperty('--text', isHigh ? '#fff' : '#eaffef');
-      showToast(isHigh ? 'وضع التباين العالي مفعل' : 'الوضع العادي مفعل');
-    };
+      msg.lang = 'ar-SA'; window.speechSynthesis.speak(msg);
+    }
+    function toggleContrast() {
+      document.body.style.filter = document.body.style.filter ? '' : 'contrast(1.2) brightness(1.1)';
+    }
   </script>
 </body>
 </html>
