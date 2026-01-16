@@ -1,2156 +1,346 @@
-# نظام رواق العدل - المنصة القانونية المتكاملة مع خدمات متعددة المستخدمين
-
-```html
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>رواق العدل - المنصة القانونية الذكية المتكاملة</title>
+    <title>رواق العدل - المنصة القانونية الذكية الشاملة</title>
     
-    <!-- الخطوط والأيقونات -->
+    <meta name="copyright" content="روان الصبحي - جميع الحقوق محفوظة 2026">
+    <meta name="author" content="روان الصبحي - المبرمجة القانونية">
+    
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
-    <!-- مكتبات إضافية -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.js"></script>
-    
-    <!-- مكتبة تحويل النص إلى كلام -->
-    <script src="https://code.responsivevoice.org/responsivevoice.js?key=6nXqgC1H"></script>
-    
     <style>
         :root {
-            /* نظام الألوان */
             --primary: #0a716e;
-            --primary-dark: #054a48;
             --primary-light: #0fb06b;
-            --primary-gradient: linear-gradient(135deg, #0a716e, #0fb06b);
-            
-            --secondary: #1a237e;
-            --secondary-light: #3949ab;
-            
             --accent: #FFB703;
-            --accent-dark: #d59b03;
-            
-            /* ألوان الحالة */
-            --success: #0fb06b;
-            --warning: #ff9800;
-            --danger: #e53935;
-            --info: #2196f3;
-            
-            /* الخلفيات */
             --bg-dark: #021a1a;
-            --bg-darker: #010f0f;
-            --bg-card: rgba(255, 255, 255, 0.03);
-            --bg-card-hover: rgba(255, 255, 255, 0.05);
-            --bg-input: rgba(0, 0, 0, 0.2);
-            
-            /* النصوص */
-            --text-primary: #eaffef;
-            --text-secondary: #a8c7b9;
-            --text-muted: #8a9c94;
-            
-            /* الظلال */
-            --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.25);
-            --shadow-md: 0 8px 32px rgba(0, 0, 0, 0.4);
-            --shadow-lg: 0 20px 60px rgba(0, 0, 0, 0.6);
-            
-            /* الأبعاد */
-            --radius: 12px;
-            --radius-lg: 18px;
-            --spacing: 16px;
-            --spacing-lg: 24px;
-            --spacing-xl: 32px;
-            
-            /* التحويلات */
-            --transition: all 0.3s ease;
+            --bg-2: #042a28;
+            --panel: rgba(255, 255, 255, 0.03);
+            --muted: #a8c7b9;
+            --text: #eaffef;
+            --radius: 14px;
+            --shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+            --ui-ease: cubic-bezier(0.25, 0.46, 0.45, 0.94);
         }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Cairo', sans-serif; }
         
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-        
-        html, body {
-            height: 100%;
-            font-family: 'Cairo', sans-serif;
-            background: linear-gradient(160deg, var(--bg-dark), var(--bg-darker));
-            color: var(--text-primary);
-            line-height: 1.6;
-        }
-        
-        /* شاشة التحميل */
-        .loading-screen {
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: var(--bg-dark);
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            z-index: 9999;
-        }
-        
-        .loading-spinner {
-            width: 50px;
-            height: 50px;
-            border: 4px solid rgba(15, 176, 107, 0.2);
-            border-radius: 50%;
-            border-top-color: var(--primary-light);
-            animation: spin 1s linear infinite;
-            margin-bottom: 20px;
-        }
-        
-        .loading-text {
-            color: var(--text-secondary);
-            font-size: 18px;
-        }
-        
-        @keyframes spin {
-            to { transform: rotate(360deg); }
-        }
-        
-        /* شاشة تسجيل الدخول */
-        .login-screen {
+        body {
+            background: linear-gradient(160deg, var(--bg-dark), var(--bg-2));
+            color: var(--text);
             min-height: 100vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            padding: var(--spacing);
-            background: linear-gradient(160deg, var(--bg-dark), var(--bg-darker));
-        }
-        
-        .login-container {
-            width: 100%;
-            max-width: 400px;
-            background: var(--bg-card);
-            border-radius: var(--radius-lg);
-            padding: var(--spacing-xl);
-            box-shadow: var(--shadow-lg);
-            border: 1px solid rgba(255, 255, 255, 0.05);
-        }
-        
-        .login-header {
-            text-align: center;
-            margin-bottom: var(--spacing-xl);
-        }
-        
-        .login-logo {
-            width: 80px;
-            height: 80px;
-            background: var(--primary-gradient);
-            border-radius: 20px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin: 0 auto 20px;
-            box-shadow: 0 8px 25px rgba(15, 176, 107, 0.3);
-        }
-        
-        .login-logo i {
-            font-size: 36px;
-            color: white;
-        }
-        
-        .login-header h1 {
-            font-size: 28px;
-            background: linear-gradient(90deg, #fff, var(--accent));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            margin-bottom: 8px;
-        }
-        
-        .login-header p {
-            color: var(--text-muted);
-            font-size: 14px;
-        }
-        
-        /* التبويبات */
-        .tabs {
-            display: flex;
-            background: rgba(0, 0, 0, 0.2);
-            border-radius: var(--radius);
-            padding: 4px;
-            margin-bottom: var(--spacing-lg);
-        }
-        
-        .tab {
-            flex: 1;
-            padding: 12px;
-            text-align: center;
-            background: none;
-            border: none;
-            color: var(--text-secondary);
-            font-family: 'Cairo', sans-serif;
-            font-weight: 600;
-            cursor: pointer;
-            border-radius: 8px;
-            transition: var(--transition);
-        }
-        
-        .tab.active {
-            background: var(--primary-gradient);
-            color: white;
-        }
-        
-        /* النماذج */
-        .form-group {
-            margin-bottom: var(--spacing-lg);
-        }
-        
-        .form-label {
-            display: block;
-            margin-bottom: 8px;
-            font-weight: 600;
-            color: var(--text-primary);
-        }
-        
-        .form-control {
-            width: 100%;
-            padding: 14px;
-            background: var(--bg-input);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            border-radius: var(--radius);
-            color: var(--text-primary);
-            font-family: 'Cairo', sans-serif;
-            font-size: 15px;
-            transition: var(--transition);
-        }
-        
-        .form-control:focus {
-            outline: none;
-            border-color: var(--primary-light);
-            box-shadow: 0 0 0 3px rgba(15, 176, 107, 0.1);
-        }
-        
-        /* الأزرار */
-        .btn {
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            gap: 10px;
-            padding: 14px 24px;
-            border-radius: var(--radius);
-            border: none;
-            font-family: 'Cairo', sans-serif;
-            font-weight: 600;
-            font-size: 16px;
-            cursor: pointer;
-            transition: var(--transition);
-            text-decoration: none;
-        }
-        
-        .btn-primary {
-            background: var(--primary-gradient);
-            color: white;
-        }
-        
-        .btn-primary:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 8px 25px rgba(15, 176, 107, 0.3);
-        }
-        
-        .btn-secondary {
-            background: rgba(255, 255, 255, 0.1);
-            color: var(--text-primary);
-            border: 1px solid rgba(255, 255, 255, 0.2);
-        }
-        
-        .btn-secondary:hover {
-            background: rgba(255, 255, 255, 0.15);
-        }
-        
-        .btn-block {
-            width: 100%;
-        }
-        
-        /* صفحة المستخدم */
-        .user-container {
-            min-height: 100vh;
-            display: flex;
-            flex-direction: column;
-        }
-        
-        /* رأس المستخدم */
-        .user-header {
-            background: rgba(2, 26, 26, 0.9);
-            backdrop-filter: blur(10px);
-            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
-            padding: 16px var(--spacing);
-        }
-        
-        .header-content {
-            max-width: 1400px;
-            margin: 0 auto;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-        
-        .user-info {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-        }
-        
-        .user-avatar {
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            background: var(--primary-gradient);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-weight: 700;
-            color: white;
-        }
-        
-        .user-details h3 {
-            font-size: 16px;
-            margin-bottom: 4px;
-        }
-        
-        .user-details p {
-            font-size: 12px;
-            color: var(--text-muted);
-        }
-        
-        .header-actions {
-            display: flex;
-            gap: 12px;
-            align-items: center;
-        }
-        
-        /* التبويبات الرئيسية */
-        .main-tabs {
-            display: flex;
-            overflow-x: auto;
-            padding: 0 var(--spacing);
-            background: rgba(0, 0, 0, 0.2);
-            gap: 4px;
-        }
-        
-        .main-tab {
-            padding: 14px 20px;
-            background: none;
-            border: none;
-            color: var(--text-secondary);
-            font-family: 'Cairo', sans-serif;
-            font-weight: 600;
-            cursor: pointer;
-            white-space: nowrap;
-            border-bottom: 3px solid transparent;
-            transition: var(--transition);
-        }
-        
-        .main-tab.active {
-            color: var(--primary-light);
-            border-bottom-color: var(--primary-light);
-            background: rgba(15, 176, 107, 0.1);
-        }
-        
-        /* المحتوى الرئيسي */
-        .main-content {
-            flex: 1;
-            padding: var(--spacing);
-            max-width: 1400px;
-            margin: 0 auto;
-            width: 100%;
-        }
-        
-        /* البطاقات */
-        .card {
-            background: var(--bg-card);
-            border-radius: var(--radius-lg);
-            border: 1px solid rgba(255, 255, 255, 0.05);
-            padding: var(--spacing-lg);
-            margin-bottom: var(--spacing);
-            box-shadow: var(--shadow-md);
-        }
-        
-        .card-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: var(--spacing);
-        }
-        
-        .card-title {
-            font-size: 20px;
-            font-weight: 700;
-            color: var(--text-primary);
-        }
-        
-        .card-subtitle {
-            color: var(--text-muted);
-            font-size: 14px;
-            margin-top: 4px;
-        }
-        
-        /* الخدمات */
-        .services-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: var(--spacing);
-            margin-top: var(--spacing);
-        }
-        
-        .service-card {
-            background: rgba(255, 255, 255, 0.03);
-            border-radius: var(--radius);
-            padding: var(--spacing);
-            border: 1px solid rgba(255, 255, 255, 0.05);
-            transition: var(--transition);
-            cursor: pointer;
-            text-align: center;
-        }
-        
-        .service-card:hover {
-            transform: translateY(-5px);
-            border-color: var(--primary-light);
-            box-shadow: var(--shadow-md);
-        }
-        
-        .service-icon {
-            width: 60px;
-            height: 60px;
-            background: var(--primary-gradient);
-            border-radius: 15px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin: 0 auto 15px;
-        }
-        
-        .service-icon i {
-            font-size: 24px;
-            color: white;
-        }
-        
-        .service-title {
-            font-size: 18px;
-            font-weight: 700;
-            margin-bottom: 8px;
-        }
-        
-        .service-desc {
-            color: var(--text-muted);
-            font-size: 14px;
-            line-height: 1.5;
-        }
-        
-        /* مساعد الصوتي */
-        .voice-assistant {
-            position: fixed;
-            bottom: 20px;
-            left: 20px;
-            z-index: 1000;
-        }
-        
-        .voice-btn {
-            width: 60px;
-            height: 60px;
-            border-radius: 50%;
-            background: var(--primary-gradient);
-            border: none;
-            color: white;
-            font-size: 20px;
-            cursor: pointer;
-            box-shadow: var(--shadow-lg);
-            transition: var(--transition);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-        
-        .voice-btn:hover {
-            transform: scale(1.1);
-        }
-        
-        .voice-btn.listening {
-            animation: pulse 1.5s infinite;
-        }
-        
-        @keyframes pulse {
-            0% { box-shadow: 0 0 0 0 rgba(15, 176, 107, 0.7); }
-            70% { box-shadow: 0 0 0 20px rgba(15, 176, 107, 0); }
-            100% { box-shadow: 0 0 0 0 rgba(15, 176, 107, 0); }
-        }
-        
-        .voice-panel {
-            position: fixed;
-            bottom: 90px;
-            left: 20px;
-            width: 350px;
-            max-width: calc(100vw - 40px);
-            background: var(--bg-card);
-            border-radius: var(--radius-lg);
-            border: 1px solid rgba(255, 255, 255, 0.05);
-            box-shadow: var(--shadow-lg);
-            padding: var(--spacing);
-            display: none;
-            z-index: 1000;
-        }
-        
-        .voice-panel.show {
-            display: block;
-            animation: slideUp 0.3s ease;
-        }
-        
-        @keyframes slideUp {
-            from { transform: translateY(20px); opacity: 0; }
-            to { transform: translateY(0); opacity: 1; }
-        }
-        
-        .voice-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: var(--spacing);
-        }
-        
-        .voice-title {
-            font-size: 18px;
-            font-weight: 700;
-        }
-        
-        .voice-close {
-            background: none;
-            border: none;
-            color: var(--text-muted);
-            cursor: pointer;
-            font-size: 20px;
-        }
-        
-        .voice-status {
-            background: rgba(0, 0, 0, 0.2);
-            border-radius: var(--radius);
-            padding: var(--spacing);
-            margin-bottom: var(--spacing);
-            min-height: 60px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            text-align: center;
-        }
-        
-        .voice-commands {
-            margin-top: var(--spacing);
-        }
-        
-        .command-list {
-            display: grid;
-            gap: 8px;
-        }
-        
-        .command-item {
-            background: rgba(255, 255, 255, 0.05);
-            border-radius: 8px;
-            padding: 10px;
-            font-size: 14px;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-        
-        .command-item i {
-            color: var(--primary-light);
-        }
-        
-        /* محتوى الصفحات */
-        .page-content {
-            display: none;
-        }
-        
-        .page-content.active {
-            display: block;
-            animation: fadeIn 0.3s ease;
-        }
-        
-        @keyframes fadeIn {
-            from { opacity: 0; }
-            to { opacity: 1; }
-        }
-        
-        /* شجرة الخدمات */
-        .services-tree {
-            margin-top: var(--spacing);
-        }
-        
-        .tree-node {
-            margin-bottom: 8px;
-        }
-        
-        .tree-header {
-            padding: 12px;
-            background: rgba(255, 255, 255, 0.05);
-            border-radius: var(--radius);
-            cursor: pointer;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            transition: var(--transition);
-        }
-        
-        .tree-header:hover {
-            background: rgba(255, 255, 255, 0.08);
-        }
-        
-        .tree-header i {
-            transition: var(--transition);
-        }
-        
-        .tree-header.collapsed i {
-            transform: rotate(-90deg);
-        }
-        
-        .tree-content {
-            padding-right: 20px;
-            margin-top: 8px;
-            display: none;
-        }
-        
-        .tree-content.show {
-            display: block;
-        }
-        
-        .tree-item {
-            padding: 10px;
-            background: rgba(0, 0, 0, 0.2);
-            border-radius: 8px;
-            margin-bottom: 8px;
-            cursor: pointer;
-            transition: var(--transition);
-        }
-        
-        .tree-item:hover {
-            background: rgba(255, 255, 255, 0.05);
-        }
-        
-        /* استعلاماتي */
-        .inquiries-list {
-            margin-top: var(--spacing);
-        }
-        
-        .inquiry-item {
-            background: rgba(255, 255, 255, 0.03);
-            border-radius: var(--radius);
-            padding: var(--spacing);
-            margin-bottom: var(--spacing);
-            border: 1px solid rgba(255, 255, 255, 0.05);
-        }
-        
-        .inquiry-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 10px;
-        }
-        
-        .inquiry-title {
-            font-weight: 700;
-            font-size: 16px;
-        }
-        
-        .inquiry-date {
-            color: var(--text-muted);
-            font-size: 12px;
-        }
-        
-        .inquiry-status {
-            display: inline-block;
-            padding: 4px 12px;
-            border-radius: 20px;
-            font-size: 12px;
-            font-weight: 600;
-        }
-        
-        .status-pending { background: rgba(255, 152, 0, 0.15); color: #ffb74d; }
-        .status-completed { background: rgba(15, 176, 107, 0.15); color: #66bb6a; }
-        .status-processing { background: rgba(33, 150, 243, 0.15); color: #64b5f6; }
-        
-        /* التبليغات */
-        .notifications-list {
-            margin-top: var(--spacing);
-        }
-        
-        .notification-item {
-            padding: var(--spacing);
-            background: rgba(255, 255, 255, 0.03);
-            border-radius: var(--radius);
-            margin-bottom: var(--spacing);
-            border-right: 4px solid var(--primary-light);
-        }
-        
-        .notification-item.unread {
-            background: rgba(15, 176, 107, 0.1);
-        }
-        
-        /* إمكانية الوصول */
-        .accessibility-tools {
-            position: fixed;
-            bottom: 20px;
-            right: 20px;
-            z-index: 1000;
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
-        }
-        
-        .access-btn {
-            width: 50px;
-            height: 50px;
-            border-radius: 50%;
-            background: var(--primary-gradient);
-            border: none;
-            color: white;
-            font-size: 18px;
-            cursor: pointer;
-            box-shadow: var(--shadow-md);
-            transition: var(--transition);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-        
-        .access-btn:hover {
-            transform: scale(1.1);
-        }
-        
-        /* التجاوب */
-        @media (max-width: 768px) {
-            .login-container {
-                padding: var(--spacing);
-            }
-            
-            .main-tabs {
-                padding: 0 var(--spacing-sm);
-                font-size: 14px;
-            }
-            
-            .main-tab {
-                padding: 12px 16px;
-            }
-            
-            .services-grid {
-                grid-template-columns: 1fr;
-            }
-            
-            .voice-panel {
-                width: calc(100vw - 40px);
-            }
-            
-            .header-content {
-                flex-direction: column;
-                gap: 10px;
-                text-align: center;
-            }
-        }
-        
-        /* فئات المساعدة */
-        .d-none { display: none !important; }
-        .d-flex { display: flex !important; }
-        .text-center { text-align: center; }
-        .mt-1 { margin-top: 8px; }
-        .mt-2 { margin-top: 16px; }
-        .mt-3 { margin-top: 24px; }
-        .mb-1 { margin-bottom: 8px; }
-        .mb-2 { margin-bottom: 16px; }
-        .mb-3 { margin-bottom: 24px; }
-        .text-muted { color: var(--text-muted); }
-        .text-primary { color: var(--text-primary); }
-        .text-success { color: var(--success); }
-        
-        /* حقوق المطور */
-        .copyright {
-            text-align: center;
-            padding: var(--spacing);
-            color: var(--text-muted);
-            font-size: 14px;
-            border-top: 1px solid rgba(255, 255, 255, 0.05);
-            background: rgba(0, 0, 0, 0.2);
-        }
-        
-        .developer-info {
-            margin-top: 8px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 10px;
-        }
-        
-        .developer-name {
-            color: var(--primary-light);
-            font-weight: 600;
-        }
+            overflow-x: hidden;
+            transition: var(--ui-ease);
+        }
+
+        /* محرك الخلفية التفاعلي */
+        #bgCanvas { position: fixed; inset: 0; z-index: -3; pointer-events: none; }
+        .bg-overlay { position: fixed; inset: 0; z-index: -2; pointer-events: none; background: radial-gradient(circle at 8% 12%, rgba(180, 240, 210, 0.05), transparent 8%); }
+
+        /* شاشة التحميل الذكية */
+        #loadingScreen {
+            position: fixed; inset: 0; background: var(--bg-dark);
+            display: flex; flex-direction: column; justify-content: center; align-items: center; z-index: 9999;
+        }
+        .loading-logo { width: 100px; height: 100px; background: var(--primary); border-radius: 50%; display: flex; align-items: center; justify-content: center; animation: pulse 2s infinite; }
+        @keyframes pulse { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.1); } }
+
+        /* الهيكل الرئيسي */
+        .app { max-width: 1440px; margin: 0 auto; padding: 20px; display: grid; grid-template-columns: 300px 1fr; gap: 24px; }
+        @media (max-width: 1100px) { .app { grid-template-columns: 1fr; } }
+
+        /* الشريط الجانبي */
+        .sidebar {
+            background: var(--panel); border-radius: var(--radius); padding: 25px;
+            border: 1px solid rgba(255,255,255,0.05); backdrop-filter: blur(15px);
+            position: sticky; top: 20px; height: calc(100vh - 40px); display: flex; flex-direction: column;
+        }
+
+        .brand h1 { font-size: 24px; background: linear-gradient(90deg, #fff, var(--accent)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+
+        .menu button {
+            display: flex; width: 100%; align-items: center; gap: 12px; padding: 14px;
+            background: transparent; border: 0; color: var(--muted); cursor: pointer;
+            font-weight: 700; border-radius: 10px; margin-bottom: 8px; text-align: right;
+        }
+        .menu button.active { background: rgba(15, 176, 107, 0.1); color: #fff; border-left: 4px solid var(--accent); }
+
+        /* الأقسام والبطاقات */
+        .card { background: var(--panel); border-radius: var(--radius); padding: 25px; border: 1px solid rgba(255,255,255,0.05); box-shadow: var(--shadow); margin-bottom: 24px; }
+        .hidden { display: none !important; }
+
+        /* شبكة الخدمات */
+        .services-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px; margin: 20px 0; }
+        .service-card { padding: 20px; text-align: center; background: rgba(255,255,255,0.02); border-radius: var(--radius); border: 1px solid rgba(255,255,255,0.05); cursor: pointer; }
+        .service-card:hover { transform: translateY(-5px); background: rgba(15,176,107,0.1); }
+        .service-card i { font-size: 30px; color: var(--accent); margin-bottom: 10px; }
+
+        /* ركن ذوي الهمم */
+        .access-hub { background: rgba(255, 183, 3, 0.05); border: 1px solid rgba(255, 183, 3, 0.2); padding: 20px; border-radius: var(--radius); }
+        .tool-btn { background: rgba(0,0,0,0.3); color: var(--accent); border: 1px solid var(--accent); padding: 10px 15px; border-radius: 8px; cursor: pointer; font-weight: 700; margin: 5px; }
+
+        /* المدخلات */
+        input, textarea, select { width: 100%; padding: 15px; background: rgba(0,0,0,0.25); border: 1px solid rgba(255,255,255,0.1); border-radius: 10px; color: #fff; margin-top: 10px; outline: none; }
+        .btn-run { background: linear-gradient(135deg, var(--accent), var(--accent-dark)); color: #000; padding: 15px; border-radius: 10px; border: 0; width: 100%; font-weight: 800; cursor: pointer; margin-top: 15px; }
+
+        /* النتائج */
+        pre.result { white-space: pre-wrap; padding: 20px; background: rgba(0,0,0,0.3); border-radius: 10px; margin-top: 20px; border: 1px solid var(--primary); line-height: 1.8; }
+        
+        /* الإشعارات */
+        .toast { position: fixed; top: 20px; left: 50%; transform: translateX(-50%); padding: 15px 30px; border-radius: 10px; background: var(--primary); color: #fff; z-index: 10000; box-shadow: var(--shadow); display: none; }
     </style>
 </head>
 <body>
-    <!-- شاشة التحميل -->
-    <div class="loading-screen" id="loadingScreen">
-        <div class="loading-spinner"></div>
-        <div class="loading-text">جاري تحميل رواق العدل...</div>
+    <div id="loadingScreen">
+        <div class="loading-logo"><i class="fas fa-balance-scale" style="color:white; font-size: 40px;"></i></div>
+        <p style="margin-top: 20px; font-size: 20px;">رواق العدل الذكي</p>
     </div>
 
-    <!-- شاشة تسجيل الدخول -->
-    <div class="login-screen d-none" id="loginScreen">
-        <div class="login-container">
-            <div class="login-header">
-                <div class="login-logo">
-                    <i class="fas fa-balance-scale"></i>
+    <div id="toast" class="toast"></div>
+
+    <canvas id="bgCanvas"></canvas>
+    <div class="bg-overlay"></div>
+
+    <div class="app">
+        <aside class="sidebar">
+            <div class="brand" style="text-align: center; margin-bottom: 30px;">
+                <div style="width: 60px; height: 60px; background: var(--primary); border-radius: 15px; margin: 0 auto 15px; display: flex; align-items: center; justify-content: center;">
+                    <i class="fas fa-scale-balanced" style="font-size: 25px;"></i>
                 </div>
                 <h1>رواق العدل</h1>
-                <p>المنصة القانونية الذكية المتكاملة</p>
-            </div>
-            
-            <div class="tabs">
-                <button class="tab active" data-type="user">مستخدم</button>
-                <button class="tab" data-type="lawyer">محامي</button>
-                <button class="tab" data-type="judge">قاضي</button>
-                <button class="tab" data-type="admin">مدير</button>
-            </div>
-            
-            <form id="loginForm">
-                <div class="form-group">
-                    <label class="form-label">اسم المستخدم</label>
-                    <input type="text" class="form-control" id="username" placeholder="أدخل اسم المستخدم" required>
-                </div>
-                
-                <div class="form-group">
-                    <label class="form-label">كلمة المرور</label>
-                    <input type="password" class="form-control" id="password" placeholder="أدخل كلمة المرور" required>
-                </div>
-                
-                <div class="form-group">
-                    <label class="form-label">نوع الحساب</label>
-                    <select class="form-control" id="accountType" required>
-                        <option value="citizen">مواطن</option>
-                        <option value="lawyer">محامي</option>
-                        <option value="judge">قاضي</option>
-                        <option value="admin">مدير نظام</option>
-                        <option value="visually_impaired">مكفوف/ذوي احتياجات خاصة</option>
-                    </select>
-                </div>
-                
-                <button type="submit" class="btn btn-primary btn-block">
-                    <i class="fas fa-sign-in-alt"></i> تسجيل الدخول
-                </button>
-                
-                <div class="text-center mt-3">
-                    <button type="button" class="btn btn-secondary btn-block" id="guestLogin">
-                        <i class="fas fa-user"></i> الدخول كضيف
-                    </button>
-                </div>
-            </form>
-            
-            <div class="mt-3 text-center">
-                <p class="text-muted">ليس لديك حساب؟ 
-                    <a href="#" id="registerLink" class="text-primary">سجل الآن</a>
-                </p>
-            </div>
-        </div>
-    </div>
-
-    <!-- واجهة المستخدم -->
-    <div class="user-container d-none" id="userContainer">
-        <!-- الرأس -->
-        <header class="user-header">
-            <div class="header-content">
-                <div class="user-info">
-                    <div class="user-avatar" id="userAvatar">م</div>
-                    <div class="user-details">
-                        <h3 id="userName">مرحباً، مستخدم</h3>
-                        <p id="userType">مواطن</p>
-                    </div>
-                </div>
-                
-                <div class="header-actions">
-                    <button class="btn btn-secondary" id="logoutBtn">
-                        <i class="fas fa-sign-out-alt"></i> خروج
-                    </button>
-                </div>
-            </div>
-        </header>
-
-        <!-- التبويبات الرئيسية -->
-        <nav class="main-tabs">
-            <button class="main-tab active" data-page="dashboard">
-                <i class="fas fa-home"></i> الرئيسية
-            </button>
-            <button class="main-tab" data-page="services">
-                <i class="fas fa-concierge-bell"></i> الخدمات القانونية
-            </button>
-            <button class="main-tab" data-page="inquiries">
-                <i class="fas fa-search"></i> استعلاماتي
-            </button>
-            <button class="main-tab" data-page="cases">
-                <i class="fas fa-gavel"></i> قضاياي
-            </button>
-            <button class="main-tab" data-page="appointments">
-                <i class="fas fa-calendar-alt"></i> مواعيدي
-            </button>
-            <button class="main-tab" data-page="documents">
-                <i class="fas fa-file-contract"></i> مستنداتي
-            </button>
-            <button class="main-tab" data-page="notifications">
-                <i class="fas fa-bell"></i> التنبيهات
-                <span class="badge" id="notificationBadge">0</span>
-            </button>
-            <button class="main-tab" data-page="settings">
-                <i class="fas fa-cog"></i> الإعدادات
-            </button>
-        </nav>
-
-        <!-- المحتوى الرئيسي -->
-        <main class="main-content">
-            <!-- لوحة التحكم -->
-            <div class="page-content active" id="page-dashboard">
-                <div class="card">
-                    <div class="card-header">
-                        <div>
-                            <h2 class="card-title">مرحباً بك في رواق العدل</h2>
-                            <p class="card-subtitle">منصتك القانونية الذكية المتكاملة</p>
-                        </div>
-                        <div class="d-flex gap-2">
-                            <button class="btn btn-primary" id="quickHelp">
-                                <i class="fas fa-question-circle"></i> مساعدة سريعة
-                            </button>
-                        </div>
-                    </div>
-                    
-                    <div class="services-grid">
-                        <div class="service-card" data-service="case-status">
-                            <div class="service-icon">
-                                <i class="fas fa-search"></i>
-                            </div>
-                            <h3 class="service-title">استعلام عن قضية</h3>
-                            <p class="service-desc">ابحث عن حالة قضيتك وتابع آخر التحديثات</p>
-                        </div>
-                        
-                        <div class="service-card" data-service="legal-advice">
-                            <div class="service-icon">
-                                <i class="fas fa-comments"></i>
-                            </div>
-                            <h3 class="service-title">استشارة قانونية</h3>
-                            <p class="service-desc">احصل على استشارة قانونية فورية من خبرائنا</p>
-                        </div>
-                        
-                        <div class="service-card" data-service="appointment">
-                            <div class="service-icon">
-                                <i class="fas fa-calendar-check"></i>
-                            </div>
-                            <h3 class="service-title">حجز موعد</h3>
-                            <p class="service-desc">احجز موعداً مع المحكمة أو المحامي</p>
-                        </div>
-                        
-                        <div class="service-card" data-service="document-request">
-                            <div class="service-icon">
-                                <i class="fas fa-file-download"></i>
-                            </div>
-                            <h3 class="service-title">طلب مستندات</h3>
-                            <p class="service-desc">اطلب نسخاً من المستندات القانونية</p>
-                        </div>
-                        
-                        <div class="service-card" data-service="complaint">
-                            <div class="service-icon">
-                                <i class="fas fa-exclamation-triangle"></i>
-                            </div>
-                            <h3 class="service-title">تقديم شكوى</h3>
-                            <p class="service-desc">قدم شكوى أو بلاغاً إلكترونياً</p>
-                        </div>
-                        
-                        <div class="service-card" data-service="fees-calc">
-                            <div class="service-icon">
-                                <i class="fas fa-calculator"></i>
-                            </div>
-                            <h3 class="service-title">حساب الرسوم</h3>
-                            <p class="service-desc">احسب الرسوم القانونية والمحاكمية</p>
-                        </div>
-                    </div>
-                </div>
-                
-                <div class="card">
-                    <div class="card-header">
-                        <h3 class="card-title">الإشعارات المهمة</h3>
-                    </div>
-                    <div id="importantNotifications">
-                        <!-- سيتم تعبئتها بالبيانات -->
-                    </div>
-                </div>
+                <p style="color: var(--muted); font-size: 12px;">نظام قانوني متكامل</p>
             </div>
 
-            <!-- الخدمات القانونية -->
-            <div class="page-content" id="page-services">
-                <div class="card">
-                    <div class="card-header">
-                        <h2 class="card-title">الخدمات القانونية المتاحة</h2>
-                        <p class="card-subtitle">اختر الخدمة التي تحتاجها</p>
-                    </div>
-                    
-                    <div class="services-tree">
-                        <!-- خدمات المواطنين -->
-                        <div class="tree-node">
-                            <div class="tree-header" data-tree="citizen-services">
-                                <div>
-                                    <i class="fas fa-user mr-2"></i>
-                                    خدمات المواطنين
-                                </div>
-                                <i class="fas fa-chevron-down"></i>
-                            </div>
-                            <div class="tree-content" id="citizen-services">
-                                <div class="tree-item" data-service="case-follow">
-                                    <i class="fas fa-eye mr-2"></i>
-                                    متابعة القضايا
-                                </div>
-                                <div class="tree-item" data-service="case-register">
-                                    <i class="fas fa-file-signature mr-2"></i>
-                                    تسجيل قضية جديدة
-                                </div>
-                                <div class="tree-item" data-service="document-request">
-                                    <i class="fas fa-file-certificate mr-2"></i>
-                                    طلب صورة من الحكم
-                                </div>
-                                <div class="tree-item" data-service="execution-request">
-                                    <i class="fas fa-hammer mr-2"></i>
-                                    طلب تنفيذ حكم
-                                </div>
-                            </div>
-                        </div>
-                        
-                        <!-- خدمات المحامين -->
-                        <div class="tree-node">
-                            <div class="tree-header" data-tree="lawyer-services">
-                                <div>
-                                    <i class="fas fa-user-tie mr-2"></i>
-                                    خدمات المحامين
-                                </div>
-                                <i class="fas fa-chevron-down"></i>
-                            </div>
-                            <div class="tree-content" id="lawyer-services">
-                                <div class="tree-item" data-service="power-of-attorney">
-                                    <i class="fas fa-file-contract mr-2"></i>
-                                    تسجيل توكيل
-                                </div>
-                                <div class="tree-item" data-service="memorandum-submit">
-                                    <i class="fas fa-file-upload mr-2"></i>
-                                    رفع مذكرة دفاع
-                                </div>
-                                <div class="tree-item" data-service="session-attendance">
-                                    <i class="fas fa-users mr-2"></i>
-                                    تسجيل حضور جلسة
-                                </div>
-                            </div>
-                        </div>
-                        
-                        <!-- خدمات ذوي الاحتياجات الخاصة -->
-                        <div class="tree-node">
-                            <div class="tree-header" data-tree="special-needs">
-                                <div>
-                                    <i class="fas fa-wheelchair mr-2"></i>
-                                    خدمات ذوي الاحتياجات الخاصة
-                                </div>
-                                <i class="fas fa-chevron-down"></i>
-                            </div>
-                            <div class="tree-content" id="special-needs">
-                                <div class="tree-item" data-service="voice-assistance">
-                                    <i class="fas fa-microphone mr-2"></i>
-                                    مساعدة صوتية متكاملة
-                                </div>
-                                <div class="tree-item" data-service="braille-docs">
-                                    <i class="fas fa-braille mr-2"></i>
-                                    مستندات بطريقة برايل
-                                </div>
-                                <div class="tree-item" data-service="sign-language">
-                                    <i class="fas fa-hands-helping mr-2"></i>
-                                    ترجمة بلغة الإشارة
-                                </div>
-                                <div class="tree-item" data-service="home-service">
-                                    <i class="fas fa-home mr-2"></i>
-                                    خدمة منزلية
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
+            <nav class="menu">
+                <button class="active" onclick="switchTab('home')"><i class="fas fa-home"></i> الرئيسية</button>
+                <button onclick="switchTab('assistant')"><i class="fas fa-robot"></i> المساعد الذكي</button>
+                <button onclick="switchTab('filing')"><i class="fas fa-file-pen"></i> قيد دعوى</button>
+                <button onclick="switchTab('judge')"><i class="fas fa-gavel"></i> لوحة القاضي</button>
+            </nav>
 
-            <!-- استعلاماتي -->
-            <div class="page-content" id="page-inquiries">
-                <div class="card">
-                    <div class="card-header">
-                        <h2 class="card-title">استعلاماتي</h2>
-                        <button class="btn btn-primary" id="newInquiryBtn">
-                            <i class="fas fa-plus"></i> استعلام جديد
-                        </button>
-                    </div>
-                    
-                    <div class="inquiries-list" id="inquiriesList">
-                        <!-- سيتم تعبئتها بالبيانات -->
-                    </div>
-                </div>
+            <div style="margin-top: auto; text-align: center; font-size: 12px;" class="muted">
+                روان الصبحي — مبرمجة النظام<br>2026 ©
             </div>
+        </aside>
 
-            <!-- قضاياي -->
-            <div class="page-content" id="page-cases">
-                <div class="card">
-                    <div class="card-header">
-                        <h2 class="card-title">قضاياي</h2>
-                        <div class="d-flex gap-2">
-                            <button class="btn btn-secondary" id="filterCasesBtn">
-                                <i class="fas fa-filter"></i> تصفية
-                            </button>
-                            <button class="btn btn-primary" id="newCaseBtn">
-                                <i class="fas fa-plus"></i> قضية جديدة
-                            </button>
-                        </div>
-                    </div>
-                    
-                    <div id="casesList">
-                        <!-- سيتم تعبئتها بالبيانات -->
-                    </div>
+        <main>
+            <section id="tab-home" class="card">
+                <h2>الخدمات الإلكترونية الشاملة</h2>
+                <div class="services-grid">
+                    <div class="service-card" onclick="switchTab('filing')"><i class="fas fa-file-signature"></i><h3>قيد دعوى</h3></div>
+                    <div class="service-card"><i class="fas fa-comments"></i><h3>تبادل مذكرات</h3></div>
+                    <div class="service-card"><i class="fas fa-video"></i><h3>جلسات رقمية</h3></div>
+                    <div class="service-card"><i class="fas fa-book"></i><h3>المكتبة الرقمية</h3></div>
                 </div>
-            </div>
 
-            <!-- مواعيدي -->
-            <div class="page-content" id="page-appointments">
-                <div class="card">
-                    <div class="card-header">
-                        <h2 class="card-title">مواعيدي</h2>
-                        <button class="btn btn-primary" id="newAppointmentBtn">
-                            <i class="fas fa-plus"></i> موعد جديد
-                        </button>
-                    </div>
-                    
-                    <div id="appointmentsList">
-                        <!-- سيتم تعبئتها بالبيانات -->
+                <div class="access-hub">
+                    <h3><i class="fas fa-universal-access"></i> ركن الوصول الشامل (ذوي الهمم)</h3>
+                    <div style="margin-top: 15px;">
+                        <button class="tool-btn" onclick="startVoice()"><i class="fas fa-microphone"></i> الأوامر الصوتية</button>
+                        <button class="tool-btn" onclick="speakText()"><i class="fas fa-volume-up"></i> القارئ الصوتي</button>
+                        <button class="tool-btn" onclick="toggleContrast()"><i class="fas fa-adjust"></i> تباين عالي</button>
                     </div>
                 </div>
-            </div>
+            </section>
 
-            <!-- مستنداتي -->
-            <div class="page-content" id="page-documents">
-                <div class="card">
-                    <div class="card-header">
-                        <h2 class="card-title">مستنداتي</h2>
-                        <button class="btn btn-primary" id="uploadDocumentBtn">
-                            <i class="fas fa-upload"></i> رفع مستند
-                        </button>
-                    </div>
-                    
-                    <div id="documentsList">
-                        <!-- سيتم تعبئتها بالبيانات -->
-                    </div>
-                </div>
-            </div>
+            <section id="tab-assistant" class="card hidden">
+                <h2>المساعد القانوني الذكي (AI)</h2>
+                <p class="muted">أدخل الوقائع للحصول على تحليل فوري للنواقص القانونية</p>
+                <textarea id="aiFacts" placeholder="اكتب ملخص الوقائع هنا..."></textarea>
+                <button class="btn-run" onclick="runAIAnalysis()"><i class="fas fa-brain"></i> تشغيل التحليل العميق</button>
+                <div id="aiProgress" style="height: 5px; background: var(--primary-light); width: 0%; margin-top: 10px; display: none;"></div>
+                <pre id="aiResult" class="result">بانتظار الإدخال...</pre>
+            </section>
 
-            <!-- التنبيهات -->
-            <div class="page-content" id="page-notifications">
-                <div class="card">
-                    <div class="card-header">
-                        <h2 class="card-title">التنبيهات والإشعارات</h2>
-                        <button class="btn btn-secondary" id="markAllReadBtn">
-                            <i class="fas fa-check-double"></i> تعليم الكل كمقروء
-                        </button>
-                    </div>
-                    
-                    <div class="notifications-list" id="notificationsList">
-                        <!-- سيتم تعبئتها بالبيانات -->
-                    </div>
-                </div>
-            </div>
+            <section id="tab-filing" class="card hidden">
+                <h2>قيد دعوى جديدة</h2>
+                <input type="text" id="pName" placeholder="اسم المدعي">
+                <input type="text" id="pSubject" placeholder="موضوع الدعوى">
+                <textarea id="pDetails" placeholder="تفاصيل الدعوى..."></textarea>
+                <button class="btn-run" style="background: var(--primary)" onclick="submitCase()">إرسال الطلب رسمياً</button>
+            </section>
 
-            <!-- الإعدادات -->
-            <div class="page-content" id="page-settings">
-                <div class="card">
-                    <div class="card-header">
-                        <h2 class="card-title">الإعدادات والتفضيلات</h2>
+            <section id="tab-judge" class="card hidden">
+                <h2>لوحة تحكم القاضي</h2>
+                <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px; margin: 20px 0;">
+                    <div style="background: rgba(15,176,107,0.1); padding: 15px; border-radius: 10px; text-align: center;">
+                        <h4 id="countTotal">0</h4><p class="muted">إجمالي القضايا</p>
                     </div>
-                    
-                    <div class="form-group">
-                        <label class="form-label">تفعيل الوضع الليلي</label>
-                        <div class="d-flex align-center">
-                            <label class="switch">
-                                <input type="checkbox" id="darkModeToggle" checked>
-                                <span class="slider"></span>
-                            </label>
-                            <span class="mr-2">مفعل</span>
-                        </div>
+                    <div style="background: rgba(255,183,3,0.1); padding: 15px; border-radius: 10px; text-align: center;">
+                        <h4 id="countUrgent">0</h4><p class="muted">عاجلة</p>
                     </div>
-                    
-                    <div class="form-group">
-                        <label class="form-label">تفعيل المساعد الصوتي</label>
-                        <div class="d-flex align-center">
-                            <label class="switch">
-                                <input type="checkbox" id="voiceAssistantToggle" checked>
-                                <span class="slider"></span>
-                            </label>
-                            <span class="mr-2">مفعل</span>
-                        </div>
-                    </div>
-                    
-                    <div class="form-group">
-                        <label class="form-label">نوع الخط</label>
-                        <select class="form-control" id="fontSizeSelect">
-                            <option value="small">صغير</option>
-                            <option value="medium" selected>متوسط</option>
-                            <option value="large">كبير</option>
-                            <option value="xlarge">كبير جداً</option>
-                        </select>
-                    </div>
-                    
-                    <div class="form-group">
-                        <label class="form-label">لون الواجهة</label>
-                        <div class="d-flex gap-2">
-                            <button class="color-option" data-color="default"></button>
-                            <button class="color-option" data-color="blue"></button>
-                            <button class="color-option" data-color="green"></button>
-                            <button class="color-option" data-color="purple"></button>
-                        </div>
-                    </div>
-                    
-                    <div class="mt-3">
-                        <button class="btn btn-primary btn-block" id="saveSettingsBtn">
-                            <i class="fas fa-save"></i> حفظ الإعدادات
-                        </button>
+                    <div style="background: rgba(33,150,243,0.1); padding: 15px; border-radius: 10px; text-align: center;">
+                        <h4>3</h4><p class="muted">جلسات اليوم</p>
                     </div>
                 </div>
-                
-                <div class="card mt-3">
-                    <div class="card-header">
-                        <h3 class="card-title">معلومات الحساب</h3>
+                <div id="judgeCasesList">
                     </div>
-                    <div id="accountInfo">
-                        <!-- سيتم تعبئتها بالبيانات -->
-                    </div>
-                </div>
-            </div>
+            </section>
         </main>
     </div>
 
-    <!-- المساعد الصوتي -->
-    <div class="voice-assistant">
-        <button class="voice-btn" id="voiceAssistantBtn">
-            <i class="fas fa-microphone"></i>
-        </button>
-        
-        <div class="voice-panel" id="voicePanel">
-            <div class="voice-header">
-                <h3 class="voice-title">المساعد الصوتي</h3>
-                <button class="voice-close" id="closeVoicePanel">&times;</button>
-            </div>
-            
-            <div class="voice-status" id="voiceStatus">
-                اضغط على الميكروفون للتحدث
-            </div>
-            
-            <div class="voice-commands">
-                <h4>أمثلة على الأوامر:</h4>
-                <div class="command-list">
-                    <div class="command-item">
-                        <i class="fas fa-play"></i>
-                        "ابحث عن قضيتي رقم ١٢٣٤"
-                    </div>
-                    <div class="command-item">
-                        <i class="fas fa-play"></i>
-                        "احجز موعداً مع المحكمة"
-                    </div>
-                    <div class="command-item">
-                        <i class="fas fa-play"></i>
-                        "أريد استشارة قانونية"
-                    </div>
-                    <div class="command-item">
-                        <i class="fas fa-play"></i>
-                        "افتح صفحة الاستعلامات"
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- أدوات إمكانية الوصول -->
-    <div class="accessibility-tools">
-        <button class="access-btn" id="textToSpeechBtn" title="تحويل النص إلى كلام">
-            <i class="fas fa-volume-up"></i>
-        </button>
-        <button class="access-btn" id="highContrastBtn" title="تباين عالي">
-            <i class="fas fa-adjust"></i>
-        </button>
-        <button class="access-btn" id="largeTextBtn" title="تكبير النص">
-            <i class="fas fa-text-height"></i>
-        </button>
-    </div>
-
-    <!-- حقوق المطور -->
-    <footer class="copyright d-none" id="copyrightFooter">
-        <div>© 2024 رواق العدل - جميع الحقوق محفوظة</div>
-        <div class="developer-info">
-            <span>تطوير:</span>
-            <span class="developer-name">روان الصبحي</span>
-            <i class="fas fa-code"></i>
-        </div>
-        <div class="mt-1">
-            <small>هذا النظام حصري لخدمة المجتمع القانوني السعودي</small>
-        </div>
-    </footer>
-
     <script>
         // ============================================
-        // نظام التخزين المحلي
+        // 1. نظام التحميل والخلفية
         // ============================================
-        
-        class RwaqDatabase {
-            constructor() {
-                this.initDatabase();
-            }
+        window.onload = () => {
+            setTimeout(() => document.getElementById('loadingScreen').style.display = 'none', 1500);
+            initCanvas();
+            updateJudgeStats();
+        };
+
+        function initCanvas() {
+            const canvas = document.getElementById('bgCanvas'), ctx = canvas.getContext('2d');
+            let particles = [];
+            canvas.width = window.innerWidth; canvas.height = window.innerHeight;
             
-            initDatabase() {
-                // تهيئة قواعد البيانات إذا لم تكن موجودة
-                const databases = [
-                    'users', 'cases', 'inquiries', 'appointments', 
-                    'documents', 'notifications', 'settings', 'services'
-                ];
-                
-                databases.forEach(db => {
-                    if (!localStorage.getItem(`rwaq_${db}`)) {
-                        localStorage.setItem(`rwaq_${db}`, JSON.stringify([]));
-                    }
+            class Particle {
+                constructor() {
+                    this.x = Math.random() * canvas.width; this.y = Math.random() * canvas.height;
+                    this.vx = (Math.random() - 0.5) * 0.4; this.vy = (Math.random() - 0.5) * 0.4;
+                }
+                update() {
+                    this.x += this.vx; this.y += this.vy;
+                    if(this.x<0 || this.x>canvas.width) this.vx *= -1;
+                    if(this.y<0 || this.y>canvas.height) this.vy *= -1;
+                }
+                draw() {
+                    ctx.fillStyle = 'rgba(15, 176, 107, 0.2)';
+                    ctx.beginPath(); ctx.arc(this.x, this.y, 1.5, 0, Math.PI*2); ctx.fill();
+                }
+            }
+            for(let i=0; i<60; i++) particles.push(new Particle());
+            function animate() {
+                ctx.clearRect(0,0,canvas.width, canvas.height);
+                particles.forEach(p => { p.update(); p.draw(); });
+                requestAnimationFrame(animate);
+            }
+            animate();
+        }
+
+        // ============================================
+        // 2. نظام التنقل والتبديل
+        // ============================================
+        function switchTab(tabId) {
+            document.querySelectorAll('main section').forEach(s => s.classList.add('hidden'));
+            document.getElementById('tab-' + tabId).classList.remove('hidden');
+            document.querySelectorAll('.menu button').forEach(b => b.classList.remove('active'));
+            event.currentTarget.classList.add('active');
+            if(tabId === 'judge') renderJudgeCases();
+        }
+
+        // ============================================
+        // 3. محرك الذكاء الاصطناعي (AI Analysis)
+        // ============================================
+        async function runAIAnalysis() {
+            const facts = document.getElementById('aiFacts').value;
+            const resBox = document.getElementById('aiResult');
+            const progress = document.getElementById('aiProgress');
+            if(!facts) return showToast("يرجى إدخال الوقائع أولاً");
+
+            progress.style.display = 'block';
+            progress.style.width = '30%';
+            resBox.textContent = "جاري تحليل الوقائع قانونياً...";
+
+            try {
+                const response = await fetch('https://smart-auditor-pro.onrender.com/api/ai/analyze', {
+                    method: 'POST',
+                    headers: {'Content-Type': 'application/json'},
+                    body: JSON.stringify({ text: facts })
                 });
+                const data = await response.json();
+                progress.style.width = '100%';
                 
-                // إنشاء بيانات تجريبية
-                this.createSampleData();
-            }
-            
-            createSampleData() {
-                // بيانات المستخدمين
-                let users = this.getUsers();
-                if (users.length === 0) {
-                    const sampleUsers = [
-                        {
-                            id: 'user_001',
-                            username: 'ahmed',
-                            password: '123456',
-                            name: 'أحمد محمد',
-                            type: 'citizen',
-                            email: 'ahmed@example.com',
-                            phone: '0512345678',
-                            nationalId: '1234567890',
-                            createdAt: new Date().toISOString()
-                        },
-                        {
-                            id: 'user_002',
-                            username: 'sara',
-                            password: '123456',
-                            name: 'سارة أحمد',
-                            type: 'visually_impaired',
-                            email: 'sara@example.com',
-                            phone: '0523456789',
-                            nationalId: '0987654321',
-                            createdAt: new Date().toISOString()
-                        },
-                        {
-                            id: 'lawyer_001',
-                            username: 'lawyer1',
-                            password: '123456',
-                            name: 'محمد المحامي',
-                            type: 'lawyer',
-                            email: 'lawyer@example.com',
-                            phone: '0534567890',
-                            licenseNumber: 'L12345',
-                            createdAt: new Date().toISOString()
-                        },
-                        {
-                            id: 'judge_001',
-                            username: 'judge1',
-                            password: '123456',
-                            name: 'القاضي خالد',
-                            type: 'judge',
-                            email: 'judge@example.com',
-                            phone: '0545678901',
-                            court: 'محكمة الرياض',
-                            createdAt: new Date().toISOString()
-                        }
-                    ];
-                    
-                    sampleUsers.forEach(user => users.push(user));
-                    this.saveUsers(users);
-                }
-                
-                // بيانات القضايا
-                let cases = this.getCases();
-                if (cases.length === 0) {
-                    const sampleCases = [
-                        {
-                            id: 'case_001',
-                            caseNumber: '2024/CIV/1234',
-                            userId: 'user_001',
-                            plaintiff: 'أحمد محمد',
-                            defendant: 'شركة التقنية',
-                            subject: 'مطالبة مالية',
-                            description: 'مطالبة بمبلغ 50,000 ريال عن خدمات لم تقدم',
-                            type: 'civil',
-                            status: 'under_review',
-                            date: new Date().toISOString(),
-                            lastUpdate: new Date().toISOString(),
-                            assignedTo: 'judge_001',
-                            nextSession: new Date(Date.now() + 7 * 86400000).toISOString()
-                        }
-                    ];
-                    
-                    sampleCases.forEach(caseData => cases.push(caseData));
-                    this.saveCases(cases);
-                }
-                
-                // بيانات الاستعلامات
-                let inquiries = this.getInquiries();
-                if (inquiries.length === 0) {
-                    const sampleInquiries = [
-                        {
-                            id: 'inq_001',
-                            userId: 'user_001',
-                            type: 'case_status',
-                            subject: 'استعلام عن حالة قضية',
-                            description: 'أريد معرفة حالة القضية رقم 2024/CIV/1234',
-                            status: 'completed',
-                            response: 'القضية قيد المراجعة في المحكمة',
-                            date: new Date(Date.now() - 3 * 86400000).toISOString(),
-                            responseDate: new Date(Date.now() - 2 * 86400000).toISOString()
-                        }
-                    ];
-                    
-                    sampleInquiries.forEach(inquiry => inquiries.push(inquiry));
-                    this.saveInquiries(inquiries);
-                }
-                
-                // بيانات الإشعارات
-                let notifications = this.getNotifications();
-                if (notifications.length === 0) {
-                    const sampleNotifications = [
-                        {
-                            id: 'notif_001',
-                            userId: 'user_001',
-                            title: 'مرحباً بك في رواق العدل',
-                            message: 'تم تفعيل حسابك بنجاح. يمكنك الآن استخدام جميع الخدمات.',
-                            type: 'info',
-                            read: true,
-                            date: new Date(Date.now() - 5 * 86400000).toISOString()
-                        },
-                        {
-                            id: 'notif_002',
-                            userId: 'user_001',
-                            title: 'تحديث حالة قضيتك',
-                            message: 'تم تحديد جلسة جديدة للقضية رقم 2024/CIV/1234',
-                            type: 'update',
-                            read: false,
-                            date: new Date().toISOString()
-                        }
-                    ];
-                    
-                    sampleNotifications.forEach(notif => notifications.push(notif));
-                    this.saveNotifications(notifications);
-                }
-                
-                // بيانات الخدمات
-                let services = this.getServices();
-                if (services.length === 0) {
-                    const sampleServices = [
-                        {
-                            id: 'serv_001',
-                            name: 'استعلام عن قضية',
-                            description: 'البحث عن حالة قضية وتتبعها',
-                            icon: 'fa-search',
-                            category: 'citizen',
-                            active: true
-                        },
-                        {
-                            id: 'serv_002',
-                            name: 'استشارة قانونية',
-                            description: 'الحصول على استشارة قانونية متخصصة',
-                            icon: 'fa-comments',
-                            category: 'citizen',
-                            active: true
-                        },
-                        {
-                            id: 'serv_003',
-                            name: 'مساعدة صوتية',
-                            description: 'خدمة صوتية للمكفوفين وذوي الاحتياجات الخاصة',
-                            icon: 'fa-microphone',
-                            category: 'special_needs',
-                            active: true
-                        }
-                    ];
-                    
-                    sampleServices.forEach(service => services.push(service));
-                    this.saveServices(services);
-                }
-            }
-            
-            // ========== عمليات المستخدمين ==========
-            
-            getUsers() {
-                return JSON.parse(localStorage.getItem('rwaq_users') || '[]');
-            }
-            
-            saveUsers(users) {
-                localStorage.setItem('rwaq_users', JSON.stringify(users));
-            }
-            
-            getUserById(id) {
-                const users = this.getUsers();
-                return users.find(u => u.id === id);
-            }
-            
-            getUserByUsername(username) {
-                const users = this.getUsers();
-                return users.find(u => u.username === username);
-            }
-            
-            addUser(userData) {
-                const users = this.getUsers();
-                userData.id = 'user_' + Date.now();
-                userData.createdAt = new Date().toISOString();
-                users.push(userData);
-                this.saveUsers(users);
-                return userData;
-            }
-            
-            updateUser(id, updates) {
-                const users = this.getUsers();
-                const index = users.findIndex(u => u.id === id);
-                if (index !== -1) {
-                    users[index] = { ...users[index], ...updates };
-                    this.saveUsers(users);
-                    return users[index];
-                }
-                return null;
-            }
-            
-            // ========== عمليات القضايا ==========
-            
-            getCases() {
-                return JSON.parse(localStorage.getItem('rwaq_cases') || '[]');
-            }
-            
-            saveCases(cases) {
-                localStorage.setItem('rwaq_cases', JSON.stringify(cases));
-            }
-            
-            getCasesByUserId(userId) {
-                const cases = this.getCases();
-                return cases.filter(c => c.userId === userId);
-            }
-            
-            addCase(caseData) {
-                const cases = this.getCases();
-                caseData.id = 'case_' + Date.now();
-                caseData.date = new Date().toISOString();
-                caseData.lastUpdate = new Date().toISOString();
-                cases.push(caseData);
-                this.saveCases(cases);
-                return caseData;
-            }
-            
-            // ========== عمليات الاستعلامات ==========
-            
-            getInquiries() {
-                return JSON.parse(localStorage.getItem('rwaq_inquiries') || '[]');
-            }
-            
-            saveInquiries(inquiries) {
-                localStorage.setItem('rwaq_inquiries', JSON.stringify(inquiries));
-            }
-            
-            getInquiriesByUserId(userId) {
-                const inquiries = this.getInquiries();
-                return inquiries.filter(i => i.userId === userId);
-            }
-            
-            addInquiry(inquiryData) {
-                const inquiries = this.getInquiries();
-                inquiryData.id = 'inq_' + Date.now();
-                inquiryData.date = new Date().toISOString();
-                inquiryData.status = 'pending';
-                inquiries.push(inquiryData);
-                this.saveInquiries(inquiries);
-                return inquiryData;
-            }
-            
-            // ========== عمليات الإشعارات ==========
-            
-            getNotifications() {
-                return JSON.parse(localStorage.getItem('rwaq_notifications') || '[]');
-            }
-            
-            saveNotifications(notifications) {
-                localStorage.setItem('rwaq_notifications', JSON.stringify(notifications));
-            }
-            
-            getNotificationsByUserId(userId) {
-                const notifications = this.getNotifications();
-                return notifications.filter(n => n.userId === userId);
-            }
-            
-            addNotification(notificationData) {
-                const notifications = this.getNotifications();
-                notificationData.id = 'notif_' + Date.now();
-                notificationData.date = new Date().toISOString();
-                notificationData.read = false;
-                notifications.unshift(notificationData);
-                this.saveNotifications(notifications);
-                return notificationData;
-            }
-            
-            markNotificationAsRead(id) {
-                const notifications = this.getNotifications();
-                const index = notifications.findIndex(n => n.id === id);
-                if (index !== -1) {
-                    notifications[index].read = true;
-                    this.saveNotifications(notifications);
-                }
-            }
-            
-            // ========== عمليات الخدمات ==========
-            
-            getServices() {
-                return JSON.parse(localStorage.getItem('rwaq_services') || '[]');
-            }
-            
-            saveServices(services) {
-                localStorage.setItem('rwaq_services', JSON.stringify(services));
-            }
-            
-            getServicesByCategory(category) {
-                const services = this.getServices();
-                return services.filter(s => s.category === category && s.active);
-            }
-            
-            // ========== الإعدادات ==========
-            
-            getSettings() {
-                return JSON.parse(localStorage.getItem('rwaq_settings') || '{}');
-            }
-            
-            saveSettings(settings) {
-                localStorage.setItem('rwaq_settings', JSON.stringify(settings));
+                // تأثير الكتابة التدريجي
+                resBox.textContent = "";
+                let fullText = `${data.verdict}\n\nالتوصيات:\n${data.recommendations.join('\n')}`;
+                let i = 0;
+                const typing = setInterval(() => {
+                    resBox.textContent += fullText[i]; i++;
+                    if(i >= fullText.length) {
+                        clearInterval(typing);
+                        setTimeout(() => progress.style.display = 'none', 1000);
+                    }
+                }, 15);
+                showToast("تم التحليل بنجاح", "success");
+            } catch (e) {
+                resBox.textContent = "تم التحليل (وضع المحاكاة): تم رصد نقص في إثبات التبليغ القانوني.\nالتوصية: إرفاق صورة من صك الوكالة.";
+                progress.style.display = 'none';
             }
         }
-        
+
         // ============================================
-        // نظام التطبيق الرئيسي
+        // 4. إدارة القضايا والبيانات
         // ============================================
-        
-        class RwaqApp {
-            constructor() {
-                this.db = new RwaqDatabase();
-                this.currentUser = null;
-                this.currentPage = 'dashboard';
-                this.speechEnabled = true;
-                this.isListening = false;
-                this.init();
-            }
-            
-            init() {
-                this.bindEvents();
-                this.checkLoginStatus();
-                this.initVoiceCommands();
-                
-                // إخفاء شاشة التحميل بعد 2 ثانية
-                setTimeout(() => {
-                    document.getElementById('loadingScreen').classList.add('d-none');
-                    document.getElementById('loginScreen').classList.remove('d-none');
-                }, 2000);
-            }
-            
-            bindEvents() {
-                // تسجيل الدخول
-                document.getElementById('loginForm').addEventListener('submit', (e) => {
-                    e.preventDefault();
-                    this.handleLogin();
-                });
-                
-                // تسجيل الدخول كضيف
-                document.getElementById('guestLogin').addEventListener('click', () => {
-                    this.handleGuestLogin();
-                });
-                
-                // التبويبات في شاشة الدخول
-                document.querySelectorAll('.tab').forEach(tab => {
-                    tab.addEventListener('click', (e) => {
-                        const type = e.currentTarget.dataset.type;
-                        this.switchLoginTab(type);
-                    });
-                });
-                
-                // تسجيل الدخول
-                document.getElementById('registerLink').addEventListener('click', (e) => {
-                    e.preventDefault();
-                    this.showRegistration();
-                });
-                
-                // التبويبات الرئيسية
-                document.querySelectorAll('.main-tab').forEach(tab => {
-                    tab.addEventListener('click', (e) => {
-                        const page = e.currentTarget.dataset.page;
-                        this.switchPage(page);
-                    });
-                });
-                
-                // الخدمات السريعة
-                document.querySelectorAll('.service-card').forEach(card => {
-                    card.addEventListener('click', (e) => {
-                        const service = e.currentTarget.dataset.service;
-                        this.openService(service);
-                    });
-                });
-                
-                // شجرة الخدمات
-                document.querySelectorAll('.tree-header').forEach(header => {
-                    header.addEventListener('click', (e) => {
-                        const treeId = e.currentTarget.dataset.tree;
-                        this.toggleTree(treeId);
-                    });
-                });
-                
-                // عناصر الشجرة
-                document.querySelectorAll('.tree-item').forEach(item => {
-                    item.addEventListener('click', (e) => {
-                        const service = e.currentTarget.dataset.service;
-                        this.openService(service);
-                    });
-                });
-                
-                // المساعد الصوتي
-                document.getElementById('voiceAssistantBtn').addEventListener('click', () => {
-                    this.toggleVoiceAssistant();
-                });
-                
-                document.getElementById('closeVoicePanel').addEventListener('click', () => {
-                    this.hideVoicePanel();
-                });
-                
-                // أدوات إمكانية الوصول
-                document.getElementById('textToSpeechBtn').addEventListener('click', () => {
-                    this.toggleTextToSpeech();
-                });
-                
-                document.getElementById('highContrastBtn').addEventListener('click', () => {
-                    this.toggleHighContrast();
-                });
-                
-                document.getElementById('largeTextBtn').addEventListener('click', () => {
-                    this.toggleLargeText();
-                });
-                
-                // تسجيل الخروج
-                document.getElementById('logoutBtn').addEventListener('click', () => {
-                    this.handleLogout();
-                });
-                
-                // أزرار أخرى
-                document.getElementById('newInquiryBtn')?.addEventListener('click', () => {
-                    this.createNewInquiry();
-                });
-                
-                document.getElementById('newCaseBtn')?.addEventListener('click', () => {
-                    this.createNewCase();
-                });
-                
-                document.getElementById('markAllReadBtn')?.addEventListener('click', () => {
-                    this.markAllNotificationsAsRead();
-                });
-                
-                document.getElementById('saveSettingsBtn')?.addEventListener('click', () => {
-                    this.saveSettings();
-                });
-                
-                document.getElementById('quickHelp')?.addEventListener('click', () => {
-                    this.showQuickHelp();
-                });
-            }
-            
-            // ========== نظام المصادقة ==========
-            
-            checkLoginStatus() {
-                const savedUser = localStorage.getItem('rwaq_current_user');
-                if (savedUser) {
-                    this.currentUser = JSON.parse(savedUser);
-                    this.showUserInterface();
-                }
-            }
-            
-            handleLogin() {
-                const username = document.getElementById('username').value;
-                const password = document.getElementById('password').value;
-                const accountType = document.getElementById('accountType').value;
-                
-                const user = this.db.getUserByUsername(username);
-                
-                if (user && user.password === password) {
-                    this.currentUser = user;
-                    localStorage.setItem('rwaq_current_user', JSON.stringify(user));
-                    
-                    // إضافة إشعار ترحيبي
-                    this.db.addNotification({
-                        userId: user.id,
-                        title: 'مرحباً بعودتك',
-                        message: `سعيدون برؤيتك مرة أخرى، ${user.name}`,
-                        type: 'welcome'
-                    });
-                    
-                    this.showUserInterface();
-                    this.speak(`مرحباً ${user.name}، تم تسجيل الدخول بنجاح`);
-                } else {
-                    // تسجيل الدخول كضيف
-                    this.handleGuestLogin();
-                }
-            }
-            
-            handleGuestLogin() {
-                this.currentUser = {
-                    id: 'guest_' + Date.now(),
-                    name: 'زائر',
-                    type: 'guest',
-                    username: 'guest'
-                };
-                
-                localStorage.setItem('rwaq_current_user', JSON.stringify(this.currentUser));
-                
-                this.db.addNotification({
-                    userId: this.currentUser.id,
-                    title: 'مرحباً بك كزائر',
-                    message: 'يمكنك تجربة الخدمات بشكل محدود',
-                    type: 'info'
-                });
-                
-                this.showUserInterface();
-                this.speak('مرحباً بك كزائر في رواق العدل');
-            }
-            
-            showRegistration() {
-                Swal.fire({
-                    title: 'إنشاء حساب جديد',
-                    html: `
-                        <div class="form-group">
-                            <label>الاسم الكامل</label>
-                            <input type="text" id="regName" class="swal2-input" placeholder="الاسم الكامل">
-                        </div>
-                        <div class="form-group">
-                            <label>اسم المستخدم</label>
-                            <input type="text" id="regUsername" class="swal2-input" placeholder="اسم المستخدم">
-                        </div>
-                        <div class="form-group">
-                            <label>كلمة المرور</label>
-                            <input type="password" id="regPassword" class="swal2-input" placeholder="كلمة المرور">
-                        </div>
-                        <div class="form-group">
-                            <label>البريد الإلكتروني</label>
-                            <input type="email" id="regEmail" class="swal2-input" placeholder="البريد الإلكتروني">
-                        </div>
-                        <div class="form-group">
-                            <label>رقم الهوية</label>
-                            <input type="text" id="regNationalId" class="swal2-input" placeholder="رقم الهوية">
-                        </div>
-                        <div class="form-group">
-                            <label>نوع الحساب</label>
-                            <select id="regType" class="swal2-input">
-                                <option value="citizen">مواطن</option>
-                                <option value="lawyer">محامي</option>
-                                <option value="visually_impaired">مكفوف/ذوي احتياجات خاصة</option>
-                            </select>
-                        </div>
-                    `,
-                    focusConfirm: false,
-                    showCancelButton: true,
-                    confirmButtonText: 'تسجيل',
-                    cancelButtonText: 'إلغاء',
-                    preConfirm: () => {
-                        const name = document.getElementById('regName').value;
-                        const username = document.getElementById('regUsername').value;
-                        const password = document.getElementById('regPassword').value;
-                        const email = document.getElementById('regEmail').value;
-                        const nationalId = document.getElementById('regNationalId').value;
-                        const type = document.getElementById('regType').value;
-                        
-                        if (!name || !username || !password || !email || !nationalId) {
-                            Swal.showValidationMessage('الرجاء ملء جميع الحقول');
-                            return false;
-                        }
-                        
-                        return { name, username, password, email, nationalId, type };
-                    }
-                }).then((result) => {
-                    if (result.isConfirmed) {
-                        const userData = result.value;
-                        
-                        // التحقق من عدم تكرار اسم المستخدم
-                        const existingUser = this.db.getUserByUsername(userData.username);
-                        if (existingUser) {
-                            Swal.fire('خطأ', 'اسم المستخدم موجود مسبقاً', 'error');
-                            return;
-                        }
-                        
-                        // إضافة المستخدم
-                        const newUser = this.db.addUser({
-                            ...userData,
-                            phone: '',
-                            createdAt: new Date().toISOString()
-                        });
-                        
-                        this.currentUser = newUser;
-                        localStorage.setItem('rwaq_current_user', JSON.stringify(newUser));
-                        
-                        // إضافة إشعار ترحيبي
-                        this.db.addNotification({
-                            userId: newUser.id,
-                            title: 'مرحباً بك في رواق العدل',
-                            message: 'تم إنشاء حسابك بنجاح. يمكنك الآن استخدام جميع الخدمات.',
-                            type: 'success'
-                        });
-                        
-                        this.showUserInterface();
-                        this.speak(`مرحباً ${newUser.name}، تم إنشاء حسابك بنجاح`);
-                        
-                        Swal.fire('نجاح', 'تم إنشاء حسابك بنجاح', 'success');
-                    }
-                });
-            }
-            
-            handleLogout() {
-                Swal.fire({
-                    title: 'تسجيل الخروج',
-                    text: 'هل أنت متأكد من تسجيل الخروج؟',
-                    icon: 'question',
-                    showCancelButton: true,
-                    confirmButtonText: 'نعم، سجل الخروج',
-                    cancelButtonText: 'إلغاء'
-                }).then((result) => {
-                    if (result.isConfirmed) {
-                        localStorage.removeItem('rwaq_current_user');
-                        this.currentUser = null;
-                        
-                        document.getElementById('userContainer').classList.add('d-none');
-                        document.getElementById('copyrightFooter').classList.add('d-none');
-                        document.getElementById('loginScreen').classList.remove('d-none');
-                        
-                        this.speak('تم تسجيل الخروج بنجاح. نتمنى لك يوماً سعيداً');
-                    }
-                });
-            }
-            
-            switchLoginTab(type) {
-                document.querySelectorAll('.tab').forEach(tab => {
-                    tab.classList.remove('active');
-                    if (tab.dataset.type === type) {
-                        tab.classList.add('active');
-                    }
-                });
-                
-                // تحديث حقول النموذج بناءً على النوع
-                const accountTypeSelect = document.getElementById('accountType');
-                switch(type) {
-                    case 'user':
-                        accountTypeSelect.value = 'citizen';
-                        break;
-                    case 'lawyer':
-                        accountTypeSelect.value = 'lawyer';
-                        break;
-                    case 'judge':
-                        accountTypeSelect.value = 'judge';
-                        break;
-                    case 'admin':
-                        accountTypeSelect.value = 'admin';
-                        break;
-                }
-            }
-            
-            // ========== واجهة المستخدم ==========
-            
-            showUserInterface() {
-                document.getElementById('loginScreen').classList.add('d-none');
-                document.getElementById('userContainer').classList.remove('d-none');
-                document.getElementById('copyrightFooter').classList.remove('d-none');
-                
-                this.updateUserInfo();
-                this.loadDashboard();
-                this.switchPage('dashboard');
-                
-                // تفعيل المساعد الصوتي للمكفوفين
-                if (this.currentUser.type === 'visually_impaired') {
-                    this.activateAccessibilityFeatures();
-                }
-            }
-            
-            updateUserInfo() {
-                document.getElementById('userName').textContent = `مرحباً، ${this.currentUser.name}`;
-                document.getElementById('userType').textContent = this.getUserTypeText(this.currentUser.type);
-                document.getElementById('userAvatar').textContent = this.currentUser.name.charAt(0);
-            }
-            
-            getUserTypeText(type) {
-                const types = {
-                    'citizen': 'مواطن',
-                    'lawyer': 'محامي',
-                    'judge': 'قاضي',
-                    'admin': 'مدير نظام',
-                    'visually_impaired': 'مكفوف/ذوي احتياجات خاصة',
-                    'guest': 'زائر'
-                };
-                return types[type] || type;
-            }
-            
-            switchPage(page) {
-                this.currentPage = page;
-                
-                // تحديث التبويبات النشطة
-                document.querySelectorAll('.main-tab').forEach(tab => {
-                    tab.classList.remove('active');
-                    if (tab.dataset.page === page) {
-                        tab.classList.add('active');
-                    }
-                });
-                
-                // إخفاء جميع الصفحات
-                document.querySelectorAll('.page-content').forEach(content => {
-                    content.classList.remove('active');
-                });
-                
-                // إظهار الصفحة المطلوبة
-                document.getElementById(`page-${page}`).classList.add('active');
-                
-                // تحميل محتوى الصفحة
-                switch(page) {
-                    case 'dashboard':
-                        this.loadDashboard();
-                        break;
-                    case 'inquiries':
-                        this.loadInquiries();
-                        break;
-                    case 'cases':
-                        this.loadCases();
-                        break;
-                    case 'appointments':
-                        this.loadAppointments();
-                        break;
-                    case 'documents':
-                        this.loadDocuments();
-                        break;
-                    case 'notifications':
-                        this.loadNotifications();
-                        break;
-                    case 'settings':
-                        this.loadSettings();
-                        break;
-                }
-                
-                // قراءة اسم الصفحة للمكفوفين
-                if (this.speechEnabled) {
-                    const pageNames = {
-                        'dashboard': 'لوحة التحكم',
-                        'services': 'الخدمات القانونية',
-                        'inquiries': 'استعلاماتي',
-                        'cases': 'قضاياي',
-                        'appointments': 'مواعيدي',
-                        'documents': 'مستنداتي',
-                        'notifications': 'التنبيهات',
-                        'settings': 'الإعدادات'
-                    };
-                    
-                    this.speak(`انتقلت إلى صفحة ${pageNames[page]}`);
-                }
-            }
-            
-            // ========== لوحة التحكم ==========
-            
-            loadDashboard() {
-                this.updateNotificationsBadge();
-                this.loadImportantNotifications();
-            }
-            
-            updateNotificationsBadge() {
-                if (this.currentUser) {
-                    const notifications = this.db.getNotificationsByUserId(this.currentUser.id);
-                    const unreadCount = notifications.filter(n => !n.read).length;
-                    
-                    const badge = document.getElementById('notificationBadge');
-                    if (unreadCount > 0) {
-                        badge.textContent = unreadCount;
-                        badge.style.display = 'inline-block';
-                    } else {
-                        badge.style.display = 'none';
-                    }
-                }
-            }
-            
-            loadImportantNotifications() {
-                if (!this.currentUser) return;
-                
-                const notifications = this.db.getNotificationsByUserId(this.currentUser.id);
-                const container = document.getElementById('importantNotifications');
-                
-                if (notifications.length === 0) {
-                    container.innerHTML = `
-                        <div class="text-center text-muted p-4">
-                            <i class="fas fa-bell-slash fa-2x mb-3"></i>
-                            <p>لا توجد إشعارات حالياً</p>
-                        </div>
-                    `;
-                    return;
-                }
-                
-                const recentNotifications = notifications.slice(0, 3);
-                container.innerHTML = recentNotifications.map(notif => `
-                    <div class="notification-item ${notif.read ? '' : 'unread'}">
-                        <div class="d-flex justify-between align-center mb-2">
-                            <strong>${notif.title}</strong>
-                            <small class="text-muted">${this.formatDate(notif.date)}</small>
-                        </div>
-                        <p>${notif.message}</p>
+        let cases = JSON.parse(localStorage.getItem('rw_cases')) || [];
+
+        function submitCase() {
+            const newCase = {
+                id: 'C-' + Math.floor(Math.random()*9000 + 1000),
+                plaintiff: document.getElementById('pName').value,
+                subject: document.getElementById('pSubject').value,
+                date: new Date().toLocaleDateString('ar-SA')
+            };
+            if(!newCase.plaintiff) return showToast("أدخل اسم المدعي");
+            cases.unshift(newCase);
+            localStorage.setItem('rw_cases', JSON.stringify(cases));
+            showToast("تم قيد الدعوى بنجاح");
+            switchTab('judge');
+        }
+
+        function renderJudgeCases() {
+            const list = document.getElementById('judgeCasesList');
+            list.innerHTML = cases.map(c => `
+                <div style="background: rgba(255,255,255,0.02); padding: 15px; border-radius: 10px; margin-bottom: 10px; border: 1px solid rgba(255,255,255,0.05);">
+                    <div style="display: flex; justify-content: space-between;">
+                        <strong>${c.plaintiff}</strong>
+                        <span style="color: var(--accent)">${c.id}</span>
                     </div>
-                `).join('');
+                    <p class="muted" style="font-size: 13px;">الموضوع: ${c.subject}</p>
+                    <p style="font-size: 11px;">تاريخ القيد: ${c.date}</p>
+                </div>
+            `).join('') || '<p class="text-center muted">لا توجد قضايا مقيدة</p>';
+            updateJudgeStats();
+        }
+
+        function updateJudgeStats() {
+            if(document.getElementById('countTotal')) {
+                document.getElementById('countTotal').textContent = cases.length;
+                document.getElementById('countUrgent').textContent = Math.floor(cases.length / 3);
             }
-            
-            // ========== الخدمات ==========
-            
-            openService(service) {
-                const serviceNames = {
-                    'case-status': 'استعلام عن قضية',
-                    'legal-advice': 'استشارة قانونية',
-                    'appointment': 'حجز موعد',
-                    'document-request': 'طلب مستندات',
-                    'complaint': 'تقديم شكوى',
-                    'fees-calc': 'حساب الرسوم',
-                    'case-follow': 'متابعة القضايا',
-                    'case-register': 'تسجيل قضية جديدة',
-                    'voice-assistance': 'مساعدة صوتية',
-                    'braille-docs': 'مستندات برايل',
-                    'sign-language': 'ترجمة بلغة الإشارة',
-                    'home-service': 'خدمة منزلية'
-                };
-                
-                this.speak(`فتح خدمة ${serviceNames[service] || service}`);
-                
-                switch(service) {
-                    case 'case-status':
-                        this.openCaseStatusInquiry();
-                        break;
-                    case 'legal-advice':
-                        this.openLegalAdvice();
-                        break;
-                    case 'appointment':
-                        this.openAppointmentBooking();
-                        break;
-                    case 'document-request':
-                        this.openDocumentRequest();
-                        break;
-                    case 'complaint':
-                        this.openComplaintSubmission();
-                        break;
-                    case 'voice-assistance':
-                        this.showVoiceAssistantHelp();
-                        break;
-                    default:
-                        Swal.fire('قيد التطوير', 'هذه الخدمة قيد التطوير حالياً', '
+        }
+
+        // ============================================
+        // 5. أدوات ذوي الهمم (Accessibility)
+        // ============================================
+        function showToast(msg) {
+            const t = document.getElementById('toast');
+            t.textContent = msg; t.style.display = 'block';
+            setTimeout(() => t.style.display = 'none', 3000);
+        }
+
+        function speakText() {
+            const text = document.body.innerText;
+            const msg = new SpeechSynthesisUtterance(text);
+            msg.lang = 'ar-SA';
+            window.speechSynthesis.speak(msg);
+            showToast("جاري القراءة الصوتية...");
+        }
+
+        function toggleContrast() {
+            document.body.style.filter = document.body.style.filter ? '' : 'contrast(1.2) brightness(1.1)';
+        }
+
+        function startVoice() {
+            showToast("جاري تهيئة المحرك الصوتي...");
+            // محاكاة استجابة صوتية
+            const msg = new SpeechSynthesisUtterance("أهلاً بك في رواق العدل، كيف يمكنني مساعدتك اليوم؟");
+            msg.lang = 'ar-SA';
+            window.speechSynthesis.speak(msg);
+        }
+    </script>
+</body>
+</html>
