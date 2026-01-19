@@ -1,4 +1,4 @@
-طيب <!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
     <meta charset="UTF-8">
@@ -12,6 +12,20 @@
     <meta name="copyright" content="© 2024 روان الصبحي. جميع الحقوق محفوظة.">
     <meta name="theme-color" content="#0a716e">
     
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://justice-platform.sa/">
+    <meta property="og:title" content="رواق العدل | المنصة الذكية الشاملة للخدمات القضائية">
+    <meta property="og:description" content="المنصة القضائية الذكية المتكاملة - خدمات للمواطنين، القضاة، المحامين، والمكفوفين بمساعد ذكي متطور">
+    <meta property="og:image" content="https://justice-platform.sa/assets/images/og-image.jpg">
+
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:url" content="https://justice-platform.sa/">
+    <meta property="twitter:title" content="رواق العدل | المنصة الذكية الشاملة للخدمات القضائية">
+    <meta property="twitter:description" content="المنصة القضائية الذكية المتكاملة - خدمات للمواطنين، القضاة، المحامين، والمكفوفين بمساعد ذكي متطور">
+    <meta property="twitter:image" content="https://justice-platform.sa/assets/images/og-image.jpg">
+
     <!-- Fonts & Icons -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -225,6 +239,7 @@
             right: 0;
             left: 0;
             background: rgba(2, 26, 26, 0.95);
+            -webkit-backdrop-filter: blur(20px);
             backdrop-filter: blur(20px);
             border-bottom: 1px solid var(--border);
             padding: 1rem 0;
@@ -312,6 +327,7 @@
             border-radius: 50px;
             gap: var(--space-2);
             border: 1px solid var(--border);
+            -webkit-backdrop-filter: blur(10px);
             backdrop-filter: blur(10px);
             transition: all var(--transition);
         }
@@ -1121,6 +1137,7 @@
 
         .notification {
             background: linear-gradient(135deg, var(--panel), var(--panel-light));
+            -webkit-backdrop-filter: blur(20px);
             backdrop-filter: blur(20px);
             border-radius: var(--radius-xl);
             border: 1px solid var(--border);
@@ -1221,6 +1238,7 @@
             border-top: 1px solid var(--border);
             padding: var(--space-12) 0 var(--space-8);
             margin-top: var(--space-16);
+            -webkit-backdrop-filter: blur(10px);
             backdrop-filter: blur(10px);
             position: relative;
         }
@@ -1328,6 +1346,7 @@
             right: var(--space-8);
             z-index: 1000;
             background: var(--panel);
+            -webkit-backdrop-filter: blur(20px);
             backdrop-filter: blur(20px);
             padding: 1rem 1.5rem;
             border-radius: 50px;
@@ -2222,7 +2241,9 @@
                 }
                 
                 // Disable button
-                const btn = event.target;
+                const btn = event.target.closest('button');
+                if (!btn || btn.disabled) return;
+
                 const originalText = btn.innerHTML;
                 btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i><span>جاري التحليل...</span>';
                 btn.disabled = true;
@@ -2252,7 +2273,9 @@
                 }
                 
                 // Disable button
-                const btn = event.target;
+                const btn = event.target.closest('button');
+                if (!btn || btn.disabled) return;
+
                 const originalText = btn.innerHTML;
                 btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i><span>جاري التحليل...</span>';
                 btn.disabled = true;
@@ -2282,7 +2305,9 @@
                 }
                 
                 // Disable button
-                const btn = event.target;
+                const btn = event.target.closest('button');
+                if (!btn || btn.disabled) return;
+
                 const originalText = btn.innerHTML;
                 btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i><span>جاري التحليل...</span>';
                 btn.disabled = true;
@@ -2470,9 +2495,12 @@
                 recognition.interimResults = false;
                 recognition.maxAlternatives = 1;
                 
-                recognition.start();
-                
-                this.showNotification('جاري الاستماع', 'يرجى التحدث الآن...', 'info');
+                try {
+                    recognition.start();
+                    this.showNotification('جاري الاستماع', 'يرجى التحدث الآن...', 'info');
+                } catch (e) {
+                    this.showNotification('خطأ', 'الخدمة الصوتية قيد الاستخدام بالفعل', 'warning');
+                }
                 
                 recognition.onresult = (event) => {
                     const transcript = event.results[0][0].transcript;
@@ -2481,7 +2509,9 @@
                 };
                 
                 recognition.onerror = (event) => {
-                    this.showNotification('خطأ', 'حدث خطأ في التعرف على الصوت', 'error');
+                    if (event.error !== 'no-speech') {
+                        this.showNotification('خطأ', 'حدث خطأ في التعرف على الصوت', 'error');
+                    }
                 };
             }
 
@@ -2495,6 +2525,14 @@
                     return;
                 }
                 
+                // Disable button
+                const btn = event.target.closest('button');
+                if (!btn || btn.disabled) return;
+
+                const originalText = btn.innerHTML;
+                btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i><span>جاري المعالجة...</span>';
+                btn.disabled = true;
+
                 resultArea.classList.add('show');
                 resultArea.innerHTML = this.createLoaderHTML('جاري معالجة طلبك...');
                 
@@ -2505,6 +2543,10 @@
                     // Speak the response
                     this.speak(response.replace(/<[^>]*>/g, ''));
                     
+                    // Re-enable button
+                    btn.innerHTML = originalText;
+                    btn.disabled = false;
+
                     this.showNotification('تم', 'تم معالجة طلبك بنجاح', 'success');
                 }, 1500);
             }
@@ -2538,11 +2580,12 @@
 
             speak(text) {
                 if ('speechSynthesis' in window) {
+                    window.speechSynthesis.cancel(); // Cancel current speech
                     const utterance = new SpeechSynthesisUtterance(text);
                     utterance.lang = 'ar-SA';
                     utterance.rate = 1;
                     utterance.volume = 1;
-                    speechSynthesis.speak(utterance);
+                    window.speechSynthesis.speak(utterance);
                 }
             }
 
@@ -2558,6 +2601,8 @@
 
             showNotification(title, message, type = 'info') {
                 const container = document.getElementById('notificationContainer');
+                if (!container) return;
+
                 const notification = document.createElement('div');
                 notification.className = `notification ${type}`;
                 notification.innerHTML = `
@@ -2600,12 +2645,15 @@
                 
                 // Update icon
                 const icon = document.querySelector('.icon-btn:nth-child(2) i');
-                icon.className = this.isDarkMode ? 'fas fa-moon' : 'fas fa-sun';
+                if (icon) icon.className = this.isDarkMode ? 'fas fa-moon' : 'fas fa-sun';
             }
 
             clearInput(textareaId) {
-                document.getElementById(textareaId).value = '';
-                this.showNotification('تم', 'تم مسح النص بنجاح', 'success');
+                const el = document.getElementById(textareaId);
+                if (el) {
+                    el.value = '';
+                    this.showNotification('تم', 'تم مسح النص بنجاح', 'success');
+                }
             }
 
             openService(service) {
@@ -2626,7 +2674,10 @@
                 document.querySelectorAll('.judge-sidebar .nav-item').forEach(item => {
                     item.classList.remove('active');
                 });
-                event.target.classList.add('active');
+                if (event && event.target) {
+                   const target = event.target.closest('.nav-item');
+                   if (target) target.classList.add('active');
+                }
                 this.showNotification('القسم', `جاري تحميل قسم ${section}...`, 'info');
             }
 
@@ -2634,7 +2685,10 @@
                 document.querySelectorAll('.lawyer-sidebar .nav-item').forEach(item => {
                     item.classList.remove('active');
                 });
-                event.target.classList.add('active');
+                if (event && event.target) {
+                   const target = event.target.closest('.nav-item');
+                   if (target) target.classList.add('active');
+                }
                 this.showNotification('القسم', `جاري تحميل قسم ${section}...`, 'info');
             }
 
@@ -2727,10 +2781,11 @@
             const text = resultContent.innerText;
             
             if ('speechSynthesis' in window) {
+                window.speechSynthesis.cancel();
                 const utterance = new SpeechSynthesisUtterance(text);
                 utterance.lang = 'ar-SA';
                 utterance.rate = 1;
-                speechSynthesis.speak(utterance);
+                window.speechSynthesis.speak(utterance);
             }
         }
 
@@ -2740,7 +2795,7 @@
             
             navigator.clipboard.writeText(text).then(() => {
                 // Create temporary notification
-                const platform = new JusticePlatform();
+                const platform = window.platform || new JusticePlatform();
                 platform.showNotification('تم النسخ', 'تم نسخ النص إلى الحافظة', 'success');
             }).catch(err => {
                 console.error('Failed to copy:', err);
@@ -2808,6 +2863,7 @@
         // ===== Service Worker Registration (PWA) =====
         if ('serviceWorker' in navigator) {
             window.addEventListener('load', () => {
+                // Assuming sw.js exists, or we fail gracefully
                 navigator.serviceWorker.register('/sw.js').catch(err => {
                     console.log('ServiceWorker registration failed: ', err);
                 });
