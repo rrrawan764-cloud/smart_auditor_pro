@@ -1,0 +1,3 @@
+﻿Issue ID,Location/Reference Drawing,Description of Issue,Risk Level (Critical/Major/Minor),Violated Requirement (SBC/SEC/IEC),Recommended Correction,Verification Method
+NCR-001,SLD - Page 1,Example: Voltage drop exceeds 3%,Critical,SEC Standards,Increase cable size,Recalculation
+NCR-002,Roof Plan,Example: Obstacle clearance not respected,Major,MOMRA Requirements,Adjust module layout,Redline markup
